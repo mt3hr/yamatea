@@ -36,7 +36,7 @@ private:
     Clock *clock;
 
 public:
-    PIDTargetBrightnessCalibrator(ColorSensor *cs, Clock *clock);
+    PIDTargetBrightnessCalibrator(ColorSensor *colorSensor, Clock *clock);
     void run() override;
     int getBlack();
     int getWhite();

@@ -20,7 +20,7 @@ private:
     Motor *rightWheel;
 
 public:
-    ScenarioTracer(int lp, int rp, Motor *lw, Motor *rw);
+    ScenarioTracer(int leftPow, int rightPow, Motor *leftWheel, Motor *rightWheel);
     void run() override;
 };
 

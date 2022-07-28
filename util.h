@@ -6,4 +6,4 @@
 extern void init_f(const char *str);
 extern void msg_f(const char *str, int32_t line);
 
-#endif // MY_UNTL_H_
+#endif

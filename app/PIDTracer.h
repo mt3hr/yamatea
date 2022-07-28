@@ -37,7 +37,7 @@ private:
     PIDTracerMode mode;
 
 public:
-    PIDTracer(PIDTracerMode modea, int pwma, float kpa, float kia, float kda, float dta, int targeta, Motor *leftMotora, Motor *rightMotora, ColorSensor *colorSensora);
+    PIDTracer(PIDTracerMode mode, int pwm, float kp, float ki, float kd, float dt, int target, Motor *leftMotor, Motor *rightMotor, ColorSensor *colorSensor);
     void run() override;
     void setTargetBrightness(int targetBrightness);
 };

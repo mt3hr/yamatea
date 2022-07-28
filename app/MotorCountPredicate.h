@@ -12,6 +12,6 @@ private:
     int count;
 
 public:
-    MotorCountPredicate(Motor *m, int c);
+    MotorCountPredicate(Motor *motor, int count);
     bool test() override;
 };
