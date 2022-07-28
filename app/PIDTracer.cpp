@@ -49,6 +49,20 @@ void PIDTracer::run()
     rightWheel->setPWM(rightPower);
 }
 
+PIDTracer *PIDTracer::generateReverseCommand()
+{
+    PIDTracerMode reversedMode = LEFT_TRACE; // とりあえずね
+    if (mode == LEFT_TRACE)
+    {
+        reversedMode = RIGHT_TRACE;
+    }
+    else if (mode == RIGHT_TRACE)
+    {
+        reversedMode = LEFT_TRACE;
+    }
+    return new PIDTracer(reversedMode, pwm, kp, ki, kd, dt, targetBrightness, leftWheel, rightWheel, colorSensor);
+}
+
 void PIDTracer::setTargetBrightness(int t)
 {
     targetBrightness = t;

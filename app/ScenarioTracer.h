@@ -22,6 +22,7 @@ private:
 public:
     ScenarioTracer(int leftPow, int rightPow, Motor *leftWheel, Motor *rightWheel);
     void run() override;
+    ScenarioTracer *generateReverseCommand() override;
 };
 
 #endif

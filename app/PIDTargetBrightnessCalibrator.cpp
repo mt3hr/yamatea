@@ -74,6 +74,11 @@ void PIDTargetBrightnessCalibrator::run()
     }
 }
 
+PIDTargetBrightnessCalibrator* PIDTargetBrightnessCalibrator::generateReverseCommand()
+{
+    return new PIDTargetBrightnessCalibrator(colorSensor, clock);
+}
+
 int PIDTargetBrightnessCalibrator::getBlack()
 {
     return black;

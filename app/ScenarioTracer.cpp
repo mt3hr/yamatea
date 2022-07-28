@@ -13,3 +13,8 @@ void ScenarioTracer::run()
     leftWheel->setPWM(leftPow);
     rightWheel->setPWM(rightPow);
 }
+
+ScenarioTracer *ScenarioTracer::generateReverseCommand()
+{
+    return new ScenarioTracer(rightPow, leftPow, leftWheel, rightWheel);
+}

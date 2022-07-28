@@ -13,5 +13,6 @@ class Command
 {
 public:
     virtual void run();
+    virtual Command *generateReverseCommand();
 };
 #endif

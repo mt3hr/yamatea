@@ -38,6 +38,7 @@ private:
 public:
     PIDTargetBrightnessCalibrator(ColorSensor *colorSensor, Clock *clock);
     void run() override;
+    PIDTargetBrightnessCalibrator* generateReverseCommand() override;
     int getBlack();
     int getWhite();
     bool isReadedBlack();
