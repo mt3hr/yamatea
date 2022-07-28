@@ -23,16 +23,17 @@ bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキ
 int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
 
 // 距離によるシーン切り替え用変数。MotorCountPredicate
-int sceneBananaMotorCountPredicateArg = 1200;       // 8の字急カーブ突入前
-int sceneOrangeMotorCountPredicateArg = 2450;       // 8の字クロス1回目突入前
-int sceneStarFruitsMotorCountPredicateArg = 2550;   // 8の字クロス1回目通過後
-int sceneCherryMotorCountPredicateArg = 2700;       // 8の字クロス1回目通過後ライントレース復帰時
-int sceneWaterMelonMotorCountPredicateArg = 5990;   // 8の字クロス2回目突入前
-int sceneBokChoyMotorCountPredicateArg = 6800;      // 8の時クロス2回目通過後直進中
-int sceneDorianMotorCountPredicateArg = 7000;       // 8の字クロス2回目通過後ライントレース復帰時
-int sceneMelonMotorCountPredicateArg = 9000;        // 中央直進突入後
-int sceneCucumberMotorCountPredicateArg = 10800;    // 中央直進脱出前
-int sceneStrawberryMotorCountPredicateArg = 100000; // ゴールまで
+// シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
+int sceneBananaMotorCountPredicateArg = 1200;       // 8の字急カーブ突入前。バナナっぽい形しているので。
+int sceneOrangeMotorCountPredicateArg = 2450;       // 8の字クロス1回目突入前。みかんぐらいの大きさの円形なので。（え？）
+int sceneStarFruitsMotorCountPredicateArg = 2550;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。
+int sceneCherryMotorCountPredicateArg = 2700;       // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。
+int sceneWaterMelonMotorCountPredicateArg = 5990;   // 8の字クロス2回目突入前。メロンぐらいでかいので。
+int sceneBokChoyMotorCountPredicateArg = 6800;      // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）
+int sceneDorianMotorCountPredicateArg = 7000;       // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。
+int sceneMelonMotorCountPredicateArg = 9000;        // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。
+int sceneCucumberMotorCountPredicateArg = 10800;    // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。
+int sceneStrawberryMotorCountPredicateArg = 100000; // ゴールまで。いちご好き。
 
 // EV3APIオブジェクトの初期化
 TouchSensor touchSensor(PORT_1);
