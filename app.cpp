@@ -23,13 +23,16 @@ bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキ
 int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
 
 // 距離によるシーン切り替え用変数。MotorCountPredicate
-int scene1MotorCountPredicateArg = 2450;  // 8の字クロス1回目突入前
-int scene2MotorCountPredicateArg = 2550;  // 8の字クロス1回目通過後
-int scene3MotorCountPredicateArg = 5990;  // 8の字クロス2回目突入前
-int scene4MotorCountPredicateArg = 6600;  // 8の時クロス2回目通過後直進中
-int scene5MotorCountPredicateArg = 7000;  // 8の字クロス2回目通過後ライントレース復帰時
-int scene6MotorCountPredicateArg = 9000;  // 中央直進突入後
-int scene7MotorCountPredicateArg = 10800; // 中央直進脱出前
+int sceneBananaMotorCountPredicateArg = 1200;       // 8の字急カーブ突入前
+int sceneOrangeMotorCountPredicateArg = 2450;       // 8の字クロス1回目突入前
+int sceneStarFruitsMotorCountPredicateArg = 2550;   // 8の字クロス1回目通過後
+int sceneCherryMotorCountPredicateArg = 2700;       // 8の字クロス1回目通過後ライントレース復帰時
+int sceneWaterMelonMotorCountPredicateArg = 5990;   // 8の字クロス2回目突入前
+int sceneBokChoyMotorCountPredicateArg = 6800;      // 8の時クロス2回目通過後直進中
+int sceneDorianMotorCountPredicateArg = 7000;       // 8の字クロス2回目通過後ライントレース復帰時
+int sceneMelonMotorCountPredicateArg = 9000;        // 中央直進突入後
+int sceneCucumberMotorCountPredicateArg = 10800;    // 中央直進脱出前
+int sceneStrawberryMotorCountPredicateArg = 100000; // ゴールまで
 
 // EV3APIオブジェクトの初期化
 TouchSensor touchSensor(PORT_1);
@@ -66,89 +69,111 @@ void initialize()
   int leftPow;
   int rightPow;
 
-  // PIDTracer1の初期化とCommandExecutorへの追加
-  pwm = 18;
+  // BananaPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 20;
+  kp = 0.7;
+  ki = 0.2;
+  kd = 0.7;
+  dt = 1;
+  PIDTracer *bananaPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
+  Predicate *predicateBanana = new MotorCountPredicate(&leftWheel, sceneBananaMotorCountPredicateArg);
+  commandExecutor->addCommand(bananaPIDTracer, predicateBanana);
+
+  // OrangePIDTracerの初期化とCommandExecutorへの追加
+  pwm = 20;
   kp = 0.8;
   ki = 0.2;
   kd = 0.8;
   dt = 1;
-  PIDTracer *commandPIDTracer1 = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
-  Predicate *predicatePIDTracer1 = new MotorCountPredicate(&leftWheel, scene1MotorCountPredicateArg);
-  commandExecutor->addCommand(commandPIDTracer1, predicatePIDTracer1);
+  PIDTracer *orangePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
+  Predicate *predicateOrange = new MotorCountPredicate(&leftWheel, sceneOrangeMotorCountPredicateArg);
+  commandExecutor->addCommand(orangePIDTracer, predicateOrange);
 
-  // ScenarioTracer1の初期化とCommandExecutorへの追加
-  leftPow = 13;
+  // ScenarioTracer01の初期化とCommandExecutorへの追加
+  leftPow = 16;
   rightPow = 20;
-  ScenarioTracer *commandScenarioTracer1 = new ScenarioTracer(leftPow, rightPow, &leftWheel, &rightWheel);
-  Predicate *predicateScenarioTracer1 = new MotorCountPredicate(&leftWheel, scene2MotorCountPredicateArg);
-  commandExecutor->addCommand(commandScenarioTracer1, predicateScenarioTracer1);
+  ScenarioTracer *starFruitsScenarioTracer = new ScenarioTracer(leftPow, rightPow, &leftWheel, &rightWheel);
+  Predicate *predicateStarFruits = new MotorCountPredicate(&leftWheel, sceneStarFruitsMotorCountPredicateArg);
+  commandExecutor->addCommand(starFruitsScenarioTracer, predicateStarFruits);
 
-  // PIDTracer2の初期化とCommandExecutorへの追加
-  pwm = 18;
-  kp = 0.8;
+  // PIDTracer04の初期化とCommandExecutorへの追加
+  pwm = 10;
+  kp = 0.7;
   ki = 0.2;
-  kd = 0.8;
+  kd = 0.7;
   dt = 1;
-  PIDTracer *commandPIDTracer2 = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
-  Predicate *predicatePIDTracer2 = new MotorCountPredicate(&leftWheel, scene3MotorCountPredicateArg);
-  commandExecutor->addCommand(commandPIDTracer2, predicatePIDTracer2);
+  PIDTracer *cherryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
+  Predicate *predicateCherry = new MotorCountPredicate(&leftWheel, sceneCherryMotorCountPredicateArg);
+  commandExecutor->addCommand(cherryPIDTracer, predicateCherry);
 
-  // ScenarioTracer2の初期化とCommandExecutorへの追加
+  // waterMelonPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 20;
+  kp = 0.7;
+  ki = 0.2;
+  kd = 0.7;
+  dt = 1;
+  PIDTracer *waterMelonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
+  Predicate *predicateWaterMelon = new MotorCountPredicate(&leftWheel, sceneWaterMelonMotorCountPredicateArg);
+  commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon);
+
+  // ScenarioTracer02の初期化とCommandExecutorへの追加
   leftPow = 20;
   rightPow = 20;
-  ScenarioTracer *commandScenarioTracer2 = new ScenarioTracer(leftPow, rightPow, &leftWheel, &rightWheel);
-  Predicate *predicateScenarioTracer2 = new MotorCountPredicate(&leftWheel, scene4MotorCountPredicateArg);
-  commandExecutor->addCommand(commandScenarioTracer2, predicateScenarioTracer2);
+  ScenarioTracer *bokChoyScenarioTracer = new ScenarioTracer(leftPow, rightPow, &leftWheel, &rightWheel);
+  Predicate *predicateBokChoy = new MotorCountPredicate(&leftWheel, sceneBokChoyMotorCountPredicateArg);
+  commandExecutor->addCommand(bokChoyScenarioTracer, predicateBokChoy);
 
-  // PIDTracer3の初期化とCommandExecutorへの追加
+  // DorianPIDTracerの初期化とCommandExecutorへの追加
   pwm = 10;
-  kp = 0.8;
+  kp = 0.7;
   ki = 0.2;
-  kd = 0.8;
+  kd = 0.7;
   dt = 1;
-  PIDTracer *commandPIDTracer3 = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
-  Predicate *predicatePIDTracer3 = new MotorCountPredicate(&leftWheel, scene5MotorCountPredicateArg);
-  commandExecutor->addCommand(commandPIDTracer3, predicatePIDTracer3);
+  PIDTracer *dorianPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
+  Predicate *predicateDorian = new MotorCountPredicate(&leftWheel, sceneDorianMotorCountPredicateArg);
+  commandExecutor->addCommand(dorianPIDTracer, predicateDorian);
 
-  // PIDTracer4の初期化とCommandExecutorへの追加
+  // MelonPIDTracerの初期化とCommandExecutorへの追加
   pwm = 20;
-  kp = 0.8;
+  kp = 0.7;
   ki = 0.2;
-  kd = 0.8;
+  kd = 0.7;
   dt = 1;
-  PIDTracer *commandPIDTracer4 = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
-  Predicate *predicatePIDTracer4 = new MotorCountPredicate(&leftWheel, scene6MotorCountPredicateArg);
-  commandExecutor->addCommand(commandPIDTracer4, predicatePIDTracer4);
+  PIDTracer *melonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
+  Predicate *predicateMelon = new MotorCountPredicate(&leftWheel, sceneMelonMotorCountPredicateArg);
+  commandExecutor->addCommand(melonPIDTracer, predicateMelon);
 
-  // PIDTracer5の初期化とCommandExecutorへの追加
+  // PIDTracer07の初期化とCommandExecutorへの追加
   pwm = 35;
-  kp = 0.8;
+  kp = 0.7;
   ki = 0.2;
-  kd = 0.8;
+  kd = 0.7;
   dt = 1;
-  PIDTracer *commandPIDTracer5 = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
-  Predicate *predicatePIDTracer5 = new MotorCountPredicate(&leftWheel, scene7MotorCountPredicateArg);
-  commandExecutor->addCommand(commandPIDTracer5, predicatePIDTracer5);
+  PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
+  Predicate *predicateCucumber = new MotorCountPredicate(&leftWheel, sceneCucumberMotorCountPredicateArg);
+  commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber);
 
-  // PIDTracer6の初期化とCommandExecutorへの追加
+  // PIDTracer08の初期化とCommandExecutorへの追加
   pwm = 20;
-  kp = 0.8;
+  kp = 0.65;
   ki = 0.2;
-  kd = 0.8;
+  kd = 0.65;
   dt = 1;
-  PIDTracer *commandPIDTracer6 = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
-  Predicate *predicatePIDTracer6 = new MotorCountPredicate(&leftWheel, 100000);
-  commandExecutor->addCommand(commandPIDTracer6, predicatePIDTracer6);
+  PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
+  Predicate *predicateStrawberry = new MotorCountPredicate(&leftWheel, sceneStrawberryMotorCountPredicateArg);
+  commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry);
 
   // キャリブレーションしたものをpidトレーサに反映するための処理
   if (enableCalibrateTargetBrightness)
   {
-    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(commandPIDTracer1, pidTargetBrightnessCalibrator));
-    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(commandPIDTracer2, pidTargetBrightnessCalibrator));
-    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(commandPIDTracer3, pidTargetBrightnessCalibrator));
-    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(commandPIDTracer4, pidTargetBrightnessCalibrator));
-    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(commandPIDTracer5, pidTargetBrightnessCalibrator));
-    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(commandPIDTracer6, pidTargetBrightnessCalibrator));
+    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(bananaPIDTracer, pidTargetBrightnessCalibrator));
+    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(orangePIDTracer, pidTargetBrightnessCalibrator));
+    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(cherryPIDTracer, pidTargetBrightnessCalibrator));
+    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(waterMelonPIDTracer, pidTargetBrightnessCalibrator));
+    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(dorianPIDTracer, pidTargetBrightnessCalibrator));
+    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(melonPIDTracer, pidTargetBrightnessCalibrator));
+    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(cucumberPIDTracer, pidTargetBrightnessCalibrator));
+    pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(strawberryPIDTracer, pidTargetBrightnessCalibrator));
   }
 }
 
