@@ -38,16 +38,16 @@ void initialize()
   // 距離によるシーン切り替え用変数。MotorCountPredicate
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
-  int sceneBananaMotorCountPredicateArg = 1200;       // 8の字急カーブ突入前。バナナっぽい形しているので。
-  int sceneOrangeMotorCountPredicateArg = 2450;       // 8の字クロス1回目突入前。みかんぐらいの大きさの円形なので。（え？）
-  int sceneStarFruitsMotorCountPredicateArg = 2550;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。
-  int sceneCherryMotorCountPredicateArg = 2700;       // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。
-  int sceneWaterMelonMotorCountPredicateArg = 5990;   // 8の字クロス2回目突入前。メロンぐらいでかいので。
-  int sceneBokChoyMotorCountPredicateArg = 6800;      // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）
-  int sceneDorianMotorCountPredicateArg = 7000;       // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。
-  int sceneMelonMotorCountPredicateArg = 9000;        // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。
-  int sceneCucumberMotorCountPredicateArg = 10800;    // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。
-  int sceneStrawberryMotorCountPredicateArg = 100000; // ゴールまで。いちご好き。
+  int sceneBananaMotorCountPredicateArg = 1200;       // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+  int sceneOrangeMotorCountPredicateArg = 2450;       // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
+  int sceneStarFruitsMotorCountPredicateArg = 2550;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
+  int sceneCherryMotorCountPredicateArg = 2700;       // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneWaterMelonMotorCountPredicateArg = 5990;   // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+  int sceneBokChoyMotorCountPredicateArg = 6800;      // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+  int sceneDorianMotorCountPredicateArg = 7000;       // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneMelonMotorCountPredicateArg = 9000;        // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+  int sceneCucumberMotorCountPredicateArg = 10800;    // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+  int sceneStrawberryMotorCountPredicateArg = 100000; // ゴールまで。いちご好き。ライントレースする。
 
   // Commandの定義とCommandExecutorへの追加ここから
 
