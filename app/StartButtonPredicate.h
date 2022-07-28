@@ -18,4 +18,5 @@ public:
   StartButtonPredicate(TouchSensor *touchSensor);
   bool test() override;
 };
+
 #endif

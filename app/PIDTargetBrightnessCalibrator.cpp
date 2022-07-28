@@ -19,11 +19,13 @@ void PIDTargetBrightnessCalibrator::readWhiteFromColorSensor()
     readedWhite = true;
     white = colorSensor->getBrightness();
 }
+
 void PIDTargetBrightnessCalibrator::readBlackFromColorSensor()
 {
     readedBlack = true;
     black = colorSensor->getBrightness();
 }
+
 void PIDTargetBrightnessCalibrator::run()
 {
     if (!isReadedBlack())
@@ -71,18 +73,22 @@ void PIDTargetBrightnessCalibrator::run()
         msg_f("press touch sensor", 5);
     }
 }
+
 int PIDTargetBrightnessCalibrator::getBlack()
 {
     return black;
 }
+
 int PIDTargetBrightnessCalibrator::getWhite()
 {
     return white;
 }
+
 bool PIDTargetBrightnessCalibrator::isReadedBlack()
 {
     return readedBlack;
 }
+
 bool PIDTargetBrightnessCalibrator::isReadedWhite()
 {
     return readedWhite;

@@ -80,23 +80,23 @@ void initialize()
   commandExecutor->addCommand(bananaPIDTracer, predicateBanana);
 
   // OrangePIDTracerの初期化とCommandExecutorへの追加
-  pwm = 20;
-  kp = 0.8;
+  pwm = 15;
+  kp = 0.75;
   ki = 0.2;
-  kd = 0.8;
+  kd = 0.65;
   dt = 1;
   PIDTracer *orangePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
   Predicate *predicateOrange = new MotorCountPredicate(&leftWheel, sceneOrangeMotorCountPredicateArg);
   commandExecutor->addCommand(orangePIDTracer, predicateOrange);
 
-  // ScenarioTracer01の初期化とCommandExecutorへの追加
+  // StarFruitsScenarioTracerの初期化とCommandExecutorへの追加
   leftPow = 16;
   rightPow = 20;
   ScenarioTracer *starFruitsScenarioTracer = new ScenarioTracer(leftPow, rightPow, &leftWheel, &rightWheel);
   Predicate *predicateStarFruits = new MotorCountPredicate(&leftWheel, sceneStarFruitsMotorCountPredicateArg);
   commandExecutor->addCommand(starFruitsScenarioTracer, predicateStarFruits);
 
-  // PIDTracer04の初期化とCommandExecutorへの追加
+  // CherryPIDTracerの初期化とCommandExecutorへの追加
   pwm = 10;
   kp = 0.7;
   ki = 0.2;
@@ -106,8 +106,8 @@ void initialize()
   Predicate *predicateCherry = new MotorCountPredicate(&leftWheel, sceneCherryMotorCountPredicateArg);
   commandExecutor->addCommand(cherryPIDTracer, predicateCherry);
 
-  // waterMelonPIDTracerの初期化とCommandExecutorへの追加
-  pwm = 20;
+  // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 18;
   kp = 0.7;
   ki = 0.2;
   kd = 0.7;
@@ -116,7 +116,7 @@ void initialize()
   Predicate *predicateWaterMelon = new MotorCountPredicate(&leftWheel, sceneWaterMelonMotorCountPredicateArg);
   commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon);
 
-  // ScenarioTracer02の初期化とCommandExecutorへの追加
+  // BokChoyScenarioTracerの初期化とCommandExecutorへの追加
   leftPow = 20;
   rightPow = 20;
   ScenarioTracer *bokChoyScenarioTracer = new ScenarioTracer(leftPow, rightPow, &leftWheel, &rightWheel);
@@ -143,17 +143,17 @@ void initialize()
   Predicate *predicateMelon = new MotorCountPredicate(&leftWheel, sceneMelonMotorCountPredicateArg);
   commandExecutor->addCommand(melonPIDTracer, predicateMelon);
 
-  // PIDTracer07の初期化とCommandExecutorへの追加
-  pwm = 35;
-  kp = 0.7;
+  // CucumberPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 30;
+  kp = 0.8;
   ki = 0.2;
-  kd = 0.7;
+  kd = 0.8;
   dt = 1;
   PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
   Predicate *predicateCucumber = new MotorCountPredicate(&leftWheel, sceneCucumberMotorCountPredicateArg);
   commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber);
 
-  // PIDTracer08の初期化とCommandExecutorへの追加
+  // StrawberryPIDTracerの初期化とCommandExecutorへの追加
   pwm = 20;
   kp = 0.65;
   ki = 0.2;
@@ -163,7 +163,7 @@ void initialize()
   Predicate *predicateStrawberry = new MotorCountPredicate(&leftWheel, sceneStrawberryMotorCountPredicateArg);
   commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry);
 
-  // キャリブレーションしたものをpidトレーサに反映するための処理
+  // キャリブレーションしたものをpidトレーサに反映するための処理。処理というかハンドラ追加。準備。
   if (enableCalibrateTargetBrightness)
   {
     pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(bananaPIDTracer, pidTargetBrightnessCalibrator));
