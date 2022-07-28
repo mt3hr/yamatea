@@ -23,10 +23,10 @@ bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキ
 int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
 
 // 距離によるシーン切り替え用変数。MotorCountPredicate
-int scene1MotorCountPredicateArg = 2600;  // 8の字クロス1回目突入前 //TODO
-int scene2MotorCountPredicateArg = 2850;  // 8の字クロス1回目通過後 //TODO
+int scene1MotorCountPredicateArg = 2450;  // 8の字クロス1回目突入前
+int scene2MotorCountPredicateArg = 2550;  // 8の字クロス1回目通過後
 int scene3MotorCountPredicateArg = 5990;  // 8の字クロス2回目突入前
-int scene4MotorCountPredicateArg = 6500;  // 8の時クロス2回目通過後直進中
+int scene4MotorCountPredicateArg = 6600;  // 8の時クロス2回目通過後直進中
 int scene5MotorCountPredicateArg = 7000;  // 8の字クロス2回目通過後ライントレース復帰時
 int scene6MotorCountPredicateArg = 9000;  // 中央直進突入後
 int scene7MotorCountPredicateArg = 10800; // 中央直進脱出前
@@ -77,7 +77,7 @@ void initialize()
   commandExecutor->addCommand(commandPIDTracer1, predicatePIDTracer1);
 
   // ScenarioTracer1の初期化とCommandExecutorへの追加
-  leftPow = 15;
+  leftPow = 13;
   rightPow = 20;
   ScenarioTracer *commandScenarioTracer1 = new ScenarioTracer(leftPow, rightPow, &leftWheel, &rightWheel);
   Predicate *predicateScenarioTracer1 = new MotorCountPredicate(&leftWheel, scene2MotorCountPredicateArg);
