@@ -1,5 +1,6 @@
 #include "CommandExecutor.h"
 #include "Command.h"
+#include "Handler.h"
 
 using namespace std;
 
@@ -13,19 +14,32 @@ void CommandExecutor::addCommand(Command *command, Predicate *exitCondition)
     predicateVector.push_back(exitCondition);
 }
 
+void CommandExecutor::addCyclicHandler(Handler *handler)
+{
+    handlerVector.push_back(handler);
+}
+
 void CommandExecutor::run()
 {
     // 終了条件が満たされたらindexを変更して次のコマンドに移動する
-    if (((int)sizeof(predicateVector)) - 1 > ((int)(currentIndex)) &&
-        predicateVector[currentIndex]->test())
+    if (((int)sizeof(predicateVector)) - 1 > ((int)(currentIndexForCommand)) &&
+        predicateVector[currentIndexForCommand]->test())
     {
-        currentIndex++;
+        currentIndexForCommand++;
     }
 
     // 現在の要素が有ればやる。なければ何もせずに返す
-    if (((int)sizeof(commandVector)) - 1 > ((int)currentIndex))
+    if (((int)sizeof(commandVector)) - 1 > ((int)currentIndexForCommand))
     {
-        commandVector[currentIndex]->run();
+        commandVector[currentIndexForCommand]->run();
     }
+
+    //TODO ハンドラを走らせる
+    /*
+    for (int i = 0; i < ((int)sizeof(handlerVector)); i++)
+    {
+        handlerVector[i]->handle();
+    }
+    */
     return;
 }

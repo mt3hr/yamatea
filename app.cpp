@@ -1,4 +1,6 @@
-// TOO メモリ管理してなくない？
+// TOOO メモリ管理してなくない？
+// TODO 菅原先生の案。targetBrightnessの値が目標値とかけ離れていたら首振りをしているとして、motor.getCount()に補正をかける
+//      CommandExecutor.addCyclicHandler(Handler))を追加してそれで対応しようかな
 #include "TouchSensor.h"
 #include "ColorSensor.h"
 #include "Motor.h"
@@ -17,12 +19,14 @@
 #include "MotorCountPredicate.h"
 #include "Handler.h"
 #include "SetPIDTargetBrightnessWhenCalibratedHandler.h"
+// #include "SwingDistanceCompensationHandler.h"
 
 using namespace ev3api;
 
 bool isRightCourse = false;                  // 左コースならfalse, 右コースならtrue。
 bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
-int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
+// bool enableSwingDistanceCompensation = true; // 距離補正を有効化するかどうか
+int targetBrightness = 20; // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
 
 // EV3APIオブジェクトの初期化
 TouchSensor touchSensor(PORT_1);
@@ -39,7 +43,6 @@ PIDTracer *ifRightThenReverseCommand(PIDTracer *pidTracer, bool isRightCource)
   if (isRightCource)
   {
     PIDTracer *reversed = pidTracer->generateReverseCommand();
-    delete (pidTracer); // TODO いいのか？
     return reversed;
   }
   else
@@ -55,7 +58,6 @@ ScenarioTracer *ifRightThenReverseCommand(ScenarioTracer *scenarioTracer, bool i
   if (isRightCource)
   {
     ScenarioTracer *reversed = scenarioTracer->generateReverseCommand();
-    delete (scenarioTracer); // TODO いいのか？
     return reversed;
   }
   else
@@ -87,6 +89,7 @@ void initialize()
   // 距離によるシーン切り替え用変数。MotorCountPredicate
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
+  /*
   int sceneBananaMotorCountPredicateArg = 1200;       // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
   int sceneOrangeMotorCountPredicateArg = 2450;       // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
   int sceneStarFruitsMotorCountPredicateArg = 2550;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
@@ -97,6 +100,19 @@ void initialize()
   int sceneMelonMotorCountPredicateArg = 9000;        // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
   int sceneCucumberMotorCountPredicateArg = 10800;    // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
   int sceneStrawberryMotorCountPredicateArg = 100000; // ゴールまで。いちご好き。ライントレースする。
+  */
+
+  int sceneBananaMotorCountPredicateArg = 1200;       // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+  int sceneOrangeMotorCountPredicateArg = 2450;       // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
+  int sceneStarFruitsMotorCountPredicateArg = 2550;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
+  int sceneCherryMotorCountPredicateArg = 2700;       // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneWaterMelonMotorCountPredicateArg = 5090;   // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+  int sceneBokChoyMotorCountPredicateArg = 5900;      // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+  int sceneDorianMotorCountPredicateArg = 6300;       // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneMelonMotorCountPredicateArg = 8000;        // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+  int sceneCucumberMotorCountPredicateArg = 9700;    // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+  int sceneStrawberryMotorCountPredicateArg = 100000; // ゴールまで。いちご好き。ライントレースする。
+
 
   // Commandの定義とCommandExecutorへの追加ここから
 
@@ -205,10 +221,10 @@ void initialize()
   commandExecutor->addCommand(melonPIDTracer, predicateMelon);
 
   // CucumberPIDTracerの初期化とCommandExecutorへの追加
-  pwm = 30;
-  kp = 0.8;
+  pwm = 25;
+  kp = 0.7;
   ki = 0.2;
-  kd = 0.8;
+  kd = 0.7;
   dt = 1;
   PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
   cucumberPIDTracer = ifRightThenReverseCommand(cucumberPIDTracer, isRightCourse);
@@ -240,6 +256,14 @@ void initialize()
     pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(cucumberPIDTracer, pidTargetBrightnessCalibrator));
     pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(strawberryPIDTracer, pidTargetBrightnessCalibrator));
   }
+
+  /*
+    // 首振りしたときにモータ回転数を補正するやつ
+    if (enableSwingDistanceCompensation)
+    {
+      commandExecutor->addCyclicHandler(new SwingDistanceCompensationHandler(&colorSensor, &leftWheel, &rightWheel));
+    }
+    */
 }
 
 void tracer_task(intptr_t exinf)
@@ -263,8 +287,6 @@ void main_task(intptr_t unused)
   }
 
   stp_cyc(TRACER_CYC);
-
-  delete (commandExecutor); // TODO もっとdeleteしなきゃ
 
   ext_tsk();
 }

@@ -3,6 +3,7 @@
 
 #include "Predicate.h"
 #include "Command.h"
+#include "Handler.h"
 #include <vector>
 
 using namespace std;
@@ -26,13 +27,15 @@ using namespace std;
 class CommandExecutor
 {
 private:
-    int currentIndex;
+    int currentIndexForCommand;
     vector<Command *> commandVector;
     vector<Predicate *> predicateVector;
+    vector<Handler *> handlerVector;
 
 public:
     CommandExecutor();
     void addCommand(Command *command, Predicate *exitCondition);
+    void addCyclicHandler(Handler *handler);
     void run();
 };
 
