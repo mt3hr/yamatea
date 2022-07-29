@@ -89,30 +89,16 @@ void initialize()
   // 距離によるシーン切り替え用変数。MotorCountPredicate
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
-  /*
   int sceneBananaMotorCountPredicateArg = 1200;       // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
   int sceneOrangeMotorCountPredicateArg = 2450;       // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
   int sceneStarFruitsMotorCountPredicateArg = 2550;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
   int sceneCherryMotorCountPredicateArg = 2700;       // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
-  int sceneWaterMelonMotorCountPredicateArg = 5990;   // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
-  int sceneBokChoyMotorCountPredicateArg = 6800;      // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
-  int sceneDorianMotorCountPredicateArg = 7000;       // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
-  int sceneMelonMotorCountPredicateArg = 9000;        // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
-  int sceneCucumberMotorCountPredicateArg = 10800;    // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
-  int sceneStrawberryMotorCountPredicateArg = 100000; // ゴールまで。いちご好き。ライントレースする。
-  */
-
-  int sceneBananaMotorCountPredicateArg = 1200;       // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
-  int sceneOrangeMotorCountPredicateArg = 2450;       // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
-  int sceneStarFruitsMotorCountPredicateArg = 2550;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
-  int sceneCherryMotorCountPredicateArg = 2700;       // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
-  int sceneWaterMelonMotorCountPredicateArg = 5090;   // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
-  int sceneBokChoyMotorCountPredicateArg = 5900;      // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
-  int sceneDorianMotorCountPredicateArg = 6300;       // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneWaterMelonMotorCountPredicateArg = 5200;   // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+  int sceneBokChoyMotorCountPredicateArg = 5400;      // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+  int sceneDorianMotorCountPredicateArg = 6000;       // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
   int sceneMelonMotorCountPredicateArg = 8000;        // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
-  int sceneCucumberMotorCountPredicateArg = 9700;    // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+  int sceneCucumberMotorCountPredicateArg = 9700;     // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
   int sceneStrawberryMotorCountPredicateArg = 100000; // ゴールまで。いちご好き。ライントレースする。
-
 
   // Commandの定義とCommandExecutorへの追加ここから
 
@@ -192,7 +178,7 @@ void initialize()
 
   // BokChoyScenarioTracerの初期化とCommandExecutorへの追加
   leftPow = 20;
-  rightPow = 20;
+  rightPow = 18;
   ScenarioTracer *bokChoyScenarioTracer = new ScenarioTracer(leftPow, rightPow, &leftWheel, &rightWheel);
   bokChoyScenarioTracer = ifRightThenReverseCommand(bokChoyScenarioTracer, isRightCourse);
   MotorCountPredicate *predicateBokChoy = generateMotorCountPredicate(isRightCourse, sceneBokChoyMotorCountPredicateArg);
@@ -221,10 +207,10 @@ void initialize()
   commandExecutor->addCommand(melonPIDTracer, predicateMelon);
 
   // CucumberPIDTracerの初期化とCommandExecutorへの追加
-  pwm = 25;
-  kp = 0.7;
+  pwm = 28;
+  kp = 0.6;
   ki = 0.2;
-  kd = 0.7;
+  kd = 0.6;
   dt = 1;
   PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
   cucumberPIDTracer = ifRightThenReverseCommand(cucumberPIDTracer, isRightCourse);
@@ -233,9 +219,9 @@ void initialize()
 
   // StrawberryPIDTracerの初期化とCommandExecutorへの追加
   pwm = 20;
-  kp = 0.65;
+  kp = 0.6;
   ki = 0.2;
-  kd = 0.65;
+  kd = 0.6;
   dt = 1;
   PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
   strawberryPIDTracer = ifRightThenReverseCommand(strawberryPIDTracer, isRightCourse);
