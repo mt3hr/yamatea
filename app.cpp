@@ -23,7 +23,7 @@
 
 using namespace ev3api;
 
-bool isRightCourse = false;                  // 左コースならfalse, 右コースならtrue。
+bool isRightCourse = false;                   // 左コースならfalse, 右コースならtrue。
 bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
 // bool enableSwingDistanceCompensation = true; // 距離補正を有効化するかどうか
 int targetBrightness = 20; // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
