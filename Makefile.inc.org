@@ -14,6 +14,7 @@ PIDTracer.o \
 ScenarioTracer.o \
 Handler.o \
 SetPIDTargetBrightnessWhenCalibratedHandler.o \
+# SwingDistanceCompensationHandler.o \
 
 SRCLANG := c++
 
