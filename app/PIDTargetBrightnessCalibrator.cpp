@@ -26,55 +26,86 @@ void PIDTargetBrightnessCalibrator::readBlackFromColorSensor()
     black = colorSensor->getBrightness();
 }
 
+rgb_raw_t rgb;       // TODO けして
+bool gotRGB = false; // TODO けして
+
 void PIDTargetBrightnessCalibrator::run()
 {
-    if (!isReadedBlack())
+    // TODO けしてここから
+    if (!gotRGB)
     {
-        msg_f("calibrating", 1);
+        msg_f("rawRGB", 1);
         msg_f("press right key", 2);
-        msg_f("     read black", 3);
+        msg_f("     read rgb", 3);
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
-            readBlackFromColorSensor();
-            clock->sleep(sleepDuration);
-        }
-    }
-    else if (!isReadedWhite())
-    {
-        msg_f("calibrating", 1);
-        msg_f("press right key", 2);
-        msg_f("     read white", 3);
-        if (ev3_button_is_pressed(RIGHT_BUTTON))
-        {
-            readWhiteFromColorSensor();
-            clock->sleep(sleepDuration);
+            colorSensor->getRawColor(rgb);
+            gotRGB = true;
         }
     }
     else
     {
-        if (!handlerExecuted)
+        char rStr[20];
+        char gStr[20];
+        char bStr[20];
+        sprintf(rStr, "r:%d", rgb.r);
+        sprintf(gStr, "g:%d", rgb.g);
+        sprintf(bStr, "b:%d", rgb.b);
+        msg_f(rStr, 1);
+        msg_f(gStr, 2);
+        msg_f(bStr, 3);
+    }
+    // TODO けしてここまで
+
+    /* コメントアウト　ここから
+        if (!isReadedBlack())
         {
-            handlerExecuted = true;
-            for (int i = 0; i < ((int)handlers.size()); i++)
+            msg_f("calibrating", 1);
+            msg_f("press right key", 2);
+            msg_f("     read black", 3);
+            if (ev3_button_is_pressed(RIGHT_BUTTON))
             {
-                Handler *handler = handlers[i];
-                handler->handle();
+                readBlackFromColorSensor();
+                clock->sleep(sleepDuration);
             }
         }
+        else if (!isReadedWhite())
+        {
+            msg_f("calibrating", 1);
+            msg_f("press right key", 2);
+            msg_f("     read white", 3);
+            if (ev3_button_is_pressed(RIGHT_BUTTON))
+            {
+                readWhiteFromColorSensor();
+                clock->sleep(sleepDuration);
+            }
+        }
+        else
+        {
+            if (!handlerExecuted)
+            {
+                handlerExecuted = true;
+                for (int i = 0; i < ((int)handlers.size()); i++)
+                {
+                    Handler *handler = handlers[i];
+                    handler->handle();
+                }
+            }
 
-        char bStr[20];
-        char wStr[20];
-        msg_f("calibrated!", 1);
-        sprintf(bStr, "black:%d", getBlack());
-        sprintf(wStr, "white:%d", getWhite());
-        msg_f(bStr, 2);
-        msg_f(wStr, 3);
-        msg_f("", 4);
-        msg_f("press touch sensor", 5);
-    }
+            char bStr[20];
+            char wStr[20];
+            msg_f("calibrated!", 1);
+            sprintf(bStr, "black:%d", getBlack());
+            sprintf(wStr, "white:%d", getWhite());
+            msg_f(bStr, 2);
+            msg_f(wStr, 3);
+            msg_f("", 4);
+            msg_f("press touch sensor", 5);
+        }
+        コメントアウト ここまで*/
 }
 
-PIDTargetBrightnessCalibrator* PIDTargetBrightnessCalibrator::generateReverseCommand()
+PIDTargetBrightnessCalibrator *PIDTargetBrightnessCalibrator::generateReverseCommand()
 {
     return new PIDTargetBrightnessCalibrator(colorSensor, clock);
 }
