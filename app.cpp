@@ -84,7 +84,7 @@ MotorCountPredicate *generateMotorCountPredicate(bool isRightCource, int count)
 void initialize()
 {
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor();
+  commandExecutor = new CommandExecutor(&leftWheel, &rightWheel);
 
   // 距離によるシーン切り替え用変数。MotorCountPredicate
   // そのシーンが終了する距離の定義。
@@ -273,6 +273,7 @@ void main_task(intptr_t unused)
   }
 
   stp_cyc(TRACER_CYC);
+  commandExecutor->stop();
 
   ext_tsk();
 }

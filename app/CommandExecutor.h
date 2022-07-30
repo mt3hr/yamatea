@@ -1,12 +1,14 @@
 #ifndef CommandExecutor_H
 #define CommandExecutor_H
 
+#include "Motor.h"
 #include "Predicate.h"
 #include "Command.h"
 #include "Handler.h"
 #include <vector>
 
 using namespace std;
+using namespace ev3api;
 
 // CommandExecutor
 // Commandの実行者。
@@ -31,12 +33,15 @@ private:
     vector<Command *> commandVector;
     vector<Predicate *> predicateVector;
     vector<Handler *> handlerVector;
+    Motor *leftWheel;
+    Motor *rightWheel;
 
 public:
-    CommandExecutor();
+    CommandExecutor(Motor *leftWheel, Motor *rightWheel);
     void addCommand(Command *command, Predicate *exitCondition);
     void addCyclicHandler(Handler *handler);
     void run();
+    void stop();
 };
 
 #endif

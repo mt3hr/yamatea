@@ -1,11 +1,14 @@
+#include "Motor.h"
 #include "CommandExecutor.h"
 #include "Command.h"
 #include "Handler.h"
 
 using namespace std;
 
-CommandExecutor::CommandExecutor()
+CommandExecutor::CommandExecutor(Motor *lw, Motor *rw)
 {
+    leftWheel = lw;
+    rightWheel = rw;
 }
 
 void CommandExecutor::addCommand(Command *command, Predicate *exitCondition)
@@ -34,7 +37,7 @@ void CommandExecutor::run()
         commandVector[currentIndexForCommand]->run();
     }
 
-    //TODO ハンドラを走らせる
+    // TODO ハンドラを走らせる
     /*
     for (int i = 0; i < ((int)sizeof(handlerVector)); i++)
     {
@@ -42,4 +45,11 @@ void CommandExecutor::run()
     }
     */
     return;
+}
+
+void CommandExecutor::stop()
+{
+    leftWheel->stop();
+    rightWheel->stop();
+    currentIndexForCommand = commandVector.size();
 }
