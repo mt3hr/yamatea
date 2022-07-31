@@ -31,5 +31,3 @@ INCLUDES += \
 	-I$(mkfile_path)app
 
 #COPTS += -fno-use-cxa-atexit
-
-COPTS += -DMAKE_EV3

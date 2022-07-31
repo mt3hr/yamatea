@@ -1,6 +1,4 @@
 // TOOO メモリ管理してなくない？
-// TODO 菅原先生の案。targetBrightnessの値が目標値とかけ離れていたら首振りをしているとして、motor.getCount()に補正をかける
-//      CommandExecutor.addCyclicHandler(Handler))を追加してそれで対応しようかな
 #include "TouchSensor.h"
 #include "ColorSensor.h"
 #include "Motor.h"
@@ -19,14 +17,12 @@
 #include "MotorCountPredicate.h"
 #include "Handler.h"
 #include "SetPIDTargetBrightnessWhenCalibratedHandler.h"
-// #include "SwingDistanceCompensationHandler.h"
 
 using namespace ev3api;
 
-bool isRightCourse = false;                   // 左コースならfalse, 右コースならtrue。
+bool isRightCourse = false;                  // 左コースならfalse, 右コースならtrue。
 bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
-// bool enableSwingDistanceCompensation = true; // 距離補正を有効化するかどうか
-int targetBrightness = 20; // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
+int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
 
 // EV3APIオブジェクトの初期化
 TouchSensor touchSensor(PORT_1);
@@ -81,7 +77,7 @@ MotorCountPredicate *generateMotorCountPredicate(bool isRightCource, int count)
   }
 }
 
-void initialize()
+void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
   commandExecutor = new CommandExecutor(&leftWheel, &rightWheel);
@@ -242,14 +238,6 @@ void initialize()
     pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(cucumberPIDTracer, pidTargetBrightnessCalibrator));
     pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(strawberryPIDTracer, pidTargetBrightnessCalibrator));
   }
-
-  /*
-    // 首振りしたときにモータ回転数を補正するやつ
-    if (enableSwingDistanceCompensation)
-    {
-      commandExecutor->addCyclicHandler(new SwingDistanceCompensationHandler(&colorSensor, &leftWheel, &rightWheel));
-    }
-    */
 }
 
 void tracer_task(intptr_t exinf)
@@ -263,7 +251,7 @@ void main_task(intptr_t unused)
 {
   const uint32_t duration = 100 * 1000;
 
-  initialize();
+  initializeCommandExecutor();
 
   sta_cyc(TRACER_CYC);
 
