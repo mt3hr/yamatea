@@ -3,6 +3,7 @@
 #include "ColorSensor.h"
 #include "Motor.h"
 #include "Clock.h"
+#include "SonarSensor.h"
 
 #include "app.h"
 #include "util.h"
@@ -31,6 +32,7 @@ int targetBrightness = 20;                   // enableCalibrateTargetBrightness�
 // EV3APIオブジェクトの初期化
 TouchSensor touchSensor(PORT_1);
 ColorSensor colorSensor(PORT_2);
+SonarSensor sonarSensor(PORT_3);
 Motor leftWheel(PORT_C);
 Motor rightWheel(PORT_B);
 Clock clock;

@@ -14,7 +14,9 @@ PIDTargetBrightnessCalibrator.o \
 PIDTracer.o \
 ScenarioTracer.o \
 Handler.o \
-SetPIDTargetBrightnessWhenCalibratedHandler.o
+SetPIDTargetBrightnessWhenCalibratedHandler.o \
+RGBRawReader.o \
+DistanceReader.o
 
 
 SRCLANG := c++
