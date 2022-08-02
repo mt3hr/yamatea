@@ -30,8 +30,8 @@ class CommandExecutor
 {
 private:
     int currentIndexForCommand;
-    vector<Command *> commandVector;
-    vector<Predicate *> predicateVector;
+    vector<Command *> commands;
+    vector<Predicate *> predicates;
     Motor *leftWheel;
     Motor *rightWheel;
 

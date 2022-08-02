@@ -13,23 +13,23 @@ CommandExecutor::CommandExecutor(Motor *lw, Motor *rw)
 
 void CommandExecutor::addCommand(Command *command, Predicate *exitCondition)
 {
-    commandVector.push_back(command);
-    predicateVector.push_back(exitCondition);
+    commands.push_back(command);
+    predicates.push_back(exitCondition);
 }
 
 void CommandExecutor::run()
 {
     // 終了条件が満たされたらindexを変更して次のコマンドに移動する
-    if (((int)sizeof(predicateVector)) - 1 > ((int)(currentIndexForCommand)) &&
-        predicateVector[currentIndexForCommand]->test())
+    if (((int)sizeof(predicates)) - 1 > ((int)(currentIndexForCommand)) &&
+        predicates[currentIndexForCommand]->test())
     {
         currentIndexForCommand++;
     }
 
     // 現在の要素が有ればやる。なければ何もせずに返す
-    if (((int)sizeof(commandVector)) - 1 > ((int)currentIndexForCommand))
+    if (((int)sizeof(commands)) - 1 > ((int)currentIndexForCommand))
     {
-        commandVector[currentIndexForCommand]->run();
+        commands[currentIndexForCommand]->run();
     }
 
     return;
@@ -39,5 +39,5 @@ void CommandExecutor::emergencyStop()
 {
     leftWheel->stop();
     rightWheel->stop();
-    currentIndexForCommand = commandVector.size();
+    currentIndexForCommand = commands.size();
 }
