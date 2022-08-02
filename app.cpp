@@ -21,10 +21,12 @@
 
 using namespace ev3api;
 
-bool isRightCourse = false;                  // 左コースならfalse, 右コースならtrue。
+// ********** 設定ここから **********
 // #define PrintMessage // コメントアウトを外すとコマンドの情報をディスプレイに表示する
+bool isRightCourse = false;                  // 左コースならfalse, 右コースならtrue。
 bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
 int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
+// ********** 設定ここまで **********
 
 // EV3APIオブジェクトの初期化
 TouchSensor touchSensor(PORT_1);
