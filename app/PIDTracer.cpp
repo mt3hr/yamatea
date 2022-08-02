@@ -1,6 +1,7 @@
 #include "PIDTracer.h"
 #include "ColorSensor.h"
 #include "WheelController.h"
+#include "util.h"
 
 using namespace ev3api;
 
@@ -47,6 +48,16 @@ void PIDTracer::run()
     // モータを動かす
     wheelController->getLeftWheel()->setPWM(leftPower);
     wheelController->getRightWheel()->setPWM(rightPower);
+
+    char pidStr[30];
+    char lStr[30];
+    char rStr[30];
+    sprintf(pidStr, "p:%d i:%d d:%d", p, i, d);
+    sprintf(lStr, "leftPow :%d", leftPower);
+    sprintf(rStr, "rightPow:%d", rightPower);
+    msg_f("pid tracing", 1);
+    msg_f(lStr, 2);
+    msg_f(rStr, 3);
 }
 
 PIDTracer *PIDTracer::generateReverseCommand()
