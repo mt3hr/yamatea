@@ -3,6 +3,7 @@
 
 #include "Motor.h"
 #include "Command.h"
+#include "WheelController.h"
 
 using namespace ev3api;
 
@@ -16,11 +17,10 @@ class ScenarioTracer : public Command
 private:
     int leftPow;
     int rightPow;
-    Motor *leftWheel;
-    Motor *rightWheel;
+    WheelController *wheelController;
 
 public:
-    ScenarioTracer(int leftPow, int rightPow, Motor *leftWheel, Motor *rightWheel);
+    ScenarioTracer(int leftPow, int rightPow, WheelController *wheelController);
     void run() override;
     ScenarioTracer *generateReverseCommand() override;
 };

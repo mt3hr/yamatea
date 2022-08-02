@@ -4,6 +4,7 @@
 #include "Motor.h"
 #include "Command.h"
 #include "ColorSensor.h"
+#include "WheelController.h"
 
 using namespace ev3api;
 
@@ -30,14 +31,13 @@ private:
     float kd = 0;
     float dt = 0;
     int targetBrightness = 0;
-    Motor *leftWheel;
-    Motor *rightWheel;
+    WheelController *wheelController;
     ColorSensor *colorSensor;
     float beforeP = 0;
     PIDTracerMode mode;
 
 public:
-    PIDTracer(PIDTracerMode mode, int pwm, float kp, float ki, float kd, float dt, int target, Motor *leftMotor, Motor *rightMotor, ColorSensor *colorSensor);
+    PIDTracer(PIDTracerMode mode, int pwm, float kp, float ki, float kd, float dt, int target, WheelController *wheelController, ColorSensor *colorSensor);
     void run() override;
     PIDTracer *generateReverseCommand() override;
     void setTargetBrightness(int targetBrightness);

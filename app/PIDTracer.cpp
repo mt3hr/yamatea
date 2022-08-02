@@ -1,9 +1,10 @@
 #include "PIDTracer.h"
 #include "ColorSensor.h"
+#include "WheelController.h"
 
 using namespace ev3api;
 
-PIDTracer::PIDTracer(PIDTracerMode modea, int pwma, float kpa, float kia, float kda, float dta, int targetBrightnessa, Motor *leftMotora, Motor *rightMotora, ColorSensor *colorSensora)
+PIDTracer::PIDTracer(PIDTracerMode modea, int pwma, float kpa, float kia, float kda, float dta, int targetBrightnessa, WheelController *wheelControllera, ColorSensor *colorSensora)
 {
     mode = modea;
     pwm = pwma;
@@ -12,8 +13,7 @@ PIDTracer::PIDTracer(PIDTracerMode modea, int pwma, float kpa, float kia, float 
     kd = kda;
     dt = dta;
     targetBrightness = targetBrightnessa;
-    leftWheel = leftMotora;
-    rightWheel = rightMotora;
+    wheelController = wheelControllera;
     colorSensor = colorSensora;
 }
 
@@ -45,8 +45,8 @@ void PIDTracer::run()
     }
 
     // モータを動かす
-    leftWheel->setPWM(leftPower);
-    rightWheel->setPWM(rightPower);
+    wheelController->getLeftWheel()->setPWM(leftPower);
+    wheelController->getRightWheel()->setPWM(rightPower);
 }
 
 PIDTracer *PIDTracer::generateReverseCommand()
@@ -60,7 +60,7 @@ PIDTracer *PIDTracer::generateReverseCommand()
     {
         reversedMode = LEFT_TRACE;
     }
-    return new PIDTracer(reversedMode, pwm, kp, ki, kd, dt, targetBrightness, leftWheel, rightWheel, colorSensor);
+    return new PIDTracer(reversedMode, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
 }
 
 void PIDTracer::setTargetBrightness(int t)

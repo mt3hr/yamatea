@@ -17,11 +17,6 @@ void CommandExecutor::addCommand(Command *command, Predicate *exitCondition)
     predicateVector.push_back(exitCondition);
 }
 
-void CommandExecutor::addCyclicHandler(Handler *handler)
-{
-    handlerVector.push_back(handler);
-}
-
 void CommandExecutor::run()
 {
     // 終了条件が満たされたらindexを変更して次のコマンドに移動する
@@ -37,17 +32,10 @@ void CommandExecutor::run()
         commandVector[currentIndexForCommand]->run();
     }
 
-    // TODO ハンドラを走らせる
-    /*
-    for (int i = 0; i < ((int)sizeof(handlerVector)); i++)
-    {
-        handlerVector[i]->handle();
-    }
-    */
     return;
 }
 
-void CommandExecutor::stop()
+void CommandExecutor::emergencyStop()
 {
     leftWheel->stop();
     rightWheel->stop();

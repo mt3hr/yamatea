@@ -32,16 +32,14 @@ private:
     int currentIndexForCommand;
     vector<Command *> commandVector;
     vector<Predicate *> predicateVector;
-    vector<Handler *> handlerVector;
     Motor *leftWheel;
     Motor *rightWheel;
 
 public:
     CommandExecutor(Motor *leftWheel, Motor *rightWheel);
     void addCommand(Command *command, Predicate *exitCondition);
-    void addCyclicHandler(Handler *handler);
     void run();
-    void stop();
+    void emergencyStop();
 };
 
 #endif

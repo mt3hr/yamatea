@@ -4,6 +4,7 @@ mkfile_path := $(dir $(lastword $(MAKEFILE_LIST)))
 
 APPL_CXXOBJS += \
 util.o \
+WheelController.o \
 Command.o \
 Predicate.o \
 MotorCountPredicate.o \
@@ -13,8 +14,7 @@ PIDTargetBrightnessCalibrator.o \
 PIDTracer.o \
 ScenarioTracer.o \
 Handler.o \
-SetPIDTargetBrightnessWhenCalibratedHandler.o \
-# SwingDistanceCompensationHandler.o \
+SetPIDTargetBrightnessWhenCalibratedHandler.o
 
 SRCLANG := c++
 
@@ -31,5 +31,3 @@ INCLUDES += \
 	-I$(mkfile_path)app
 
 #COPTS += -fno-use-cxa-atexit
-
-COPTS += -DMAKE_EV3
