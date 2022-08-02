@@ -30,6 +30,7 @@ app.cppのサンプルコードを載せておきます。
 #include "Command.h"
 #include "CommandExecutor.h"
 #include "Predicate.h"
+#include "WheelController.h"
 #include "ScenarioTracer.h"
 #include "MotorCountPredicate.h"
 
@@ -46,12 +47,14 @@ CommandExecutor *commandExecutor;
 // commandExecutorなどの初期化処理。
 void initialize()
 {
+  // commandExecutorとwheelControllerの初期化
   commandExecutor = new CommandExecutor();
+  WheelController *wheelController = new WheelController(&leftWheel, &rightWheel);
 
   // シンプルなシナリオトレーサ。左右車輪20のpwmで進む。
   int leftPow = 20;
   int rightPow = 20;
-  Command *simpleScenarioTracer = new ScenarioTracer(leftPow, rightPow, &leftWheel, &rightWheel);
+  Command *simpleScenarioTracer = new ScenarioTracer(leftPow, rightPow, wheelController);
 
   // シナリオトレーサを終了するタイミングを決定するPredicator
   // この例では左車輪が360度回転したら終了する
