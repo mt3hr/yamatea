@@ -32,8 +32,8 @@ void PIDTracer::run()
     // PID値の算出ここまで
 
     // 右ライントレースか左ライントレースか
-    float leftPower = 0;
-    float rightPower = 0;
+    int leftPower = 0;
+    int rightPower = 0;
     if (mode == RIGHT_TRACE)
     {
         leftPower = pwm - pid;
@@ -49,15 +49,23 @@ void PIDTracer::run()
     wheelController->getLeftWheel()->setPWM(leftPower);
     wheelController->getRightWheel()->setPWM(rightPower);
 
-    char pidStr[30];
+    char pStr[30];
+    char iStr[30];
+    char dStr[30];
     char lStr[30];
     char rStr[30];
-    sprintf(pidStr, "p:%d i:%d d:%d", p, i, d);
+    sprintf(pStr, "p:%.2lf", p);
+    sprintf(iStr, "i:%.2lf", i);
+    sprintf(dStr, "d:%.2lf", d);
     sprintf(lStr, "leftPow :%d", leftPower);
     sprintf(rStr, "rightPow:%d", rightPower);
     msg_f("pid tracing", 1);
-    msg_f(lStr, 2);
-    msg_f(rStr, 3);
+    msg_f(pStr, 2);
+    msg_f(iStr, 3);
+    msg_f(dStr, 4);
+    msg_f(lStr, 5);
+    msg_f(rStr, 6);
+    msg_f("", 7);
 }
 
 PIDTracer *PIDTracer::generateReverseCommand()

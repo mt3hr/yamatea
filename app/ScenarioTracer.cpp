@@ -21,6 +21,10 @@ void ScenarioTracer::run()
     msg_f("scenario tracing", 1);
     msg_f(lStr, 2);
     msg_f(rStr, 3);
+    msg_f("", 4);
+    msg_f("", 5);
+    msg_f("", 6);
+    msg_f("", 7);
 }
 
 ScenarioTracer *ScenarioTracer::generateReverseCommand()
