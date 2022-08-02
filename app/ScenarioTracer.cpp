@@ -14,6 +14,7 @@ void ScenarioTracer::run()
     wheelController->getLeftWheel()->setPWM(leftPow);
     wheelController->getRightWheel()->setPWM(rightPow);
 
+#ifdef PrintMessage
     char lStr[30];
     char rStr[30];
     sprintf(lStr, "leftPow :%d", leftPow);
@@ -25,6 +26,7 @@ void ScenarioTracer::run()
     msg_f("", 5);
     msg_f("", 6);
     msg_f("", 7);
+#endif
 }
 
 ScenarioTracer *ScenarioTracer::generateReverseCommand()

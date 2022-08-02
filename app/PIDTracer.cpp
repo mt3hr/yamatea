@@ -49,6 +49,7 @@ void PIDTracer::run()
     wheelController->getLeftWheel()->setPWM(leftPower);
     wheelController->getRightWheel()->setPWM(rightPower);
 
+#ifdef PrintMessage
     char pStr[30];
     char iStr[30];
     char dStr[30];
@@ -66,6 +67,7 @@ void PIDTracer::run()
     msg_f(lStr, 5);
     msg_f(rStr, 6);
     msg_f("", 7);
+#endif
 }
 
 PIDTracer *PIDTracer::generateReverseCommand()

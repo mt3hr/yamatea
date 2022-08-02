@@ -22,6 +22,7 @@
 using namespace ev3api;
 
 bool isRightCourse = false;                  // 左コースならfalse, 右コースならtrue。
+// #define PrintMessage // コメントアウトを外すとコマンドの情報をディスプレイに表示する
 bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
 int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
 
@@ -93,7 +94,7 @@ void initializeCommandExecutor()
   int sceneOrangeMotorCountPredicateArg = 2450;       // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
   int sceneStarFruitsMotorCountPredicateArg = 2550;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
   int sceneCherryMotorCountPredicateArg = 2700;       // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
-  int sceneWaterMelonMotorCountPredicateArg = 5200;   // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+  int sceneWaterMelonMotorCountPredicateArg = 5150;   // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
   int sceneBokChoyMotorCountPredicateArg = 5400;      // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
   int sceneDorianMotorCountPredicateArg = 5700;       // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
   int sceneMelonMotorCountPredicateArg = 8000;        // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
