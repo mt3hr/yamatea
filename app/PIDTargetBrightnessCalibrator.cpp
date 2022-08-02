@@ -27,65 +27,8 @@ void PIDTargetBrightnessCalibrator::readBlackFromColorSensor()
     black = colorSensor->getBrightness();
 }
 
-// rgb_raw_t rgb;       // TODO けして
-// bool gotRGB = false; // TODO けして
-// int16_t distanceValue = 0; // TODO けして
-// bool gotDistance; // TODO けして
-// SonarSensor sonorSensor(PORT_3); // TODO けして
-
 void PIDTargetBrightnessCalibrator::run()
 {
-    /*
-    // TODO けしてここから
-    if (!gotDistance)
-    {
-        msg_f("distance", 1);
-        msg_f("press right key", 2);
-        msg_f("     read distance", 3);
-        if (ev3_button_is_pressed(RIGHT_BUTTON))
-        {
-            distanceValue = sonorSensor.getDistance();
-            gotDistance = true;
-        }
-    }
-    else
-    {
-        char dStr[20];
-        sprintf(dStr, "distance:%d", distanceValue);
-        msg_f(dStr, 1);
-    }
-
-    // TODO けしてここまで
-    */
-
-    /*
-    // TODO けしてここから
-    if (!gotRGB)
-    {
-        msg_f("rawRGB", 1);
-        msg_f("press right key", 2);
-        msg_f("     read rgb", 3);
-        if (ev3_button_is_pressed(RIGHT_BUTTON))
-        {
-            colorSensor->getRawColor(rgb);
-            gotRGB = true;
-        }
-    }
-    else
-    {
-        char rStr[20];
-        char gStr[20];
-        char bStr[20];
-        sprintf(rStr, "r:%d", rgb.r);
-        sprintf(gStr, "g:%d", rgb.g);
-        sprintf(bStr, "b:%d", rgb.b);
-        msg_f(rStr, 1);
-        msg_f(gStr, 2);
-        msg_f(bStr, 3);
-    }
-    // TODO けしてここまで
-    */
-
     if (!isReadedBlack())
     {
         msg_f("calibrating", 1);
