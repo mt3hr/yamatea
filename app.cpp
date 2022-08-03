@@ -91,6 +91,9 @@ void initializeCommandExecutor()
   // WheelControllerの初期化
   WheelController *wheelController = new WheelController(&leftWheel, &rightWheel);
 
+  // なにもしないハンドラ
+  Handler *doNothingHandler = new Handler();
+
   // 距離によるシーン切り替え用変数。MotorCountPredicate
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
@@ -112,12 +115,12 @@ void initializeCommandExecutor()
   Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
   if (enableCalibrateTargetBrightness)
   {
-    commandExecutor->addCommand(pidTargetBrightnessCalibrator, startButtonPredicate);
+    commandExecutor->addCommand(pidTargetBrightnessCalibrator, startButtonPredicate, doNothingHandler);
   }
   else
   {
     // targetBrightnessをキャリブレーションしない場合
-    commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
+    commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
   }
 
   int pwm;
@@ -138,7 +141,7 @@ void initializeCommandExecutor()
   PIDTracer *bananaPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
   bananaPIDTracer = ifRightThenReverseCommand(bananaPIDTracer, isRightCourse);
   MotorCountPredicate *predicateBanana = generateMotorCountPredicate(isRightCourse, sceneBananaMotorCountPredicateArg);
-  commandExecutor->addCommand(bananaPIDTracer, predicateBanana);
+  commandExecutor->addCommand(bananaPIDTracer, predicateBanana, doNothingHandler);
 
   // OrangePIDTracerの初期化とCommandExecutorへの追加
   pwm = 15;
@@ -149,7 +152,7 @@ void initializeCommandExecutor()
   PIDTracer *orangePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
   orangePIDTracer = ifRightThenReverseCommand(orangePIDTracer, isRightCourse);
   MotorCountPredicate *predicateOrange = generateMotorCountPredicate(isRightCourse, sceneOrangeMotorCountPredicateArg);
-  commandExecutor->addCommand(orangePIDTracer, predicateOrange);
+  commandExecutor->addCommand(orangePIDTracer, predicateOrange, doNothingHandler);
 
   // StarFruitsScenarioTracerの初期化とCommandExecutorへの追加
   leftPow = 16;
@@ -157,7 +160,7 @@ void initializeCommandExecutor()
   ScenarioTracer *starFruitsScenarioTracer = new ScenarioTracer(leftPow, rightPow, wheelController);
   starFruitsScenarioTracer = ifRightThenReverseCommand(starFruitsScenarioTracer, isRightCourse);
   MotorCountPredicate *predicateStarFruits = generateMotorCountPredicate(isRightCourse, sceneStarFruitsMotorCountPredicateArg);
-  commandExecutor->addCommand(starFruitsScenarioTracer, predicateStarFruits);
+  commandExecutor->addCommand(starFruitsScenarioTracer, predicateStarFruits, doNothingHandler);
 
   // CherryPIDTracerの初期化とCommandExecutorへの追加
   pwm = 10;
@@ -168,7 +171,7 @@ void initializeCommandExecutor()
   PIDTracer *cherryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
   cherryPIDTracer = ifRightThenReverseCommand(cherryPIDTracer, isRightCourse);
   MotorCountPredicate *predicateCherry = generateMotorCountPredicate(isRightCourse, sceneCherryMotorCountPredicateArg);
-  commandExecutor->addCommand(cherryPIDTracer, predicateCherry);
+  commandExecutor->addCommand(cherryPIDTracer, predicateCherry, doNothingHandler);
 
   // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
   pwm = 18;
@@ -179,7 +182,7 @@ void initializeCommandExecutor()
   PIDTracer *waterMelonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
   waterMelonPIDTracer = ifRightThenReverseCommand(waterMelonPIDTracer, isRightCourse);
   MotorCountPredicate *predicateWaterMelon = generateMotorCountPredicate(isRightCourse, sceneWaterMelonMotorCountPredicateArg);
-  commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon);
+  commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon, doNothingHandler);
 
   // BokChoyScenarioTracerの初期化とCommandExecutorへの追加
   leftPow = 20;
@@ -187,7 +190,7 @@ void initializeCommandExecutor()
   ScenarioTracer *bokChoyScenarioTracer = new ScenarioTracer(leftPow, rightPow, wheelController);
   bokChoyScenarioTracer = ifRightThenReverseCommand(bokChoyScenarioTracer, isRightCourse);
   MotorCountPredicate *predicateBokChoy = generateMotorCountPredicate(isRightCourse, sceneBokChoyMotorCountPredicateArg);
-  commandExecutor->addCommand(bokChoyScenarioTracer, predicateBokChoy);
+  commandExecutor->addCommand(bokChoyScenarioTracer, predicateBokChoy, doNothingHandler);
 
   // DorianPIDTracerの初期化とCommandExecutorへの追加
   pwm = 10;
@@ -198,7 +201,7 @@ void initializeCommandExecutor()
   PIDTracer *dorianPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
   dorianPIDTracer = ifRightThenReverseCommand(dorianPIDTracer, isRightCourse);
   MotorCountPredicate *predicateDorian = generateMotorCountPredicate(isRightCourse, sceneDorianMotorCountPredicateArg);
-  commandExecutor->addCommand(dorianPIDTracer, predicateDorian);
+  commandExecutor->addCommand(dorianPIDTracer, predicateDorian, doNothingHandler);
 
   // MelonPIDTracerの初期化とCommandExecutorへの追加
   pwm = 20;
@@ -209,7 +212,7 @@ void initializeCommandExecutor()
   PIDTracer *melonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
   melonPIDTracer = ifRightThenReverseCommand(melonPIDTracer, isRightCourse);
   MotorCountPredicate *predicateMelon = generateMotorCountPredicate(isRightCourse, sceneMelonMotorCountPredicateArg);
-  commandExecutor->addCommand(melonPIDTracer, predicateMelon);
+  commandExecutor->addCommand(melonPIDTracer, predicateMelon, doNothingHandler);
 
   // CucumberPIDTracerの初期化とCommandExecutorへの追加
   pwm = 28;
@@ -220,7 +223,7 @@ void initializeCommandExecutor()
   PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
   cucumberPIDTracer = ifRightThenReverseCommand(cucumberPIDTracer, isRightCourse);
   MotorCountPredicate *predicateCucumber = generateMotorCountPredicate(isRightCourse, sceneCucumberMotorCountPredicateArg);
-  commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber);
+  commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber, doNothingHandler);
 
   // StrawberryPIDTracerの初期化とCommandExecutorへの追加
   pwm = 20;
@@ -231,7 +234,7 @@ void initializeCommandExecutor()
   PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
   strawberryPIDTracer = ifRightThenReverseCommand(strawberryPIDTracer, isRightCourse);
   MotorCountPredicate *predicateStrawberry = generateMotorCountPredicate(isRightCourse, sceneStrawberryMotorCountPredicateArg);
-  commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry);
+  commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry, doNothingHandler);
 
   // Commandの定義とCommandExecutorへの追加ここまで
 

@@ -11,10 +11,11 @@ CommandExecutor::CommandExecutor(Motor *lw, Motor *rw)
     rightWheel = rw;
 }
 
-void CommandExecutor::addCommand(Command *command, Predicate *exitCondition)
+void CommandExecutor::addCommand(Command *command, Predicate *exitCondition, Handler *exitHandler)
 {
     commands.push_back(command);
     predicates.push_back(exitCondition);
+    exitHandlers.push_back(exitHandler);
 }
 
 void CommandExecutor::run()
@@ -23,6 +24,7 @@ void CommandExecutor::run()
     if (((int)sizeof(predicates)) - 1 > ((int)(currentIndexForCommand)) &&
         predicates[currentIndexForCommand]->test())
     {
+        exitHandlers[currentIndexForCommand]->handle();
         currentIndexForCommand++;
     }
 
