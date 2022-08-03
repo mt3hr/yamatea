@@ -10,8 +10,6 @@ using namespace ev3api;
 // 距離を測定するクラス。
 // 試走会などで値を取るためのもの
 //
-// メモ: SonarSensorのポートはPORT_3
-//
 // 実方
 class DistanceReader : public Command
 {
