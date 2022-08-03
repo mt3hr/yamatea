@@ -14,7 +14,7 @@
 #include "PIDTargetBrightnessCalibrator.h"
 #include "Predicate.h"
 #include "PIDTracer.h"
-#include "ScenarioTracer.h"
+#include "Walker.h"
 #include "StartButtonPredicate.h"
 #include "MotorCountPredicate.h"
 #include "Handler.h"
@@ -51,11 +51,11 @@ CommandAndPredicate *generateRotationRobotCommand(int targetAngle)
   Command *command;
   if (targetAngle > 0)
   {
-    command = new ScenarioTracer(pwm, -pwm, wheelController); // 右に向く
+    command = new Walker(pwm, -pwm, wheelController); // 右に向く
   }
   else
   {
-    command = new ScenarioTracer(-pwm, pwm, wheelController); // 左に向く
+    command = new Walker(-pwm, pwm, wheelController); // 左に向く
   }
 
   Predicate *predicate = new MotorRotationAnglePredicate(angle, &leftWheel);
@@ -78,18 +78,18 @@ PIDTracer *ifRightThenReverseCommand(PIDTracer *pidTracer, bool isRightCource)
   }
 }
 
-// ScenarioTracer反転関数。
-// 左コースならそれをそのまま、右コースならば反転させたScenarioTracerを返す
-ScenarioTracer *ifRightThenReverseCommand(ScenarioTracer *scenarioTracer, bool isRightCource)
+// Walker反転関数。
+// 左コースならそれをそのまま、右コースならば反転させたWalkerを返す
+Walker *ifRightThenReverseCommand(Walker *walker, bool isRightCource)
 {
   if (isRightCource)
   {
-    ScenarioTracer *reversed = scenarioTracer->generateReverseCommand();
+    Walker *reversed = walker->generateReverseCommand();
     return reversed;
   }
   else
   {
-    return scenarioTracer;
+    return walker;
   }
 }
 
@@ -176,13 +176,13 @@ void initializeCommandExecutor()
   MotorCountPredicate *predicateOrange = generateMotorCountPredicate(isRightCourse, sceneOrangeMotorCountPredicateArg);
   commandExecutor->addCommand(orangePIDTracer, predicateOrange, doNothingHandler);
 
-  // StarFruitsScenarioTracerの初期化とCommandExecutorへの追加
+  // StarFruitsWalkerの初期化とCommandExecutorへの追加
   leftPow = 16;
   rightPow = 20;
-  ScenarioTracer *starFruitsScenarioTracer = new ScenarioTracer(leftPow, rightPow, wheelController);
-  starFruitsScenarioTracer = ifRightThenReverseCommand(starFruitsScenarioTracer, isRightCourse);
+  Walker *starFruitsWalker = new Walker(leftPow, rightPow, wheelController);
+  starFruitsWalker = ifRightThenReverseCommand(starFruitsWalker, isRightCourse);
   MotorCountPredicate *predicateStarFruits = generateMotorCountPredicate(isRightCourse, sceneStarFruitsMotorCountPredicateArg);
-  commandExecutor->addCommand(starFruitsScenarioTracer, predicateStarFruits, doNothingHandler);
+  commandExecutor->addCommand(starFruitsWalker, predicateStarFruits, doNothingHandler);
 
   // CherryPIDTracerの初期化とCommandExecutorへの追加
   pwm = 10;
@@ -206,13 +206,13 @@ void initializeCommandExecutor()
   MotorCountPredicate *predicateWaterMelon = generateMotorCountPredicate(isRightCourse, sceneWaterMelonMotorCountPredicateArg);
   commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon, doNothingHandler);
 
-  // BokChoyScenarioTracerの初期化とCommandExecutorへの追加
+  // BokChoyWalkerの初期化とCommandExecutorへの追加
   leftPow = 20;
   rightPow = 18;
-  ScenarioTracer *bokChoyScenarioTracer = new ScenarioTracer(leftPow, rightPow, wheelController);
-  bokChoyScenarioTracer = ifRightThenReverseCommand(bokChoyScenarioTracer, isRightCourse);
+  Walker *bokChoyWalker = new Walker(leftPow, rightPow, wheelController);
+  bokChoyWalker = ifRightThenReverseCommand(bokChoyWalker, isRightCourse);
   MotorCountPredicate *predicateBokChoy = generateMotorCountPredicate(isRightCourse, sceneBokChoyMotorCountPredicateArg);
-  commandExecutor->addCommand(bokChoyScenarioTracer, predicateBokChoy, doNothingHandler);
+  commandExecutor->addCommand(bokChoyWalker, predicateBokChoy, doNothingHandler);
 
   // DorianPIDTracerの初期化とCommandExecutorへの追加
   pwm = 10;

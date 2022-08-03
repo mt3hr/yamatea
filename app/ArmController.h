@@ -8,7 +8,7 @@ using namespace ev3api;
 
 // ArmController
 // カラーセンサの乗ったアームを動かすコマンド。
-// 
+//
 // 実方
 class ArmController : public Command
 {

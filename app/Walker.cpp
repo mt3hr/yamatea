@@ -1,15 +1,15 @@
-#include "ScenarioTracer.h"
+#include "Walker.h"
 #include "WheelController.h"
 #include "util.h"
 
-ScenarioTracer::ScenarioTracer(int lp, int rp, WheelController *wc)
+Walker::Walker(int lp, int rp, WheelController *wc)
 {
     leftPow = lp;
     rightPow = rp;
     wheelController = wc;
 }
 
-void ScenarioTracer::run()
+void Walker::run()
 {
     wheelController->getLeftWheel()->setPWM(leftPow);
     wheelController->getRightWheel()->setPWM(rightPow);
@@ -29,7 +29,7 @@ void ScenarioTracer::run()
 #endif
 }
 
-ScenarioTracer *ScenarioTracer::generateReverseCommand()
+Walker *Walker::generateReverseCommand()
 {
-    return new ScenarioTracer(rightPow, leftPow, wheelController);
+    return new Walker(rightPow, leftPow, wheelController);
 }

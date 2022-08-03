@@ -14,7 +14,7 @@ StartButtonPredicate.o \
 CommandExecutor.o \
 PIDTargetBrightnessCalibrator.o \
 PIDTracer.o \
-ScenarioTracer.o \
+Walker.o \
 Handler.o \
 SetPIDTargetBrightnessWhenCalibratedHandler.o \
 RGBRawReader.o \

@@ -1,5 +1,5 @@
-#ifndef ScenarioTracer_H
-#define ScenarioTracer_H
+#ifndef Walker_H
+#define Walker_H
 
 #include "Motor.h"
 #include "Command.h"
@@ -7,12 +7,11 @@
 
 using namespace ev3api;
 
-// ScenarioTracer
-// シンプルなシナリオトレーサ
+// Walker
 // 左右モータのpwmを設定してそれに従って走行させ続けるもの
 //
 // 実方
-class ScenarioTracer : public Command
+class Walker : public Command
 {
 private:
     int leftPow;
@@ -20,9 +19,9 @@ private:
     WheelController *wheelController;
 
 public:
-    ScenarioTracer(int leftPow, int rightPow, WheelController *wheelController);
+    Walker(int leftPow, int rightPow, WheelController *wheelController);
     void run() override;
-    ScenarioTracer *generateReverseCommand() override;
+    Walker *generateReverseCommand() override;
 };
 
 #endif

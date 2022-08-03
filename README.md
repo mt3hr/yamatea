@@ -12,7 +12,7 @@ ETRobo2022の走行プログラムです。
 今後こいつで戦っていくぞ！  
 
 ## 設計と使い方、サンプルコード
-ロボットの動き（輝度キャリブレーション、ライントレース、シナリオトレースなど）をCommandクラスに抽象化しました。  
+ロボットの動き（輝度キャリブレーション、ライントレース、モータパワー指定走行など）をCommandクラスに抽象化しました。  
 ロボットを動かすときにはCommandクラスのサブクラスを定義し、それをCommandExecutor.addCommand(command)で追加します。  
 
 app.cppのサンプルコードを載せておきます。  
@@ -31,7 +31,7 @@ app.cppのサンプルコードを載せておきます。
 #include "CommandExecutor.h"
 #include "Predicate.h"
 #include "WheelController.h"
-#include "ScenarioTracer.h"
+#include "Walker.h"
 #include "MotorCountPredicate.h"
 
 using namespace ev3api;
@@ -51,17 +51,17 @@ void initialize()
   commandExecutor = new CommandExecutor();
   WheelController *wheelController = new WheelController(&leftWheel, &rightWheel);
 
-  // シンプルなシナリオトレーサ。左右車輪20のpwmで進む。
+  // シンプルなウォーカ。左右車輪20のpwmで進む。
   int leftPow = 20;
   int rightPow = 20;
-  Command *simpleScenarioTracer = new ScenarioTracer(leftPow, rightPow, wheelController);
+  Command *walker= new Walker(leftPow, rightPow, wheelController);
 
-  // シナリオトレーサを終了するタイミングを決定するPredicator
+  // ウォーカを終了するタイミングを決定するPredicator
   // この例では左車輪が360度回転したら終了する
   Predicate *oneRotatePredicate = new MotorCountPredicate(&leftWheel, 360);
 
-  // 上で定義したシナリオトレーサと終了条件をcommandExecutorに追加する。
-  commandExecutor->addCommand(simpleScenarioTracer, oneRotatePredicate);
+  // 上で定義したウォーカと終了条件をcommandExecutorに追加する。
+  commandExecutor->addCommand(walker, oneRotatePredicate);
 }
 
 // ここからいつものやつ
@@ -94,7 +94,7 @@ void main_task(intptr_t unused)
 
 // ここまでいつものやつ
 ```
-CommandはScenarioTracerの他にPIDTracerや、  
+CommandはWalkerの他にPIDTracerや、  
 それのためのPIDTargetBrightnessCalibratorがあります。  
 
 以下細かいことを書きま　　　　せん。  
