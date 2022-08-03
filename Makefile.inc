@@ -7,6 +7,8 @@ util.o \
 Preparizable.o \
 Command.o \
 Predicate.o \
+ExecuteOnecePredicate.o \
+PrintStartedMessage.o \
 CommandAndPredicate.o \
 WheelController.o \
 MotorCountPredicate.o \

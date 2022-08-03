@@ -21,11 +21,13 @@
 #include "SetPIDTargetBrightnessWhenCalibratedHandler.h"
 #include "CommandAndPredicate.h"
 #include "MotorRotationAnglePredicate.h"
+#include "PrintStartedMessage.h"
+#include "ExecuteOnecePredicate.h"
 
 using namespace ev3api;
 
 // ********** 設定ここから **********
-// #define PrintMessage // コメントアウトを外すとコマンドの情報をディスプレイに表示する
+// #define PrintMessage // コメントアウトを外すとコマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので、コメントアウトするしないで走行が変わる。
 bool isRightCourse = false;                  // 左コースならfalse, 右コースならtrue。
 bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
 int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
@@ -154,6 +156,11 @@ void initializeCommandExecutor()
   int leftPow;
   int rightPow;
 
+  // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
+  PrintStartedMessage *printStartedMessage = new PrintStartedMessage();
+  Predicate *printStartedMessagePredicate = new ExecuteOnecePredicate();
+  commandExecutor->addCommand(printStartedMessage, printStartedMessagePredicate, doNothingHandler);
+
   // BananaPIDTracerの初期化とCommandExecutorへの追加
   pwm = 20;
   kp = 0.7;
@@ -276,7 +283,7 @@ void initializeCommandExecutor()
 
 void tracer_task(intptr_t exinf)
 {
-  init_f("yamatea inited");
+  init_f("** yamatea **");
   commandExecutor->run();
   ext_tsk();
 }
