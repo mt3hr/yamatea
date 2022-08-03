@@ -26,6 +26,9 @@ using namespace std;
 class PIDTargetBrightnessCalibrator : public Command
 {
 private:
+    bool printedReadBlackMessage = false;
+    bool printedReadWhiteMessage = false;
+    bool printedCalibratedMessage = false;
     int white = 0;
     int black = 100;
     bool readedWhite = false;

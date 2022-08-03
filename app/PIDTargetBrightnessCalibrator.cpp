@@ -31,9 +31,17 @@ void PIDTargetBrightnessCalibrator::run()
 {
     if (!isReadedBlack())
     {
-        msg_f("calibrating", 1);
-        msg_f("press right key", 2);
-        msg_f("     read black", 3);
+        if (!printedReadBlackMessage)
+        {
+            printedReadBlackMessage = true;
+            msg_f("calibrating", 1);
+            msg_f("press right key", 2);
+            msg_f("     read black", 3);
+            msg_f("", 4);
+            msg_f("", 5);
+            msg_f("", 6);
+            msg_f("", 7);
+        }
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
             readBlackFromColorSensor();
@@ -42,9 +50,17 @@ void PIDTargetBrightnessCalibrator::run()
     }
     else if (!isReadedWhite())
     {
-        msg_f("calibrating", 1);
-        msg_f("press right key", 2);
-        msg_f("     read white", 3);
+        if (!printedReadWhiteMessage)
+        {
+            printedReadWhiteMessage = true;
+            msg_f("calibrating", 1);
+            msg_f("press right key", 2);
+            msg_f("     read white", 3);
+            msg_f("", 4);
+            msg_f("", 5);
+            msg_f("", 6);
+            msg_f("", 7);
+        }
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
             readWhiteFromColorSensor();
@@ -63,15 +79,21 @@ void PIDTargetBrightnessCalibrator::run()
             }
         }
 
-        char bStr[20];
-        char wStr[20];
-        msg_f("calibrated!", 1);
-        sprintf(bStr, "black:%d", getBlack());
-        sprintf(wStr, "white:%d", getWhite());
-        msg_f(bStr, 2);
-        msg_f(wStr, 3);
-        msg_f("", 4);
-        msg_f("press touch sensor", 5);
+        if (!printedCalibratedMessage)
+        {
+            printedCalibratedMessage = true;
+            char bStr[20];
+            char wStr[20];
+            msg_f("calibrated!", 1);
+            sprintf(bStr, "black:%d", getBlack());
+            sprintf(wStr, "white:%d", getWhite());
+            msg_f(bStr, 2);
+            msg_f(wStr, 3);
+            msg_f("", 4);
+            msg_f("press touch sensor", 5);
+            msg_f("", 6);
+            msg_f("", 7);
+        }
     }
 }
 

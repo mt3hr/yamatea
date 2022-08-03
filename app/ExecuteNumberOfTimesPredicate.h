@@ -5,15 +5,16 @@
 
 // ExecuteOnecePredicate
 // 一度だけfalseを返し、その後trueを返し続けるPredicate
-// 
+//
 // 実方
-class ExecuteOnecePredicate : public Predicate
+class ExecuteNumberOfTimesPredicate : public Predicate
 {
 private:
-    bool executed;
+    int count;
+    int currentCount = 0;
 
 public:
-    ExecuteOnecePredicate();
+    ExecuteNumberOfTimesPredicate(int count);
     bool test() override;
 };
 

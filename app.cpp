@@ -22,7 +22,7 @@
 #include "CommandAndPredicate.h"
 #include "MotorRotationAnglePredicate.h"
 #include "PrintStartedMessage.h"
-#include "ExecuteOnecePredicate.h"
+#include "ExecuteNumberOfTimesPredicate.h"
 
 using namespace ev3api;
 
@@ -158,7 +158,7 @@ void initializeCommandExecutor()
 
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
   PrintStartedMessage *printStartedMessage = new PrintStartedMessage();
-  Predicate *printStartedMessagePredicate = new ExecuteOnecePredicate();
+  Predicate *printStartedMessagePredicate = new ExecuteNumberOfTimesPredicate(1);
   commandExecutor->addCommand(printStartedMessage, printStartedMessagePredicate, doNothingHandler);
 
   // BananaPIDTracerの初期化とCommandExecutorへの追加

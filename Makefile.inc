@@ -7,7 +7,7 @@ util.o \
 Preparizable.o \
 Command.o \
 Predicate.o \
-ExecuteOnecePredicate.o \
+ExecuteNumberOfTimesPredicate.o \
 PrintStartedMessage.o \
 CommandAndPredicate.o \
 WheelController.o \
