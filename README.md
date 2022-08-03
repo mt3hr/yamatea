@@ -60,8 +60,11 @@ void initialize()
   // この例では左車輪が360度回転したら終了する
   Predicate *oneRotatePredicate = new MotorCountPredicate(&leftWheel, 360);
 
+  // コマンド終了時に走らされるハンドラ。この例ではなにもしない。
+  Handler *donothingExitHandler = new Hanler();
+
   // 上で定義したウォーカと終了条件をcommandExecutorに追加する。
-  commandExecutor->addCommand(walker, oneRotatePredicate);
+  commandExecutor->addCommand(walker, oneRotatePredicate, donothingExitHanler);
 }
 
 // ここからいつものやつ
