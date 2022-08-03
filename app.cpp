@@ -19,6 +19,8 @@
 #include "MotorCountPredicate.h"
 #include "Handler.h"
 #include "SetPIDTargetBrightnessWhenCalibratedHandler.h"
+#include "CommandAndPredicate.h"
+#include "MotorRotationAnglePredicate.h"
 
 using namespace ev3api;
 
@@ -37,6 +39,29 @@ Motor leftWheel(PORT_C);
 Motor rightWheel(PORT_B);
 Clock clock;
 CommandExecutor *commandExecutor;
+WheelController *wheelController = new WheelController(&leftWheel, &rightWheel);
+
+// ロボット旋回コマンド生成関数
+CommandAndPredicate *generateRotationRobotCommand(int targetAngle)
+{
+  int angleFor360Turn = 10; // TODO 360度旋回するのに必要な左右車輪回転角度数
+
+  int pwm = 10;
+  int angle = ((float)targetAngle) / ((float)angleFor360Turn) * ((float)360);
+  Command *command;
+  if (targetAngle > 0)
+  {
+    command = new ScenarioTracer(pwm, -pwm, wheelController); // 右に向く
+  }
+  else
+  {
+    command = new ScenarioTracer(-pwm, pwm, wheelController); // 左に向く
+  }
+
+  Predicate *predicate = new MotorRotationAnglePredicate(angle, &leftWheel);
+
+  return new CommandAndPredicate(command, predicate);
+}
 
 // PIDTracer反転関数。
 // 左コースならそれをそのまま、右コースならば反転させたPIDTracerを返す
@@ -87,9 +112,6 @@ void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
   commandExecutor = new CommandExecutor(&leftWheel, &rightWheel);
-
-  // WheelControllerの初期化
-  WheelController *wheelController = new WheelController(&leftWheel, &rightWheel);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();

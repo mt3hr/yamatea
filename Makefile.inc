@@ -7,6 +7,7 @@ util.o \
 Preparizable.o \
 Command.o \
 Predicate.o \
+CommandAndPredicate.o \
 WheelController.o \
 MotorCountPredicate.o \
 StartButtonPredicate.o \
