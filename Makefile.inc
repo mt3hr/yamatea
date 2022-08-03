@@ -16,7 +16,8 @@ ScenarioTracer.o \
 Handler.o \
 SetPIDTargetBrightnessWhenCalibratedHandler.o \
 RGBRawReader.o \
-DistanceReader.o
+DistanceReader.o \
+ArmController.o \
 
 
 SRCLANG := c++
