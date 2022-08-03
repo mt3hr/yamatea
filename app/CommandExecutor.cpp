@@ -21,11 +21,11 @@ void CommandExecutor::addCommand(Command *command, Predicate *exitCondition, Han
 void CommandExecutor::run()
 {
     // 終了条件が満たされたらindexを変更して次のコマンドに移動する
-    if (((int)sizeof(predicates)) - 1 > ((int)(currentIndexForCommand)) &&
-        predicates[currentIndexForCommand]->test())
+    if (((int)sizeof(predicates)) - 1 > ((int)(currentIndexForCommand)) && predicates[currentIndexForCommand]->test())
     {
         exitHandlers[currentIndexForCommand]->handle();
         currentIndexForCommand++;
+        return;
     }
 
     // 現在の要素が有ればやる。なければ何もせずに返す
