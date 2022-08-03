@@ -12,6 +12,8 @@ WheelController.o \
 MotorCountPredicate.o \
 StartButtonPredicate.o \
 CommandExecutor.o \
+RotationRobot.o \
+SuitableForRightCourse.o \
 PIDTargetBrightnessCalibrator.o \
 PIDTracer.o \
 Walker.o \
