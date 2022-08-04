@@ -14,6 +14,7 @@
 #include "Predicate.h"
 #include "PIDTracer.h"
 #include "Walker.h"
+#include "DistanceReader.h"
 #include "StartButtonPredicate.h"
 #include "MotorCountPredicate.h"
 #include "Handler.h"
@@ -24,6 +25,7 @@
 #include "ExecuteNumberOfTimesPredicate.h"
 #include "SuitableForRightCourse.h"
 #include "Stopper.h"
+#include "RGBRawReader.h"
 
 using namespace ev3api;
 
@@ -34,7 +36,7 @@ using namespace ev3api;
 #define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
-//#define RGBRawReaderMoe    // RGBRawの値をはかるプログラム
+//#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotation360Test // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 // モード設定ここまで
 
@@ -247,7 +249,7 @@ void initializeCommandExecutor()
   Handler *doNothingHandler = new Handler();
 
   // distanceReaderの初期化とCommandExecutorへの追加
-  DistanceReder *distanceReader = new DistanceReader(sonarSensor);
+  DistanceReader *distanceReader = new DistanceReader(&sonarSensor);
   Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
   commandExecutor->addCommand(distanceReader, startButtonPredicate, doNothingHandler);
 }
@@ -263,7 +265,7 @@ void initializeCommandExecutor()
   Handler *doNothingHandler = new Handler();
 
   // rgbRawReaderの初期化とCommandExecutorへの追加
-  RGBRawReader *rgbRawReader = new RGBRawReader(colorSensor);
+  RGBRawReader *rgbRawReader = new RGBRawReader(&colorSensor);
   Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
   commandExecutor->addCommand(rgbRawReader, startButtonPredicate, doNothingHandler);
 }
