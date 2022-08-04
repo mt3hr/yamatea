@@ -7,7 +7,7 @@
 using namespace ev3api;
 
 // RawRGBReader
-// 右ボタンでRawRGBを測定するクラス。
+// RawRGBを測定するクラス。右ボタンで取得値記録（ディスプレイに表示）
 // 試走会などで値を取るためのもの
 //
 // 実方
