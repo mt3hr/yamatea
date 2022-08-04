@@ -7,8 +7,8 @@ PrintStartedMessage::PrintStartedMessage()
 
 void PrintStartedMessage::run()
 {
-    msg_f("Running!!", 1);
-    msg_f("GOGOGO!!", 2);
+    msg_f("Running!!\r\n", 1);
+    msg_f("GOGOGO!!\r\n", 2);
     msg_f("", 3);
     msg_f("", 4);
     msg_f("", 5);

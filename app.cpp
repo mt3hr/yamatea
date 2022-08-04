@@ -26,8 +26,13 @@
 #include "SuitableForRightCourse.h"
 #include "Stopper.h"
 #include "RGBRawReader.h"
+#include "PrintMessage.h"
 
 using namespace ev3api;
+
+bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
+int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
+bool printMessage;
 
 // ********** 設定ここから **********
 
@@ -39,11 +44,12 @@ using namespace ev3api;
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotation360Test // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 // モード設定ここまで
-
-bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
-int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
-// #define PrintMessage // コメントアウトを外すとコマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので、コメントアウトするしないで走行が変わる。
-
+void setting()
+{
+  enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
+  targetBrightness = 20;                  // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
+  printMessage = false;                   // trueにするとコマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので、true, falseで走行が変わる。
+}
 // ********** 設定ここまで **********
 
 // 設定反映処理
@@ -302,6 +308,7 @@ void initializeCommandExecutor()
 void tracer_task(intptr_t exinf)
 {
   init_f("** yamatea **");
+  setting();
   commandExecutor->run();
   ext_tsk();
 }
