@@ -16,12 +16,12 @@ class RGBRawReader : public Command
 private:
     ColorSensor *colorSensor;
     rgb_raw_t rgbRaw;
-    bool gotRGB = false;
+    bool lockedRGBRawValue = false;
 
 public:
     RGBRawReader(ColorSensor *colorSensor);
     void run();
-    Command *generateReverseCommand();
+    RGBRawReader *generateReverseCommand();
 };
 
 #endif

@@ -19,7 +19,7 @@ private:
 public:
     ArmController(int pwm, Motor *armMotor);
     void run();
-    Command *generateReverseCommand() override;
+    ArmController *generateReverseCommand() override;
 };
 
 #endif

@@ -6,9 +6,9 @@
 
 using namespace ev3api;
 
-PIDTracer::PIDTracer(PIDTracerMode modea, int pwma, float kpa, float kia, float kda, float dta, int targetBrightnessa, WheelController *wheelControllera, ColorSensor *colorSensora)
+PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, float kda, float dta, int targetBrightnessa, WheelController *wheelControllera, ColorSensor *colorSensora)
 {
-    mode = modea;
+    traceMode= traceModea;
     pwm = pwma;
     kp = kpa;
     ki = kia;
@@ -35,12 +35,12 @@ void PIDTracer::run()
     // 右ライントレースか左ライントレースか
     int leftPower = 0;
     int rightPower = 0;
-    if (mode == RIGHT_TRACE)
+    if (traceMode == RIGHT_TRACE)
     {
         leftPower = pwm - pid;
         rightPower = pwm + pid;
     }
-    else if (mode == LEFT_TRACE)
+    else if (traceMode == LEFT_TRACE)
     {
         leftPower = pwm + pid;
         rightPower = pwm - pid;
@@ -76,11 +76,11 @@ if(printMessage) {
 PIDTracer *PIDTracer::generateReverseCommand()
 {
     PIDTracerMode reversedMode = LEFT_TRACE; // とりあえずね
-    if (mode == LEFT_TRACE)
+    if (traceMode == LEFT_TRACE)
     {
         reversedMode = RIGHT_TRACE;
     }
-    else if (mode == RIGHT_TRACE)
+    else if (traceMode == RIGHT_TRACE)
     {
         reversedMode = LEFT_TRACE;
     }

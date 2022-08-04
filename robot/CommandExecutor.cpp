@@ -5,10 +5,9 @@
 
 using namespace std;
 
-CommandExecutor::CommandExecutor(Motor *lw, Motor *rw)
+CommandExecutor::CommandExecutor(WheelController *wc)
 {
-    leftWheel = lw;
-    rightWheel = rw;
+    wheelController = wc;
 }
 
 void CommandExecutor::addCommand(Command *command, Predicate *exitCondition, Handler *exitHandler)
@@ -39,7 +38,7 @@ void CommandExecutor::run()
 
 void CommandExecutor::emergencyStop()
 {
-    leftWheel->stop();
-    rightWheel->stop();
+    wheelController->getLeftWheel()->stop();
+    wheelController->getRightWheel()->stop();
     currentIndexForCommand = commands.size();
 }

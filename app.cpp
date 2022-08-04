@@ -76,7 +76,7 @@ WheelController *wheelController = new WheelController(&leftWheel, &rightWheel);
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(&leftWheel, &rightWheel);
+  commandExecutor = new CommandExecutor(wheelController);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
@@ -249,7 +249,7 @@ void initializeCommandExecutor()
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(&leftWheel, &rightWheel);
+  commandExecutor = new CommandExecutor(wheelController);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
@@ -265,7 +265,7 @@ void initializeCommandExecutor()
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(&leftWheel, &rightWheel);
+  commandExecutor = new CommandExecutor(wheelController);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
@@ -283,7 +283,7 @@ void initializeCommandExecutor()
   int motorRotateAngle = 540; // ここの値をいじってはかって
 
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(&leftWheel, &rightWheel);
+  commandExecutor = new CommandExecutor(wheelController);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();

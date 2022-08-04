@@ -1,7 +1,7 @@
 #ifndef CommandExecutor_H
 #define CommandExecutor_H
 
-#include "Motor.h"
+#include "WheelController.h"
 #include "Predicate.h"
 #include "Command.h"
 #include "Handler.h"
@@ -33,11 +33,10 @@ private:
     vector<Command *> commands;
     vector<Predicate *> predicates;
     vector<Handler *> exitHandlers;
-    Motor *leftWheel;
-    Motor *rightWheel;
+    WheelController *wheelController;
 
 public:
-    CommandExecutor(Motor *leftWheel, Motor *rightWheel);
+    CommandExecutor(WheelController *wheelController);
     void addCommand(Command *command, Predicate *exitCondition, Handler *exitHandler);
     void run();
     void emergencyStop();

@@ -13,6 +13,7 @@ void Stopper::run()
     wheelController->getRightWheel()->stop();
 }
 
-Command *Stopper::generateReverseCommand() {
+Stopper *Stopper::generateReverseCommand()
+{
     return new Stopper(wheelController);
 }

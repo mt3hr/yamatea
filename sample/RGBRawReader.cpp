@@ -11,12 +11,12 @@ RGBRawReader::RGBRawReader(ColorSensor *cs)
 
 void RGBRawReader::run()
 {
-    if (!gotRGB)
+    if (!lockedRGBRawValue)
     {
         colorSensor->getRawColor(rgbRaw);
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
-            gotRGB = true;
+            lockedRGBRawValue = true;
         }
         char rStr[20];
         char gStr[20];
@@ -47,7 +47,7 @@ void RGBRawReader::run()
     }
 }
 
-Command *RGBRawReader::generateReverseCommand()
+RGBRawReader *RGBRawReader::generateReverseCommand()
 {
     return new RGBRawReader(colorSensor);
 }

@@ -16,7 +16,7 @@ void PrintStartedMessage::run()
     msg_f("", 7);
 }
 
-Command *PrintStartedMessage::generateReverseCommand()
+PrintStartedMessage *PrintStartedMessage::generateReverseCommand()
 {
     return new PrintStartedMessage();
 }

@@ -12,6 +12,11 @@ class ObstacleDetectRunner : public Command
 private:
     int leftObstacleDistance;
     int rightObstacleDistance;
+
+protected:
+    void setLeftObstacleDistance(int leftObstacleDistance);
+    void setRightObstacleDistance(int rightObstacleDistance);
+
 public:
     ObstacleDetectRunner();
     int getLeftObstacleDistance();

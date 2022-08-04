@@ -6,7 +6,7 @@ util.o \
 Preparizable.o \
 Command.o \
 Predicate.o \
-ExecuteNumberOfTimesPredicate.o \
+NumberOfTimesPredicate.o \
 PrintStartedMessage.o \
 CommandAndPredicate.o \
 WheelController.o \

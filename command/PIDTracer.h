@@ -31,13 +31,13 @@ private:
     float kd = 0;
     float dt = 0;
     int targetBrightness = 0;
-    WheelController *wheelController;
-    ColorSensor *colorSensor;
     float beforeP = 0;
-    PIDTracerMode mode;
+    PIDTracerMode traceMode;
+    ColorSensor *colorSensor;
+    WheelController *wheelController;
 
 public:
-    PIDTracer(PIDTracerMode mode, int pwm, float kp, float ki, float kd, float dt, int target, WheelController *wheelController, ColorSensor *colorSensor);
+    PIDTracer(PIDTracerMode traceMode, int pwm, float kp, float ki, float kd, float dt, int targetBrightness, WheelController *wheelController, ColorSensor *colorSensor);
     void run() override;
     PIDTracer *generateReverseCommand() override;
     void setTargetBrightness(int targetBrightness);

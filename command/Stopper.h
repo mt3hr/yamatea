@@ -12,7 +12,7 @@ private:
 public:
     Stopper(WheelController *wheelController);
     void run() override;
-    Command *generateReverseCommand() override;
+    Stopper *generateReverseCommand() override;
 };
 
 #endif

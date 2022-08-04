@@ -69,9 +69,9 @@ void PIDTargetBrightnessCalibrator::run()
     }
     else
     {
-        if (!handlerExecuted)
+        if (!executedHandler)
         {
-            handlerExecuted = true;
+            executedHandler = true;
             for (int i = 0; i < ((int)handlers.size()); i++)
             {
                 Handler *handler = handlers[i];

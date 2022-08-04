@@ -26,16 +26,16 @@ using namespace std;
 class PIDTargetBrightnessCalibrator : public Command
 {
 private:
-    bool printedReadBlackMessage = false;
-    bool printedReadWhiteMessage = false;
-    bool printedCalibratedMessage = false;
+    bool printedReadBlackMessage = false;  // NOTE モデルに反映しません。
+    bool printedReadWhiteMessage = false;  // NOTE モデルに反映しません。
+    bool printedCalibratedMessage = false; // NOTE モデルに反映しません。
     int white = 0;
     int black = 100;
     bool readedWhite = false;
     bool readedBlack = false;
     ColorSensor *colorSensor;
     vector<Handler *> handlers;
-    bool handlerExecuted = false;
+    bool executedHandler = false;
     Clock *clock;
 
 public:

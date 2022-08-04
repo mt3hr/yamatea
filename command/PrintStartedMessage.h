@@ -9,7 +9,7 @@ private:
 public:
     PrintStartedMessage();
     void run() override;
-    Command *generateReverseCommand() override;
+    PrintStartedMessage *generateReverseCommand() override;
 };
 
 #endif

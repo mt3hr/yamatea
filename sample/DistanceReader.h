@@ -20,7 +20,7 @@ private:
 public:
     DistanceReader(SonarSensor *sonarSensor);
     void run();
-    Command *generateReverseCommand();
+    DistanceReader *generateReverseCommand();
 };
 
 #endif

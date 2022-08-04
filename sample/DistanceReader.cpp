@@ -1,5 +1,4 @@
 #include "DistanceReader.h"
-#include "Command.h"
 #include "SonarSensor.h"
 #include "util.h"
 
@@ -25,7 +24,7 @@ void DistanceReader::run()
     msg_f("", 7);
 }
 
-Command *DistanceReader::generateReverseCommand()
+DistanceReader *DistanceReader::generateReverseCommand()
 {
     return new DistanceReader(sonarSensor);
 }
