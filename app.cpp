@@ -27,11 +27,28 @@
 using namespace ev3api;
 
 // ********** 設定ここから **********
-// #define PrintMessage // コメントアウトを外すとコマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので、コメントアウトするしないで走行が変わる。
-bool isRightCourse = false;                  // 左コースならfalse, 右コースならtrue。
+
+// モード設定ここから
+// どれか一つを有効化して、それ以外をコメントアウトしてください
+#define LeftCourceMode // 左コース用プログラム
+//#define RightCourceMode // 右コース用プログラム
+//#define DistanceReaderMode // 距離をはかり続けるプログラム
+//#define RGBRawReaderMoe    // RGBRawの値をはかるプログラム
+// モード設定ここまで
+
 bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
 int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
+// #define PrintMessage // コメントアウトを外すとコマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので、コメントアウトするしないで走行が変わる。
+
 // ********** 設定ここまで **********
+
+// 設定反映処理
+bool isRightCourse =
+#if defined(RightCourceMode)
+    true;
+#elif defined(LeftCourceMode)
+    false;
+#endif
 
 // EV3APIオブジェクトの初期化
 TouchSensor touchSensor(PORT_1);
@@ -43,6 +60,7 @@ Clock clock;
 CommandExecutor *commandExecutor;
 WheelController *wheelController = new WheelController(&leftWheel, &rightWheel);
 
+#if defined(LeftCourceMode) | defined(RightCourceMode)
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
@@ -213,6 +231,39 @@ void initializeCommandExecutor()
     pidTargetBrightnessCalibrator->addRoadedHandler(new SetPIDTargetBrightnessWhenCalibratedHandler(strawberryPIDTracer, pidTargetBrightnessCalibrator));
   }
 }
+#endif
+
+#ifdef DistanceReaderMode
+void initializeCommandExecutor()
+{
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(&leftWheel, &rightWheel);
+
+  // なにもしないハンドラ
+  Handler *doNothingHandler = new Handler();
+
+  // distanceReaderの初期化とCommandExecutorへの追加
+  DistanceReder *distanceReader = new DistanceReader(sonarSensor);
+  Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
+  commandExecutor->addCommand(distanceReader, startButtonPredicate, doNothingHandler);
+}
+#endif
+
+#ifdef RGBRawReaderMode
+void initializeCommandExecutor()
+{
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(&leftWheel, &rightWheel);
+
+  // なにもしないハンドラ
+  Handler *doNothingHandler = new Handler();
+
+  // rgbRawReaderの初期化とCommandExecutorへの追加
+  RGBRawReader *rgbRawReader = new RGBRawReader(colorSensor)
+      Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
+  commandExecutor->addCommand(rgbRawReader, startButtonPredicate, doNothingHandler);
+}
+#endif
 
 void tracer_task(intptr_t exinf)
 {
