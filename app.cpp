@@ -23,6 +23,7 @@
 #include "PrintStartedMessage.h"
 #include "ExecuteNumberOfTimesPredicate.h"
 #include "SuitableForRightCourse.h"
+#include "Stopper.h"
 
 using namespace ev3api;
 
@@ -34,6 +35,7 @@ using namespace ev3api;
 //#define RightCourceMode // 右コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMoe    // RGBRawの値をはかるプログラム
+//#define Rotation360Test // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 // モード設定ここまで
 
 bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
@@ -47,6 +49,8 @@ bool isRightCourse =
 #if defined(RightCourceMode)
     true;
 #elif defined(LeftCourceMode)
+    false;
+#else
     false;
 #endif
 
@@ -69,7 +73,7 @@ void initializeCommandExecutor()
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
 
-  // 距離によるシーン切り替え用変数。MotorCountPredicate
+  // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
   int sceneBananaMotorCountPredicateArg = 1200;       // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
@@ -259,9 +263,37 @@ void initializeCommandExecutor()
   Handler *doNothingHandler = new Handler();
 
   // rgbRawReaderの初期化とCommandExecutorへの追加
-  RGBRawReader *rgbRawReader = new RGBRawReader(colorSensor)
-      Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
+  RGBRawReader *rgbRawReader = new RGBRawReader(colorSensor);
+  Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
   commandExecutor->addCommand(rgbRawReader, startButtonPredicate, doNothingHandler);
+}
+#endif
+
+#if defined(Rotation360Test)
+void initializeCommandExecutor()
+{
+  int motorRotateAngle = 540; // ここの値をいじってはかって
+
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(&leftWheel, &rightWheel);
+
+  // なにもしないハンドラ
+  Handler *doNothingHandler = new Handler();
+
+  // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
+  Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
+  commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
+
+  // 走行体回転コマンドの初期化とCommandExecutorへの追加
+  int pwm = 10;
+  Walker *walker = new Walker(pwm, -pwm, wheelController); // 右に向く
+  Predicate *walkerPredicate = new MotorCountPredicate(&leftWheel, motorRotateAngle);
+  commandExecutor->addCommand(walker, walkerPredicate, doNothingHandler);
+
+  // 停止コマンドの初期化とCommandExecutorへの追加
+  Stopper *stopper = new Stopper(wheelController);
+  Predicate *stopperPredicate = new ExecuteNumberOfTimesPredicate(1);
+  commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
 }
 #endif
 

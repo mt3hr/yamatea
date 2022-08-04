@@ -24,6 +24,7 @@ DistanceReader.o \
 ArmController.o \
 ExecutePreparationWhenExitBeforeCommandHandler.o \
 MotorRotationAnglePredicate.o \
+Stopper.o \
 
 SRCLANG := c++
 
