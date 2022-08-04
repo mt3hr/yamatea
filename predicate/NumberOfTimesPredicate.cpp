@@ -2,7 +2,7 @@
 
 NumberOfTimesPredicate::NumberOfTimesPredicate(int tc)
 {
-    targetCount = c;
+    targetCount = tc;
 }
 
 bool NumberOfTimesPredicate::test()

@@ -22,7 +22,7 @@
 #include "CommandAndPredicate.h"
 #include "MotorRotationAnglePredicate.h"
 #include "PrintStartedMessage.h"
-#include "ExecuteNumberOfTimesPredicate.h"
+#include "NumberOfTimesPredicate.h"
 #include "SuitableForRightCourse.h"
 #include "Stopper.h"
 #include "RGBRawReader.h"
@@ -121,7 +121,7 @@ void initializeCommandExecutor()
 
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
   PrintStartedMessage *printStartedMessage = new PrintStartedMessage();
-  Predicate *printStartedMessagePredicate = new ExecuteNumberOfTimesPredicate(1);
+  Predicate *printStartedMessagePredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(printStartedMessage, printStartedMessagePredicate, doNothingHandler);
 
   // BananaPIDTracerの初期化とCommandExecutorへの追加
@@ -300,7 +300,7 @@ void initializeCommandExecutor()
 
   // 停止コマンドの初期化とCommandExecutorへの追加
   Stopper *stopper = new Stopper(wheelController);
-  Predicate *stopperPredicate = new ExecuteNumberOfTimesPredicate(1);
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
 }
 #endif
