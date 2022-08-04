@@ -55,18 +55,20 @@ void PIDTracer::run()
     char dStr[30];
     char lStr[30];
     char rStr[30];
+    char bStr[30];
     sprintf(pStr, "p:%.2lf", p);
     sprintf(iStr, "i:%.2lf", i);
     sprintf(dStr, "d:%.2lf", d);
     sprintf(lStr, "leftPow :%d", leftPower);
     sprintf(rStr, "rightPow:%d", rightPower);
+    sprintf(bStr, "brightness:%d", bright);
     msg_f("pid tracing", 1);
     msg_f(pStr, 2);
     msg_f(iStr, 3);
     msg_f(dStr, 4);
     msg_f(lStr, 5);
     msg_f(rStr, 6);
-    msg_f("", 7);
+    msg_f(bStr, 7);
 #endif
 }
 
