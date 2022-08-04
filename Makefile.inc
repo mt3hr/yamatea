@@ -25,6 +25,11 @@ ArmController.o \
 ExecutePreparationWhenExitBeforeCommandHandler.o \
 MotorRotationAnglePredicate.o \
 Stopper.o \
+ObstacleDetectRunner.o \
+UFORunner.o \
+AwaitingSignalRunner.o \
+StraightBetweenRunner.o \
+SuperSocialDistanceRunner.o
 
 SRCLANG := c++
 
