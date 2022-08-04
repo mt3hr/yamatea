@@ -30,7 +30,7 @@ app.cppのサンプルコードを載せておきます。
 #include "Command.h"
 #include "CommandExecutor.h"
 #include "Predicate.h"
-#include "Handler.h
+#include "Handler.h"
 #include "WheelController.h"
 #include "Walker.h"
 #include "MotorCountPredicate.h"
