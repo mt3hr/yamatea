@@ -44,6 +44,7 @@ bool printMessage;
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotation360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 // モード設定ここまで
+
 void setting()
 {
   enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
