@@ -9,6 +9,7 @@
 
 #include "vector"
 
+#include "IsPrintMessage.h"
 #include "Command.h"
 #include "CommandExecutor.h"
 #include "WheelController.h"
@@ -28,7 +29,6 @@
 #include "SuitableForRightCourse.h"
 #include "Stopper.h"
 #include "RGBRawReader.h"
-#include "IsPrintMessage.h"
 
 using namespace std;
 using namespace ev3api;
