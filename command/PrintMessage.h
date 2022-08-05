@@ -1,18 +1,18 @@
 #ifndef PrintMessage_H
 #define PrintMessage_H
 
-#include "vector"
 #include "Command.h"
+#include "string"
 
 using namespace std;
 
 class PrintMessage : public Command
 {
 private:
-    vector<const char *> messageLines;
+    string *messageLines;
 
 public:
-    PrintMessage(vector<const char *> messageLines);
+    PrintMessage(string *messageLines);
     void run() override;
     PrintMessage *generateReverseCommand() override;
 };

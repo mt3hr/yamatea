@@ -1,5 +1,5 @@
 #include "PIDTracer.h"
-#include "IsPrintMessage.h"
+#include "PrintMessageMode.h"
 #include "ColorSensor.h"
 #include "WheelController.h"
 #include "util.h"
@@ -50,7 +50,7 @@ void PIDTracer::run()
     wheelController->getLeftWheel()->setPWM(leftPower);
     wheelController->getRightWheel()->setPWM(rightPower);
 
-    if (isPrintMessage)
+    if (printMessageMode)
     {
         char pStr[30];
         char iStr[30];

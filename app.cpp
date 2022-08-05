@@ -7,9 +7,10 @@
 #include "app.h"
 #include "util.h"
 
-#include "vector"
+#include "string"
 
-#include "IsPrintMessage.h"
+#include "PrintMessageMode.h"
+#include "PrintMessage.h"
 #include "Command.h"
 #include "CommandExecutor.h"
 #include "WheelController.h"
@@ -24,7 +25,6 @@
 #include "SetPIDTargetBrightnessWhenCalibratedHandler.h"
 #include "CommandAndPredicate.h"
 #include "MotorRotationAnglePredicate.h"
-#include "PrintMessage.h"
 #include "NumberOfTimesPredicate.h"
 #include "SuitableForRightCourse.h"
 #include "Stopper.h"
@@ -35,6 +35,7 @@ using namespace ev3api;
 
 bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
 int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
+bool printMessageMode = false;
 
 // ********** 設定ここから **********
 
@@ -50,9 +51,9 @@ int targetBrightness = 20;                   // enableCalibrateTargetBrightness�
 
 void setting()
 {
+  printMessageMode = true;                // trueにすると、コマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。
   enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
   targetBrightness = 20;                  // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
-  isPrintMessage = false;                 // trueにするとコマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので、true, falseで走行が変わる。
 }
 
 // ********** 設定ここまで **********
@@ -128,7 +129,7 @@ void initializeCommandExecutor()
   int rightPow;
 
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
-  vector<const char *> messageLines = {
+  string messageLines[] = {
       "Started!!\r\n",
       "GOGOGO!!\r\n",
   };

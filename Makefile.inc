@@ -1,7 +1,7 @@
 mkfile_path := $(dir $(lastword $(MAKEFILE_LIST)))
 
 APPL_CXXOBJS += \
-IsPrintMessage.o \
+PrintMessageMode.o \
 PrintMessage.o \
 util.o \
 Preparizable.o \

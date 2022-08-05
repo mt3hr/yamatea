@@ -1,10 +1,7 @@
 #include "PrintMessage.h"
-#include "vector"
 #include "util.h"
 
-using namespace std;
-
-PrintMessage::PrintMessage(vector<const char *> ml)
+PrintMessage::PrintMessage(string *ml)
 {
     messageLines = ml;
 }
@@ -14,7 +11,7 @@ void PrintMessage::run()
     int i = 0;
     for (; i < ((int)sizeof(messageLines)); i++)
     {
-        msg_f(messageLines[i], i + 1);
+        msg_f(messageLines[i].c_str(), i + 1);
     }
     for (; i < 7; i++)
     {
