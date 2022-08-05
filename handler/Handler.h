@@ -10,6 +10,7 @@ class Handler
 {
 private:
 public:
+    virtual ~Handler();
     virtual void handle();
 };
 

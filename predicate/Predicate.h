@@ -11,6 +11,7 @@
 class Predicate
 {
 public:
+    virtual ~Predicate();
     virtual bool test();
 };
 #endif

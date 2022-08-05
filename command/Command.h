@@ -12,6 +12,7 @@
 class Command
 {
 public:
+    virtual ~Command();
     virtual void run();
     virtual Command *generateReverseCommand();
 };

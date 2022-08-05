@@ -1,5 +1,9 @@
 #include "Command.h"
 
+Command::~Command()
+{
+}
+
 // オーバーライドして使って
 void Command::run()
 {

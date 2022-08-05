@@ -63,15 +63,18 @@ bool isRightCourse =
 #endif
 
 // EV3APIオブジェクトの初期化
-TouchSensor touchSensor(PORT_1);
-ColorSensor colorSensor(PORT_2);
-SonarSensor sonarSensor(PORT_3);
-Motor leftWheel(PORT_C);
-Motor rightWheel(PORT_B);
-Clock clock;
-CommandExecutor *commandExecutor;
-WheelController *wheelController = new WheelController(&leftWheel, &rightWheel);
+TouchSensor *touchSensor = new TouchSensor(PORT_1);
+ColorSensor *colorSensor = new ColorSensor(PORT_2);
+SonarSensor *sonarSensor = new SonarSensor(PORT_3);
+Motor *leftWheel = new Motor(PORT_C);
+Motor *rightWheel = new Motor(PORT_B);
+Clock *clock = new Clock();
 
+// CommandExecutorの宣言とWheelControllerの初期化
+CommandExecutor *commandExecutor;
+WheelController *wheelController = new WheelController(leftWheel, rightWheel);
+
+// LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
 #if defined(LeftCourceMode) | defined(RightCourceMode)
 void initializeCommandExecutor()
 {
@@ -98,8 +101,8 @@ void initializeCommandExecutor()
   // Commandの定義とCommandExecutorへの追加ここから
 
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
-  PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator = new PIDTargetBrightnessCalibrator(&colorSensor, &clock);
-  Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
+  PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator = new PIDTargetBrightnessCalibrator(colorSensor, clock);
+  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
   if (enableCalibrateTargetBrightness)
   {
     commandExecutor->addCommand(pidTargetBrightnessCalibrator, startButtonPredicate, doNothingHandler);
@@ -130,7 +133,7 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.7;
   dt = 1;
-  PIDTracer *bananaPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
+  PIDTracer *bananaPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
   bananaPIDTracer = ifRightThenReverseCommand(bananaPIDTracer, isRightCourse);
   MotorCountPredicate *predicateBanana = generateMotorCountPredicate(isRightCourse, sceneBananaMotorCountPredicateArg, wheelController);
   commandExecutor->addCommand(bananaPIDTracer, predicateBanana, doNothingHandler);
@@ -141,7 +144,7 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.65;
   dt = 1;
-  PIDTracer *orangePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
+  PIDTracer *orangePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
   orangePIDTracer = ifRightThenReverseCommand(orangePIDTracer, isRightCourse);
   MotorCountPredicate *predicateOrange = generateMotorCountPredicate(isRightCourse, sceneOrangeMotorCountPredicateArg, wheelController);
   commandExecutor->addCommand(orangePIDTracer, predicateOrange, doNothingHandler);
@@ -160,7 +163,7 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.7;
   dt = 1;
-  PIDTracer *cherryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
+  PIDTracer *cherryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
   cherryPIDTracer = ifRightThenReverseCommand(cherryPIDTracer, isRightCourse);
   MotorCountPredicate *predicateCherry = generateMotorCountPredicate(isRightCourse, sceneCherryMotorCountPredicateArg, wheelController);
   commandExecutor->addCommand(cherryPIDTracer, predicateCherry, doNothingHandler);
@@ -171,7 +174,7 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.7;
   dt = 1;
-  PIDTracer *waterMelonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
+  PIDTracer *waterMelonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
   waterMelonPIDTracer = ifRightThenReverseCommand(waterMelonPIDTracer, isRightCourse);
   MotorCountPredicate *predicateWaterMelon = generateMotorCountPredicate(isRightCourse, sceneWaterMelonMotorCountPredicateArg, wheelController);
   commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon, doNothingHandler);
@@ -190,7 +193,7 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.7;
   dt = 1;
-  PIDTracer *dorianPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
+  PIDTracer *dorianPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
   dorianPIDTracer = ifRightThenReverseCommand(dorianPIDTracer, isRightCourse);
   MotorCountPredicate *predicateDorian = generateMotorCountPredicate(isRightCourse, sceneDorianMotorCountPredicateArg, wheelController);
   commandExecutor->addCommand(dorianPIDTracer, predicateDorian, doNothingHandler);
@@ -201,7 +204,7 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.7;
   dt = 1;
-  PIDTracer *melonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
+  PIDTracer *melonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
   melonPIDTracer = ifRightThenReverseCommand(melonPIDTracer, isRightCourse);
   MotorCountPredicate *predicateMelon = generateMotorCountPredicate(isRightCourse, sceneMelonMotorCountPredicateArg, wheelController);
   commandExecutor->addCommand(melonPIDTracer, predicateMelon, doNothingHandler);
@@ -212,7 +215,7 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.6;
   dt = 1;
-  PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
+  PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
   cucumberPIDTracer = ifRightThenReverseCommand(cucumberPIDTracer, isRightCourse);
   MotorCountPredicate *predicateCucumber = generateMotorCountPredicate(isRightCourse, sceneCucumberMotorCountPredicateArg, wheelController);
   commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber, doNothingHandler);
@@ -223,7 +226,7 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.6;
   dt = 1;
-  PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, &colorSensor);
+  PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
   strawberryPIDTracer = ifRightThenReverseCommand(strawberryPIDTracer, isRightCourse);
   MotorCountPredicate *predicateStrawberry = generateMotorCountPredicate(isRightCourse, sceneStrawberryMotorCountPredicateArg, wheelController);
   commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry, doNothingHandler);
@@ -245,6 +248,7 @@ void initializeCommandExecutor()
 }
 #endif
 
+// DistanceReaderModeの場合のcommandExecutor初期化処理
 #ifdef DistanceReaderMode
 void initializeCommandExecutor()
 {
@@ -255,12 +259,13 @@ void initializeCommandExecutor()
   Handler *doNothingHandler = new Handler();
 
   // distanceReaderの初期化とCommandExecutorへの追加
-  DistanceReader *distanceReader = new DistanceReader(&sonarSensor);
-  Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
+  DistanceReader *distanceReader = new DistanceReader(sonarSensor);
+  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
   commandExecutor->addCommand(distanceReader, startButtonPredicate, doNothingHandler);
 }
 #endif
 
+// RGBRawReaderModeの場合のcommandExecutor初期化処理
 #ifdef RGBRawReaderMode
 void initializeCommandExecutor()
 {
@@ -271,12 +276,13 @@ void initializeCommandExecutor()
   Handler *doNothingHandler = new Handler();
 
   // rgbRawReaderの初期化とCommandExecutorへの追加
-  RGBRawReader *rgbRawReader = new RGBRawReader(&colorSensor);
-  Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
+  RGBRawReader *rgbRawReader = new RGBRawReader(colorSensor);
+  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
   commandExecutor->addCommand(rgbRawReader, startButtonPredicate, doNothingHandler);
 }
 #endif
 
+// Rotation360Testの場合のcommandExecutor初期化処理
 #if defined(Rotation360Test)
 void initializeCommandExecutor()
 {
@@ -289,13 +295,13 @@ void initializeCommandExecutor()
   Handler *doNothingHandler = new Handler();
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
-  Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
+  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
   commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
   int pwm = 10;
   Walker *walker = new Walker(pwm, -pwm, wheelController); // 右に向く
-  Predicate *walkerPredicate = new MotorCountPredicate(&leftWheel, motorRotateAngle);
+  Predicate *walkerPredicate = new MotorCountPredicate(leftWheel, motorRotateAngle);
   commandExecutor->addCommand(walker, walkerPredicate, doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
@@ -323,11 +329,20 @@ void main_task(intptr_t unused)
 
   while (!ev3_button_is_pressed(LEFT_BUTTON))
   {
-    clock.sleep(duration);
+    clock->sleep(duration);
   }
 
   stp_cyc(TRACER_CYC);
+
   commandExecutor->emergencyStop();
+  delete (commandExecutor);
+  delete (wheelController);
+  delete (touchSensor);
+  delete (colorSensor);
+  delete (sonarSensor);
+  delete (leftWheel);
+  delete (rightWheel);
+  delete (clock);
 
   ext_tsk();
 }

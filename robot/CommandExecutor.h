@@ -37,6 +37,7 @@ private:
 
 public:
     CommandExecutor(WheelController *wheelController);
+    ~CommandExecutor();
     void addCommand(Command *command, Predicate *exitCondition, Handler *exitHandler);
     void run();
     void emergencyStop();

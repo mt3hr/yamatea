@@ -10,6 +10,22 @@ CommandExecutor::CommandExecutor(WheelController *wc)
     wheelController = wc;
 }
 
+CommandExecutor::~CommandExecutor()
+{
+    for (int i = 0; i < ((int)sizeof(commands)); i++)
+    {
+        delete (commands[i]);
+    }
+    for (int i = 0; i < ((int)sizeof(predicates)); i++)
+    {
+        delete (predicates[i]);
+    }
+    for (int i = 0; i < ((int)sizeof(exitHandlers)); i++)
+    {
+        delete (exitHandlers[i]);
+    }
+}
+
 void CommandExecutor::addCommand(Command *command, Predicate *exitCondition, Handler *exitHandler)
 {
     commands.push_back(command);
