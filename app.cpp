@@ -7,6 +7,8 @@
 #include "app.h"
 #include "util.h"
 
+#include "vector"
+
 #include "Command.h"
 #include "CommandExecutor.h"
 #include "WheelController.h"
@@ -21,18 +23,18 @@
 #include "SetPIDTargetBrightnessWhenCalibratedHandler.h"
 #include "CommandAndPredicate.h"
 #include "MotorRotationAnglePredicate.h"
-#include "PrintStartedMessage.h"
+#include "PrintMessage.h"
 #include "NumberOfTimesPredicate.h"
 #include "SuitableForRightCourse.h"
 #include "Stopper.h"
 #include "RGBRawReader.h"
-#include "PrintMessage.h"
+#include "IsPrintMessage.h"
 
+using namespace std;
 using namespace ev3api;
 
 bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
 int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
-bool printMessage;
 
 // ********** 設定ここから **********
 
@@ -43,14 +45,16 @@ bool printMessage;
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotation360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
+//#define StraightMode // 直進するプログラム
 // モード設定ここまで
 
 void setting()
 {
   enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
   targetBrightness = 20;                  // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
-  printMessage = false;                   // trueにするとコマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので、true, falseで走行が変わる。
+  isPrintMessage = false;                 // trueにするとコマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので、true, falseで走行が変わる。
 }
+
 // ********** 設定ここまで **********
 
 // 設定反映処理
@@ -124,9 +128,13 @@ void initializeCommandExecutor()
   int rightPow;
 
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
-  PrintStartedMessage *printStartedMessage = new PrintStartedMessage();
-  Predicate *printStartedMessagePredicate = new NumberOfTimesPredicate(1);
-  commandExecutor->addCommand(printStartedMessage, printStartedMessagePredicate, doNothingHandler);
+  vector<const char *> messageLines = {
+      "Started!!\r\n",
+      "GOGOGO!!\r\n",
+  };
+  PrintMessage *printMessage = new PrintMessage(messageLines);
+  Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(printMessage, printMessagePredicate, doNothingHandler);
 
   // BananaPIDTracerの初期化とCommandExecutorへの追加
   pwm = 20;
@@ -303,6 +311,32 @@ void initializeCommandExecutor()
   int pwm = 10;
   Walker *walker = new Walker(pwm, -pwm, wheelController); // 右に向く
   Predicate *walkerPredicate = new MotorCountPredicate(leftWheel, motorRotateAngle);
+  commandExecutor->addCommand(walker, walkerPredicate, doNothingHandler);
+
+  // 停止コマンドの初期化とCommandExecutorへの追加
+  Stopper *stopper = new Stopper(wheelController);
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
+}
+#endif
+
+#ifdef StraightMode
+void initializeCommandExecutor()
+{
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(wheelController);
+
+  // なにもしないハンドラ
+  Handler *doNothingHandler = new Handler();
+
+  // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
+  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
+
+  // 走行体回転コマンドの初期化とCommandExecutorへの追加
+  int pwm = 20;
+  Walker *walker = new Walker(pwm, pwm, wheelController);
+  Predicate *walkerPredicate = new MotorCountPredicate(leftWheel, 1000);
   commandExecutor->addCommand(walker, walkerPredicate, doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加

@@ -1,13 +1,13 @@
 mkfile_path := $(dir $(lastword $(MAKEFILE_LIST)))
 
 APPL_CXXOBJS += \
+IsPrintMessage.o \
 PrintMessage.o \
 util.o \
 Preparizable.o \
 Command.o \
 Predicate.o \
 NumberOfTimesPredicate.o \
-PrintStartedMessage.o \
 CommandAndPredicate.o \
 WheelController.o \
 MotorCountPredicate.o \
@@ -30,7 +30,7 @@ ObstacleDetectRunner.o \
 UFORunner.o \
 AwaitingSignalRunner.o \
 StraightBetweenRunner.o \
-SuperSocialDistanceRunner.o
+SuperSocialDistanceRunner.o \
 
 SRCLANG := c++
 

@@ -1,5 +1,5 @@
 #include "Walker.h"
-#include "PrintMessage.h"
+#include "IsPrintMessage.h"
 #include "WheelController.h"
 #include "util.h"
 
@@ -15,7 +15,7 @@ void Walker::run()
     wheelController->getLeftWheel()->setPWM(leftPow);
     wheelController->getRightWheel()->setPWM(rightPow);
 
-    if (printMessage)
+    if (isPrintMessage)
     {
         char lStr[30];
         char rStr[30];
