@@ -42,7 +42,7 @@ bool printMessage;
 //#define RightCourceMode // 右コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
-//#define Rotation360Test // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
+//#define Rotation360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 // モード設定ここまで
 void setting()
 {
@@ -282,8 +282,8 @@ void initializeCommandExecutor()
 }
 #endif
 
-// Rotation360Testの場合のcommandExecutor初期化処理
-#if defined(Rotation360Test)
+// Rotation360TestModeの場合のcommandExecutor初期化処理
+#if defined(Rotation360TestMode)
 void initializeCommandExecutor()
 {
   int motorRotateAngle = 540; // ここの値をいじってはかって
