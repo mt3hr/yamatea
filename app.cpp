@@ -335,14 +335,14 @@ void main_task(intptr_t unused)
   stp_cyc(TRACER_CYC);
 
   commandExecutor->emergencyStop();
-  delete (commandExecutor);
-  delete (wheelController);
-  delete (touchSensor);
-  delete (colorSensor);
-  delete (sonarSensor);
-  delete (leftWheel);
-  delete (rightWheel);
-  delete (clock);
+  delete commandExecutor;
+  delete wheelController;
+  delete touchSensor;
+  delete colorSensor;
+  delete sonarSensor;
+  delete leftWheel;
+  delete rightWheel;
+  delete clock;
 
   ext_tsk();
 }

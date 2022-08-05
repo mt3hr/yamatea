@@ -38,9 +38,9 @@ app.cppのサンプルコードを載せておきます。
 using namespace ev3api;
 
 // apiで使うものの初期化
-Clock clock;
-Motor leftWheel(PORT_C);
-Motor rightWheel(PORT_B);
+Clock *clock = new Clock();
+Motor *leftWheel = new Motor(PORT_C);
+Motor *rightWheel = new Motor(PORT_B);
 
 // Commandを実行するオブジェクト
 CommandExecutor *commandExecutor;
@@ -50,7 +50,7 @@ void initialize()
 {
   // commandExecutorとwheelControllerの初期化
   commandExecutor = new CommandExecutor();
-  WheelController *wheelController = new WheelController(&leftWheel, &rightWheel);
+  WheelController *wheelController = new WheelController(leftWheel, rightWheel);
 
   // シンプルなウォーカ。左右車輪20のpwmで進む。
   int leftPow = 20;
@@ -59,7 +59,7 @@ void initialize()
 
   // ウォーカを終了するタイミングを決定するPredicator
   // この例では左車輪が360度回転したら終了する
-  Predicate *oneRotatePredicate = new MotorCountPredicate(&leftWheel, 360);
+  Predicate *oneRotatePredicate = new MotorCountPredicate(leftWheel, 360);
 
   // コマンド終了時に走らされるハンドラ。この例ではなにもしない。
   Handler *donothingExitHandler = new Hanler();
@@ -93,6 +93,14 @@ void main_task(intptr_t unused)
   }
 
   stp_cyc(TRACER_CYC);
+
+  // 終了処理。各オブジェクトの削除
+  commandExecutor->emergencyStop();
+  delete commandExecutor;
+  delete clock;
+  delete leftWheel;
+  delete rightWheel;
+
   ext_tsk();
 }
 
