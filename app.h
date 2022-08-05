@@ -3,6 +3,7 @@
 #ifdef __cplusplus
 extern "C"
 {
+    void __sync_synchronize() {} // TODO なんかこれないとビルド失敗するけど、メモリガードが機能しなくなるらしいのでよくないっぽい https://support.xilinx.com/s/question/0D52E00006hpjyKSAQ/mfloatabisoft-causes-link-error-in-c-projects?language=ja
 #endif
 
 #include "ev3api.h"
