@@ -1,45 +1,51 @@
 #include "Walker.h"
 #include "WheelController.h"
+#include "PrintMessage.h"
+#include "Setting.h"
 #include "string"
+#include "sstream"
+#include "vector"
+#include "iomanip"
 
 using namespace std;
 
-Walker::~Walker()
-{
-    delete printMessage;
-}
-
 Walker::Walker(int lp, int rp, WheelController *wc)
 {
-    leftPow = lp;
-    rightPow = rp;
+    leftPower = lp;
+    rightPower = rp;
     wheelController = wc;
-
-    string messageLines[] = {"walker started"};
-    printMessage = new PrintMessage(messageLines, false);
 }
 
 void Walker::run()
 {
-    wheelController->getLeftWheel()->setPWM(leftPow);
-    wheelController->getRightWheel()->setPWM(rightPow);
+    wheelController->getLeftWheel()->setPWM(leftPower);
+    wheelController->getRightWheel()->setPWM(rightPower);
 
-    // メッセージ出力処理
-    char lStr[30];
-    char rStr[30];
-    sprintf(lStr, "leftPow :%d", leftPow);
-    sprintf(rStr, "rightPow:%d", rightPow);
+    // メッセージ出力処理。変数名は雑。
+    if (enablePrintMessageMode)
+    {
+        stringstream ls;
+        stringstream rs;
 
-    string messageLines[] = {
-        "scenario tracing",
-        string(lStr),
-        string(rStr),
-    };
-    printMessage->setMessageLines(messageLines);
-    printMessage->run();
+        ls.clear();
+        rs.clear();
+
+        ls.str("");
+        rs.str("");
+
+        ls << "leftPow :" << float(leftPower);  // intのままだと出力されないのでfloatに変換する
+        rs << "rightPow:" << float(rightPower); // intのままだと出力されないのでfloatに変換する
+
+        vector<string> messageLines;
+        messageLines.push_back("walking");
+        messageLines.push_back(ls.str());
+        messageLines.push_back(rs.str());
+        PrintMessage printMessage(messageLines, false);
+        printMessage.run();
+    }
 }
 
 Walker *Walker::generateReverseCommand()
 {
-    return new Walker(rightPow, leftPow, wheelController);
+    return new Walker(rightPower, leftPower, wheelController);
 }

@@ -1,15 +1,15 @@
 #include "PIDTracer.h"
 #include "ColorSensor.h"
 #include "WheelController.h"
+#include "PrintMessage.h"
+#include "Setting.h"
 #include "string"
+#include "vector"
+#include "sstream"
+#include "iomanip"
 
 using namespace ev3api;
 using namespace std;
-
-PIDTracer::~PIDTracer()
-{
-    delete printMessage;
-}
 
 PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, float kda, float dta, int targetBrightnessa, WheelController *wheelControllera, ColorSensor *colorSensora)
 {
@@ -22,26 +22,22 @@ PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, f
     targetBrightness = targetBrightnessa;
     wheelController = wheelControllera;
     colorSensor = colorSensora;
-    string messageLines[] = {"pid trace started"};
-    printMessage = new PrintMessage(messageLines, false);
 }
 
 void PIDTracer::run()
 {
     // PID制御
-    int bright = colorSensor->getBrightness();
+    brightness = colorSensor->getBrightness();
 
     // PID値の算出ここから
-    float p = bright - targetBrightness;
-    float i = p * dt;
-    float d = (p - beforeP) / dt;
-    float pid = kp * p + ki * i + kd * d;
+    p = brightness - targetBrightness;
+    i = p * dt;
+    d = (p - beforeP) / dt;
+    pid = kp * p + ki * i + kd * d;
     beforeP = p;
     // PID値の算出ここまで
 
     // 右ライントレースか左ライントレースか
-    int leftPower = 0;
-    int rightPower = 0;
     if (traceMode == RIGHT_TRACE)
     {
         leftPower = pwm - pid;
@@ -57,31 +53,52 @@ void PIDTracer::run()
     wheelController->getLeftWheel()->setPWM(leftPower);
     wheelController->getRightWheel()->setPWM(rightPower);
 
-    // メッセージ出力処理
-    char pStr[30];
-    char iStr[30];
-    char dStr[30];
-    char lStr[30];
-    char rStr[30];
-    char bStr[30];
-    sprintf(pStr, "p:%.2lf", p);
-    sprintf(iStr, "i:%.2lf", i);
-    sprintf(dStr, "d:%.2lf", d);
-    sprintf(lStr, "leftPow :%d", leftPower);
-    sprintf(rStr, "rightPow:%d", rightPower);
-    sprintf(bStr, "brightness:%d", bright);
+    // メッセージ出力処理。変数名は雑。
+    if (enablePrintMessageMode)
+    {
+        stringstream ps;
+        stringstream is;
+        stringstream ds;
+        stringstream ls;
+        stringstream rs;
+        stringstream bs;
 
-    string messageLines[] = {
-        "pid tracing",
-        string(pStr),
-        string(iStr),
-        string(dStr),
-        string(lStr),
-        string(rStr),
-        string(bStr),
-    };
-    printMessage->setMessageLines(messageLines);
-    printMessage->run();
+        ps.clear();
+        is.clear();
+        ds.clear();
+        ls.clear();
+        rs.clear();
+        bs.clear();
+
+        ps.str("");
+        is.str("");
+        ds.str("");
+        ls.str("");
+        rs.str("");
+        bs.str("");
+
+        ps << fixed;
+        is << fixed;
+        ds << fixed;
+
+        ps << "p:" << setprecision(2) << p;
+        is << "i:" << setprecision(2) << i;
+        ds << "d:" << setprecision(2) << d;
+        ls << "leftPow   :" << float(leftPower);  // intのままだと出力されないのでfloatに変換する
+        rs << "rightPow  :" << float(rightPower); // intのままだと出力されないのでfloatに変換する
+        bs << "brightness:" << float(brightness); // intのままだと出力されないのでfloatに変換する
+
+        vector<string> messageLines;
+        messageLines.push_back("pid tracing");
+        messageLines.push_back(ps.str());
+        messageLines.push_back(is.str());
+        messageLines.push_back(ds.str());
+        messageLines.push_back(ls.str());
+        messageLines.push_back(rs.str());
+        messageLines.push_back(bs.str());
+        PrintMessage printMessage(messageLines, false);
+        printMessage.run();
+    }
 }
 
 PIDTracer *PIDTracer::generateReverseCommand()

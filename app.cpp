@@ -8,6 +8,7 @@
 #include "util.h"
 
 #include "string"
+#include "vector"
 
 #include "Setting.h"
 #include "PrintMessage.h"
@@ -43,18 +44,12 @@ int targetBrightness = 20;
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 #define LeftCourceMode // 左コース用プログラム
-                       //#define RightCourceMode // 右コース用プログラム
-                       //#define DistanceReaderMode // 距離をはかり続けるプログラム
-                       //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
-                       //#define Rotation360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
-                       //#define StraightMode // 直進するプログラム
-                       // モード設定ここまで
-
-// 情報出力の有効無効設定ここから
-bool enablePrintMessageMode = true;         // trueにすると、コマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。
-bool enablePrintMessageForConsole = true;   // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-bool enablePrintMessageForBluetooth = true; // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-// 情報出力の有効無効設定ここまで
+//#define RightCourceMode // 右コース用プログラム
+//#define DistanceReaderMode // 距離をはかり続けるプログラム
+//#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
+//#define Rotation360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
+//#define StraightMode // 直進するプログラム
+// モード設定ここまで
 
 void setting()
 {
@@ -62,6 +57,13 @@ void setting()
   enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
   targetBrightness = 20;                  // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
   // LeftCourceMode, RightCourceModeの設定ここまで
+
+  // 情報出力の有効無効設定ここから
+  enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。
+  enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
+  enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、すぐ下の行、#define EnableBluetoothのコメントアウトも外して。
+  //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。
+  // 情報出力の有効無効設定ここまで
 }
 
 // ********** 設定ここまで **********
@@ -137,10 +139,9 @@ void initializeCommandExecutor()
   int rightPow;
 
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
-  string messageLines[] = {
-      "Started!!",
-      "GOGOGO!!",
-  };
+  vector<string> messageLines;
+  messageLines.push_back("Started!!");
+  messageLines.push_back("GOGOGO!!");
   PrintMessage *printMessage = new PrintMessage(messageLines, true);
   Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(printMessage, printMessagePredicate, doNothingHandler);
@@ -357,7 +358,7 @@ void initializeCommandExecutor()
 
 void tracer_task(intptr_t exinf)
 {
-  init_f("** yamatea **");
+  init_f(string("** yamatea **"));
   setting();
   commandExecutor->run();
   ext_tsk();

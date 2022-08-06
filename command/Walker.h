@@ -3,10 +3,10 @@
 
 #include "Motor.h"
 #include "Command.h"
-#include "PrintMessage.h"
 #include "WheelController.h"
 
 using namespace ev3api;
+using namespace std;
 
 // Walker
 // 左右モータのpwmを設定してそれに従って走行させ続けるもの
@@ -15,14 +15,12 @@ using namespace ev3api;
 class Walker : public Command
 {
 private:
-    int leftPow;
-    int rightPow;
+    int leftPower;
+    int rightPower;
     WheelController *wheelController;
-    PrintMessage *printMessage; // NOTE モデルには反映しません
 
 public:
-    Walker(int leftPow, int rightPow, WheelController *wheelController);
-    ~Walker();
+    Walker(int leftPower, int rightPower, WheelController *wheelController);
     void run() override;
     Walker *generateReverseCommand() override;
 };

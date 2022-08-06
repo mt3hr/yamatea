@@ -3,6 +3,7 @@
 
 #include "Command.h"
 #include "string"
+#include "vector"
 
 using namespace std;
 
@@ -10,15 +11,14 @@ class PrintMessage : public Command
 {
 private:
     const string EOL_STR = string("\r\n");
-    string *messageLines;
+    vector<string> messageLines;
     bool forcePrint;
     void print();
 
 public:
-    PrintMessage(string *messageLines, bool forcePrint);
+    PrintMessage(vector<string> messageLines, bool forcePrint);
     void run() override;
     PrintMessage *generateReverseCommand() override;
-    void setMessageLines(string *messageLines);
 };
 
 #endif
