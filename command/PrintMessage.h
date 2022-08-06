@@ -8,9 +8,8 @@ using namespace std;
 
 class PrintMessage : public Command
 {
-    const string EOL_STR = "\r\n";
-
 private:
+    const string EOL_STR = string("\r\n");
     string *messageLines;
     bool forcePrint;
     void print();

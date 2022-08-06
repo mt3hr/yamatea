@@ -9,6 +9,7 @@
 
 #include "string"
 
+#include "Setting.h"
 #include "PrintMessage.h"
 #include "Command.h"
 #include "CommandExecutor.h"
@@ -35,7 +36,6 @@ using namespace ev3api;
 // 設定用準備ここから
 bool enableCalibrateTargetBrightness = true;
 int targetBrightness = 20;
-bool printMessageMode = false;
 // 設定用準備ここまで
 
 // ********** 設定ここから **********
@@ -43,26 +43,26 @@ bool printMessageMode = false;
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 #define LeftCourceMode // 左コース用プログラム
-//#define RightCourceMode // 右コース用プログラム
-//#define DistanceReaderMode // 距離をはかり続けるプログラム
-//#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
-//#define Rotation360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
-//#define StraightMode // 直進するプログラム
-// モード設定ここまで
+                       //#define RightCourceMode // 右コース用プログラム
+                       //#define DistanceReaderMode // 距離をはかり続けるプログラム
+                       //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
+                       //#define Rotation360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
+                       //#define StraightMode // 直進するプログラム
+                       // モード設定ここまで
 
 // 情報出力の有効無効設定ここから
-// #define PrintMessageMode             // コメントアウトを外すと、コマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。
-// #define PrintMessageForBlueTooth     // コメントアウトを外すと、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-// #define PrintMessageForConsole       // コメントアウトを外すと、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
+bool enablePrintMessageMode = true;         // trueにすると、コマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。
+bool enablePrintMessageForConsole = true;   // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
+bool enablePrintMessageForBluetooth = true; // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
 // 情報出力の有効無効設定ここまで
 
-// LeftCourceMode, RightCourceModeの設定ここから
 void setting()
 {
+  // LeftCourceMode, RightCourceModeの設定ここから
   enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
   targetBrightness = 20;                  // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
+  // LeftCourceMode, RightCourceModeの設定ここまで
 }
-// LeftCourceMode, RightCourceModeの設定ここまで
 
 // ********** 設定ここまで **********
 
@@ -141,7 +141,7 @@ void initializeCommandExecutor()
       "Started!!",
       "GOGOGO!!",
   };
-  PrintMessage *printMessage = new PrintMessage(messageLines, false);
+  PrintMessage *printMessage = new PrintMessage(messageLines, true);
   Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(printMessage, printMessagePredicate, doNothingHandler);
 

@@ -22,10 +22,8 @@ void msg_f(const char *str, int32_t line)
   ev3_lcd_draw_string(str, 0, line * line_height);
 }
 
-#ifdef PrintMessageForBlueTooth
 FILE *bt = ev3_serial_open_file(EV3_SERIAL_BT);
 void msg_bt(const char *str)
 {
   fprintf(bt, str);
 }
-#endif
