@@ -138,8 +138,8 @@ void initializeCommandExecutor()
 
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
   string messageLines[] = {
-      "Started!!\r\n",
-      "GOGOGO!!\r\n",
+      "Started!!",
+      "GOGOGO!!",
   };
   PrintMessage *printMessage = new PrintMessage(messageLines);
   Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);

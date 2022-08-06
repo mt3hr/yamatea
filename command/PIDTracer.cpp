@@ -64,15 +64,15 @@ void PIDTracer::run()
     char lStr[30];
     char rStr[30];
     char bStr[30];
-    sprintf(pStr, "p:%.2lf\r\n", p);
-    sprintf(iStr, "i:%.2lf\r\n", i);
-    sprintf(dStr, "d:%.2lf\r\n", d);
-    sprintf(lStr, "leftPow :%d\r\n", leftPower);
-    sprintf(rStr, "rightPow:%d\r\n", rightPower);
-    sprintf(bStr, "brightness:%d\r\n", bright);
+    sprintf(pStr, "p:%.2lf", p);
+    sprintf(iStr, "i:%.2lf", i);
+    sprintf(dStr, "d:%.2lf", d);
+    sprintf(lStr, "leftPow :%d", leftPower);
+    sprintf(rStr, "rightPow:%d", rightPower);
+    sprintf(bStr, "brightness:%d", bright);
 
     string messageLines[] = {
-        string("pid tracing\r\n"),
+        "pid tracing",
         string(pStr),
         string(iStr),
         string(dStr),

@@ -27,11 +27,11 @@ void Walker::run()
     // メッセージ出力処理
     char lStr[30];
     char rStr[30];
-    sprintf(lStr, "leftPow :%d\r\n", leftPow);
-    sprintf(rStr, "rightPow:%d\r\n", rightPow);
+    sprintf(lStr, "leftPow :%d", leftPow);
+    sprintf(rStr, "rightPow:%d", rightPow);
 
     string messageLines[] = {
-        "scenario tracing\r\n",
+        "scenario tracing",
         string(lStr),
         string(rStr),
     };
