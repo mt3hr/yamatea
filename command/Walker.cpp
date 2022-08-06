@@ -16,7 +16,7 @@ Walker::Walker(int lp, int rp, WheelController *wc)
     wheelController = wc;
 
     string messageLines[] = {"walker started"};
-    printMessage = new PrintMessage(messageLines);
+    printMessage = new PrintMessage(messageLines, false);
 }
 
 void Walker::run()

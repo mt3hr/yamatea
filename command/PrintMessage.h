@@ -12,9 +12,10 @@ class PrintMessage : public Command
 
 private:
     string *messageLines;
+    bool forcePrint;
 
 public:
-    PrintMessage(string *messageLines);
+    PrintMessage(string *messageLines, bool forcePrint);
     void run() override;
     PrintMessage *generateReverseCommand() override;
     void setMessageLines(string *messageLines);

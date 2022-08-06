@@ -13,7 +13,7 @@ PIDTargetBrightnessCalibrator::PIDTargetBrightnessCalibrator(ColorSensor *cs, Cl
     colorSensor = cs;
     clock = c;
     string messageLines[] = {"target brightness calibrating"};
-    printMessage = new PrintMessage(messageLines);
+    printMessage = new PrintMessage(messageLines, true);
 };
 
 PIDTargetBrightnessCalibrator::~PIDTargetBrightnessCalibrator()

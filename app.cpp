@@ -141,7 +141,7 @@ void initializeCommandExecutor()
       "Started!!",
       "GOGOGO!!",
   };
-  PrintMessage *printMessage = new PrintMessage(messageLines);
+  PrintMessage *printMessage = new PrintMessage(messageLines, false);
   Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(printMessage, printMessagePredicate, doNothingHandler);
 

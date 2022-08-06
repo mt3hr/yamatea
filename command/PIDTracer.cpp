@@ -23,7 +23,7 @@ PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, f
     wheelController = wheelControllera;
     colorSensor = colorSensora;
     string messageLines[] = {"pid trace started"};
-    printMessage = new PrintMessage(messageLines);
+    printMessage = new PrintMessage(messageLines, false);
 }
 
 void PIDTracer::run()
