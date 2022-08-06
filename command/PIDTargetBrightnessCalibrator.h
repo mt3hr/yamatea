@@ -6,6 +6,8 @@
 #include "Command.h"
 #include "Handler.h"
 #include "Clock.h"
+#include "string"
+#include "PrintMessage.h"
 
 using namespace ev3api;
 using namespace std;
@@ -37,9 +39,11 @@ private:
     vector<Handler *> handlers;
     bool executedHandler = false;
     Clock *clock;
+    PrintMessage *printMessage; //NOTE モデルには反映しません
 
 public:
     PIDTargetBrightnessCalibrator(ColorSensor *colorSensor, Clock *clock);
+    ~PIDTargetBrightnessCalibrator();
     void run() override;
     PIDTargetBrightnessCalibrator *generateReverseCommand() override;
     int getBlack();

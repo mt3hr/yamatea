@@ -1,8 +1,7 @@
 #include "PIDTargetBrightnessCalibrator.h"
 #include "Handler.h"
-#include "util.h"
 #include "Clock.h"
-// #include "SonarSensor.h" //TODOけして
+#include "string"
 
 using namespace ev3api;
 using namespace std;
@@ -13,6 +12,13 @@ PIDTargetBrightnessCalibrator::PIDTargetBrightnessCalibrator(ColorSensor *cs, Cl
 {
     colorSensor = cs;
     clock = c;
+    string messageLines[] = {"target brightness calibrating"};
+    printMessage = new PrintMessage(messageLines);
+};
+
+PIDTargetBrightnessCalibrator::~PIDTargetBrightnessCalibrator()
+{
+    delete printMessage;
 };
 
 void PIDTargetBrightnessCalibrator::readWhiteFromColorSensor()
@@ -34,13 +40,13 @@ void PIDTargetBrightnessCalibrator::run()
         if (!printedReadBlackMessage)
         {
             printedReadBlackMessage = true;
-            msg_f("calibrating\r\n", 1);
-            msg_f("press right key\r\n", 2);
-            msg_f("     read black\r\n", 3);
-            msg_f("", 4);
-            msg_f("", 5);
-            msg_f("", 6);
-            msg_f("", 7);
+            string messageLines[] = {
+                "calibrating",
+                "press right key",
+                "     read black",
+            };
+            printMessage->setMessageLines(messageLines);
+            printMessage->run();
         }
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
@@ -53,13 +59,13 @@ void PIDTargetBrightnessCalibrator::run()
         if (!printedReadWhiteMessage)
         {
             printedReadWhiteMessage = true;
-            msg_f("calibrating\r\n", 1);
-            msg_f("press right key\r\n", 2);
-            msg_f("     read white\r\n", 3);
-            msg_f("", 4);
-            msg_f("", 5);
-            msg_f("", 6);
-            msg_f("", 7);
+            string messageLines[] = {
+                "calibrating",
+                "press right key",
+                "     read white",
+            };
+            printMessage->setMessageLines(messageLines);
+            printMessage->run();
         }
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
@@ -84,15 +90,18 @@ void PIDTargetBrightnessCalibrator::run()
             printedCalibratedMessage = true;
             char bStr[20];
             char wStr[20];
-            msg_f("calibrated!\r\n", 1);
             sprintf(bStr, "black:%d\r\n", getBlack());
             sprintf(wStr, "white:%d\r\n", getWhite());
-            msg_f(bStr, 2);
-            msg_f(wStr, 3);
-            msg_f("", 4);
-            msg_f("press touch sensor\r\n", 5);
-            msg_f("", 6);
-            msg_f("", 7);
+
+            string messageLines[] = {
+                "calibrated!",
+                string(bStr),
+                string(wStr),
+                "",
+                "press touch sensor",
+            };
+            printMessage->setMessageLines(messageLines);
+            printMessage->run();
         }
     }
 }
