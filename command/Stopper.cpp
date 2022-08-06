@@ -13,13 +13,11 @@ void Stopper::run()
 {
     wheelController->getLeftWheel()->stop();
     wheelController->getRightWheel()->stop();
-    if (enablePrintMessageMode)
-    {
-        vector<string> messageLines;
-        messageLines.push_back("stoped.");
-        PrintMessage printMessagee(messageLines, true);
-        printMessagee.run();
-    }
+
+    vector<string> messageLines;
+    messageLines.push_back("stoped.");
+    PrintMessage printMessagee(messageLines, true);
+    printMessagee.run();
 }
 
 Stopper *Stopper::generateReverseCommand()
