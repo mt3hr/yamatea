@@ -55,20 +55,20 @@ void initialize()
   // commandExecutorとwheelControllerの初期化
   commandExecutor = new CommandExecutor(wheelController);
 
-  // シンプルなウォーカ。左右車輪20のpwmで進む。
+  // シンプルなウォーカ。左右車輪50のpwmで進む。
   int leftPow = 50;
   int rightPow = 50;
   Command *walker = new Walker(leftPow, rightPow, wheelController);
 
-  // ウォーカを終了するタイミングを決定するPredicator
+  // ウォーカを終了するタイミングを決定するPredicate
   // この例では左車輪が360度回転したら終了する
-  Predicate *oneRotatePredicate = new MotorCountPredicate(leftWheel, 360);
+  Predicate *oneRotateLeftWheelPredicate = new MotorCountPredicate(leftWheel, 360);
 
   // コマンド終了時に走らされるハンドラ。この例ではなにもしない。
-  Handler *donothingExitHandler = new Handler();
+  Handler *doNothingExitHandler = new Handler();
 
   // 上で定義したウォーカと終了条件をcommandExecutorに追加する。
-  commandExecutor->addCommand(walker, oneRotatePredicate, donothingExitHandler);
+  commandExecutor->addCommand(walker, oneRotateLeftWheelPredicate, doNothingExitHandler);
 }
 
 // ここからいつものやつ
