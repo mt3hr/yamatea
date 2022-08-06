@@ -5,5 +5,6 @@
 
 extern void init_f(const char *str);
 extern void msg_f(const char *str, int32_t line);
+extern void msg_bt(const char *str);
 
 #endif

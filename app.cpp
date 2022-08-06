@@ -33,9 +33,11 @@
 using namespace std;
 using namespace ev3api;
 
-bool enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
-int targetBrightness = 20;                   // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
+// 設定用準備ここから
+bool enableCalibrateTargetBrightness = true;
+int targetBrightness = 20;
 bool printMessageMode = false;
+// 設定用準備ここまで
 
 // ********** 設定ここから **********
 
@@ -51,7 +53,8 @@ bool printMessageMode = false;
 
 void setting()
 {
-  printMessageMode = true;                // trueにすると、コマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。
+  // #define PrintMessageForBlueTooth     // コメントアウトを外すとBluetooth接続端末にも情報がprintされる。
+  printMessageMode = false;               // trueにすると、コマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。
   enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
   targetBrightness = 20;                  // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
 }

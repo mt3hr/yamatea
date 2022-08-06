@@ -2,8 +2,6 @@
 
 // 演習用のユーティリティ
 
-FILE *bt = ev3_serial_open_file(EV3_SERIAL_BT);
-
 // 初期処理用
 void init_f(const char *str)
 {
@@ -22,6 +20,12 @@ void msg_f(const char *str, int32_t line)
   const int8_t line_height = 20;
   ev3_lcd_fill_rect(0, line * line_height, EV3_LCD_WIDTH, line_height, EV3_LCD_WHITE);
   ev3_lcd_draw_string(str, 0, line * line_height);
-  fprintf(bt, str);
-  printf(str);
 }
+
+#ifdef PrintMessageForBlueTooth
+FILE *bt = ev3_serial_open_file(EV3_SERIAL_BT);
+void msg_bt(const char *str)
+{
+  fprintf(bt, str);
+}
+#endif

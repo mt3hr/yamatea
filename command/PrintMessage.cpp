@@ -11,7 +11,14 @@ void PrintMessage::run()
     int i = 0;
     for (; i < ((int)sizeof(messageLines)); i++)
     {
-        msg_f(messageLines[i].c_str(), i + 1);
+        const char *message = messageLines[i].c_str();
+        const char *messageEOLAppended = (messageLines[i] + EOL_STR).c_str();
+
+        msg_f(message, i + 1);
+        printf("%s", messageEOLAppended);
+#ifdef PrintMessageForBlueTooth
+        msg_bt(messageEOLAppended);
+#endif
     }
     for (; i < 7; i++)
     {
