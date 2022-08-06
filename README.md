@@ -35,6 +35,8 @@ app.cppのサンプルコードを載せておきます。
 #include "Walker.h"
 #include "MotorCountPredicate.h"
 
+#include "string"
+
 using namespace ev3api;
 
 // apiで使うものの初期化
@@ -44,28 +46,29 @@ Motor *rightWheel = new Motor(PORT_B);
 
 // Commandを実行するオブジェクト
 CommandExecutor *commandExecutor;
+// 左右車輪を管理するオブジェクト
+WheelController *wheelController = new WheelController(leftWheel, rightWheel);
 
 // commandExecutorなどの初期化処理。
 void initialize()
 {
   // commandExecutorとwheelControllerの初期化
-  commandExecutor = new CommandExecutor();
-  WheelController *wheelController = new WheelController(leftWheel, rightWheel);
+  commandExecutor = new CommandExecutor(wheelController);
 
   // シンプルなウォーカ。左右車輪20のpwmで進む。
-  int leftPow = 20;
-  int rightPow = 20;
-  Command *walker= new Walker(leftPow, rightPow, wheelController);
+  int leftPow = 50;
+  int rightPow = 50;
+  Command *walker = new Walker(leftPow, rightPow, wheelController);
 
   // ウォーカを終了するタイミングを決定するPredicator
   // この例では左車輪が360度回転したら終了する
   Predicate *oneRotatePredicate = new MotorCountPredicate(leftWheel, 360);
 
   // コマンド終了時に走らされるハンドラ。この例ではなにもしない。
-  Handler *donothingExitHandler = new Hanler();
+  Handler *donothingExitHandler = new Handler();
 
   // 上で定義したウォーカと終了条件をcommandExecutorに追加する。
-  commandExecutor->addCommand(walker, oneRotatePredicate, donothingExitHanler);
+  commandExecutor->addCommand(walker, oneRotatePredicate, donothingExitHandler);
 }
 
 // ここからいつものやつ
@@ -73,7 +76,7 @@ void initialize()
 // 周期ハンドラトレーサタスクの定義
 void tracer_task(intptr_t exinf)
 {
-  init_f("yamatea green tea");
+  init_f(string("yamatea green tea"));
   // 走って！！！
   commandExecutor->run();
   ext_tsk();
@@ -89,7 +92,7 @@ void main_task(intptr_t unused)
 
   while (!ev3_button_is_pressed(LEFT_BUTTON))
   {
-    clock.sleep(100000);
+    clock->sleep(100000);
   }
 
   stp_cyc(TRACER_CYC);
@@ -97,6 +100,7 @@ void main_task(intptr_t unused)
   // 終了処理。各オブジェクトの削除
   commandExecutor->emergencyStop();
   delete commandExecutor;
+  delete wheelController;
   delete clock;
   delete leftWheel;
   delete rightWheel;
