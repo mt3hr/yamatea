@@ -15,6 +15,7 @@ public:
     PrintMessage(string *messageLines);
     void run() override;
     PrintMessage *generateReverseCommand() override;
+    void setMessageLines(string *messageLines);
 };
 
 #endif

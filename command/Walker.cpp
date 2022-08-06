@@ -1,13 +1,23 @@
 #include "Walker.h"
 #include "PrintMessageMode.h"
 #include "WheelController.h"
-#include "util.h"
+#include "string"
+
+using namespace std;
+
+Walker::~Walker()
+{
+    delete printMessage;
+}
 
 Walker::Walker(int lp, int rp, WheelController *wc)
 {
     leftPow = lp;
     rightPow = rp;
     wheelController = wc;
+
+    string messageLines[] = {"walker started"};
+    printMessage = new PrintMessage(messageLines);
 }
 
 void Walker::run()
@@ -21,13 +31,14 @@ void Walker::run()
         char rStr[30];
         sprintf(lStr, "leftPow :%d\r\n", leftPow);
         sprintf(rStr, "rightPow:%d\r\n", rightPow);
-        msg_f("scenario tracing\r\n", 1);
-        msg_f(lStr, 2);
-        msg_f(rStr, 3);
-        msg_f("", 4);
-        msg_f("", 5);
-        msg_f("", 6);
-        msg_f("", 7);
+
+        string messageLines[] = {
+            "scenario tracing\r\n",
+            string(lStr),
+            string(rStr),
+        };
+        printMessage->setMessageLines(messageLines);
+        printMessage->run();
     }
 }
 

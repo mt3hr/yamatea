@@ -3,6 +3,7 @@
 
 #include "Motor.h"
 #include "Command.h"
+#include "PrintMessage.h"
 #include "WheelController.h"
 
 using namespace ev3api;
@@ -17,9 +18,11 @@ private:
     int leftPow;
     int rightPow;
     WheelController *wheelController;
+    PrintMessage *printMessage; // NOTE モデルには反映しません
 
 public:
     Walker(int leftPow, int rightPow, WheelController *wheelController);
+    ~Walker();
     void run() override;
     Walker *generateReverseCommand() override;
 };

@@ -23,3 +23,8 @@ PrintMessage *PrintMessage::generateReverseCommand()
 {
     return new PrintMessage(messageLines);
 }
+
+void PrintMessage::setMessageLines(string *ml)
+{
+    messageLines = ml;
+}

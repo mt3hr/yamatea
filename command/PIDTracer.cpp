@@ -2,9 +2,15 @@
 #include "PrintMessageMode.h"
 #include "ColorSensor.h"
 #include "WheelController.h"
-#include "util.h"
+#include "string"
 
 using namespace ev3api;
+using namespace std;
+
+PIDTracer::~PIDTracer()
+{
+    delete printMessage;
+}
 
 PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, float kda, float dta, int targetBrightnessa, WheelController *wheelControllera, ColorSensor *colorSensora)
 {
@@ -17,6 +23,8 @@ PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, f
     targetBrightness = targetBrightnessa;
     wheelController = wheelControllera;
     colorSensor = colorSensora;
+    string messageLines[] = {"pid trace started"};
+    printMessage = new PrintMessage(messageLines);
 }
 
 void PIDTracer::run()
@@ -64,13 +72,18 @@ void PIDTracer::run()
         sprintf(lStr, "leftPow :%d\r\n", leftPower);
         sprintf(rStr, "rightPow:%d\r\n", rightPower);
         sprintf(bStr, "brightness:%d\r\n", bright);
-        msg_f("pid tracing\r\n", 1);
-        msg_f(pStr, 2);
-        msg_f(iStr, 3);
-        msg_f(dStr, 4);
-        msg_f(lStr, 5);
-        msg_f(rStr, 6);
-        msg_f(bStr, 7);
+
+        string messageLines[] = {
+            string("pid tracing\r\n"),
+            string(pStr),
+            string(iStr),
+            string(dStr),
+            string(lStr),
+            string(rStr),
+            string(bStr),
+        };
+        printMessage->setMessageLines(messageLines);
+        printMessage->run();
     }
 }
 
