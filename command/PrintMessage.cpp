@@ -35,10 +35,12 @@ void PrintMessage::run()
     {
         print();
     }
-
+    else
+    {
 #ifdef PrintMessageMode
-    print();
+        print();
 #endif
+    }
 }
 
 PrintMessage *PrintMessage::generateReverseCommand()
