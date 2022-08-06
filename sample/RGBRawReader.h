@@ -17,6 +17,7 @@ private:
     ColorSensor *colorSensor;
     rgb_raw_t rgbRaw;
     bool lockedRGBRawValue = false;
+    bool printedLockedRGBRawValue = false;
 
 public:
     RGBRawReader(ColorSensor *colorSensor);

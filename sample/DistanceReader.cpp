@@ -1,8 +1,10 @@
 #include "DistanceReader.h"
 #include "SonarSensor.h"
-#include "util.h"
+#include "PrintMessage.h"
+#include "sstream"
 
 using namespace ev3api;
+using namespace std;
 
 DistanceReader::DistanceReader(SonarSensor *ss)
 {
@@ -12,16 +14,17 @@ DistanceReader::DistanceReader(SonarSensor *ss)
 void DistanceReader::run()
 {
     distanceValue = sonarSensor->getDistance();
-    char dStr[20];
 
-    sprintf(dStr, "distance:%d", distanceValue);
-    msg_f("distance reader", 1);
-    msg_f(dStr, 2);
-    msg_f("", 3);
-    msg_f("", 4);
-    msg_f("", 5);
-    msg_f("", 6);
-    msg_f("", 7);
+    // 出力処理。変数名は雑。
+    stringstream ds;
+    ds << "distance:" << float(distanceValue); // intのままだと出力されないのでfloatに変換する
+
+    vector<string> messageLines;
+    messageLines.push_back("distance reader");
+    messageLines.push_back(ds.str());
+
+    PrintMessage printMessage(messageLines, true);
+    printMessage.run();
 }
 
 DistanceReader *DistanceReader::generateReverseCommand()

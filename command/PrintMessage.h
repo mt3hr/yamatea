@@ -4,6 +4,7 @@
 #include "Command.h"
 #include "string"
 #include "vector"
+#include "ev3api.h"
 
 using namespace std;
 
@@ -14,6 +15,8 @@ private:
     vector<string> messageLines;
     bool forcePrint;
     void print();
+    void msg_f(string str, int32_t line);
+    void msg_bt(string str);
 
 public:
     PrintMessage(vector<string> messageLines, bool forcePrint);

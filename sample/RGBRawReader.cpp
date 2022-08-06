@@ -1,8 +1,10 @@
 #include "RGBRawReader.h"
 #include "ColorSensor.h"
-#include "util.h"
+#include "PrintMessage.h"
+#include "sstream"
 
 using namespace ev3api;
+using namespace std;
 
 RGBRawReader::RGBRawReader(ColorSensor *cs)
 {
@@ -18,32 +20,49 @@ void RGBRawReader::run()
         {
             lockedRGBRawValue = true;
         }
-        char rStr[20];
-        char gStr[20];
-        char bStr[20];
-        sprintf(rStr, "r:%d", rgbRaw.r);
-        sprintf(gStr, "g:%d", rgbRaw.g);
-        sprintf(bStr, "b:%d", rgbRaw.b);
 
-        msg_f("Raw RGB Reader", 1);
-        msg_f("press right key lock value", 2);
-        msg_f(rStr, 3);
-        msg_f(gStr, 4);
-        msg_f(bStr, 5);
-        msg_f("", 6);
+        // 出力処理。変数名は雑。
+        stringstream rs;
+        stringstream gs;
+        stringstream bs;
+
+        rs << "r:" << float(rgbRaw.r); // intのままだと出力されないのでfloatに変換する
+        gs << "g:" << float(rgbRaw.g); // intのままだと出力されないのでfloatに変換する
+        bs << "b:" << float(rgbRaw.b); // intのままだと出力されないのでfloatに変換する
+
+        vector<string> messageLines;
+        messageLines.push_back("Raw RBG Reader");
+        messageLines.push_back("press right key lock value");
+        messageLines.push_back(rs.str());
+        messageLines.push_back(gs.str());
+        messageLines.push_back(bs.str());
+
+        PrintMessage printMessage(messageLines, true);
+        printMessage.run();
     }
     else
     {
-        char rStr[20];
-        char gStr[20];
-        char bStr[20];
-        sprintf(rStr, "r:%d", rgbRaw.r);
-        sprintf(gStr, "g:%d", rgbRaw.g);
-        sprintf(bStr, "b:%d", rgbRaw.b);
-        msg_f("got rgb raw", 1);
-        msg_f(rStr, 2);
-        msg_f(gStr, 3);
-        msg_f(bStr, 4);
+        if (!printedLockedRGBRawValue)
+        {
+            printedLockedRGBRawValue = true;
+            // 出力処理。変数名は雑。
+            stringstream rs;
+            stringstream gs;
+            stringstream bs;
+
+            rs << "r:" << float(rgbRaw.r); // intのままだと出力されないのでfloatに変換する
+            gs << "g:" << float(rgbRaw.g); // intのままだと出力されないのでfloatに変換する
+            bs << "b:" << float(rgbRaw.b); // intのままだと出力されないのでfloatに変換する
+
+            vector<string> messageLines;
+            messageLines.push_back("got RGB raw");
+            messageLines.push_back(rs.str());
+            messageLines.push_back(gs.str());
+            messageLines.push_back(bs.str());
+
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run();
+        }
     }
 }
 
