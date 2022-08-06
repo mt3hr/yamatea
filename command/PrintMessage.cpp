@@ -8,6 +8,7 @@ PrintMessage::PrintMessage(string *ml)
 
 void PrintMessage::run()
 {
+#ifdef PrintMessageMode
     int i = 0;
     for (; i < ((int)sizeof(messageLines)); i++)
     {
@@ -15,7 +16,9 @@ void PrintMessage::run()
         const char *messageEOLAppended = (messageLines[i] + EOL_STR).c_str();
 
         msg_f(message, i + 1);
+#ifdef PrintMessageForConsole
         printf("%s", messageEOLAppended);
+#endif
 #ifdef PrintMessageForBlueTooth
         msg_bt(messageEOLAppended);
 #endif
@@ -24,6 +27,7 @@ void PrintMessage::run()
     {
         msg_f("", i + 1);
     }
+#endif
 }
 
 PrintMessage *PrintMessage::generateReverseCommand()

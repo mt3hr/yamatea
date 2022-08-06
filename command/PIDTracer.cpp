@@ -1,5 +1,4 @@
 #include "PIDTracer.h"
-#include "PrintMessageMode.h"
 #include "ColorSensor.h"
 #include "WheelController.h"
 #include "string"
@@ -58,33 +57,31 @@ void PIDTracer::run()
     wheelController->getLeftWheel()->setPWM(leftPower);
     wheelController->getRightWheel()->setPWM(rightPower);
 
-    if (printMessageMode)
-    {
-        char pStr[30];
-        char iStr[30];
-        char dStr[30];
-        char lStr[30];
-        char rStr[30];
-        char bStr[30];
-        sprintf(pStr, "p:%.2lf\r\n", p);
-        sprintf(iStr, "i:%.2lf\r\n", i);
-        sprintf(dStr, "d:%.2lf\r\n", d);
-        sprintf(lStr, "leftPow :%d\r\n", leftPower);
-        sprintf(rStr, "rightPow:%d\r\n", rightPower);
-        sprintf(bStr, "brightness:%d\r\n", bright);
+    // メッセージ出力処理
+    char pStr[30];
+    char iStr[30];
+    char dStr[30];
+    char lStr[30];
+    char rStr[30];
+    char bStr[30];
+    sprintf(pStr, "p:%.2lf\r\n", p);
+    sprintf(iStr, "i:%.2lf\r\n", i);
+    sprintf(dStr, "d:%.2lf\r\n", d);
+    sprintf(lStr, "leftPow :%d\r\n", leftPower);
+    sprintf(rStr, "rightPow:%d\r\n", rightPower);
+    sprintf(bStr, "brightness:%d\r\n", bright);
 
-        string messageLines[] = {
-            string("pid tracing\r\n"),
-            string(pStr),
-            string(iStr),
-            string(dStr),
-            string(lStr),
-            string(rStr),
-            string(bStr),
-        };
-        printMessage->setMessageLines(messageLines);
-        printMessage->run();
-    }
+    string messageLines[] = {
+        string("pid tracing\r\n"),
+        string(pStr),
+        string(iStr),
+        string(dStr),
+        string(lStr),
+        string(rStr),
+        string(bStr),
+    };
+    printMessage->setMessageLines(messageLines);
+    printMessage->run();
 }
 
 PIDTracer *PIDTracer::generateReverseCommand()

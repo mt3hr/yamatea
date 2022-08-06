@@ -1,5 +1,4 @@
 #include "Walker.h"
-#include "PrintMessageMode.h"
 #include "WheelController.h"
 #include "string"
 
@@ -25,21 +24,19 @@ void Walker::run()
     wheelController->getLeftWheel()->setPWM(leftPow);
     wheelController->getRightWheel()->setPWM(rightPow);
 
-    if (printMessageMode)
-    {
-        char lStr[30];
-        char rStr[30];
-        sprintf(lStr, "leftPow :%d\r\n", leftPow);
-        sprintf(rStr, "rightPow:%d\r\n", rightPow);
+    // メッセージ出力処理
+    char lStr[30];
+    char rStr[30];
+    sprintf(lStr, "leftPow :%d\r\n", leftPow);
+    sprintf(rStr, "rightPow:%d\r\n", rightPow);
 
-        string messageLines[] = {
-            "scenario tracing\r\n",
-            string(lStr),
-            string(rStr),
-        };
-        printMessage->setMessageLines(messageLines);
-        printMessage->run();
-    }
+    string messageLines[] = {
+        "scenario tracing\r\n",
+        string(lStr),
+        string(rStr),
+    };
+    printMessage->setMessageLines(messageLines);
+    printMessage->run();
 }
 
 Walker *Walker::generateReverseCommand()
