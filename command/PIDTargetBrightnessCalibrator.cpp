@@ -40,7 +40,7 @@ void PIDTargetBrightnessCalibrator::run()
             messageLines.push_back("calibrating");
             messageLines.push_back("press right key");
             messageLines.push_back("     read black");
-            PrintMessage printMessage(messageLines, false);
+            PrintMessage printMessage(messageLines, true);
             printMessage.run();
         }
         if (ev3_button_is_pressed(RIGHT_BUTTON))
@@ -58,7 +58,7 @@ void PIDTargetBrightnessCalibrator::run()
             messageLines.push_back("calibrating");
             messageLines.push_back("press right key");
             messageLines.push_back("     read white");
-            PrintMessage printMessage(messageLines, false);
+            PrintMessage printMessage(messageLines, true);
             printMessage.run();
         }
         if (ev3_button_is_pressed(RIGHT_BUTTON))
@@ -94,7 +94,7 @@ void PIDTargetBrightnessCalibrator::run()
             messageLines.push_back(ws.str());
             messageLines.push_back("");
             messageLines.push_back("press touch sensor");
-            PrintMessage printMessage(messageLines, false);
+            PrintMessage printMessage(messageLines, true);
             printMessage.run();
         }
     }
