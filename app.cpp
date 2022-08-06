@@ -50,19 +50,19 @@ bool printMessageMode = false;
 //#define StraightMode // 直進するプログラム
 // モード設定ここまで
 
+// 情報出力の有効無効設定ここから
+// #define PrintMessageMode             // コメントアウトを外すと、コマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。
+// #define PrintMessageForBlueTooth     // コメントアウトを外すと、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
+// #define PrintMessageForConsole       // コメントアウトを外すと、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
+// 情報出力の有効無効設定ここまで
+
+// LeftCourceMode, RightCourceModeの設定ここから
 void setting()
 {
-  // 情報出力の有効無効設定ここから
-  // #define PrintMessageMode             // コメントアウトを外すと、コマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。
-  // #define PrintMessageForBlueTooth     // コメントアウトを外すと、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-  // #define PrintMessageForConsole       // コメントアウトを外すと、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-  // 情報出力の有効無効設定ここまで
-
-  // LeftCourceMode, RightCourceModeの設定ここから
   enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
   targetBrightness = 20;                  // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
-  // LeftCourceMode, RightCourceModeの設定ここまで
 }
+// LeftCourceMode, RightCourceModeの設定ここまで
 
 // ********** 設定ここまで **********
 
