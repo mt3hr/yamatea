@@ -13,6 +13,7 @@ class PrintMessage : public Command
 private:
     string *messageLines;
     bool forcePrint;
+    void print();
 
 public:
     PrintMessage(string *messageLines, bool forcePrint);
