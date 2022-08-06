@@ -1,4 +1,6 @@
 #include "Stopper.h"
+#include "PrintMessage.h"
+#include "Setting.h"
 
 using namespace ev3api;
 
@@ -11,6 +13,13 @@ void Stopper::run()
 {
     wheelController->getLeftWheel()->stop();
     wheelController->getRightWheel()->stop();
+    if (enablePrintMessageMode)
+    {
+        vector<string> messageLines;
+        messageLines.push_back("stoped.");
+        PrintMessage printMessagee(messageLines, true);
+        printMessagee.run();
+    }
 }
 
 Stopper *Stopper::generateReverseCommand()

@@ -1,8 +1,12 @@
-#include "Motor.h"
 #include "CommandExecutor.h"
+#include "ev3api.h"
+#include "Motor.h"
 #include "Command.h"
 #include "Handler.h"
+#include "Stopper.h"
+#include "PrintMessage.h"
 
+using namespace ev3api;
 using namespace std;
 
 CommandExecutor::CommandExecutor(WheelController *wc)
@@ -36,17 +40,21 @@ void CommandExecutor::addCommand(Command *command, Predicate *exitCondition, Han
 void CommandExecutor::run()
 {
     // 終了条件が満たされたらindexを変更して次のコマンドに移動する
-    if (((int)sizeof(predicates)) - 1 > ((int)(currentIndexForCommand)) && predicates[currentIndexForCommand]->test())
+    if (((int)predicates.size()) > ((int)(currentIndexForCommand)) && predicates[currentIndexForCommand]->test())
     {
         exitHandlers[currentIndexForCommand]->handle();
         currentIndexForCommand++;
         return;
     }
 
-    // 現在の要素が有ればやる。なければ何もせずに返す
-    if (((int)sizeof(commands)) - 1 > ((int)currentIndexForCommand))
+    // 現在の要素が有ればやる。なければタスクを終了する。
+    if (((int)commands.size()) > ((int)currentIndexForCommand))
     {
         commands[currentIndexForCommand]->run();
+    }
+    else
+    {
+        stp_cyc(RUNNER_CYC);
     }
 
     return;
@@ -54,7 +62,13 @@ void CommandExecutor::run()
 
 void CommandExecutor::emergencyStop()
 {
-    wheelController->getLeftWheel()->stop();
-    wheelController->getRightWheel()->stop();
-    currentIndexForCommand = commands.size();
+    currentIndexForCommand = commands.size() + 1;
+    Stopper stopper(wheelController);
+    stopper.run();
+
+    vector<string> messageLines;
+    messageLines.push_back("emergency stopped");
+    PrintMessage printStopMessage(messageLines, true);
+    printStopMessage.run();
+    stp_cyc(RUNNER_CYC);
 }

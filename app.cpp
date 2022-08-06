@@ -1,3 +1,4 @@
+#include "ev3api.h"
 #include "TouchSensor.h"
 #include "ColorSensor.h"
 #include "Motor.h"
@@ -112,7 +113,7 @@ void initializeCommandExecutor()
   int sceneDorianMotorCountPredicateArg = 5700;       // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
   int sceneMelonMotorCountPredicateArg = 8000;        // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
   int sceneCucumberMotorCountPredicateArg = 9700;     // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
-  int sceneStrawberryMotorCountPredicateArg = 100000; // ゴールまで。いちご好き。ライントレースする。
+  int sceneStrawberryMotorCountPredicateArg = 10000; // ゴールまで。いちご好き。ライントレースする。
 
   // Commandの定義とCommandExecutorへの追加ここから
 
@@ -343,10 +344,10 @@ void initializeCommandExecutor()
   Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
   commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
-  // 走行体回転コマンドの初期化とCommandExecutorへの追加
-  int pwm = 20;
+  // 直進コマンドの初期化とCommandExecutorへの追加
+  int pwm = 50;
   Walker *walker = new Walker(pwm, pwm, wheelController);
-  Predicate *walkerPredicate = new MotorCountPredicate(leftWheel, 1000);
+  Predicate *walkerPredicate = new MotorCountPredicate(leftWheel, 500);
   commandExecutor->addCommand(walker, walkerPredicate, doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
@@ -356,11 +357,11 @@ void initializeCommandExecutor()
 }
 #endif
 
-void tracer_task(intptr_t exinf)
+void runner_task(intptr_t exinf)
 {
-  init_f(string("** yamatea **"));
-  setting();
-  commandExecutor->run();
+  init_f(string("*** yamatea ***"));
+  setting();              // 設定を済ませてから
+  commandExecutor->run(); // 走らせる
   ext_tsk();
 }
 
@@ -368,18 +369,46 @@ void main_task(intptr_t unused)
 {
   const uint32_t duration = 100 * 1000;
 
+  // commandExecutorを初期化する
   initializeCommandExecutor();
 
-  sta_cyc(TRACER_CYC);
+  // commandExecutor->run()の周期ハンドラを起動する
+  sta_cyc(RUNNER_CYC);
 
-  while (!ev3_button_is_pressed(LEFT_BUTTON))
+  // 終了判定処理
+  while (true)
   {
+    // 左ボタンが押されたら緊急停止のためにループを抜ける
+    if (ev3_button_is_pressed(LEFT_BUTTON))
+    {
+      // 停止処理
+      commandExecutor->emergencyStop();
+      break;
+    }
+
+    // RUNNER_CYCが終了していたら走行完了なのでループを抜ける
+    T_RCYC pk_rcyc;
+    ref_cyc(RUNNER_CYC, &pk_rcyc);
+    if (pk_rcyc.cycstat == TCYC_STP)
+    {
+      Stopper stopper(wheelController);
+      stopper.run();
+
+      vector<string> messageLines;
+      messageLines.push_back("finish!!");
+      PrintMessage printFinishMessage(messageLines, true);
+      printFinishMessage.run();
+      break;
+    }
+
+    // ちょっと待つ
     clock->sleep(duration);
   }
 
-  stp_cyc(TRACER_CYC);
+  // メインタスクの終了
+  ext_tsk();
 
-  commandExecutor->emergencyStop();
+  // オブジェクトの削除
   delete commandExecutor;
   delete wheelController;
   delete touchSensor;
@@ -388,6 +417,4 @@ void main_task(intptr_t unused)
   delete leftWheel;
   delete rightWheel;
   delete clock;
-
-  ext_tsk();
 }

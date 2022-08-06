@@ -9,7 +9,7 @@ extern "C"
 #include "ev3api.h"
 
 #define MAIN_PRIORITY (TMIN_APP_TPRI + 1)
-#define TRACER_PRIORITY (TMIN_APP_TPRI + 2)
+#define RUNNER_PRIORITY (TMIN_APP_TPRI + 2)
 
 #ifndef STACK_SIZE
 #define STACK_SIZE (4096)
@@ -18,8 +18,8 @@ extern "C"
 #ifndef TOPPERS_MACRO_ONLY
 
     extern void main_task(intptr_t exinf);
-    extern void tracer_task(intptr_t exinf);
-    extern void tracer_cyc(intptr_t exinf);
+    extern void runner_task(intptr_t exinf);
+    extern void runner_cyc(intptr_t exinf);
 
 #endif /* TOPPERS_MACRO_ONLY */
 
