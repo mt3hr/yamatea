@@ -5,6 +5,8 @@ using namespace ev3api;
 
 // MotorCountPredicate
 // モータ回転数がある値を超えたらtrueを返すPredicate
+//
+// 実方
 class MotorCountPredicate : public Predicate
 {
 private:
