@@ -16,5 +16,5 @@ void ArmController::run()
 
 ArmController *ArmController::generateReverseCommand()
 {
-    return new ArmController(-pwm, armMotor);
+    return new ArmController(pwm, armMotor);
 }
