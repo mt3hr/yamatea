@@ -79,6 +79,7 @@ bool isRightCourse =
 #endif
 
 // サンプルのutil.cppから引っ張ってきたやつ
+// char*ではなくstd::stringで受け取る
 void init_f(string str)
 {
   // フォントの設定と0行目の表示

@@ -25,7 +25,6 @@ app.cppのサンプルコードを載せておきます。
 #include "Clock.h"
 
 #include "app.h"
-#include "util.h"
 
 #include "Command.h"
 #include "CommandExecutor.h"
@@ -48,6 +47,15 @@ Motor *rightWheel = new Motor(PORT_B);
 CommandExecutor *commandExecutor;
 // 左右車輪を管理するオブジェクト
 WheelController *wheelController = new WheelController(leftWheel, rightWheel);
+
+// サンプルのutil.cppから引っ張ってきたやつ
+// char*ではなくstd::stringで受け取る
+void init_f(string str)
+{
+  // フォントの設定と0行目の表示
+  ev3_lcd_set_font(EV3_FONT_MEDIUM);
+  ev3_lcd_draw_string(str.c_str(), 0, 0);
+}
 
 // commandExecutorなどの初期化処理。
 void initialize()
