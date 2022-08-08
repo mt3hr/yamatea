@@ -3,3 +3,4 @@
 bool enablePrintMessageMode = false;
 bool enablePrintMessageForBluetooth = false;
 bool enablePrintMessageForConsole = false;
+float wheelDiameter = 0;

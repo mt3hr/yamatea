@@ -6,8 +6,8 @@ PrintMessage.o \
 Preparizable.o \
 Command.o \
 Predicate.o \
-NumberOfTimesPredicate.o \
 CommandAndPredicate.o \
+NumberOfTimesPredicate.o \
 WheelController.o \
 MotorCountPredicate.o \
 StartButtonPredicate.o \
@@ -28,6 +28,9 @@ Stopper.o \
 ObstacleDetector.o \
 ObstacleDetectRunner.o \
 SwingSonarObstacleDetector.o \
+FinishConfirmable.o \
+FinishedCommandPredicate.o \
+DistancePredicate.o \
 UFORunner.o \
 AwaitingSignalRunner.o \
 StraightBetweenRunner.o \

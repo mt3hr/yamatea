@@ -9,5 +9,6 @@
 extern bool enablePrintMessageMode;
 extern bool enablePrintMessageForBluetooth;
 extern bool enablePrintMessageForConsole;
+extern float wheelDiameter;
 
 #endif

@@ -2,6 +2,7 @@
 #define RotationRobot_H
 
 #include "WheelController.h"
+#include "CommandAndPredicate.h"
 
 // ロボット旋回コマンド生成関数
 //

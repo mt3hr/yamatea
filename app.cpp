@@ -53,6 +53,9 @@ int targetBrightness = 20;
 
 void setting()
 {
+  // 車輪直径。センチメートル。
+  wheelDiameter = 10.3;
+
   // LeftCourceMode, RightCourceModeの設定ここから
   enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
   targetBrightness = 20;                  // enableCalibrateTargetBrightnessがfalseのときに使われるtargetBrightnessの値
