@@ -45,15 +45,13 @@ APPL_DIRS += \
 	$(mkfile_path)command \
 	$(mkfile_path)handler \
 	$(mkfile_path)predicate \
-	$(mkfile_path)robot \
-	$(mkfile_path)sample
+	$(mkfile_path)robot
 
 INCLUDES += \
 	-I$(mkfile_path)command \
 	-I$(mkfile_path)handler \
 	-I$(mkfile_path)predicate \
-	-I$(mkfile_path)robot \
-	-I$(mkfile_path)sample
+	-I$(mkfile_path)robot
 
 #COPTS += -fno-use-cxa-atexit
 
