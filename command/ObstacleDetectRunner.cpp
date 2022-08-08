@@ -1,28 +1,12 @@
 #include "ObstacleDetectRunner.h"
+#include "ObstacleDetector.h"
 
-ObstacleDetectRunner::ObstacleDetectRunner()
+ObstacleDetectRunner::ObstacleDetectRunner(ObstacleDetector *od)
 {
-    return;
+    obstacleDetector = od;
 }
 
-void ObstacleDetectRunner::setLeftObstacleDistance(int lod)
+ObstacleDetectRunner::~ObstacleDetectRunner()
 {
-    leftObstacleDistance = lod;
-    return;
-}
-
-void ObstacleDetectRunner::setRightObstacleDistance(int rod)
-{
-    rightObstacleDistance = rod;
-    return;
-}
-
-int ObstacleDetectRunner::getLeftObstacleDistance()
-{
-    return leftObstacleDistance;
-}
-
-int ObstacleDetectRunner::getRightObstacleDistance()
-{
-    return rightObstacleDistance;
+    delete obstacleDetector;
 }

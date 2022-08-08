@@ -2,6 +2,7 @@
 #define ObstacleDetectRunner_H
 
 #include "Command.h"
+#include "ObstacleDetector.h"
 
 // ObstacleDetectRunner
 // 難所スラロームペットボトル回避走行の基底クラス。
@@ -10,17 +11,10 @@
 class ObstacleDetectRunner : public Command
 {
 private:
-    int leftObstacleDistance;
-    int rightObstacleDistance;
-
-protected:
-    void setLeftObstacleDistance(int leftObstacleDistance);
-    void setRightObstacleDistance(int rightObstacleDistance);
-
+    ObstacleDetector *obstacleDetector;
 public:
-    ObstacleDetectRunner();
-    int getLeftObstacleDistance();
-    int getRightObstacleDistance();
+    ObstacleDetectRunner(ObstacleDetector *obstacleDetector);
+    ~ObstacleDetector();
 };
 
 #endif
