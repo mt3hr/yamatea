@@ -2,6 +2,7 @@
 #define SwingSonarObstacleDetector_H
 
 #include "SwingSonarObstacleDetector.h"
+#include "ObstacleDetector.h"
 
 // SwingOrder
 // SwingSonarObstacleDetectorのコンストラクタ引数。
@@ -18,7 +19,7 @@ enum SwingOrder
     CENTER_RIGHT_LEFT,
     LEFT_RIGHT,
     RIGHT_LEFT,
-}
+};
 
 // ObstacleDetector
 // 難所スラローム用の2本ペットボトル距離測定インターフェース

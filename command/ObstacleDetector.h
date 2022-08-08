@@ -16,6 +16,7 @@ public:
     virtual int getRightObstacleDistance();
     virtual bool isDetectedLeftObstacleDistance();
     virtual bool isDetectedRightObstacleDistance();
+    virtual ObstacleDetector *generateReverseCommand() override;
 };
 
 #endif

@@ -1,9 +1,13 @@
 #include "UFORunner.h"
+#include "ObstacleDetectRunner.h"
+#include "ObstacleDetector.h"
+#include "WheelController.h"
+#include "SonarSensor.h"
 
-UFORunner::UFORunner()
+UFORunner::UFORunner(WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
-    // TODO コンストラクタ引数必要？
-    return;
+    wheelController = wc;
+    sonarSensor = ss;
 }
 
 void UFORunner::run()
@@ -14,6 +18,5 @@ void UFORunner::run()
 
 UFORunner *UFORunner::generateReverseCommand()
 {
-    // TODO
-    return new UFORunner();
+    return new UFORunner(wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
 }

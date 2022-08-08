@@ -1,9 +1,13 @@
 #include "StraightBetweenRunner.h"
+#include "ObstacleDetectRunner.h"
+#include "ObstacleDetector.h"
+#include "WheelController.h"
+#include "SonarSensor.h"
 
-StraightBetweenRunner::StraightBetweenRunner()
+StraightBetweenRunner::StraightBetweenRunner(WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
-    // TODO コンストラクタ引数必要？
-    return;
+    wheelController = wc;
+    sonarSensor = ss;
 }
 
 void StraightBetweenRunner::run()
@@ -15,5 +19,5 @@ void StraightBetweenRunner::run()
 StraightBetweenRunner *StraightBetweenRunner::generateReverseCommand()
 {
     // TODO
-    return new StraightBetweenRunner();
+    return new StraightBetweenRunner(wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
 }

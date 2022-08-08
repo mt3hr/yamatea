@@ -12,9 +12,14 @@ class ObstacleDetectRunner : public Command
 {
 private:
     ObstacleDetector *obstacleDetector;
+
+protected:
+    ObstacleDetector *getObstacleDetector();
+
 public:
     ObstacleDetectRunner(ObstacleDetector *obstacleDetector);
-    ~ObstacleDetector();
+    ~ObstacleDetectRunner();
+    virtual ObstacleDetectRunner *generateReverseCommand() override;
 };
 
 #endif

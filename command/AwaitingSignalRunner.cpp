@@ -1,9 +1,13 @@
 #include "AwaitingSignalRunner.h"
+#include "ObstacleDetectRunner.h"
+#include "ObstacleDetector.h"
+#include "WheelController.h"
+#include "SonarSensor.h"
 
-AwaitingSignalRunner::AwaitingSignalRunner()
+AwaitingSignalRunner::AwaitingSignalRunner(WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
-    // TODO コンストラクタ引数必要？
-    return;
+    wheelController = wc;
+    sonarSensor = ss;
 }
 
 void AwaitingSignalRunner::run()
@@ -15,5 +19,5 @@ void AwaitingSignalRunner::run()
 AwaitingSignalRunner *AwaitingSignalRunner::generateReverseCommand()
 {
     // TODO
-    return new AwaitingSignalRunner();
+    return new AwaitingSignalRunner(wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
 }

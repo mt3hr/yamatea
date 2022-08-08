@@ -2,12 +2,18 @@
 #define StraightBetweenRunner_H
 
 #include "ObstacleDetectRunner.h"
+#include "ObstacleDetector.h"
+#include "WheelController.h"
+#include "SonarSensor.h"
 
-class StraightBetweenRunner : public Command
+class StraightBetweenRunner : public ObstacleDetectRunner
 {
 private:
+    WheelController *wheelController;
+    SonarSensor *sonarSensor;
+
 public:
-    StraightBetweenRunner();
+    StraightBetweenRunner(WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
     void run() override;
     StraightBetweenRunner *generateReverseCommand() override;
 };

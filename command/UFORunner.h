@@ -2,12 +2,18 @@
 #define UFORunner_H
 
 #include "ObstacleDetectRunner.h"
+#include "ObstacleDetector.h"
+#include "WheelController.h"
+#include "SonarSensor.h"
 
 class UFORunner : public ObstacleDetectRunner
 {
 private:
+    WheelController *wheelController;
+    SonarSensor *sonarSensor;
+
 public:
-    UFORunner();
+    UFORunner(WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
     void run() override;
     UFORunner *generateReverseCommand() override;
 };

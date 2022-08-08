@@ -25,7 +25,9 @@ ArmController.o \
 ExecutePreparationWhenExitBeforeCommandHandler.o \
 MotorRotationAnglePredicate.o \
 Stopper.o \
+ObstacleDetector.o \
 ObstacleDetectRunner.o \
+SwingSonarObstacleDetector.o \
 UFORunner.o \
 AwaitingSignalRunner.o \
 StraightBetweenRunner.o \

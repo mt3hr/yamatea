@@ -1,9 +1,13 @@
 #include "SuperSocialDistanceRunner.h"
+#include "ObstacleDetectRunner.h"
+#include "ObstacleDetector.h"
+#include "WheelController.h"
+#include "SonarSensor.h"
 
-SuperSocialDistanceRunner::SuperSocialDistanceRunner()
+SuperSocialDistanceRunner::SuperSocialDistanceRunner(WheelController *wc, SonarSensor *ss,ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
-    // TODO コンストラクタ引数必要？
-    return;
+    wheelController = wc;
+    sonarSensor = ss;
 }
 
 void SuperSocialDistanceRunner::run()
@@ -14,6 +18,5 @@ void SuperSocialDistanceRunner::run()
 
 SuperSocialDistanceRunner *SuperSocialDistanceRunner::generateReverseCommand()
 {
-    // TODO
-    return new SuperSocialDistanceRunner();
+    return new SuperSocialDistanceRunner(wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
 }
