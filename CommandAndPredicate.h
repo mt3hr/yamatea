@@ -3,6 +3,7 @@
 
 #include "Command.h"
 #include "Predicate.h"
+#include "Handler.h"
 
 // CommandAndPredicate
 // CommandとPredicateの1セット
@@ -14,11 +15,13 @@ class CommandAndPredicate
 private:
     Command *command;
     Predicate *predicate;
+    Handler *preHandler;
 
 public:
-    CommandAndPredicate(Command *command, Predicate *predicate);
+    CommandAndPredicate(Command *command, Predicate *predicate, Handler *preHandler);
     Command *getCommand();
     Predicate *getPredicate();
+    Handler *getPreHandler();
 };
 
 #endif

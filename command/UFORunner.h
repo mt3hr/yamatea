@@ -46,9 +46,10 @@ private:
     float ipn;
 
     int walkerPow;
+    int rotatePow;
 
 public:
-    UFORunner(float n, int walkerPow, WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
+    UFORunner(float n, int walkerPow, int rotatePow, WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
     ~UFORunner();
     void run() override;
     UFORunner *generateReverseCommand() override;

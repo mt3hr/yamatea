@@ -11,4 +11,7 @@ extern bool enablePrintMessageForBluetooth;
 extern bool enablePrintMessageForConsole;
 extern float wheelDiameter;
 
+extern int angleFor360TurnRightRotateRobot; // 左に360度旋回するのに必要な左右車輪回転角度数
+extern int angleFor360TurnLeftRotateRobot;  // 右に360度旋回するのに必要な左右車輪回転角度数
+
 #endif

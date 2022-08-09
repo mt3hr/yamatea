@@ -4,24 +4,29 @@
 #include "Walker.h"
 #include "WheelController.h"
 #include "MotorRotationAnglePredicate.h"
+#include "ExecutePreparationWhenExitBeforeCommandHandler.h"
+#include "Setting.h"
 
-CommandAndPredicate *generateRotationRobotCommand(int targetAngle, WheelController *wheelController)
+CommandAndPredicate *generateRotationRobotCommand(int targetAngle, int pwm, WheelController *wheelController)
 {
-    const int angleFor360Turn = 540; // 360度旋回するのに必要な左右車輪回転角度数
-    int pwm = 10;
-    int angle = ((int)((float)targetAngle) / ((float)angleFor360Turn) * ((float)360));
+    int angle;
     Command *command;
-    Predicate *predicate;
+    MotorRotationAnglePredicate *predicate;
+    Handler *preHandler;
     if (targetAngle > 0)
     {
+        angle = ((int)(((float)targetAngle) / ((float)360) * ((float)angleFor360TurnLeftRotateRobot)));
         command = new Walker(pwm, -pwm, wheelController); // 右に向く
         predicate = new MotorRotationAnglePredicate(angle, wheelController->getLeftWheel());
+        preHandler = new ExecutePreparationWhenExitBeforeCommandHandler(predicate);
     }
     else
     {
+        angle = ((int)(((float)targetAngle) / ((float)360) * ((float)angleFor360TurnRightRotateRobot)));
         command = new Walker(-pwm, pwm, wheelController); // 左に向く
-        predicate = new MotorRotationAnglePredicate(angle, wheelController->getRightWheel());
+        predicate = new MotorRotationAnglePredicate(-angle, wheelController->getRightWheel());
+        preHandler = new ExecutePreparationWhenExitBeforeCommandHandler(predicate);
     }
 
-    return new CommandAndPredicate(command, predicate);
+    return new CommandAndPredicate(command, predicate, preHandler);
 }

@@ -30,6 +30,9 @@
 #include "SuitableForRightCourse.h"
 #include "Stopper.h"
 #include "RGBRawReader.h"
+#include "DistancePredicate.h"
+#include "ExecutePreparationWhenExitBeforeCommandHandler.h"
+#include "RotationRobot.h"
 
 using namespace std;
 using namespace ev3api;
@@ -48,13 +51,16 @@ int targetBrightness = 20;
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotation360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
+//#define RotateMode
 //#define StraightMode // 直進するプログラム
 // モード設定ここまで
 
 void setting()
 {
   // 車輪直径。センチメートル。
-  wheelDiameter = 10.3;
+  wheelDiameter = 10.8;
+  angleFor360TurnRightRotateRobot = 525; // 左に360度旋回するのに必要な左右車輪回転角度数
+  angleFor360TurnLeftRotateRobot = 530;  // 右に360度旋回するのに必要な左右車輪回転角度数
 
   // LeftCourceMode, RightCourceModeの設定ここから
   enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
@@ -342,6 +348,32 @@ void initializeCommandExecutor()
 }
 #endif
 
+// RotateModeの場合のcommandExecutor初期化処理
+#if defined(RotateMode)
+void initializeCommandExecutor()
+{
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(wheelController);
+
+  // なにもしないハンドラ
+  Handler *doNothingHandler = new Handler();
+
+  // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
+  // 走行体回転コマンドの初期化とCommandExecutorへの追加
+  int angle = 360;
+  int pwm = 20;
+  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  CommandAndPredicate *commandAndPredicate = generateRotationRobotCommand(angle, pwm, wheelController);
+  commandExecutor->addCommand(new Command(), startButtonPredicate, commandAndPredicate->getPreHandler()); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
+  commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate(), doNothingHandler);
+
+  // 停止コマンドの初期化とCommandExecutorへの追加
+  Stopper *stopper = new Stopper(wheelController);
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
+}
+#endif
+
 #ifdef StraightMode
 void initializeCommandExecutor()
 {
@@ -352,13 +384,16 @@ void initializeCommandExecutor()
   Handler *doNothingHandler = new Handler();
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
-  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
-  commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
-
   // 直進コマンドの初期化とCommandExecutorへの追加
-  int pwm = 50;
+  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+
+  int pwm = 20;
   Walker *walker = new Walker(pwm, pwm, wheelController);
-  Predicate *walkerPredicate = new MotorCountPredicate(leftWheel, 500);
+  DistancePredicate *walkerPredicate = new DistancePredicate(20, wheelController->getLeftWheel());
+
+  Handler *startButtonExitHandler = new ExecutePreparationWhenExitBeforeCommandHandler(walkerPredicate);
+
+  commandExecutor->addCommand(new Command(), startButtonPredicate, startButtonExitHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
   commandExecutor->addCommand(walker, walkerPredicate, doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加

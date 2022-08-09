@@ -7,6 +7,6 @@
 // ロボット旋回コマンド生成関数
 //
 // 実方
-CommandAndPredicate *generateRotationRobotCommand(int targetAngle, WheelController *wheelController);
+CommandAndPredicate *generateRotationRobotCommand(int targetAngle, int pwm, WheelController *wheelController);
 
 #endif

@@ -11,13 +11,14 @@
 using namespace std;
 using namespace ev3api;
 
-UFORunner::UFORunner(float na, int wp, WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
+UFORunner::UFORunner(float na, int wp, int rp, WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
     state = DETECTING_OBSTACLE;
     wheelController = wc;
     sonarSensor = ss;
     n = n;
     walkerPow = wp;
+    rotatePow = rp;
 }
 
 UFORunner::~UFORunner()
@@ -121,7 +122,7 @@ void UFORunner::run()
         if (!initedTurnN)
         {
             initedTurnN = true;
-            CommandAndPredicate *commandAndPredicate = generateRotationRobotCommand(ipn, wheelController);
+            CommandAndPredicate *commandAndPredicate = generateRotationRobotCommand(ipn, rotatePow, wheelController);
             turnNCommand = commandAndPredicate->getCommand();
             turnNPredicate = commandAndPredicate->getPredicate();
         }
@@ -178,7 +179,7 @@ void UFORunner::run()
 
 UFORunner *UFORunner::generateReverseCommand()
 {
-    return new UFORunner(n, walkerPow, wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
+    return new UFORunner(n, walkerPow, rotatePow, wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
 }
 
 bool UFORunner::isFinished()
