@@ -29,7 +29,7 @@ private:
     SonarSensor *sonarSensor;
 
     Walker *p_nWalker;
-    Walker *n_xdivide2Walker;//TOOD ん？めいめい
+    Walker *n_xdivide2Walker;
     Command *turnNCommand;
 
     DistancePredicate *p_nDistancePredicate;
