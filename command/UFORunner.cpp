@@ -11,23 +11,22 @@
 using namespace std;
 using namespace ev3api;
 
-UFORunner::UFORunner(float na, int wlp, int wrp, WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
+UFORunner::UFORunner(float na, int wp, WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
     state = DETECTING_OBSTACLE;
     wheelController = wc;
     sonarSensor = ss;
     n = n;
-    walkerLeftPow = wlp;
-    walkerRightPow = wrp;
+    walkerPow = wp;
 }
 
 UFORunner::~UFORunner()
 {
     delete p_nWalker;
-    delete p_xdivide2Walker;
+    delete n_xdivide2Walker;
     delete turnNCommand;
     delete p_nDistancePredicate;
-    delete p_xdivide2DistancePreicate;
+    delete n_xdivide2DistancePreicate;
     delete turnNPredicate;
 }
 
@@ -99,7 +98,7 @@ void UFORunner::run()
         if (!initedP_N)
         {
             initedP_N = true;
-            p_nWalker = new Walker(walkerLeftPow, walkerRightPow, wheelController);
+            p_nWalker = new Walker(walkerPow, walkerPow, wheelController);
             p_nDistancePredicate = new DistancePredicate(pn, wheelController->getLeftWheel());
             p_nDistancePredicate->preparation();
         }
@@ -131,28 +130,28 @@ void UFORunner::run()
 
         if (turnNPredicate->test())
         {
-            state = RUNNING_P_XDIVIDE2;
+            state = RUNNING_N_XDIVIDE2;
         }
 
-        if (state != RUNNING_P_XDIVIDE2)
+        if (state != RUNNING_N_XDIVIDE2)
         {
             break;
         }
     }
 
-    case RUNNING_P_XDIVIDE2: // Nから2/xまでの走行
+    case RUNNING_N_XDIVIDE2: // Nから2/xまでの走行
     {
-        if (!initedP_XDivide2)
+        if (!initedN_XDivide2)
         {
-            initedP_XDivide2 = true;
-            p_xdivide2Walker = new Walker(walkerLeftPow, walkerRightPow, wheelController);
-            p_xdivide2DistancePreicate = new DistancePredicate(pn, wheelController->getLeftWheel());
-            p_xdivide2DistancePreicate->preparation();
+            initedN_XDivide2 = true;
+            n_xdivide2Walker = new Walker(walkerPow, walkerPow, wheelController);
+            n_xdivide2DistancePreicate = new DistancePredicate(pn, wheelController->getLeftWheel());
+            n_xdivide2DistancePreicate->preparation();
         }
 
-        p_xdivide2Walker->run();
+        n_xdivide2Walker->run();
 
-        if (p_xdivide2DistancePreicate->test())
+        if (n_xdivide2DistancePreicate->test())
         {
             state = FINISHED;
         }
@@ -179,7 +178,7 @@ void UFORunner::run()
 
 UFORunner *UFORunner::generateReverseCommand()
 {
-    return new UFORunner(n, walkerLeftPow, walkerRightPow, wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
+    return new UFORunner(n, walkerPow, wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
 }
 
 bool UFORunner::isFinished()

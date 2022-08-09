@@ -17,7 +17,7 @@ enum UFORunnerState
     CALCRATING,
     RUNNING_P_N,
     TURNNING_N,
-    RUNNING_P_XDIVIDE2,
+    RUNNING_N_XDIVIDE2,
     FINISHED,
 };
 
@@ -29,27 +29,26 @@ private:
     SonarSensor *sonarSensor;
 
     Walker *p_nWalker;
-    Walker *p_xdivide2Walker;
+    Walker *n_xdivide2Walker;//TOOD ん？めいめい
     Command *turnNCommand;
 
     DistancePredicate *p_nDistancePredicate;
-    DistancePredicate *p_xdivide2DistancePreicate;
+    DistancePredicate *n_xdivide2DistancePreicate;
     Predicate *turnNPredicate;
 
     bool startedCalcrate = false;
     bool initedP_N = false;
-    bool initedP_XDivide2 = false;
+    bool initedN_XDivide2 = false;
     bool initedTurnN = false;
 
     float n;
     float pn;
     float ipn;
 
-    int walkerLeftPow;
-    int walkerRightPow;
+    int walkerPow;
 
 public:
-    UFORunner(float n, int walkerLeftPow, int walkerRightPow, WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
+    UFORunner(float n, int walkerPow, WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
     ~UFORunner();
     void run() override;
     UFORunner *generateReverseCommand() override;
