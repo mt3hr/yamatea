@@ -4,20 +4,16 @@
 #include "WheelController.h"
 #include "SonarSensor.h"
 
-StraightBetweenRunner::StraightBetweenRunner(WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
+StraightBetweenRunner::StraightBetweenRunner(float p, int walkerPow, int rotatePow, WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector) : UFORunner(p, 0, walkerPow, rotatePow, wheelController, sonarSensor, obstacleDetector)
 {
-    wheelController = wc;
-    sonarSensor = ss;
-}
-
-void StraightBetweenRunner::run()
-{
-    // TODO
-    return;
+    this->p = p;
+    this->walkerPow = walkerPow;
+    this->rotatePow = rotatePow;
+    this->wheelController = wheelController;
+    this->sonarSensor = sonarSensor;
 }
 
 StraightBetweenRunner *StraightBetweenRunner::generateReverseCommand()
 {
-    // TODO
-    return new StraightBetweenRunner(wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
+    return new StraightBetweenRunner(p, walkerPow, rotatePow, wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
 }

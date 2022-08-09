@@ -3,6 +3,9 @@
 
 #include "SwingSonarObstacleDetector.h"
 #include "ObstacleDetector.h"
+#include "SonarSensor.h"
+
+using namespace ev3api;
 
 // SwingOrder
 // SwingSonarObstacleDetectorのコンストラクタ引数。
@@ -38,9 +41,10 @@ private:
     bool detectedLeftObstacleDistance = false;
     bool detectedRightObstacleDistance = false;
     SwingOrder swingOrder;
+    SonarSensor *sonarSensor;
 
 public:
-    SwingSonarObstacleDetector(SwingOrder swingOrder);
+    SwingSonarObstacleDetector(SwingOrder swingOrder, SonarSensor *sonarSensor);
     ~SwingSonarObstacleDetector();
     void run() override;
     SwingSonarObstacleDetector *generateReverseCommand() override;

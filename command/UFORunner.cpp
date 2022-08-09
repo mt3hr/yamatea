@@ -11,11 +11,12 @@
 using namespace std;
 using namespace ev3api;
 
-UFORunner::UFORunner(float na, int wp, int rp, WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
+UFORunner::UFORunner(float pa, float na, int wp, int rp, WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
     state = DETECTING_OBSTACLE;
     wheelController = wc;
     sonarSensor = ss;
+    p = pa;
     n = n;
     walkerPow = wp;
     rotatePow = rp;
@@ -60,7 +61,6 @@ void UFORunner::run()
         }
         startedCalcrate = true;
 
-        float p = 0;   // TODO これどうやって求めるの？引数から渡すのかな？
         float pin = 0; // TODO これどうやって求めるの？手順3で必要になる
         float ik = obstacleDetector->getLeftObstacleDistance();
         float dk = obstacleDetector->getRightObstacleDistance();
@@ -179,7 +179,7 @@ void UFORunner::run()
 
 UFORunner *UFORunner::generateReverseCommand()
 {
-    return new UFORunner(n, walkerPow, rotatePow, wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
+    return new UFORunner(p, n, walkerPow, rotatePow, wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
 }
 
 bool UFORunner::isFinished()

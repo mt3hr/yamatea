@@ -41,6 +41,7 @@ private:
     bool initedN_XDivide2 = false;
     bool initedTurnN = false;
 
+    float p;
     float n;
     float pn;
     float ipn;
@@ -49,7 +50,7 @@ private:
     int rotatePow;
 
 public:
-    UFORunner(float n, int walkerPow, int rotatePow, WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
+    UFORunner(float p, float n, int walkerPow, int rotatePow, WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
     ~UFORunner();
     void run() override;
     UFORunner *generateReverseCommand() override;
