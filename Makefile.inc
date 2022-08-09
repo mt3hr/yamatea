@@ -12,7 +12,7 @@ WheelController.o \
 MotorCountPredicate.o \
 StartButtonPredicate.o \
 CommandExecutor.o \
-RotationRobot.o \
+RotateRobot.o \
 SuitableForRightCourse.o \
 PIDTargetBrightnessCalibrator.o \
 PIDTracer.o \
@@ -23,7 +23,7 @@ RGBRawReader.o \
 DistanceReader.o \
 ArmController.o \
 ExecutePreparationWhenExitBeforeCommandHandler.o \
-MotorRotationAnglePredicate.o \
+MotorRotateAnglePredicate.o \
 Stopper.o \
 ObstacleDetector.o \
 ObstacleDetectRunner.o \

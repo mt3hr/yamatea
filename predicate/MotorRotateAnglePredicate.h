@@ -1,5 +1,5 @@
-#ifndef MotorRotationAnglePredicate_H
-#define MotorRotationAnglePredicate_H
+#ifndef MotorRotateAnglePredicate_H
+#define MotorRotateAnglePredicate_H
 
 #include "Motor.h"
 #include "Predicate.h"
@@ -7,11 +7,11 @@
 
 using namespace ev3api;
 
-// MotorRotationAnglePredicate
+// MotorRotateAnglePredicate
 // モータ回転角を判定条件とするPredicate
 //
 // 実方
-class MotorRotationAnglePredicate : public Predicate, public Preparizable
+class MotorRotateAnglePredicate : public Predicate, public Preparizable
 {
 private:
     int angle;       // コンストラクタ引数から渡される角度の値
@@ -19,7 +19,7 @@ private:
     Motor *motor;
 
 public:
-    MotorRotationAnglePredicate(int angle, Motor *motor);
+    MotorRotateAnglePredicate(int angle, Motor *motor);
     bool test() override;
     void preparation() override;
 };

@@ -25,14 +25,14 @@
 #include "Handler.h"
 #include "SetPIDTargetBrightnessWhenCalibratedHandler.h"
 #include "CommandAndPredicate.h"
-#include "MotorRotationAnglePredicate.h"
+#include "MotorRotateAnglePredicate.h"
 #include "NumberOfTimesPredicate.h"
 #include "SuitableForRightCourse.h"
 #include "Stopper.h"
 #include "RGBRawReader.h"
 #include "DistancePredicate.h"
 #include "ExecutePreparationWhenExitBeforeCommandHandler.h"
-#include "RotationRobot.h"
+#include "RotateRobot.h"
 
 using namespace std;
 using namespace ev3api;

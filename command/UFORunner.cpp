@@ -5,7 +5,7 @@
 #include "SonarSensor.h"
 #include "math.h"
 #include "DistancePredicate.h"
-#include "RotationRobot.h"
+#include "RotateRobot.h"
 #include "CommandAndPredicate.h"
 
 using namespace std;
@@ -122,7 +122,7 @@ void UFORunner::run()
         if (!initedTurnN)
         {
             initedTurnN = true;
-            CommandAndPredicate *commandAndPredicate = generateRotationRobotCommand(ipn, rotatePow, wheelController);
+            CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(ipn, rotatePow, wheelController);
             turnNCommand = commandAndPredicate->getCommand();
             turnNPredicate = commandAndPredicate->getPredicate();
         }
