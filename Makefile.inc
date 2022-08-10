@@ -23,6 +23,7 @@ RGBRawReader.o \
 DistanceReader.o \
 ArmController.o \
 ExecutePreparationWhenExitBeforeCommandHandler.o \
+SteeringRobot.o \
 MotorRotateAnglePredicate.o \
 Stopper.o \
 ObstacleDetector.o \

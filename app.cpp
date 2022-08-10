@@ -33,6 +33,8 @@
 #include "DistancePredicate.h"
 #include "ExecutePreparationWhenExitBeforeCommandHandler.h"
 #include "RotateRobot.h"
+#include "SteeringRobot.h"
+#include "FinishedCommandPredicate.h"
 
 using namespace std;
 using namespace ev3api;
@@ -50,9 +52,10 @@ int targetBrightness = 20;
 //#define RightCourceMode // 右コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
-//#define Rotation360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
-//#define RotateMode
-//#define StraightMode // 直進するプログラム
+//#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
+//#define RotateTestMode // 旋回モード。テスト用
+//#define StraightTestMode // 直進モード。テスト用
+//#define SteeringTestMode
 // モード設定ここまで
 
 void setting()
@@ -319,8 +322,8 @@ void initializeCommandExecutor()
 }
 #endif
 
-// Rotation360TestModeの場合のcommandExecutor初期化処理
-#if defined(Rotation360TestMode)
+// Rotate360TestModeの場合のcommandExecutor初期化処理
+#if defined(Rotate360TestMode)
 void initializeCommandExecutor()
 {
   int motorRotateAngle = 540; // ここの値をいじってはかって
@@ -348,8 +351,8 @@ void initializeCommandExecutor()
 }
 #endif
 
-// RotateModeの場合のcommandExecutor初期化処理
-#if defined(RotateMode)
+// RotateTestModeの場合のcommandExecutor初期化処理
+#if defined(RotateTestMode)
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
@@ -363,7 +366,7 @@ void initializeCommandExecutor()
   int angle = 360;
   int pwm = 20;
   Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
-  CommandAndPredicate *commandAndPredicate = generateRotationRobotCommand(angle, pwm, wheelController);
+  CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(angle, pwm, wheelController);
   commandExecutor->addCommand(new Command(), startButtonPredicate, commandAndPredicate->getPreHandler()); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate(), doNothingHandler);
 
@@ -374,7 +377,7 @@ void initializeCommandExecutor()
 }
 #endif
 
-#ifdef StraightMode
+#ifdef StraightTestMode
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
@@ -395,6 +398,36 @@ void initializeCommandExecutor()
 
   commandExecutor->addCommand(new Command(), startButtonPredicate, startButtonExitHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
   commandExecutor->addCommand(walker, walkerPredicate, doNothingHandler);
+
+  // 停止コマンドの初期化とCommandExecutorへの追加
+  Stopper *stopper = new Stopper(wheelController);
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
+}
+#endif
+
+// Walkerでいいじゃん。今後1000年使いません。SteeringRobotクラス。
+#ifdef SteeringTestMode
+void initializeCommandExecutor()
+{
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(wheelController);
+
+  // なにもしないハンドラ
+  Handler *doNothingHandler = new Handler();
+
+  // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
+  // ステアリングコマンドの初期化とCommandExecutorへの追加
+  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+
+  int pwm = 20;
+  int angle = 25;
+  int rightWheelDistanceCm = 10;
+  SteeringRobot *steeringCommand = new SteeringRobot(pwm, angle, leftWheel, rightWheel);
+  DistancePredicate *steeringPredicate = new DistancePredicate(rightWheelDistanceCm, leftWheel);
+
+  commandExecutor->addCommand(new Command(), startButtonPredicate, new ExecutePreparationWhenExitBeforeCommandHandler(steeringPredicate)); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
+  commandExecutor->addCommand(steeringCommand, steeringPredicate, doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
   Stopper *stopper = new Stopper(wheelController);
