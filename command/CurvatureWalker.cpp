@@ -36,11 +36,11 @@ CommandAndPredicate *generateCurvatureWalkerWithTheta(int pwm, float r, float th
     DistancePredicate *predicate;
     if (clock)
     {
-        predicate = new DistancePredicate(loneR, wheelController->getRightWheel());
+        predicate = new DistancePredicate(loneL, wheelController->getLeftWheel());
     }
     else
     {
-        predicate = new DistancePredicate(loneL, wheelController->getLeftWheel());
+        predicate = new DistancePredicate(loneR, wheelController->getRightWheel());
     }
 
     Handler *preHandler = new ExecutePreparationWhenExitBeforeCommandHandler(predicate);

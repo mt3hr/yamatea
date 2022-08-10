@@ -49,14 +49,14 @@ int targetBrightness = 20;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define LeftCourceMode // 左コース用プログラム
+// #define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
 //#define StraightTestMode // 直進モード。テスト用
-//#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
+#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SteeringTestMode // ステアリングモード。テスト用。Walkerでいいことに気付いたので使いません。
 // モード設定ここまで
 
@@ -454,7 +454,7 @@ void initializeCommandExecutor()
   // 曲率進行コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
 
-  int pwm = 15; // TODO pwm上げるとおかしくなる
+  int pwm = 20; // TODO pwm上げるとおかしくなる
   float r = 20;
   float theta = 90;
   CommandAndPredicate *commandAndPredicate = generateCurvatureWalkerWithTheta(pwm, r, theta, false, wheelController);
