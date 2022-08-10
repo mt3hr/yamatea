@@ -21,5 +21,5 @@ void DistancePredicate::preparation()
     float circumference = wheelDiameter * M_PI; // 円周
     float distanceOf360 = circumference;        // 360度回転したときに進む距離
     float cm1Angle = 360 / distanceOf360;       // 1cm進むときのモータ回転角
-    targetAngle = (cm1Angle * targetDistanceCm) + wheel->getCount();
+    targetAngle = (cm1Angle * targetDistanceCm) + float(wheel->getCount());
 }

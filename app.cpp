@@ -35,6 +35,7 @@
 #include "RotateRobot.h"
 #include "SteeringRobot.h"
 #include "FinishedCommandPredicate.h"
+#include "CurvatureWalker.h"
 
 using namespace std;
 using namespace ev3api;
@@ -55,15 +56,18 @@ int targetBrightness = 20;
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
 //#define StraightTestMode // 直進モード。テスト用
-//#define SteeringTestMode
+//#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
+//#define SteeringTestMode // ステアリングモード。テスト用。Walkerでいいことに気付いたので使いません。
 // モード設定ここまで
 
 void setting()
 {
   // 車輪直径。センチメートル。
-  wheelDiameter = 10.8;
+  wheelDiameter = 10.4;
   angleFor360TurnRightRotateRobot = 525; // 左に360度旋回するのに必要な左右車輪回転角度数
   angleFor360TurnLeftRotateRobot = 530;  // 右に360度旋回するのに必要な左右車輪回転角度数
+
+  wheelSpace = 14.5; // 左車輪と右車輪の間隔
 
   // LeftCourceMode, RightCourceModeの設定ここから
   enableCalibrateTargetBrightness = true; // PIDTracer.targetBrightnessをキャリブレーションするときはtrueにして
@@ -390,9 +394,10 @@ void initializeCommandExecutor()
   // 直進コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
 
-  int pwm = 20;
+  int pwm = 50;
+  float distanceCm = 50;
   Walker *walker = new Walker(pwm, pwm, wheelController);
-  DistancePredicate *walkerPredicate = new DistancePredicate(20, wheelController->getLeftWheel());
+  DistancePredicate *walkerPredicate = new DistancePredicate(distanceCm, wheelController->getLeftWheel());
 
   Handler *startButtonExitHandler = new ExecutePreparationWhenExitBeforeCommandHandler(walkerPredicate);
 
@@ -428,6 +433,34 @@ void initializeCommandExecutor()
 
   commandExecutor->addCommand(new Command(), startButtonPredicate, new ExecutePreparationWhenExitBeforeCommandHandler(steeringPredicate)); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
   commandExecutor->addCommand(steeringCommand, steeringPredicate, doNothingHandler);
+
+  // 停止コマンドの初期化とCommandExecutorへの追加
+  Stopper *stopper = new Stopper(wheelController);
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
+}
+#endif
+
+#if defined(CurvatureWalkerTestMode)
+void initializeCommandExecutor()
+{
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(wheelController);
+
+  // なにもしないハンドラ
+  Handler *doNothingHandler = new Handler();
+
+  // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
+  // 曲率進行コマンドの初期化とCommandExecutorへの追加
+  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+
+  int pwm = 15; // TODO pwm上げるとおかしくなる
+  float r = 20;
+  float theta = 90;
+  CommandAndPredicate *commandAndPredicate = generateCurvatureWalkerWithTheta(pwm, r, theta, false, wheelController);
+
+  commandExecutor->addCommand(new Command(), startButtonPredicate, commandAndPredicate->getPreHandler()); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
+  commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate(), doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
   Stopper *stopper = new Stopper(wheelController);

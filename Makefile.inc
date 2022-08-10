@@ -32,6 +32,7 @@ SwingSonarObstacleDetector.o \
 FinishConfirmable.o \
 FinishedCommandPredicate.o \
 DistancePredicate.o \
+CurvatureWalker.o \
 UFORunner.o \
 AwaitingSignalRunner.o \
 StraightBetweenRunner.o \

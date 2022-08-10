@@ -11,7 +11,7 @@ class DistancePredicate : public Predicate, public Preparizable
 {
 private:
     float targetDistanceCm;
-    int targetAngle = INT_MAX;
+    float targetAngle = FLOAT32_MAX;
     Motor *wheel;
 
 public:
