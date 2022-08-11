@@ -88,8 +88,8 @@ void PIDTargetBrightnessCalibrator::run()
             stringstream bs;
             stringstream ws;
 
-            bs << "black brightness:" << getBlack();
-            ws << "white brightness:" << getWhite();
+            bs << "black bright:" << getBlack();
+            ws << "white bright:" << getWhite();
 
             vector<string> messageLines;
             messageLines.push_back("calibrated!");
