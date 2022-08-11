@@ -39,7 +39,8 @@ void PIDTargetBrightnessCalibrator::run()
             vector<string> messageLines;
             messageLines.push_back("calibrating");
             messageLines.push_back("press right key");
-            messageLines.push_back("     read black");
+            messageLines.push_back(" read black brightness");
+            messageLines.push_back(" from color sensor");
             PrintMessage printMessage(messageLines, true);
             printMessage.run();
         }
@@ -57,7 +58,9 @@ void PIDTargetBrightnessCalibrator::run()
             vector<string> messageLines;
             messageLines.push_back("calibrating");
             messageLines.push_back("press right key");
-            messageLines.push_back("     read white");
+            messageLines.push_back(" read white brightness");
+            messageLines.push_back(" from color sensor");
+
             PrintMessage printMessage(messageLines, true);
             printMessage.run();
         }
