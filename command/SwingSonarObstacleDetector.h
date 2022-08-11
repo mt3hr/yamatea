@@ -4,6 +4,11 @@
 #include "SwingSonarObstacleDetector.h"
 #include "ObstacleDetector.h"
 #include "SonarSensor.h"
+#include "RotateRobotDistanceAngleDetector.h"
+#include "CommandAndPredicate.h"
+#include "WheelController.h"
+#include "Predicate.h"
+#include "FinishConfirmable.h"
 
 using namespace ev3api;
 
@@ -24,6 +29,15 @@ enum SwingOrder
     RIGHT_LEFT,
 };
 
+enum SwingSonarObstacleDetectorState
+{
+    DETECT_OBSTACLE_1,
+    RETURNING1,
+    DETECT_OBSTACLE_2,
+    RETURNING2,
+    FINISHED,
+};
+
 // ObstacleDetector
 // 難所スラローム用の2本ペットボトル距離測定インターフェース
 // run()メソッドで障害物検知をする。
@@ -33,25 +47,50 @@ enum SwingOrder
 // （Commandインターフェースを継承している理由は、将来Commandとして使うかもしれないから）
 //
 // 実方
-class SwingSonarObstacleDetector : public ObstacleDetector
+class SwingSonarObstacleDetector : public ObstacleDetector,
+    public FinishConfirmable
 {
 private:
+    SwingSonarObstacleDetectorState state;
+    int pwm;
     int leftObstacleDistance = -1;
     int rightObstacleDistance = -1;
+    int obstacleAngle = -1;
     bool detectedLeftObstacleDistance = false;
     bool detectedRightObstacleDistance = false;
+    bool detectedObstacleAngle = false;
     SwingOrder swingOrder;
     SonarSensor *sonarSensor;
+    WheelController *wheelController;
+
+    RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetector1;
+    RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetector2;
+
+    Predicate *rotateRobotDistanceAngleDetector1Predicate;
+    Predicate *rotateRobotDistanceAngleDetector2Predicate;
+
+    CommandAndPredicate *rotateRobotCommandAndPredicate1; // 検知したら向き直るやつ1回目
+    CommandAndPredicate *rotateRobotCommandAndPredicate2; // 検知したら向き直るやつ2回目
+
+    bool initedRotateRobotDistanceAngleDetector1;
+    bool initedRotateRobotDistanceAngleDetector2;
+    bool initedRotateRobotCommandAndPreicate1;
+    bool initedRotateRobotCommandAndPreicate2;
+
+    bool finished = false;
 
 public:
-    SwingSonarObstacleDetector(SwingOrder swingOrder, SonarSensor *sonarSensor);
+    SwingSonarObstacleDetector(SwingOrder swingOrder, int pwm, SonarSensor *sonarSensor, WheelController *WheelController);
     ~SwingSonarObstacleDetector();
     void run() override;
     SwingSonarObstacleDetector *generateReverseCommand() override;
+    bool isFinished() override;
     int getLeftObstacleDistance() override;
     int getRightObstacleDistance() override;
+    float getObstacleAngle() override;
     bool isDetectedLeftObstacleDistance() override;
     bool isDetectedRightObstacleDistance() override;
+    bool isDetectedObstacleAngle() override;
 };
 
 #endif

@@ -11,12 +11,11 @@
 using namespace std;
 using namespace ev3api;
 
-UFORunner::UFORunner(float pa, float na, int wp, int rp, WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
+UFORunner::UFORunner(float na, int wp, int rp, WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
     state = DETECTING_OBSTACLE;
     wheelController = wc;
     sonarSensor = ss;
-    p = pa;
     n = n;
     walkerPow = wp;
     rotatePow = rp;
@@ -61,9 +60,9 @@ void UFORunner::run()
         }
         startedCalcrate = true;
 
-        float pin = 0; // TODO これどうやって求めるの？手順3で必要になる
         float ik = obstacleDetector->getLeftObstacleDistance();
         float dk = obstacleDetector->getRightObstacleDistance();
+        float p = obstacleDetector->getObstacleAngle();
 
         // C++のmathの三角関数系統はラジアンをうけとるしラジアンを返してくる
 
@@ -79,6 +78,10 @@ void UFORunner::run()
 
         // 3,∠Iから∠NID（arcsin((x/2)/NI)）を引き余弦定理で距離PNを求める
         // PN^2=Ik^2+NI^2-(2Ik×NI×cos∠PIN)
+        //・∠pinの求め方が分からない。
+        // A.∠I-∠NID
+        // float pin = i - nid; //TODO ∠iも∠nidわかんない！
+        float pin = 0;
         float pnSquare = pow(ik, 2) + pow(ni, 2) - ((2 * ik) * ni * (cos(pin * (M_PI / 180)) * (M_PI / 180)));
         pn = pow(pnSquare, 1 / 2);
 
@@ -179,7 +182,7 @@ void UFORunner::run()
 
 UFORunner *UFORunner::generateReverseCommand()
 {
-    return new UFORunner(p, n, walkerPow, rotatePow, wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
+    return new UFORunner(n, walkerPow, rotatePow, wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
 }
 
 bool UFORunner::isFinished()

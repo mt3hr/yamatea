@@ -37,6 +37,7 @@ UFORunner.o \
 AwaitingSignalRunner.o \
 StraightBetweenRunner.o \
 SuperSocialDistanceRunner.o \
+RotateRobotDistanceAngleDetector.o \
 
 SRCLANG := c++
 

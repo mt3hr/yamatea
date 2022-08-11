@@ -9,8 +9,12 @@ int ObstacleDetector::getLeftObstacleDistance()
     return 0;
 }
 
-
 int ObstacleDetector::getRightObstacleDistance()
+{
+    return 0;
+}
+
+float ObstacleDetector::getObstacleAngle()
 {
     return 0;
 }
@@ -28,4 +32,9 @@ bool ObstacleDetector::isDetectedRightObstacleDistance()
 ObstacleDetector *ObstacleDetector::generateReverseCommand()
 {
     return new ObstacleDetector();
+}
+
+bool ObstacleDetector::isDetectedObstacleAngle()
+{
+    return false;
 }

@@ -8,6 +8,7 @@
 #include "SonarSensor.h"
 
 #include "string"
+#include "sstream"
 #include "vector"
 
 #include "Setting.h"
@@ -36,6 +37,7 @@
 #include "SteeringRobot.h"
 #include "FinishedCommandPredicate.h"
 #include "CurvatureWalker.h"
+#include "SwingSonarObstacleDetector.h"
 
 using namespace std;
 using namespace ev3api;
@@ -56,8 +58,9 @@ int targetBrightness = 20;
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
 //#define StraightTestMode // 直進モード。テスト用
-#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
+//#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SteeringTestMode // ステアリングモード。テスト用。Walkerでいいことに気付いたので使いません。
+#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 // モード設定ここまで
 
 void setting()
@@ -75,10 +78,10 @@ void setting()
   // LeftCourceMode, RightCourceModeの設定ここまで
 
   // 情報出力の有効無効設定ここから
-  enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。
+  enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
   enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
   enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、すぐ下の行、#define EnableBluetoothのコメントアウトも外して。
-  //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。
+  // #define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。
   // 情報出力の有効無効設定ここまで
 }
 
@@ -367,7 +370,7 @@ void initializeCommandExecutor()
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
-  int angle = 360;
+  int angle = -360;
   int pwm = 20;
   Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
   CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(angle, pwm, wheelController);
@@ -411,7 +414,7 @@ void initializeCommandExecutor()
 }
 #endif
 
-// Walkerでいいじゃん。今後1000年使いません。SteeringRobotクラス。
+// Walkerでいいじゃん。今後1000年使いません、SteeringRobotクラス。
 #ifdef SteeringTestMode
 void initializeCommandExecutor()
 {
@@ -456,7 +459,7 @@ void initializeCommandExecutor()
 
   int pwm = 20; // TODO pwm上げるとおかしくなる
   float r = 20;
-  float theta = 90;
+  float theta = 360;
   CommandAndPredicate *commandAndPredicate = generateCurvatureWalkerWithTheta(pwm, r, theta, false, wheelController);
 
   commandExecutor->addCommand(new Command(), startButtonPredicate, commandAndPredicate->getPreHandler()); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
@@ -466,6 +469,52 @@ void initializeCommandExecutor()
   Stopper *stopper = new Stopper(wheelController);
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
+}
+#endif
+
+#if defined(SwingSonarDetectorTestMode)
+void initializeCommandExecutor()
+{
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(wheelController);
+
+  // なにもしないハンドラ
+  Handler *doNothingHandler = new Handler();
+
+  // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
+  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
+
+  // 障害物検出コマンドの初期化とCommandExecutorへの追加
+  int pwm = 20;
+  SwingSonarObstacleDetector *swingSonarDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, sonarSensor, wheelController);
+  Predicate *swingSonarDetectorPredicate = new FinishedCommandPredicate(swingSonarDetector);
+  commandExecutor->addCommand(swingSonarDetector, swingSonarDetectorPredicate, doNothingHandler);
+
+  // 停止コマンドの初期化とCommandExecutorへの追加
+  Stopper *stopper = new Stopper(wheelController);
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
+
+  // 結果出力コマンドの初期化とCommandExecutorへの追加
+  stringstream d1s;
+  stringstream d2s;
+  stringstream as;
+  d1s.clear();
+  d2s.clear();
+  as.clear();
+  d1s.str("");
+  d2s.str("");
+  as.str("");
+  d1s << "distance1: " << float(swingSonarDetector->getRightObstacleDistance());
+  d2s << "distance2: " << float(swingSonarDetector->getRightObstacleDistance());
+  as << "angle: " << float(swingSonarDetector->getObstacleAngle());
+  vector<string> messageLines;
+  messageLines.push_back(d1s.str());
+  messageLines.push_back(d2s.str());
+  messageLines.push_back(as.str());
+  PrintMessage *resultPrintCommand = new PrintMessage(messageLines, true);
+  commandExecutor->addCommand(resultPrintCommand, startButtonPredicate, doNothingHandler);
 }
 #endif
 

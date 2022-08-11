@@ -33,10 +33,10 @@ MotorCountPredicate *generateMotorCountPredicate(bool isRightCource, int count, 
 {
     if (isRightCource)
     {
-        return new MotorCountPredicate(wheelController->getLeftWheel(), count);
+        return new MotorCountPredicate(wheelController->getLeftWheel(), count, false);
     }
     else
     {
-        return new MotorCountPredicate(wheelController->getRightWheel(), count);
+        return new MotorCountPredicate(wheelController->getRightWheel(), count, false);
     }
 }

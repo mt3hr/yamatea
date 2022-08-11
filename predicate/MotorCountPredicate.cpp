@@ -1,15 +1,20 @@
-#ifndef MotorCountPredicate_H
-#define MotorCountPredicate_H
 #include "MotorCountPredicate.h"
 
-MotorCountPredicate::MotorCountPredicate(Motor *m, int c)
+MotorCountPredicate::MotorCountPredicate(Motor *m, int c, bool decrease)
 {
     motor = m;
     count = c;
+    this->decrease = decrease;
 }
 
 bool MotorCountPredicate::test()
 {
-    return motor->getCount() > count;
+    if (decrease)
+    {
+        return motor->getCount() <= count;
+    }
+    else
+    {
+        return motor->getCount() >= count;
+    }
 }
-#endif

@@ -42,12 +42,10 @@ void PrintMessage::print()
             printf("%s", messageLineEOLAppended.c_str());
         }
 
-#if defined(EnableBluetooth)
         if (enablePrintMessageForBluetooth)
         {
             msg_bt(messageLineEOLAppended);
         }
-#endif
     }
 
     // 下の行の上書き処理。

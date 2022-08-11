@@ -1,3 +1,6 @@
+#ifndef MotorCountPredicate_H
+#define MotorCountPredicate_H
+
 #include "Predicate.h"
 #include "Motor.h"
 
@@ -12,8 +15,10 @@ class MotorCountPredicate : public Predicate
 private:
     Motor *motor;
     int count;
+    bool decrease;
 
 public:
-    MotorCountPredicate(Motor *motor, int count);
+    MotorCountPredicate(Motor *motor, int count, bool decrease);
     bool test() override;
 };
+#endif

@@ -8,14 +8,14 @@
 class StraightBetweenRunner : public UFORunner
 {
 private:
-    float p;
+    float n;
     int walkerPow;
     int rotatePow;
     WheelController *wheelController;
     SonarSensor *sonarSensor;
 
 public:
-    StraightBetweenRunner(float p, int walkerPow, int rotatePow, WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
+    StraightBetweenRunner(int walkerPow, int rotatePow, WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
     StraightBetweenRunner *generateReverseCommand() override;
 };
 
