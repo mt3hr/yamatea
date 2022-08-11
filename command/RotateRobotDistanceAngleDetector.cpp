@@ -16,6 +16,7 @@ RotateRobotDistanceAngleDetector::RotateRobotDistanceAngleDetector(float targetA
     this->rotateRobotCommand = commandAndPredicate->getCommand();
     this->rotateRobotPredicate = commandAndPredicate->getPredicate();
     this->rotateRobotPreHandler = commandAndPredicate->getPreHandler();
+    delete commandAndPredicate;
 
     this->wheelController = wheelController;
     this->sonarSensor = sonarSensor;
@@ -71,7 +72,7 @@ RotateRobotDistanceAngleDetector *RotateRobotDistanceAngleDetector::generateReve
 
 bool RotateRobotDistanceAngleDetector::isFinished()
 {
-    return isDetectedAngle() || rotateRobotPredicate->test();
+    return (isDetectedAngle() && isDetectedDistance()) || rotateRobotPredicate->test();
 }
 
 int RotateRobotDistanceAngleDetector::getDistance()

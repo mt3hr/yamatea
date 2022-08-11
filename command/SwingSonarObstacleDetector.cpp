@@ -4,46 +4,60 @@
 #include "WheelController.h"
 #include "FinishedCommandPredicate.h"
 #include "RotateRobot.h"
+#include "Stopper.h"
+#include "string"         //TODO 消して
+#include "sstream"        //TODO 消して
+#include "vector"         //TODO 消して
+#include "PrintMessage.h" //TODO 消して
 
 using namespace ev3api;
 
 SwingSonarObstacleDetector::SwingSonarObstacleDetector(SwingOrder so, int pwm, SonarSensor *ss, WheelController *wc)
 {
-    state = DETECT_OBSTACLE_1;
-    this->pwm = pwm;
-    wheelController = wc;
     swingOrder = so;
+    this->pwm = pwm;
     sonarSensor = ss;
+    wheelController = wc;
+    state = DETECT_OBSTACLE_1;
+    stopper = new Stopper(wheelController);
 };
 
-SwingSonarObstacleDetector::~SwingSonarObstacleDetector(){
+SwingSonarObstacleDetector::~SwingSonarObstacleDetector()
+{
+    delete stopper;
     // TODO
 };
 
 void SwingSonarObstacleDetector::run()
 {
+    // TODO　コンストラクタ等引数に持っていって
+    // 障害物の端っこを検出する形となるであろう
+    float swingLeft = 45;   // 左方向への最大首振り角度
+    float swingRight = -45; // 右方向への最大首振り角度
+
+    int targetLeft = 20;  //左障害物判定のしきい値
+    int targetRight = 20; //右障害物判定のしきい値
+
     switch (swingOrder)
     {
     case CENTER_LEFT_RIGHT:
     {
-        // TODO　コンスト等引数に持っていって
-
-        // 障害物の端っこを検出する形となるであろう
-        float swingLeft = 45;   // 左方向への最大首振り角度
-        float swingRight = -45; // 右方向への最大首振り角度
-
-        int targetLeft = 10;  //左障害物判定のしきい値
-        int targetRight = 10; //右障害物判定のしきい値
-
         switch (state)
         {
         case DETECT_OBSTACLE_1:
         {
             if (!initedRotateRobotDistanceAngleDetector1)
             {
-                initedRotateRobotDistanceAngleDetector1 = true;
                 rotateRobotDistanceAngleDetector1 = new RotateRobotDistanceAngleDetector(swingLeft, targetLeft, pwm, wheelController, sonarSensor);
                 rotateRobotDistanceAngleDetector1Predicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetector1);
+                initedRotateRobotDistanceAngleDetector1 = true;
+                return;
+            }
+
+            // これがないとエラーが飛び得る。オブジェクトインスタンス化よりタスク呼び出し周期の方が速いことがあるらしい。
+            if (rotateRobotDistanceAngleDetector1 == nullptr || rotateRobotDistanceAngleDetector1Predicate == nullptr)
+            {
+                return;
             }
 
             rotateRobotDistanceAngleDetector1->run();
@@ -58,6 +72,7 @@ void SwingSonarObstacleDetector::run()
             {
                 break;
             }
+            stopper->run();
         }
 
         case RETURNING1:
@@ -68,6 +83,13 @@ void SwingSonarObstacleDetector::run()
                 rotateRobotCommandAndPredicate1 = generateRotateRobotCommand(-(rotateRobotDistanceAngleDetector1->getAngle()), pwm, wheelController);
                 rotateRobotCommandAndPredicate1->getPreHandler()->handle();
             }
+
+            // これがないとエラーが飛び得る。オブジェクトインスタンス化よりタスク呼び出し周期の方が速いことがあるらしい。
+            if (rotateRobotCommandAndPredicate1 == nullptr)
+            {
+                return;
+            }
+
             rotateRobotCommandAndPredicate1->getCommand()->run();
             if (rotateRobotCommandAndPredicate1->getPredicate()->test())
             {
@@ -78,6 +100,7 @@ void SwingSonarObstacleDetector::run()
             {
                 break;
             }
+            stopper->run();
         }
 
         case DETECT_OBSTACLE_2:
@@ -87,6 +110,12 @@ void SwingSonarObstacleDetector::run()
                 initedRotateRobotDistanceAngleDetector2 = true;
                 rotateRobotDistanceAngleDetector2 = new RotateRobotDistanceAngleDetector(swingRight, targetRight, pwm, wheelController, sonarSensor);
                 rotateRobotDistanceAngleDetector2Predicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetector2);
+            }
+
+            // これがないとエラーが飛び得る。オブジェクトインスタンス化よりタスク呼び出し周期の方が速いことがあるらしい。
+            if (rotateRobotDistanceAngleDetector2 == nullptr || rotateRobotDistanceAngleDetector2Predicate == nullptr)
+            {
+                return;
             }
 
             rotateRobotDistanceAngleDetector2->run();
@@ -103,7 +132,7 @@ void SwingSonarObstacleDetector::run()
                 break;
             }
 
-            break;
+            stopper->run();
         }
 
         case RETURNING2:
@@ -113,6 +142,11 @@ void SwingSonarObstacleDetector::run()
                 initedRotateRobotCommandAndPreicate2 = true;
                 rotateRobotCommandAndPredicate2 = generateRotateRobotCommand(rotateRobotDistanceAngleDetector2->getAngle(), pwm, wheelController);
                 rotateRobotCommandAndPredicate2->getPreHandler()->handle();
+            }
+            // これがないとエラーが飛び得る。オブジェクトインスタンス化よりタスク呼び出し周期の方が速いことがあるらしい。
+            if (rotateRobotCommandAndPredicate2 == nullptr)
+            {
+                return;
             }
             rotateRobotCommandAndPredicate2->getCommand()->run();
             if (rotateRobotCommandAndPredicate2->getPredicate()->test())
@@ -124,19 +158,43 @@ void SwingSonarObstacleDetector::run()
             {
                 break;
             }
-            break;
+            stopper->run();
+            leftObstacleDistance = rotateRobotDistanceAngleDetector1->getDistance();
+            rightObstacleDistance = rotateRobotDistanceAngleDetector2->getDistance();
+            obstacleAngle = rotateRobotDistanceAngleDetector1->getAngle() + rotateRobotDistanceAngleDetector2->getAngle();
+
+            // 表示しちゃお
+            stringstream d1s;                                                        // TODO 消して
+            stringstream d2s;                                                        // TODO 消して
+            stringstream as;                                                         // TODO 消して
+            d1s.clear();                                                             // TODO 消して
+            d2s.clear();                                                             // TODO 消して
+            as.clear();                                                              // TODO 消して
+            d1s.str("");                                                             // TODO 消して
+            d2s.str("");                                                             // TODO 消して
+            as.str("");                                                              // TODO 消して
+            d1s << "distance1: " << float(getRightObstacleDistance());               // TODO 消して
+            d2s << "distance2: " << float(getRightObstacleDistance());               // TODO 消して
+            as << "angle: " << float(getObstacleAngle());                            // TODO 消して
+            vector<string> messageLines;                                             // TODO 消して
+            messageLines.push_back(d1s.str());                                       // TODO 消して
+            messageLines.push_back(d2s.str());                                       // TODO 消して
+            messageLines.push_back(as.str());                                        // TODO 消して
+            PrintMessage *resultPrintCommand = new PrintMessage(messageLines, true); // TODO 消して
+            resultPrintCommand->run();                                               // TODO 消して
+            delete resultPrintCommand;                                               // TODO 消して
         }
 
         case FINISHED:
         {
             finished = true;
+            stopper->run();
             break;
         }
 
         default:
             break;
         }
-        // TODO
         break;
     }
     case CENTER_RIGHT_LEFT:

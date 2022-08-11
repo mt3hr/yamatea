@@ -51,7 +51,7 @@ int targetBrightness = 20;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-// #define LeftCourceMode // 左コース用プログラム
+#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
@@ -60,13 +60,12 @@ int targetBrightness = 20;
 //#define StraightTestMode // 直進モード。テスト用
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SteeringTestMode // ステアリングモード。テスト用。Walkerでいいことに気付いたので使いません。
-#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
+//#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 // モード設定ここまで
 
 void setting()
 {
-  // 車輪直径。センチメートル。
-  wheelDiameter = 10.4;
+  wheelDiameter = 10.4;                  // 車輪直径。センチメートル。
   angleFor360TurnRightRotateRobot = 525; // 左に360度旋回するのに必要な左右車輪回転角度数
   angleFor360TurnLeftRotateRobot = 530;  // 右に360度旋回するのに必要な左右車輪回転角度数
 
@@ -78,10 +77,10 @@ void setting()
   // LeftCourceMode, RightCourceModeの設定ここまで
 
   // 情報出力の有効無効設定ここから
-  enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-  enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-  enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、すぐ下の行、#define EnableBluetoothのコメントアウトも外して。
-  // #define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。
+  enablePrintMessageMode = false;        // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+  enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
+  enablePrintMessageForBluetooth = true; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、すぐ下の行、#define EnableBluetoothのコメントアウトも外して。
+  // #define EnableBluetooth                  // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
   // 情報出力の有効無効設定ここまで
 }
 
@@ -486,7 +485,7 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // 障害物検出コマンドの初期化とCommandExecutorへの追加
-  int pwm = 20;
+  int pwm = 10;
   SwingSonarObstacleDetector *swingSonarDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, sonarSensor, wheelController);
   Predicate *swingSonarDetectorPredicate = new FinishedCommandPredicate(swingSonarDetector);
   commandExecutor->addCommand(swingSonarDetector, swingSonarDetectorPredicate, doNothingHandler);
@@ -496,25 +495,27 @@ void initializeCommandExecutor()
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
 
-  // 結果出力コマンドの初期化とCommandExecutorへの追加
-  stringstream d1s;
-  stringstream d2s;
-  stringstream as;
-  d1s.clear();
-  d2s.clear();
-  as.clear();
-  d1s.str("");
-  d2s.str("");
-  as.str("");
-  d1s << "distance1: " << float(swingSonarDetector->getRightObstacleDistance());
-  d2s << "distance2: " << float(swingSonarDetector->getRightObstacleDistance());
-  as << "angle: " << float(swingSonarDetector->getObstacleAngle());
-  vector<string> messageLines;
-  messageLines.push_back(d1s.str());
-  messageLines.push_back(d2s.str());
-  messageLines.push_back(as.str());
-  PrintMessage *resultPrintCommand = new PrintMessage(messageLines, true);
-  commandExecutor->addCommand(resultPrintCommand, startButtonPredicate, doNothingHandler);
+  /* // これだと初期状態がPrintされてしまう。デバッグするためにはSwingSonarObstacleDetectorにこのコードを埋め込むしかない・・・
+    // 結果出力コマンドの初期化とCommandExecutorへの追加
+    stringstream d1s;
+    stringstream d2s;
+    stringstream as;
+    d1s.clear();
+    d2s.clear();
+    as.clear();
+    d1s.str("");
+    d2s.str("");
+    as.str("");
+    d1s << "distance1: " << float(swingSonarDetector->getRightObstacleDistance());
+    d2s << "distance2: " << float(swingSonarDetector->getRightObstacleDistance());
+    as << "angle: " << float(swingSonarDetector->getObstacleAngle());
+    vector<string> messageLines;
+    messageLines.push_back(d1s.str());
+    messageLines.push_back(d2s.str());
+    messageLines.push_back(as.str());
+    PrintMessage *resultPrintCommand = new PrintMessage(messageLines, true);
+    commandExecutor->addCommand(resultPrintCommand, new NumberOfTimesPredicate(1), doNothingHandler);
+    */
 }
 #endif
 

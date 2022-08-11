@@ -88,14 +88,14 @@ void PrintMessage::msg_f(string str, int32_t line)
     ev3_lcd_draw_string(str.c_str(), 0, line * line_height);
 }
 
-#if defined(EnableBluetooth)
+// #if defined(EnableBluetooth)
 FILE *bt = ev3_serial_open_file(EV3_SERIAL_BT);
 void PrintMessage::msg_bt(string str)
 {
     fprintf(bt, str.c_str());
 }
-#else
-void PrintMessage::msg_bt(string str)
-{
-}
-#endif
+// #else
+// void PrintMessage::msg_bt(string str)
+// {
+// }
+// #endif
