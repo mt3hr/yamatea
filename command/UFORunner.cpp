@@ -80,8 +80,9 @@ void UFORunner::run()
         // PN^2=Ik^2+NI^2-(2Ik×NI×cos∠PIN)
         //・∠pinの求め方が分からない。
         // A.∠I-∠NID
-        // float pin = i - nid; //TODO ∠iも∠nidわかんない！
-        float pin = 0;
+        float pi = ik;
+        float pd = dk;
+        float pin = acos((pow(pi, 2) + pow(x, 2) - pow(pd, 2)) / (2 * pi * x)) - acos((pow(x / 2, 2) + pow(ni, 2) - pow(n, 2)) / (2 * x / 2 * ni));
         float pnSquare = pow(ik, 2) + pow(ni, 2) - ((2 * ik) * ni * (cos(pin * (M_PI / 180)) * (M_PI / 180)));
         pn = pow(pnSquare, 1 / 2);
 
