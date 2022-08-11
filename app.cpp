@@ -51,9 +51,9 @@ int targetBrightness = 20;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define LeftCourceMode // 左コース用プログラム
+//#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
-//#define DistanceReaderMode // 距離をはかり続けるプログラム
+#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
@@ -66,8 +66,8 @@ int targetBrightness = 20;
 void setting()
 {
   wheelDiameter = 10.4;                  // 車輪直径。センチメートル。
-  angleFor360TurnRightRotateRobot = 525; // 左に360度旋回するのに必要な左右車輪回転角度数
-  angleFor360TurnLeftRotateRobot = 530;  // 右に360度旋回するのに必要な左右車輪回転角度数
+  angleFor360TurnRightRotateRobot = 540; // 左に360度旋回するのに必要な左右車輪回転角度数
+  angleFor360TurnLeftRotateRobot = 540;  // 右に360度旋回するのに必要な左右車輪回転角度数
 
   wheelSpace = 14.5; // 左車輪と右車輪の間隔
 

@@ -173,7 +173,7 @@ void SwingSonarObstacleDetector::run()
             d1s.str("");                                                             // TODO 消して
             d2s.str("");                                                             // TODO 消して
             as.str("");                                                              // TODO 消して
-            d1s << "distance1: " << float(getRightObstacleDistance());               // TODO 消して
+            d1s << "distance1: " << float(getLeftObstacleDistance());               // TODO 消して
             d2s << "distance2: " << float(getRightObstacleDistance());               // TODO 消して
             as << "angle: " << float(getObstacleAngle());                            // TODO 消して
             vector<string> messageLines;                                             // TODO 消して
