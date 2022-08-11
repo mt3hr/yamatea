@@ -16,7 +16,7 @@ void Stopper::run()
 
     vector<string> messageLines;
     messageLines.push_back("stoped.");
-    PrintMessage printMessagee(messageLines, true);
+    PrintMessage printMessagee(messageLines, false);
     printMessagee.run();
 }
 
