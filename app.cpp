@@ -53,7 +53,7 @@ int targetBrightness = 20;
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 //#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
-#define DistanceReaderMode // 距離をはかり続けるプログラム
+//#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
@@ -61,6 +61,7 @@ int targetBrightness = 20;
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SteeringTestMode // ステアリングモード。テスト用。Walkerでいいことに気付いたので使いません。
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
+#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
 // モード設定ここまで
 
 void setting()
@@ -369,7 +370,7 @@ void initializeCommandExecutor()
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
-  int angle = -360;
+  int angle = 30.9147;
   int pwm = 20;
   Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
   CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(angle, pwm, wheelController);
@@ -494,28 +495,52 @@ void initializeCommandExecutor()
   Stopper *stopper = new Stopper(wheelController);
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
+}
+#endif
 
-  /* // これだと初期状態がPrintされてしまう。デバッグするためにはSwingSonarObstacleDetectorにこのコードを埋め込むしかない・・・
-    // 結果出力コマンドの初期化とCommandExecutorへの追加
-    stringstream d1s;
-    stringstream d2s;
-    stringstream as;
-    d1s.clear();
-    d2s.clear();
-    as.clear();
-    d1s.str("");
-    d2s.str("");
-    as.str("");
-    d1s << "distance1: " << float(swingSonarDetector->getRightObstacleDistance());
-    d2s << "distance2: " << float(swingSonarDetector->getRightObstacleDistance());
-    as << "angle: " << float(swingSonarDetector->getObstacleAngle());
-    vector<string> messageLines;
-    messageLines.push_back(d1s.str());
-    messageLines.push_back(d2s.str());
-    messageLines.push_back(as.str());
-    PrintMessage *resultPrintCommand = new PrintMessage(messageLines, true);
-    commandExecutor->addCommand(resultPrintCommand, new NumberOfTimesPredicate(1), doNothingHandler);
-    */
+#if defined(ShigekiTestMode)
+void initializeCommandExecutor()
+{
+  int pwm = 10;
+  float acn = -30.91474484;
+  float nc = 23.72114075;
+  // float bcn = 1.022709978;
+  float nTurn = 69.07498194;
+  float n = 5.0;
+
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(wheelController);
+
+  // なにもしないハンドラ
+  Handler *doNothingHandler = new Handler();
+
+  // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
+  // ACN度回転する
+  // NCの距離進む
+  // nTurn分旋回する
+  // n分進む
+  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+
+  CommandAndPredicate *turnACNCommandAndPredicate = generateRotateRobotCommand(acn, pwm, wheelController);
+
+  Walker *walkNCCommand = new Walker(pwm, pwm, wheelController);
+  DistancePredicate *walkNCPredicate = new DistancePredicate(nc, leftWheel);
+
+  CommandAndPredicate *turnNCommandAndPredicate = generateRotateRobotCommand(nTurn, pwm, wheelController);
+
+  Walker *walkNCommand = new Walker(pwm, pwm, wheelController);
+  DistancePredicate *walkNPredicate = new DistancePredicate(n, leftWheel);
+
+  commandExecutor->addCommand(new Command(), startButtonPredicate, turnACNCommandAndPredicate->getPreHandler()); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
+  commandExecutor->addCommand(turnACNCommandAndPredicate->getCommand(), turnACNCommandAndPredicate->getPredicate(), new ExecutePreparationWhenExitBeforeCommandHandler(walkNCPredicate));
+  commandExecutor->addCommand(walkNCCommand, walkNCPredicate, turnNCommandAndPredicate->getPreHandler());
+  commandExecutor->addCommand(turnNCommandAndPredicate->getCommand(), turnNCommandAndPredicate->getPredicate(), new ExecutePreparationWhenExitBeforeCommandHandler(walkNPredicate));
+  commandExecutor->addCommand(walkNCommand, walkNPredicate, doNothingHandler);
+
+  // 停止コマンドの初期化とCommandExecutorへの追加
+  Stopper *stopper = new Stopper(wheelController);
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
 }
 #endif
 
