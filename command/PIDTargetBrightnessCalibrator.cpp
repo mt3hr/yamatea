@@ -88,15 +88,15 @@ void PIDTargetBrightnessCalibrator::run()
             stringstream bs;
             stringstream ws;
 
-            bs << "black:" << getBlack();
-            ws << "white:" << getWhite();
+            bs << "black brightness:" << getBlack();
+            ws << "white brightness:" << getWhite();
 
             vector<string> messageLines;
             messageLines.push_back("calibrated!");
             messageLines.push_back(bs.str());
             messageLines.push_back(ws.str());
-            messageLines.push_back("");
             messageLines.push_back("press touch sensor");
+            messageLines.push_back("      to START!");
             PrintMessage printMessage(messageLines, true);
             printMessage.run();
         }
