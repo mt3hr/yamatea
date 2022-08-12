@@ -53,11 +53,13 @@ void SwingSonarObstacleDetector::run()
                 return;
             }
 
+            /*
             // これがないとエラーが飛び得る。オブジェクトインスタンス化よりタスク呼び出し周期の方が速いことがあるらしい。
             if (rotateRobotDistanceAngleDetector1 == nullptr || rotateRobotDistanceAngleDetector1Predicate == nullptr)
             {
                 return;
             }
+            */
 
             rotateRobotDistanceAngleDetector1->run();
 
@@ -84,11 +86,13 @@ void SwingSonarObstacleDetector::run()
                 rotateRobotCommandAndPredicate1->getPreHandler()->handle();
             }
 
+            /*
             // これがないとエラーが飛び得る。オブジェクトインスタンス化よりタスク呼び出し周期の方が速いことがあるらしい。
             if (rotateRobotCommandAndPredicate1 == nullptr)
             {
                 return;
             }
+            */
 
             rotateRobotCommandAndPredicate1->getCommand()->run();
 
@@ -113,11 +117,13 @@ void SwingSonarObstacleDetector::run()
                 rotateRobotDistanceAngleDetector2Predicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetector2);
             }
 
+            /*
             // これがないとエラーが飛び得る。オブジェクトインスタンス化よりタスク呼び出し周期の方が速いことがあるらしい。
             if (rotateRobotDistanceAngleDetector2 == nullptr || rotateRobotDistanceAngleDetector2Predicate == nullptr)
             {
                 return;
             }
+            */
 
             rotateRobotDistanceAngleDetector2->run();
 
@@ -144,12 +150,17 @@ void SwingSonarObstacleDetector::run()
                 rotateRobotCommandAndPredicate2 = generateRotateRobotCommand(rotateRobotDistanceAngleDetector2->getAngle(), pwm, wheelController);
                 rotateRobotCommandAndPredicate2->getPreHandler()->handle();
             }
+
+            /*
             // これがないとエラーが飛び得る。オブジェクトインスタンス化よりタスク呼び出し周期の方が速いことがあるらしい。
             if (rotateRobotCommandAndPredicate2 == nullptr)
             {
                 return;
             }
+            */
+
             rotateRobotCommandAndPredicate2->getCommand()->run();
+
             if (rotateRobotCommandAndPredicate2->getPredicate()->test())
             {
                 state = SSD_FINISHED;
@@ -160,6 +171,11 @@ void SwingSonarObstacleDetector::run()
                 break;
             }
             stopper->run();
+
+            leftObstacleDistance = rotateRobotDistanceAngleDetector1->getDistance();
+            rightObstacleDistance = rotateRobotDistanceAngleDetector2->getDistance();
+            leftObstacleAngle = rotateRobotDistanceAngleDetector1->getAngle();
+            rightObstacleAngle = rotateRobotDistanceAngleDetector2->getAngle();
 
             // 表示しちゃお
             stringstream d1s;                                                        // TODO 消して

@@ -49,9 +49,15 @@ private:
     bool initedN_XDivide2 = false;
     bool initedTurnN = false;
 
+    float ik;
+    float dk;
+    float p;
     float n;
+    float x;
+    float ni;
     float pn;
     float ipn;
+    float pin;
     float nTurnAngle;
 
     int walkerPow;

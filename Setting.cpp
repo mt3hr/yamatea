@@ -9,3 +9,5 @@ int angleFor360TurnRightRotateRobot = 525;
 int angleFor360TurnLeftRotateRobot = 530;
 
 float wheelSpace = 14.5;
+
+float distanceFromSonarSensorToAxle = 10.5;

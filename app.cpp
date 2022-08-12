@@ -61,14 +61,15 @@ int targetBrightness = 20;
 //#define StraightTestMode // 直進モード。テスト用
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SteeringTestMode // ステアリングモード。テスト用。Walkerでいいことに気付いたので使いません。
-#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
+//#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
-//#define UFORunnerTestMode // UFO走行モード。テスト
+#define UFORunnerTestMode // UFO走行モード。テスト
 // モード設定ここまで
 
 void setting()
 {
   wheelDiameter = 10.4;                  // 車輪直径。センチメートル。
+  distanceFromSonarSensorToAxle = 10.5;  // ソナーセンサから車軸までの距離
   angleFor360TurnRightRotateRobot = 540; // 左に360度旋回するのに必要な左右車輪回転角度数
   angleFor360TurnLeftRotateRobot = 540;  // 右に360度旋回するのに必要な左右車輪回転角度数
 
@@ -81,7 +82,7 @@ void setting()
 
   // 情報出力の有効無効設定ここから
   enablePrintMessageMode = false;        // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-  enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
+  enablePrintMessageForConsole = true;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
   enablePrintMessageForBluetooth = true; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、すぐ下の行、#define EnableBluetoothのコメントアウトも外して。
   // #define EnableBluetooth                  // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
   // 情報出力の有効無効設定ここまで
@@ -490,9 +491,9 @@ void initializeCommandExecutor()
   // 障害物検出コマンドの初期化とCommandExecutorへの追加
   int pwm = 10;
   float swingLeft = 90.0;
-  float swingRight = 90.0;
-  int targetLeft = 30;
-  int targetRight = 30;
+  float swingRight = -90.0;
+  int targetLeft = 20;
+  int targetRight = 20;
   SwingSonarObstacleDetector *swingSonarDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
   Predicate *swingSonarDetectorPredicate = new FinishedCommandPredicate(swingSonarDetector);
   commandExecutor->addCommand(swingSonarDetector, swingSonarDetectorPredicate, doNothingHandler);
@@ -512,7 +513,7 @@ void initializeCommandExecutor()
   float nc = 23.72114075;
   // float bcn = 1.022709978;
   float nTurn = 69.07498194;
-  float n = 5.0;
+  float n = 1.0;
 
   // CommandExecutorの初期化
   commandExecutor = new CommandExecutor(wheelController);
@@ -564,12 +565,12 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
-  int n = 5;
+  float n = 5;
   int pwm = 10;
   float swingLeft = 90.0;
-  float swingRight = 90.0;
-  int targetLeft = 30;
-  int targetRight = 30;
+  float swingRight = -90.0;
+  int targetLeft = 50;
+  int targetRight = 50;
   SwingSonarObstacleDetector *swingSonarObstacleDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
   UFORunner *ufoRunner = new UFORunner(n, pwm, pwm, wheelController, sonarSensor, swingSonarObstacleDetector);
   commandExecutor->addCommand(ufoRunner, new FinishedCommandPredicate(ufoRunner), doNothingHandler);

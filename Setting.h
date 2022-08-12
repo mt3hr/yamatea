@@ -16,4 +16,6 @@ extern int angleFor360TurnLeftRotateRobot;  // 右に360度旋回するのに必
 
 extern float wheelSpace; // 右車輪と左車輪の間隔。
 
+extern float distanceFromSonarSensorToAxle; // ソナーセンサから車軸までの距離
+
 #endif

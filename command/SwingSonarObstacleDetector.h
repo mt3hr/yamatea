@@ -71,6 +71,7 @@ private:
     WheelController *wheelController;
     Stopper *stopper;
 
+/*
     RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetector1 = nullptr;
     RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetector2 = nullptr;
 
@@ -79,6 +80,16 @@ private:
 
     CommandAndPredicate *rotateRobotCommandAndPredicate1 = nullptr; // 検知したら向き直るやつ1回目
     CommandAndPredicate *rotateRobotCommandAndPredicate2 = nullptr; // 検知したら向き直るやつ2回目
+    */
+
+    RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetector1;
+    RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetector2;
+
+    Predicate *rotateRobotDistanceAngleDetector1Predicate;
+    Predicate *rotateRobotDistanceAngleDetector2Predicate;
+
+    CommandAndPredicate *rotateRobotCommandAndPredicate1; // 検知したら向き直るやつ1回目
+    CommandAndPredicate *rotateRobotCommandAndPredicate2; // 検知したら向き直るやつ2回目
 
     bool initedRotateRobotDistanceAngleDetector1 = false;
     bool initedRotateRobotDistanceAngleDetector2 = false;

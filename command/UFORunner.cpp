@@ -7,6 +7,11 @@
 #include "DistancePredicate.h"
 #include "RotateRobot.h"
 #include "CommandAndPredicate.h"
+#include "Setting.h"
+#include "string"         //TODO 消して
+#include "sstream"        //TODO 消して
+#include "vector"         //TODO 消して
+#include "PrintMessage.h" //TODO 消して
 
 using namespace std;
 using namespace ev3api;
@@ -61,37 +66,35 @@ void UFORunner::run()
         }
         startedCalcrate = true;
 
-        float ik = obstacleDetector->getLeftObstacleDistance();
-        float dk = obstacleDetector->getRightObstacleDistance();
-        float p = obstacleDetector->getLeftObstacleAngle() + obstacleDetector->getRightObstacleAngle();
+        ik = obstacleDetector->getLeftObstacleDistance() + distanceFromSonarSensorToAxle;
+        dk = obstacleDetector->getRightObstacleDistance() + distanceFromSonarSensorToAxle;
+        p = obstacleDetector->getLeftObstacleAngle() + obstacleDetector->getRightObstacleAngle();
 
         // C++のmathの三角関数系統はラジアンをうけとるしラジアンを返してくる
 
         // １，余弦定理で障害物間の距離Xを求める
         // X^2=Ik^2+Dk^2-(2Ik×Dk×cos∠P)
-        float xSquare = pow(ik, 2.0) + pow(dk, 2.0) - ((2 * ik) * dk * (cos(p * (M_PI / 180) * (M_PI / 180))));
-        float x = pow(xSquare, 1 / 2);
+        // x = float(sqrt(ik * ik + dk * dk - ((2 * ik) * dk * (cos(p * (M_PI / 180)) * (180 / M_PI)))));
+        x = float(sqrt((ik * ik) + (dk * dk) - (2 * ik * dk * (cos(p * (M_PI / 180)) * (180 / M_PI)))));
 
         // ２，Xの中点から車体側に対し垂直に距離Nを引き、NIを求める
         // X/2^2+N^2=NI^2
-        float niSquare = pow(x / 2, 2) + pow(n, 2);
-        float ni = pow(niSquare, 1 / 2);
+        ni = float(sqrt(x / 2 * x / 2 + n * n));
 
         // 3,∠Iから∠NID（arcsin((x/2)/NI)）を引き余弦定理で距離PNを求める
         // PN^2=Ik^2+NI^2-(2Ik×NI×cos∠PIN)
         //・∠pinの求め方が分からない。
         // A.∠I-∠NID
-        float pi = ik;
-        float pd = dk;
-        float pin = acos((pow(pi, 2) + pow(x, 2) - pow(pd, 2)) / (2 * pi * x)) - acos((pow(x / 2, 2) + pow(ni, 2) - pow(n, 2)) / (2 * x / 2 * ni));
-        float pnSquare = pow(ik, 2) + pow(ni, 2) - ((2 * ik) * ni * (cos(pin * (M_PI / 180)) * (M_PI / 180)));
-        pn = pow(pnSquare, 1 / 2);
+        // pn = float(sqrt(ik * ik + ni * ni - ((2 * ik) * ni * (cos(pin * (M_PI / 180)) * (180 / M_PI)))));
+        pin = float(acos(((ik * ik + x * x - dk * dk) / (2 * ik * x)) * (M_PI / 180)) * (180 / M_PI) - acos(((x / 2 * x / 2 + ni * 2 - n * n) / (2 * (x / 2) * ni)) * (M_PI / 180)) * (180 / M_PI));
+        pn = sqrt(ni * ni + ik * ik - 2 * ik * ni * (cos(pin * (M_PI / 180) * 180 / M_PI)));
 
         // 4,cos∠IPNをもとめ、逆関数で角度求める。
         // ∠IPN=arcsin(∠IPN)
-        ipn = asin(ipn * (M_PI / 180)) * (M_PI / 180);
+        // ipn = float(asin(ipn * (M_PI / 180)) * (180 / M_PI));
+        ipn = acos(((pn * pn + ik * ik - ni * ni) / (2 * pn * ik)) * (M_PI / 180)) * (180 / M_PI);
 
-        nTurnAngle = acos((pow(n, 2) + pow(ni, 2) - pow(x / 2, 2)) / (2 * n * ni));
+        nTurnAngle = float(acos((((n * n) + (ni * ni) - ((x / 2) * (x / 2)) / (2 * n * ni)) * (M_PI / 180))) * (180 / M_PI));
 
         state = UFO_TURNNIN_TO_P;
 
@@ -99,6 +102,63 @@ void UFORunner::run()
         {
             break;
         }
+
+        //表示しちゃお
+        // 実機で出力しまくるとなんか落ちる
+        stringstream pins;                                                                                             // TODO 消して
+        stringstream iks;                                                                                              // TODO 消して
+        stringstream dks;                                                                                              // TODO 消して
+        stringstream ipns;                                                                                             // TODO 消して
+        stringstream ntas;                                                                                             // TODO 消して
+        stringstream xs;                                                                                               // TODO 消して
+        stringstream ps;                                                                                               // TODO 消して
+        stringstream nis;                                                                                              // TODO 消して
+        stringstream pns;                                                                                              // TODO 消して
+        stringstream ntaas;                                                                                            // TODO 消して
+        pins.clear();                                                                                                  // TODO 消して
+        iks.clear();                                                                                                   // TODO 消して
+        dks.clear();                                                                                                   // TODO 消して
+        ipns.clear();                                                                                                  // TODO 消して
+        ntas.clear();                                                                                                  // TODO 消して
+        xs.clear();                                                                                                    // TODO 消して
+        ps.clear();                                                                                                    // TODO 消して
+        nis.clear();                                                                                                   // TODO 消して
+        pns.clear();                                                                                                   // TODO 消して
+        ntaas.clear();                                                                                                 // TODO 消して
+        pins.str("");                                                                                                  // TODO 消して
+        iks.str("");                                                                                                   // TODO 消して
+        dks.str("");                                                                                                   // TODO 消して
+        ipns.str("");                                                                                                  // TODO 消して
+        ntas.str("");                                                                                                  // TODO 消して
+        xs.str("");                                                                                                    // TODO 消して
+        ps.str("");                                                                                                    // TODO 消して
+        nis.str("");                                                                                                   // TODO 消して
+        pns.str("");                                                                                                   // TODO 消して
+        ntaas.str("");                                                                                                 // TODO 消して
+        iks << "ik: " << ik;                                                                                           // TODO 消して
+        dks << "dk: " << dk;                                                                                           // TODO 消して
+        pins << "pin: " << pin;                                                                                        // TODO 消して
+        ipns << "ipn: " << ipn;                                                                                        // TODO 消して
+        ntas << "nTurnAngle: " << nTurnAngle;                                                                          // TODO 消して
+        xs << "x: " << x;                                                                                              // TODO 消して
+        ps << "p: " << p;                                                                                              // TODO 消して
+        nis << "ni: " << ni;                                                                                           // TODO 消して
+        pns << "pn: " << pn;                                                                                           // TODO 消して
+        ntaas << "nTurnAngleAcosArg: " << (((n * n) + (ni * ni) - ((x / 2) * (x / 2)) / (2 * n * ni)) * (M_PI / 180)); // TODO 消して
+        vector<string> messageLines;                                                                                   // TODO 消して
+        messageLines.push_back(iks.str());                                                                              // TODO 消して
+        messageLines.push_back(dks.str());                                                                              // TODO 消して
+        messageLines.push_back(ps.str());                                                                              // TODO 消して
+        messageLines.push_back(xs.str());                                                                              // TODO 消して
+        messageLines.push_back(pins.str());                                                                            // TODO 消して
+        messageLines.push_back(pns.str());                                                                             // TODO 消して
+        messageLines.push_back(ipns.str());                                                                            // TODO 消して
+        messageLines.push_back(nis.str());                                                                             // TODO 消して
+        messageLines.push_back(ntas.str());                                                                            // TODO 消して
+        messageLines.push_back(ntaas.str());                                                                           // TODO 消して
+        PrintMessage *resultPrintCommand = new PrintMessage(messageLines, true);                                       // TODO 消して
+        resultPrintCommand->run();                                                                                     // TODO 消して
+        delete resultPrintCommand;                                                                                     // TODO 消して
     }
 
     case UFO_TURNNIN_TO_P: // I方向を向くように旋回
