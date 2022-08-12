@@ -38,6 +38,7 @@
 #include "FinishedCommandPredicate.h"
 #include "CurvatureWalker.h"
 #include "SwingSonarObstacleDetector.h"
+#include "UFORunner.h"
 
 using namespace std;
 using namespace ev3api;
@@ -60,8 +61,9 @@ int targetBrightness = 20;
 //#define StraightTestMode // 直進モード。テスト用
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SteeringTestMode // ステアリングモード。テスト用。Walkerでいいことに気付いたので使いません。
-//#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
-#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
+#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
+//#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
+//#define UFORunnerTestMode // UFO走行モード。テスト
 // モード設定ここまで
 
 void setting()
@@ -487,7 +489,11 @@ void initializeCommandExecutor()
 
   // 障害物検出コマンドの初期化とCommandExecutorへの追加
   int pwm = 10;
-  SwingSonarObstacleDetector *swingSonarDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, sonarSensor, wheelController);
+  float swingLeft = 90.0;
+  float swingRight = 90.0;
+  int targetLeft = 30;
+  int targetRight = 30;
+  SwingSonarObstacleDetector *swingSonarDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
   Predicate *swingSonarDetectorPredicate = new FinishedCommandPredicate(swingSonarDetector);
   commandExecutor->addCommand(swingSonarDetector, swingSonarDetectorPredicate, doNothingHandler);
 
@@ -536,6 +542,37 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(walkNCCommand, walkNCPredicate, turnNCommandAndPredicate->getPreHandler());
   commandExecutor->addCommand(turnNCommandAndPredicate->getCommand(), turnNCommandAndPredicate->getPredicate(), new ExecutePreparationWhenExitBeforeCommandHandler(walkNPredicate));
   commandExecutor->addCommand(walkNCommand, walkNPredicate, doNothingHandler);
+
+  // 停止コマンドの初期化とCommandExecutorへの追加
+  Stopper *stopper = new Stopper(wheelController);
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
+}
+#endif
+
+#if defined(UFORunnerTestMode)
+void initializeCommandExecutor()
+{
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(wheelController);
+
+  // なにもしないハンドラ
+  Handler *doNothingHandler = new Handler();
+
+  // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
+  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
+
+  // UFO走行コマンドの初期化とCommandExecutorへの追加
+  int n = 5;
+  int pwm = 10;
+  float swingLeft = 90.0;
+  float swingRight = 90.0;
+  int targetLeft = 30;
+  int targetRight = 30;
+  SwingSonarObstacleDetector *swingSonarObstacleDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
+  UFORunner *ufoRunner = new UFORunner(n, pwm, pwm, wheelController, sonarSensor, swingSonarObstacleDetector);
+  commandExecutor->addCommand(ufoRunner, new FinishedCommandPredicate(ufoRunner), doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
   Stopper *stopper = new Stopper(wheelController);

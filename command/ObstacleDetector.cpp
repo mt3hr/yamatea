@@ -14,7 +14,12 @@ int ObstacleDetector::getRightObstacleDistance()
     return 0;
 }
 
-float ObstacleDetector::getObstacleAngle()
+float ObstacleDetector::getLeftObstacleAngle()
+{
+    return 0;
+}
+
+float ObstacleDetector::getRightObstacleAngle()
 {
     return 0;
 }
@@ -34,7 +39,12 @@ ObstacleDetector *ObstacleDetector::generateReverseCommand()
     return new ObstacleDetector();
 }
 
-bool ObstacleDetector::isDetectedObstacleAngle()
+bool ObstacleDetector::isDetectedLeftObstacleAngle()
+{
+    return false;
+}
+
+bool ObstacleDetector::isDetectedRightObstacleAngle()
 {
     return false;
 }

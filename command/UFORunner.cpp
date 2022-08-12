@@ -11,9 +11,10 @@
 using namespace std;
 using namespace ev3api;
 
+// TODO 右コースに対応で規定なさそう
 UFORunner::UFORunner(float na, int wp, int rp, WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
-    state = DETECTING_OBSTACLE;
+    state = UFO_DETECTING_OBSTACLE;
     wheelController = wc;
     sonarSensor = ss;
     n = n;
@@ -36,22 +37,22 @@ void UFORunner::run()
     ObstacleDetector *obstacleDetector = getObstacleDetector();
     switch (state)
     {
-    case DETECTING_OBSTACLE: // 障害物検出状態
+    case UFO_DETECTING_OBSTACLE: // 障害物検出状態
     {
         obstacleDetector->run();
 
-        if (obstacleDetector->isDetectedLeftObstacleDistance() && obstacleDetector->isDetectedRightObstacleDistance())
+        if (obstacleDetector->isFinished())
         {
-            state = CALCRATING;
+            state = UFO_CALCRATING;
         }
 
-        if (state != CALCRATING)
+        if (state != UFO_CALCRATING)
         {
             break;
         }
     }
 
-    case CALCRATING: // 角度計算処理。各値については要求モデルを参照して。
+    case UFO_CALCRATING: // 角度計算処理。各値については要求モデルを参照して。
     {
         // 計算処理が複数回呼び出されないように
         if (startedCalcrate)
@@ -62,7 +63,7 @@ void UFORunner::run()
 
         float ik = obstacleDetector->getLeftObstacleDistance();
         float dk = obstacleDetector->getRightObstacleDistance();
-        float p = obstacleDetector->getObstacleAngle();
+        float p = obstacleDetector->getLeftObstacleAngle() + obstacleDetector->getRightObstacleAngle();
 
         // C++のmathの三角関数系統はラジアンをうけとるしラジアンを返してくる
 
@@ -90,15 +91,64 @@ void UFORunner::run()
         // ∠IPN=arcsin(∠IPN)
         ipn = asin(ipn * (M_PI / 180)) * (M_PI / 180);
 
-        state = RUNNING_P_N;
+        nTurnAngle = acos((pow(n, 2) + pow(ni, 2) - pow(x / 2, 2)) / (2 * n * ni));
 
-        if (state != RUNNING_P_N)
+        state = UFO_TURNNIN_TO_P;
+
+        if (state != UFO_TURNNIN_TO_P)
         {
             break;
         }
     }
 
-    case RUNNING_P_N: // PからNまでの走行
+    case UFO_TURNNIN_TO_P: // I方向を向くように旋回
+    {
+        if (!initedTurnToP)
+        {
+            CommandAndPredicate *turnToPCommandAndPredicate = generateRotateRobotCommand(obstacleDetector->getLeftObstacleAngle(), rotatePow, wheelController);
+            turnToPCommand = turnToPCommandAndPredicate->getCommand();
+            turnToPPredicate = turnToPCommandAndPredicate->getPredicate();
+            turnToPCommandAndPredicate->getPreHandler()->handle();
+            initedTurnToP = true;
+        }
+
+        turnToPCommand->run();
+
+        if (turnToPPredicate->test())
+        {
+            state = UFO_TURNNING_P_IPN;
+        }
+
+        if (state != UFO_TURNNING_P_IPN)
+        {
+            break;
+        }
+    }
+
+    case UFO_TURNNING_P_IPN: // IPN右回転
+    {
+        if (!initedTurnPIPN)
+        {
+            CommandAndPredicate *turnPIPNCommandAndPredicate = generateRotateRobotCommand(ipn, rotatePow, wheelController);
+            turnPIPNCommand = turnPIPNCommandAndPredicate->getCommand();
+            turnPIPNPredicate = turnPIPNCommandAndPredicate->getPredicate();
+            turnPIPNCommandAndPredicate->getPreHandler()->handle();
+        }
+
+        turnPIPNCommand->run();
+
+        if (turnPIPNPredicate->test())
+        {
+            state = UFO_RUNNING_P_N;
+        }
+
+        if (state != UFO_RUNNING_P_N)
+        {
+            break;
+        }
+    }
+
+    case UFO_RUNNING_P_N: // PからNまでの走行
     {
         if (!initedP_N)
         {
@@ -112,39 +162,40 @@ void UFORunner::run()
 
         if (p_nDistancePredicate->test())
         {
-            state = TURNNING_N;
+            state = UFO_TURNNING_N;
         }
 
-        if (state != TURNNING_N)
+        if (state != UFO_TURNNING_N)
         {
             break;
         }
     }
 
-    case TURNNING_N: // N地点での旋回
+    case UFO_TURNNING_N: // N地点での旋回
     {
         if (!initedTurnN)
         {
             initedTurnN = true;
-            CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(ipn, rotatePow, wheelController);
+            CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(nTurnAngle, rotatePow, wheelController);
             turnNCommand = commandAndPredicate->getCommand();
             turnNPredicate = commandAndPredicate->getPredicate();
+            commandAndPredicate->getPreHandler()->handle();
         }
 
         turnNCommand->run();
 
         if (turnNPredicate->test())
         {
-            state = RUNNING_N_XDIVIDE2;
+            state = UFO_RUNNING_N_XDIVIDE2;
         }
 
-        if (state != RUNNING_N_XDIVIDE2)
+        if (state != UFO_RUNNING_N_XDIVIDE2)
         {
             break;
         }
     }
 
-    case RUNNING_N_XDIVIDE2: // Nから2/xまでの走行
+    case UFO_RUNNING_N_XDIVIDE2: // Nから2/xまでの走行
     {
         if (!initedN_XDivide2)
         {
@@ -158,16 +209,16 @@ void UFORunner::run()
 
         if (n_xdivide2DistancePreicate->test())
         {
-            state = FINISHED;
+            state = UFO_FINISHED;
         }
 
-        if (state != FINISHED)
+        if (state != UFO_FINISHED)
         {
             break;
         }
     }
 
-    case FINISHED:
+    case UFO_FINISHED:
     {
         break;
     }
@@ -188,5 +239,5 @@ UFORunner *UFORunner::generateReverseCommand()
 
 bool UFORunner::isFinished()
 {
-    return state == FINISHED;
+    return state == UFO_FINISHED;
 }

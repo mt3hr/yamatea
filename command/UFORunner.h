@@ -13,12 +13,14 @@
 
 enum UFORunnerState
 {
-    DETECTING_OBSTACLE,
-    CALCRATING,
-    RUNNING_P_N,
-    TURNNING_N,
-    RUNNING_N_XDIVIDE2,
-    FINISHED,
+    UFO_DETECTING_OBSTACLE,
+    UFO_CALCRATING,
+    UFO_TURNNIN_TO_P,
+    UFO_TURNNING_P_IPN,
+    UFO_RUNNING_P_N,
+    UFO_TURNNING_N,
+    UFO_RUNNING_N_XDIVIDE2,
+    UFO_FINISHED,
 };
 
 class UFORunner : public ObstacleDetectRunner, public FinishConfirmable
@@ -28,14 +30,20 @@ private:
     WheelController *wheelController;
     SonarSensor *sonarSensor;
 
+    Command *turnToPCommand;
+    Command *turnPIPNCommand;
     Walker *p_nWalker;
     Walker *n_xdivide2Walker;
     Command *turnNCommand;
 
+    Predicate *turnToPPredicate;
+    Predicate *turnPIPNPredicate;
     DistancePredicate *p_nDistancePredicate;
     DistancePredicate *n_xdivide2DistancePreicate;
     Predicate *turnNPredicate;
 
+    bool initedTurnToP = false;
+    bool initedTurnPIPN = false;
     bool startedCalcrate = false;
     bool initedP_N = false;
     bool initedN_XDivide2 = false;
@@ -44,6 +52,7 @@ private:
     float n;
     float pn;
     float ipn;
+    float nTurnAngle;
 
     int walkerPow;
     int rotatePow;

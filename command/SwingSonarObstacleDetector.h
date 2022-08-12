@@ -8,7 +8,6 @@
 #include "CommandAndPredicate.h"
 #include "WheelController.h"
 #include "Predicate.h"
-#include "FinishConfirmable.h"
 #include "Stopper.h"
 
 using namespace ev3api;
@@ -32,11 +31,11 @@ enum SwingOrder
 
 enum SwingSonarObstacleDetectorState
 {
-    DETECT_OBSTACLE_1,
-    RETURNING1,
-    DETECT_OBSTACLE_2,
-    RETURNING2,
-    FINISHED,
+    SSD_DETECT_OBSTACLE_1,
+    SSD_RETURNING1,
+    SSD_DETECT_OBSTACLE_2,
+    SSD_RETURNING2,
+    SSD_FINISHED,
 };
 
 // ObstacleDetector
@@ -48,18 +47,25 @@ enum SwingSonarObstacleDetectorState
 // （Commandインターフェースを継承している理由は、将来Commandとして使うかもしれないから）
 //
 // 実方
-class SwingSonarObstacleDetector : public ObstacleDetector,
-                                   public FinishConfirmable
+class SwingSonarObstacleDetector : public ObstacleDetector
 {
 private:
+    float swingLeft = 0.0;  // 左方向への最大首振り角度
+    float swingRight = 0.0; // 右方向への最大首振り角度
+
+    int targetLeft = 0;  //左障害物判定のしきい値
+    int targetRight = 0; //右障害物判定のしきい値
+
     SwingSonarObstacleDetectorState state;
     int pwm;
     int leftObstacleDistance = -1;
     int rightObstacleDistance = -1;
-    int obstacleAngle = -1;
+    int leftObstacleAngle = -1;
+    int rightObstacleAngle = -1;
     bool detectedLeftObstacleDistance = false;
     bool detectedRightObstacleDistance = false;
-    bool detectedObstacleAngle = false;
+    bool detectedLeftObstacleAngle = false;
+    bool detectedRightObstacleAngle = false;
     SwingOrder swingOrder;
     SonarSensor *sonarSensor;
     WheelController *wheelController;
@@ -82,17 +88,19 @@ private:
     bool finished = false;
 
 public:
-    SwingSonarObstacleDetector(SwingOrder swingOrder, int pwm, SonarSensor *sonarSensor, WheelController *WheelController);
+    SwingSonarObstacleDetector(SwingOrder swingOrder, int pwm, float swingLeft, float swingRight, int targetLeft, int targetRight, SonarSensor *sonarSensor, WheelController *WheelController);
     ~SwingSonarObstacleDetector();
     void run() override;
     SwingSonarObstacleDetector *generateReverseCommand() override;
     bool isFinished() override;
     int getLeftObstacleDistance() override;
     int getRightObstacleDistance() override;
-    float getObstacleAngle() override;
+    float getLeftObstacleAngle() override;
+    float getRightObstacleAngle() override;
     bool isDetectedLeftObstacleDistance() override;
     bool isDetectedRightObstacleDistance() override;
-    bool isDetectedObstacleAngle() override;
+    bool isDetectedLeftObstacleAngle() override;
+    bool isDetectedRightObstacleAngle() override;
 };
 
 #endif
