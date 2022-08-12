@@ -18,4 +18,6 @@ extern float wheelSpace; // 右車輪と左車輪の間隔。
 
 extern float distanceFromSonarSensorToAxle; // ソナーセンサから車軸までの距離
 
+extern bool enablePrintDebugMessage; // DebugUtilの関数群の出力処理有効化無効化。
+
 #endif

@@ -11,3 +11,5 @@ int angleFor360TurnLeftRotateRobot = 530;
 float wheelSpace = 14.5;
 
 float distanceFromSonarSensorToAxle = 10.5;
+
+bool enablePrintDebugMessage = false;
