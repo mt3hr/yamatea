@@ -40,7 +40,7 @@ void writeDebug(int i)
     stringstream ss;
     ss.clear();
     ss.str("");
-    ss << i;
+    ss << float(i);
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
@@ -59,7 +59,7 @@ void writeDebug(float f)
     stringstream ss;
     ss.clear();
     ss.str("");
-    ss << f;
+    ss << float(f);
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
