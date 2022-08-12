@@ -15,8 +15,14 @@ void writeDebug(string str)
     {
         return;
     }
+
+    if (messageLinesForDebugPrint.size() == 0)
+    {
+        messageLinesForDebugPrint.push_back("");
+    }
+
     // 最後の行に追記する
-    messageLinesForDebugPrint[sizeof(messageLinesForDebugPrint) - 1] = messageLinesForDebugPrint[sizeof(messageLinesForDebugPrint) - 1] + str;
+    messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += str;
 }
 
 void writeDebug(int i)
@@ -25,11 +31,17 @@ void writeDebug(int i)
     {
         return;
     }
+
+    if (messageLinesForDebugPrint.size() == 0)
+    {
+        messageLinesForDebugPrint.push_back("");
+    }
+
     stringstream ss;
     ss.clear();
     ss.str("");
     ss << i;
-    messageLinesForDebugPrint[sizeof(messageLinesForDebugPrint) - 1] = messageLinesForDebugPrint[sizeof(messageLinesForDebugPrint) - 1] + ss.str();
+    messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
 void writeDebug(float f)
@@ -38,11 +50,17 @@ void writeDebug(float f)
     {
         return;
     }
+
+    if (messageLinesForDebugPrint.size() == 0)
+    {
+        messageLinesForDebugPrint.push_back("");
+    }
+
     stringstream ss;
     ss.clear();
     ss.str("");
     ss << f;
-    messageLinesForDebugPrint[sizeof(messageLinesForDebugPrint) - 1] = messageLinesForDebugPrint[sizeof(messageLinesForDebugPrint) - 1] + ss.str();
+    messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
 // 改行する
