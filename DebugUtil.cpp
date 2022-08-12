@@ -13,7 +13,7 @@ void writeDebug(string str)
 {
     if (!enablePrintDebugMessage)
     {
-        return
+        return;
     }
     // 最後の行に追記する
     messageLinesForDebugPrint[sizeof(messageLinesForDebugPrint) - 1] = messageLinesForDebugPrint[sizeof(messageLinesForDebugPrint) - 1] + str;
@@ -23,7 +23,7 @@ void writeDebug(int i)
 {
     if (!enablePrintDebugMessage)
     {
-        return
+        return;
     }
     stringstream ss;
     ss.clear();
@@ -36,7 +36,7 @@ void writeDebug(float f)
 {
     if (!enablePrintDebugMessage)
     {
-        return
+        return;
     }
     stringstream ss;
     ss.clear();
@@ -50,7 +50,7 @@ void writeEndLineDebug()
 {
     if (!enablePrintDebugMessage)
     {
-        return
+        return;
     }
     messageLinesForDebugPrint.push_back("");
 }
@@ -59,7 +59,7 @@ void flushDebug()
 {
     if (!enablePrintDebugMessage)
     {
-        return
+        return;
     }
     PrintMessage *printMessage = new PrintMessage(messageLinesForDebugPrint, true);
     printMessage->run();
