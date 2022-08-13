@@ -566,14 +566,15 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
-  float n = 5;
-  int pwm = 10;
+  float n = 5.0;
+  int walkPWM = 20;
+  int turnPWM = 10;
   float swingLeft = 90.0;
   float swingRight = -90.0;
   int targetLeft = 50;
   int targetRight = 50;
-  SwingSonarObstacleDetector *swingSonarObstacleDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
-  UFORunner *ufoRunner = new UFORunner(n, pwm, pwm, wheelController, sonarSensor, swingSonarObstacleDetector);
+  SwingSonarObstacleDetector *swingSonarObstacleDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, turnPWM, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
+  UFORunner *ufoRunner = new UFORunner(n, walkPWM, turnPWM, wheelController, sonarSensor, swingSonarObstacleDetector);
   commandExecutor->addCommand(ufoRunner, new FinishedCommandPredicate(ufoRunner), doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加

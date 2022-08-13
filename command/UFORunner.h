@@ -23,6 +23,9 @@ enum UFORunnerState
     UFO_FINISHED,
 };
 
+float toRadian(float degree);
+float toDegree(float radian);
+
 class UFORunner : public ObstacleDetectRunner, public FinishConfirmable
 {
 private:
@@ -56,8 +59,13 @@ private:
     float x;
     float ni;
     float pn;
+    float i;
+    float din;
     float ipn;
     float pin;
+    float nTurnAngleACosArg; //TODO けして
+    float iArg;//TODO 消して
+    float dinArg;// TODO 消して
     float nTurnAngle;
 
     int walkerPow;
