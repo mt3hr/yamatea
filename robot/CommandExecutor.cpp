@@ -5,13 +5,14 @@
 #include "Handler.h"
 #include "Stopper.h"
 #include "PrintMessage.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 using namespace std;
 
-CommandExecutor::CommandExecutor(WheelController *wc)
+CommandExecutor::CommandExecutor(RobotAPI *robotAPI)
 {
-    wheelController = wc;
+    this->robotAPI = robotAPI;
 }
 
 CommandExecutor::~CommandExecutor()
@@ -40,9 +41,9 @@ void CommandExecutor::addCommand(Command *command, Predicate *exitCondition, Han
 void CommandExecutor::run()
 {
     // 終了条件が満たされたらindexを変更して次のコマンドに移動する
-    if (((int)predicates.size()) > ((int)(currentIndexForCommand)) && predicates[currentIndexForCommand]->test())
+    if (((int)predicates.size()) > ((int)(currentIndexForCommand)) && predicates[currentIndexForCommand]->test(robotAPI))
     {
-        exitHandlers[currentIndexForCommand]->handle();
+        exitHandlers[currentIndexForCommand]->handle(robotAPI);
         currentIndexForCommand++;
         return;
     }
@@ -50,7 +51,7 @@ void CommandExecutor::run()
     // 現在の要素が有ればやる。なければタスクを終了する。
     if (((int)commands.size()) > ((int)currentIndexForCommand))
     {
-        commands[currentIndexForCommand]->run();
+        commands[currentIndexForCommand]->run(robotAPI);
     }
     else
     {
@@ -63,12 +64,13 @@ void CommandExecutor::run()
 void CommandExecutor::emergencyStop()
 {
     currentIndexForCommand = commands.size() + 1;
-    Stopper stopper(wheelController);
-    stopper.run();
+    Stopper *stopper = new Stopper();
+    stopper->run(robotAPI);
+    delete stopper;
 
     vector<string> messageLines;
     messageLines.push_back("emergency stopped");
     PrintMessage printStopMessage(messageLines, true);
-    printStopMessage.run();
+    printStopMessage.run(robotAPI);
     stp_cyc(RUNNER_CYC);
 }

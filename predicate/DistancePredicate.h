@@ -4,6 +4,7 @@
 #include "Predicate.h"
 #include "Preparizable.h"
 #include "Motor.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 
@@ -16,7 +17,7 @@ private:
 
 public:
     DistancePredicate(float targetDistanceCm, Motor *leftWheelOrRightWheel);
-    bool test() override;
+    bool test(RobotAPI *robotAPI) override;
     void preparation() override;
 };
 

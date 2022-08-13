@@ -1,23 +1,22 @@
 #include "Walker.h"
-#include "WheelController.h"
 #include "Setting.h"
 #include "string"
 #include "iomanip"
 #include "DebugUtil.h"
+#include "RobotAPI.h"
 
 using namespace std;
 
-Walker::Walker(int lp, int rp, WheelController *wc)
+Walker::Walker(int lp, int rp)
 {
     leftPower = lp;
     rightPower = rp;
-    wheelController = wc;
 }
 
-void Walker::run()
+void Walker::run(RobotAPI *robotAPI)
 {
-    wheelController->getLeftWheel()->setPWM(leftPower);
-    wheelController->getRightWheel()->setPWM(rightPower);
+    robotAPI->getLeftWheel()->setPWM(leftPower);
+    robotAPI->getRightWheel()->setPWM(rightPower);
 
     writeDebug("Walker");
     writeEndLineDebug();
@@ -26,10 +25,10 @@ void Walker::run()
     writeEndLineDebug();
     writeDebug("rightPow: ");
     writeDebug(rightPower);
-    flushDebug();
+    flushDebug(robotAPI);
 }
 
 Walker *Walker::generateReverseCommand()
 {
-    return new Walker(rightPower, leftPower, wheelController);
+    return new Walker(rightPower, leftPower);
 }

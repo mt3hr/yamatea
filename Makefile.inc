@@ -1,15 +1,15 @@
 mkfile_path := $(dir $(lastword $(MAKEFILE_LIST)))
 
 APPL_CXXOBJS += \
-Setting.o \
+RobotAPI.o \
 PrintMessage.o \
 DebugUtil.o \
+Setting.o \
 Preparizable.o \
 Command.o \
 Predicate.o \
 CommandAndPredicate.o \
 NumberOfTimesPredicate.o \
-WheelController.o \
 MotorCountPredicate.o \
 StartButtonPredicate.o \
 CommandExecutor.o \
@@ -24,7 +24,6 @@ RGBRawReader.o \
 DistanceReader.o \
 ArmController.o \
 ExecutePreparationWhenExitBeforeCommandHandler.o \
-SteeringRobot.o \
 MotorRotateAnglePredicate.o \
 Stopper.o \
 ObstacleDetector.o \

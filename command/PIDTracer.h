@@ -4,7 +4,7 @@
 #include "Motor.h"
 #include "Command.h"
 #include "ColorSensor.h"
-#include "WheelController.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 using namespace std;
@@ -34,8 +34,6 @@ private:
     int targetBrightness = 0;
     float beforeP = 0;
     PIDTracerMode traceMode;
-    ColorSensor *colorSensor;
-    WheelController *wheelController;
 
     int brightness;
     float p;
@@ -46,8 +44,8 @@ private:
     int rightPower;
 
 public:
-    PIDTracer(PIDTracerMode traceMode, int pwm, float kp, float ki, float kd, float dt, int targetBrightness, WheelController *wheelController, ColorSensor *colorSensor);
-    void run() override;
+    PIDTracer(PIDTracerMode traceMode, int pwm, float kp, float ki, float kd, float dt, int targetBrightness);
+    void run(RobotAPI *robotAPI) override;
     PIDTracer *generateReverseCommand() override;
     void setTargetBrightness(int targetBrightness);
 };

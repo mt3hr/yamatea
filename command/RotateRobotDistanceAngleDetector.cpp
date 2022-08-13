@@ -1,25 +1,21 @@
 #include "RotateRobotDistanceAngleDetector.h"
 #include "CommandAndPredicate.h"
 #include "RotateRobot.h"
-#include "WheelController.h"
 #include "SonarSensor.h"
 #include "Setting.h"
 #include "Stopper.h"
 
-RotateRobotDistanceAngleDetector::RotateRobotDistanceAngleDetector(float targetAngle, int distanceThreshold, int pwm, WheelController *wheelController, SonarSensor *sonarSensor)
+RotateRobotDistanceAngleDetector::RotateRobotDistanceAngleDetector(float targetAngle, int distanceThreshold, int pwm, RobotAPI *robotAPI)
 {
     this->pwm = pwm;
     this->targetAngle = targetAngle;
     this->distanceThreshold = distanceThreshold;
 
-    CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(targetAngle, pwm, wheelController);
+    CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(targetAngle, pwm, robotAPI);
     this->rotateRobotCommand = commandAndPredicate->getCommand();
     this->rotateRobotPredicate = commandAndPredicate->getPredicate();
     this->rotateRobotPreHandler = commandAndPredicate->getPreHandler();
     delete commandAndPredicate;
-
-    this->wheelController = wheelController;
-    this->sonarSensor = sonarSensor;
 };
 
 RotateRobotDistanceAngleDetector::~RotateRobotDistanceAngleDetector()
@@ -29,18 +25,18 @@ RotateRobotDistanceAngleDetector::~RotateRobotDistanceAngleDetector()
     delete rotateRobotPreHandler;
 }
 
-void RotateRobotDistanceAngleDetector::run()
+void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
 {
     if (!calledPreHandler)
     {
         calledPreHandler = true;
-        rotateRobotPreHandler->handle();
-        leftWheelCountWhenInited = wheelController->getLeftWheel()->getCount();
-        rightWheelCountWhenInited = wheelController->getRightWheel()->getCount();
+        rotateRobotPreHandler->handle(robotAPI);
+        leftWheelCountWhenInited = robotAPI->getLeftWheel()->getCount();
+        rightWheelCountWhenInited = robotAPI->getRightWheel()->getCount();
     }
 
-    rotateRobotCommand->run();
-    distance = sonarSensor->getDistance();
+    rotateRobotCommand->run(robotAPI);
+    distance = robotAPI->getSonarSensor()->getDistance();
 
     // 360度回転するのに必要なモータ回転数:360 = totalWheelRotateAngle:x
     int totalWheelRotateAngle;
@@ -48,31 +44,31 @@ void RotateRobotDistanceAngleDetector::run()
     // TODO ここあやしい
     if (targetAngle > 0)
     {
-        totalWheelRotateAngle = (wheelController->getLeftWheel()->getCount() - leftWheelCountWhenInited);
+        totalWheelRotateAngle = (robotAPI->getLeftWheel()->getCount() - leftWheelCountWhenInited);
         angle = float(360) * float(totalWheelRotateAngle) / float(angleFor360TurnLeftRotateRobot);
     }
     else
     {
-        totalWheelRotateAngle = (wheelController->getRightWheel()->getCount() - rightWheelCountWhenInited);
+        totalWheelRotateAngle = (robotAPI->getRightWheel()->getCount() - rightWheelCountWhenInited);
         angle = (float(360) * float(totalWheelRotateAngle) / float(angleFor360TurnLeftRotateRobot));
     }
 
     if (isFinished())
     {
-        Stopper *stopper = new Stopper(wheelController);
-        stopper->run();
+        Stopper *stopper = new Stopper();
+        stopper->run(robotAPI);
         delete stopper;
     }
 }
 
 RotateRobotDistanceAngleDetector *RotateRobotDistanceAngleDetector::generateReverseCommand()
 {
-    return new RotateRobotDistanceAngleDetector(-targetAngle, distanceThreshold, pwm, wheelController, sonarSensor);
+    return new RotateRobotDistanceAngleDetector(-targetAngle, distanceThreshold, pwm, robotAPI);
 }
 
 bool RotateRobotDistanceAngleDetector::isFinished()
 {
-    return (isDetectedAngle() && isDetectedDistance()) || rotateRobotPredicate->test();
+    return (isDetectedAngle() && isDetectedDistance()) || rotateRobotPredicate->test(robotAPI);
 }
 
 int RotateRobotDistanceAngleDetector::getDistance()

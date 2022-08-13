@@ -3,6 +3,7 @@
 
 #include "SonarSensor.h"
 #include "Command.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 
@@ -15,11 +16,10 @@ class DistanceReader : public Command
 {
 private:
     int distanceValue = 0;
-    SonarSensor *sonarSensor;
 
 public:
-    DistanceReader(SonarSensor *sonarSensor);
-    void run();
+    DistanceReader();
+    void run(RobotAPI *robotAPI);
     DistanceReader *generateReverseCommand();
 };
 

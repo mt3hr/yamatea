@@ -3,18 +3,16 @@
 
 #include "ObstacleDetectRunner.h"
 #include "ObstacleDetector.h"
-#include "WheelController.h"
 #include "SonarSensor.h"
+#include "RobotAPI.h"
 
 class AwaitingSignalRunner : public ObstacleDetectRunner
 {
 private:
-    WheelController *wheelController;
-    SonarSensor *sonarSensor;
 
 public:
-    AwaitingSignalRunner(WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
-    void run() override;
+    AwaitingSignalRunner(ObstacleDetector *obstacleDetector);
+    void run(RobotAPI *robotAPI) override;
     AwaitingSignalRunner *generateReverseCommand() override;
 };
 

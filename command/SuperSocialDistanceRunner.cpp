@@ -1,16 +1,14 @@
 #include "SuperSocialDistanceRunner.h"
 #include "ObstacleDetectRunner.h"
 #include "ObstacleDetector.h"
-#include "WheelController.h"
 #include "SonarSensor.h"
+#include "RobotAPI.h"
 
-SuperSocialDistanceRunner::SuperSocialDistanceRunner(WheelController *wc, SonarSensor *ss,ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
+SuperSocialDistanceRunner::SuperSocialDistanceRunner(ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
-    wheelController = wc;
-    sonarSensor = ss;
 }
 
-void SuperSocialDistanceRunner::run()
+void SuperSocialDistanceRunner::run(RobotAPI *robotAPI)
 {
     // TODO
     return;
@@ -18,5 +16,5 @@ void SuperSocialDistanceRunner::run()
 
 SuperSocialDistanceRunner *SuperSocialDistanceRunner::generateReverseCommand()
 {
-    return new SuperSocialDistanceRunner(wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
+    return new SuperSocialDistanceRunner(getObstacleDetector()->generateReverseCommand());
 }

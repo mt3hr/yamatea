@@ -1,16 +1,16 @@
 #include "SwingSonarObstacleDetector.h"
 #include "SonarSensor.h"
 #include "RotateRobotDistanceAngleDetector.h"
-#include "WheelController.h"
 #include "FinishedCommandPredicate.h"
 #include "RotateRobot.h"
 #include "Stopper.h"
 #include "string"
 #include "DebugUtil.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 
-SwingSonarObstacleDetector::SwingSonarObstacleDetector(SwingOrder so, int pwm, float swingLeft, float swingRight, int targetLeft, int targetRight, SonarSensor *ss, WheelController *wc)
+SwingSonarObstacleDetector::SwingSonarObstacleDetector(SwingOrder so, int pwm, float swingLeft, float swingRight, int targetLeft, int targetRight)
 {
 
     this->swingLeft = swingLeft;
@@ -20,10 +20,8 @@ SwingSonarObstacleDetector::SwingSonarObstacleDetector(SwingOrder so, int pwm, f
 
     swingOrder = so;
     this->pwm = pwm;
-    sonarSensor = ss;
-    wheelController = wc;
     state = SSD_DETECT_OBSTACLE_1;
-    stopper = new Stopper(wheelController);
+    stopper = new Stopper();
 };
 
 SwingSonarObstacleDetector::~SwingSonarObstacleDetector()
@@ -32,7 +30,7 @@ SwingSonarObstacleDetector::~SwingSonarObstacleDetector()
     // TODO
 };
 
-void SwingSonarObstacleDetector::run()
+void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
 {
     // 障害物の端っこを検出する形となるであろう
     switch (swingOrder)
@@ -45,23 +43,15 @@ void SwingSonarObstacleDetector::run()
         {
             if (!initedRotateRobotDistanceAngleDetector1)
             {
-                rotateRobotDistanceAngleDetector1 = new RotateRobotDistanceAngleDetector(swingLeft, targetLeft, pwm, wheelController, sonarSensor);
+                rotateRobotDistanceAngleDetector1 = new RotateRobotDistanceAngleDetector(swingLeft, targetLeft, pwm, robotAPI);
                 rotateRobotDistanceAngleDetector1Predicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetector1);
                 initedRotateRobotDistanceAngleDetector1 = true;
                 return;
             }
 
-            /*
-            // これがないとエラーが飛び得る。オブジェクトインスタンス化よりタスク呼び出し周期の方が速いことがあるらしい。
-            if (rotateRobotDistanceAngleDetector1 == nullptr || rotateRobotDistanceAngleDetector1Predicate == nullptr)
-            {
-                return;
-            }
-            */
+            rotateRobotDistanceAngleDetector1->run(robotAPI);
 
-            rotateRobotDistanceAngleDetector1->run();
-
-            if (rotateRobotDistanceAngleDetector1Predicate->test())
+            if (rotateRobotDistanceAngleDetector1Predicate->test(robotAPI))
             {
                 leftObstacleDistance = rotateRobotDistanceAngleDetector1->getDistance();
                 leftObstacleAngle = rotateRobotDistanceAngleDetector1->getAngle();
@@ -72,7 +62,7 @@ void SwingSonarObstacleDetector::run()
             {
                 break;
             }
-            stopper->run();
+            stopper->run(robotAPI);
         }
 
         case SSD_RETURNING1:
@@ -80,21 +70,13 @@ void SwingSonarObstacleDetector::run()
             if (!initedRotateRobotCommandAndPreicate1)
             {
                 initedRotateRobotCommandAndPreicate1 = true;
-                rotateRobotCommandAndPredicate1 = generateRotateRobotCommand(-(rotateRobotDistanceAngleDetector1->getAngle()), pwm, wheelController);
-                rotateRobotCommandAndPredicate1->getPreHandler()->handle();
+                rotateRobotCommandAndPredicate1 = generateRotateRobotCommand(-(rotateRobotDistanceAngleDetector1->getAngle()), pwm, robotAPI);
+                rotateRobotCommandAndPredicate1->getPreHandler()->handle(robotAPI);
             }
 
-            /*
-            // これがないとエラーが飛び得る。オブジェクトインスタンス化よりタスク呼び出し周期の方が速いことがあるらしい。
-            if (rotateRobotCommandAndPredicate1 == nullptr)
-            {
-                return;
-            }
-            */
+            rotateRobotCommandAndPredicate1->getCommand()->run(robotAPI);
 
-            rotateRobotCommandAndPredicate1->getCommand()->run();
-
-            if (rotateRobotCommandAndPredicate1->getPredicate()->test())
+            if (rotateRobotCommandAndPredicate1->getPredicate()->test(robotAPI))
             {
                 state = SSD_DETECT_OBSTACLE_2;
             }
@@ -103,7 +85,7 @@ void SwingSonarObstacleDetector::run()
             {
                 break;
             }
-            stopper->run();
+            stopper->run(robotAPI);
         }
 
         case SSD_DETECT_OBSTACLE_2:
@@ -111,21 +93,13 @@ void SwingSonarObstacleDetector::run()
             if (!initedRotateRobotDistanceAngleDetector2)
             {
                 initedRotateRobotDistanceAngleDetector2 = true;
-                rotateRobotDistanceAngleDetector2 = new RotateRobotDistanceAngleDetector(swingRight, targetRight, pwm, wheelController, sonarSensor);
+                rotateRobotDistanceAngleDetector2 = new RotateRobotDistanceAngleDetector(swingRight, targetRight, pwm, robotAPI);
                 rotateRobotDistanceAngleDetector2Predicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetector2);
             }
 
-            /*
-            // これがないとエラーが飛び得る。オブジェクトインスタンス化よりタスク呼び出し周期の方が速いことがあるらしい。
-            if (rotateRobotDistanceAngleDetector2 == nullptr || rotateRobotDistanceAngleDetector2Predicate == nullptr)
-            {
-                return;
-            }
-            */
+            rotateRobotDistanceAngleDetector2->run(robotAPI);
 
-            rotateRobotDistanceAngleDetector2->run();
-
-            if (rotateRobotDistanceAngleDetector2Predicate->test())
+            if (rotateRobotDistanceAngleDetector2Predicate->test(robotAPI))
             {
                 rightObstacleDistance = rotateRobotDistanceAngleDetector2->getDistance();
                 rightObstacleAngle = rotateRobotDistanceAngleDetector2->getAngle();
@@ -137,7 +111,7 @@ void SwingSonarObstacleDetector::run()
                 break;
             }
 
-            stopper->run();
+            stopper->run(robotAPI);
         }
 
         case SSD_RETURNING2:
@@ -145,21 +119,13 @@ void SwingSonarObstacleDetector::run()
             if (!initedRotateRobotCommandAndPreicate2)
             {
                 initedRotateRobotCommandAndPreicate2 = true;
-                rotateRobotCommandAndPredicate2 = generateRotateRobotCommand(rotateRobotDistanceAngleDetector2->getAngle(), pwm, wheelController);
-                rotateRobotCommandAndPredicate2->getPreHandler()->handle();
+                rotateRobotCommandAndPredicate2 = generateRotateRobotCommand(rotateRobotDistanceAngleDetector2->getAngle(), pwm, robotAPI);
+                rotateRobotCommandAndPredicate2->getPreHandler()->handle(robotAPI);
             }
 
-            /*
-            // これがないとエラーが飛び得る。オブジェクトインスタンス化よりタスク呼び出し周期の方が速いことがあるらしい。
-            if (rotateRobotCommandAndPredicate2 == nullptr)
-            {
-                return;
-            }
-            */
+            rotateRobotCommandAndPredicate2->getCommand()->run(robotAPI);
 
-            rotateRobotCommandAndPredicate2->getCommand()->run();
-
-            if (rotateRobotCommandAndPredicate2->getPredicate()->test())
+            if (rotateRobotCommandAndPredicate2->getPredicate()->test(robotAPI))
             {
                 state = SSD_FINISHED;
             }
@@ -168,7 +134,7 @@ void SwingSonarObstacleDetector::run()
             {
                 break;
             }
-            stopper->run();
+            stopper->run(robotAPI);
 
             leftObstacleDistance = rotateRobotDistanceAngleDetector1->getDistance();
             rightObstacleDistance = rotateRobotDistanceAngleDetector2->getDistance();
@@ -194,7 +160,7 @@ void SwingSonarObstacleDetector::run()
         case SSD_FINISHED:
         {
             finished = true;
-            stopper->run();
+            stopper->run(robotAPI);
             break;
         }
 
@@ -229,16 +195,15 @@ SwingSonarObstacleDetector *SwingSonarObstacleDetector::generateReverseCommand()
     switch (swingOrder)
     {
     case CENTER_LEFT_RIGHT:
-        return new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
+        return new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, pwm, swingLeft, swingRight, targetLeft, targetRight);
     case CENTER_RIGHT_LEFT:
-        return new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
+        return new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight);
     case LEFT_RIGHT:
-        return new SwingSonarObstacleDetector(RIGHT_LEFT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
+        return new SwingSonarObstacleDetector(RIGHT_LEFT, pwm, swingLeft, swingRight, targetLeft, targetRight);
     case RIGHT_LEFT:
-        return new SwingSonarObstacleDetector(LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
-        ;
+        return new SwingSonarObstacleDetector(LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight);
     }
-    return new SwingSonarObstacleDetector(swingOrder, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController); // おかしい状態
+    return new SwingSonarObstacleDetector(swingOrder, pwm, swingLeft, swingRight, targetLeft, targetRight); // おかしい状態
 }
 
 bool SwingSonarObstacleDetector::isFinished()

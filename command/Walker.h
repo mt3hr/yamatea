@@ -3,7 +3,7 @@
 
 #include "Motor.h"
 #include "Command.h"
-#include "WheelController.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 using namespace std;
@@ -17,11 +17,10 @@ class Walker : public Command
 private:
     int leftPower;
     int rightPower;
-    WheelController *wheelController;
 
 public:
-    Walker(int leftPower, int rightPower, WheelController *wheelController);
-    void run() override;
+    Walker(int leftPower, int rightPower);
+    void run(RobotAPI *robotAPI) override;
     Walker *generateReverseCommand() override;
 };
 

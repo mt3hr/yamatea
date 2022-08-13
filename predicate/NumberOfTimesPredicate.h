@@ -2,8 +2,9 @@
 #define NumberOfTimesPredicate_H
 
 #include "Predicate.h"
+#include "RobotAPI.h"
 
-// NumberOfTimesPredicate 
+// NumberOfTimesPredicate
 // 指定回数実行されるまでfalseを返し、その後trueを返すPredicate
 //
 // 実方
@@ -15,7 +16,7 @@ private:
 
 public:
     NumberOfTimesPredicate(int targetCount);
-    bool test() override;
+    bool test(RobotAPI *robotAPI) override;
 };
 
 #endif

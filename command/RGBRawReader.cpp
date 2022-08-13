@@ -2,20 +2,20 @@
 #include "ColorSensor.h"
 #include "PrintMessage.h"
 #include "sstream"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 using namespace std;
 
-RGBRawReader::RGBRawReader(ColorSensor *cs)
+RGBRawReader::RGBRawReader()
 {
-    colorSensor = cs;
 }
 
-void RGBRawReader::run()
+void RGBRawReader::run(RobotAPI *robotAPI)
 {
     if (!lockedRGBRawValue)
     {
-        colorSensor->getRawColor(rgbRaw);
+        robotAPI->getColorSensor()->getRawColor(rgbRaw);
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
             lockedRGBRawValue = true;
@@ -38,7 +38,7 @@ void RGBRawReader::run()
         messageLines.push_back(bs.str());
 
         PrintMessage printMessage(messageLines, true);
-        printMessage.run();
+        printMessage.run(robotAPI);
     }
     else
     {
@@ -61,12 +61,12 @@ void RGBRawReader::run()
             messageLines.push_back(bs.str());
 
             PrintMessage printMessage(messageLines, true);
-            printMessage.run();
+            printMessage.run(robotAPI);
         }
     }
 }
 
 RGBRawReader *RGBRawReader::generateReverseCommand()
 {
-    return new RGBRawReader(colorSensor);
+    return new RGBRawReader();
 }

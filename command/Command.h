@@ -1,6 +1,8 @@
 #ifndef Command_H
 #define Command_H
 
+#include "RobotAPI.h"
+
 // Command
 // CommandExecutorで実行されるコマンドのインターフェース。
 // オーバーライドして使ってください。
@@ -13,7 +15,7 @@ class Command
 {
 public:
     virtual ~Command();
-    virtual void run();
+    virtual void run(RobotAPI *robotAPI);
     virtual Command *generateReverseCommand();
 };
 #endif

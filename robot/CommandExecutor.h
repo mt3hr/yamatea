@@ -1,11 +1,11 @@
 #ifndef CommandExecutor_H
 #define CommandExecutor_H
 
-#include "WheelController.h"
 #include "Predicate.h"
 #include "Command.h"
 #include "Handler.h"
 #include <vector>
+#include "RobotAPI.h"
 
 using namespace std;
 using namespace ev3api;
@@ -33,10 +33,10 @@ private:
     vector<Command *> commands;
     vector<Predicate *> predicates;
     vector<Handler *> exitHandlers;
-    WheelController *wheelController;
+    RobotAPI *robotAPI;
 
 public:
-    CommandExecutor(WheelController *wheelController);
+    CommandExecutor(RobotAPI *robotAPI);
     ~CommandExecutor();
     void addCommand(Command *command, Predicate *exitCondition, Handler *exitHandler);
     void run();

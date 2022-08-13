@@ -6,8 +6,7 @@
 #include "Predicate.h"
 #include "MotorCountPredicate.h"
 #include "Handler.h"
-#include "SonarSensor.h"
-#include "WheelController.h"
+#include "RobotAPI.h"
 
 class RotateRobotDistanceAngleDetector : public Command, public FinishConfirmable
 {
@@ -18,9 +17,7 @@ private:
     int distanceThreshold;
     int distance;
 
-    SonarSensor *sonarSensor;
-    WheelController *wheelController;
-
+    RobotAPI *robotAPI;
     Command *rotateRobotCommand;
     Predicate *rotateRobotPredicate;
     Handler *rotateRobotPreHandler;
@@ -31,9 +28,9 @@ private:
     int rightWheelCountWhenInited = 0;
 
 public:
-    RotateRobotDistanceAngleDetector(float angle, int distanceThreshold, int pwm, WheelController *wheelController, SonarSensor *sonarSensor);
+    RotateRobotDistanceAngleDetector(float angle, int distanceThreshold, int pwm, RobotAPI *robotAPI);
     ~RotateRobotDistanceAngleDetector();
-    void run() override;
+    void run(RobotAPI *robotAPI) override;
     RotateRobotDistanceAngleDetector *generateReverseCommand() override;
     bool isFinished() override;
     int getDistance();

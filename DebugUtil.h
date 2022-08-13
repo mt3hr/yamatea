@@ -1,6 +1,7 @@
 #ifndef DebugUtil_H
 #define DebugUtil_H
 #include "string"
+#include "RobotAPI.h"
 
 // デバッグ用出力関数集。
 // メッセージ入力  : writeDebug(message)して、
@@ -13,6 +14,6 @@ void writeDebug(string str);
 void writeDebug(int i);
 void writeDebug(float f);
 void writeEndLineDebug();
-void flushDebug();
+void flushDebug(RobotAPI *robotAPI);
 
 #endif

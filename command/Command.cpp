@@ -1,11 +1,12 @@
 #include "Command.h"
+#include "RobotAPI.h"
 
 Command::~Command()
 {
 }
 
 // オーバーライドして使って
-void Command::run()
+void Command::run(RobotAPI *robotAPI)
 {
     return;
 }

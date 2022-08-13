@@ -3,7 +3,7 @@
 
 #include "PIDTracer.h"
 #include "Walker.h"
-#include "WheelController.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 
@@ -24,6 +24,6 @@ Walker *ifRightThenReverseCommand(Walker *walker, bool isRightCource);
 // falseならば左コース用の右車輪回転数Predicateを生成する。
 // 
 // 実方
-MotorCountPredicate *generateMotorCountPredicate(bool isRightCource, int count, WheelController *wheelController);
+MotorCountPredicate *generateMotorCountPredicate(bool isRightCource, int count, RobotAPI *robotAPI);
 
 #endif

@@ -1,20 +1,20 @@
 #include "ArmController.h"
 #include "Motor.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 
-ArmController::ArmController(int p, Motor *am)
+ArmController::ArmController(int p)
 {
     pwm = p;
-    armMotor = am;
 }
 
-void ArmController::run()
+void ArmController::run(RobotAPI *robotAPI)
 {
-    armMotor->setPWM(pwm);
+    robotAPI->getArmMotor()->setPWM(pwm);
 }
 
 ArmController *ArmController::generateReverseCommand()
 {
-    return new ArmController(pwm, armMotor);
+    return new ArmController(pwm);
 }

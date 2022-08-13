@@ -3,6 +3,7 @@
 
 #include "Motor.h"
 #include "Command.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 
@@ -14,11 +15,10 @@ class ArmController : public Command
 {
 private:
     int pwm;
-    Motor *armMotor;
 
 public:
-    ArmController(int pwm, Motor *armMotor);
-    void run();
+    ArmController(int pwm);
+    void run(RobotAPI *robotAPI);
     ArmController *generateReverseCommand() override;
 };
 

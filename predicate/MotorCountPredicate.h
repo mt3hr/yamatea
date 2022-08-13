@@ -3,6 +3,7 @@
 
 #include "Predicate.h"
 #include "Motor.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 
@@ -19,6 +20,6 @@ private:
 
 public:
     MotorCountPredicate(Motor *motor, int count, bool decrease);
-    bool test() override;
+    bool test(RobotAPI *robotAPI) override;
 };
 #endif

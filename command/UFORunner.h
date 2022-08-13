@@ -3,7 +3,6 @@
 
 #include "ObstacleDetectRunner.h"
 #include "ObstacleDetector.h"
-#include "WheelController.h"
 #include "SonarSensor.h"
 #include "FinishConfirmable.h"
 #include "DistancePredicate.h"
@@ -30,8 +29,6 @@ class UFORunner : public ObstacleDetectRunner, public FinishConfirmable
 {
 private:
     UFORunnerState state;
-    WheelController *wheelController;
-    SonarSensor *sonarSensor;
 
     Command *turnToPCommand;
     Command *turnPIPNCommand;
@@ -72,9 +69,9 @@ private:
     int rotatePow;
 
 public:
-    UFORunner(float n, int walkerPow, int rotatePow, WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
+    UFORunner(float n, int walkerPow, int rotatePow, ObstacleDetector *obstacleDetector);
     ~UFORunner();
-    void run() override;
+    void run(RobotAPI *robotAPI) override;
     UFORunner *generateReverseCommand() override;
     bool isFinished() override;
 };

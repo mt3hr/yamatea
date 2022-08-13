@@ -2,8 +2,8 @@
 #define CurvatureWalker_H
 
 #include "CommandAndPredicate.h"
-#include "WheelController.h"
+#include "RobotAPI.h"
 
-CommandAndPredicate *generateCurvatureWalkerWithTheta(int pwm, float r, float theta, bool clock, WheelController *wheelController);
+CommandAndPredicate *generateCurvatureWalkerWithTheta(int pwm, float r, float theta, bool clock, RobotAPI *robotAPI);
 
 #endif

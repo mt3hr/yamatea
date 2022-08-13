@@ -39,14 +39,18 @@ app.cppのサンプルコードを載せておきます。
 using namespace ev3api;
 
 // apiで使うものの初期化
-Clock *clock = new Clock();
+TouchSensor *touchSensor = new TouchSensor(PORT_1);
+ColorSensor *colorSensor = new ColorSensor(PORT_2);
+SonarSensor *sonarSensor = new SonarSensor(PORT_3);
 Motor *leftWheel = new Motor(PORT_C);
 Motor *rightWheel = new Motor(PORT_B);
+Motor *armMotor = new Motor(PORT_A);
+Clock *clock = new Clock();
 
 // Commandを実行するオブジェクト
 CommandExecutor *commandExecutor;
-// 左右車輪を管理するオブジェクト
-WheelController *wheelController = new WheelController(leftWheel, rightWheel);
+// 走行体のAPIをまとめたオブジェクト
+RobotAPI *robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, clock);
 
 // サンプルのutil.cppから引っ張ってきたやつ
 // char*ではなくstd::stringで受け取る
@@ -61,12 +65,12 @@ void init_f(string str)
 void initialize()
 {
   // commandExecutorとwheelControllerの初期化
-  commandExecutor = new CommandExecutor(wheelController);
+  commandExecutor = new CommandExecutor(robotAPI);
 
   // シンプルなウォーカ。左右車輪50のpwmで進む。
   int leftPow = 50;
   int rightPow = 50;
-  Command *walker = new Walker(leftPow, rightPow, wheelController);
+  Command *walker = new Walker(leftPow, rightPow);
 
   // ウォーカを終了するタイミングを決定するPredicate
   // この例では左車輪が360度回転したら終了する
@@ -108,11 +112,13 @@ void main_task(intptr_t unused)
   // 終了処理。各オブジェクトの削除
   commandExecutor->emergencyStop();
   delete commandExecutor;
-  delete wheelController;
-  delete clock;
+  delete robotAPI;
+  delete touchSensor;
+  delete colorSensor;
+  delete sonarSensor;
   delete leftWheel;
   delete rightWheel;
-
+  delete clock;
   ext_tsk();
 }
 

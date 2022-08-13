@@ -73,14 +73,14 @@ void writeEndLineDebug()
     messageLinesForDebugPrint.push_back("");
 }
 
-void flushDebug()
+void flushDebug(RobotAPI *robotAPI)
 {
     if (!enablePrintDebugMessage)
     {
         return;
     }
     PrintMessage *printMessage = new PrintMessage(messageLinesForDebugPrint, true);
-    printMessage->run();
+    printMessage->run(robotAPI);
     delete printMessage;
     vector<string> v;
     messageLinesForDebugPrint = v;

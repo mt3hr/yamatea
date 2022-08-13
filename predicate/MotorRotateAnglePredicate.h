@@ -4,6 +4,7 @@
 #include "Motor.h"
 #include "Predicate.h"
 #include "Preparizable.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 
@@ -20,7 +21,7 @@ private:
 
 public:
     MotorRotateAnglePredicate(int angle, Motor *motor);
-    bool test() override;
+    bool test(RobotAPI *robotAPI) override;
     void preparation() override;
 };
 

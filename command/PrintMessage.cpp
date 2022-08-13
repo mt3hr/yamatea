@@ -3,6 +3,7 @@
 #include "vector"
 #include "string"
 #include "Setting.h"
+#include "RobotAPI.h"
 
 using namespace std;
 
@@ -56,7 +57,7 @@ void PrintMessage::print()
     }
 }
 
-void PrintMessage::run()
+void PrintMessage::run(RobotAPI *robotAPI)
 {
     if (forcePrint)
     {

@@ -3,6 +3,8 @@
 
 #include "Predicate.h"
 #include "TouchSensor.h"
+#include "RobotAPI.h"
+
 using namespace ev3api;
 
 // StartButtonPredicate
@@ -12,11 +14,10 @@ using namespace ev3api;
 class StartButtonPredicate : public Predicate
 {
 private:
-  TouchSensor *touchSensor;
 
 public:
-  StartButtonPredicate(TouchSensor *touchSensor);
-  bool test() override;
+  StartButtonPredicate();
+  bool test(RobotAPI *robotAPI) override;
 };
 
 #endif

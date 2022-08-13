@@ -6,9 +6,9 @@
 #include "SonarSensor.h"
 #include "RotateRobotDistanceAngleDetector.h"
 #include "CommandAndPredicate.h"
-#include "WheelController.h"
 #include "Predicate.h"
 #include "Stopper.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 
@@ -67,20 +67,7 @@ private:
     bool detectedLeftObstacleAngle = false;
     bool detectedRightObstacleAngle = false;
     SwingOrder swingOrder;
-    SonarSensor *sonarSensor;
-    WheelController *wheelController;
     Stopper *stopper;
-
-/*
-    RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetector1 = nullptr;
-    RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetector2 = nullptr;
-
-    Predicate *rotateRobotDistanceAngleDetector1Predicate = nullptr;
-    Predicate *rotateRobotDistanceAngleDetector2Predicate = nullptr;
-
-    CommandAndPredicate *rotateRobotCommandAndPredicate1 = nullptr; // 検知したら向き直るやつ1回目
-    CommandAndPredicate *rotateRobotCommandAndPredicate2 = nullptr; // 検知したら向き直るやつ2回目
-    */
 
     RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetector1;
     RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetector2;
@@ -99,9 +86,9 @@ private:
     bool finished = false;
 
 public:
-    SwingSonarObstacleDetector(SwingOrder swingOrder, int pwm, float swingLeft, float swingRight, int targetLeft, int targetRight, SonarSensor *sonarSensor, WheelController *WheelController);
+    SwingSonarObstacleDetector(SwingOrder swingOrder, int pwm, float swingLeft, float swingRight, int targetLeft, int targetRight);
     ~SwingSonarObstacleDetector();
-    void run() override;
+    void run(RobotAPI *robotAPI) override;
     SwingSonarObstacleDetector *generateReverseCommand() override;
     bool isFinished() override;
     int getLeftObstacleDistance() override;

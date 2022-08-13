@@ -5,6 +5,7 @@
 #include "string"
 #include "vector"
 #include "ev3api.h"
+#include "RobotAPI.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ private:
 
 public:
     PrintMessage(vector<string> messageLines, bool forcePrint);
-    void run() override;
+    void run(RobotAPI *robotAPI) override;
     PrintMessage *generateReverseCommand() override;
 };
 

@@ -3,6 +3,7 @@
 
 #include "Preparizable.h"
 #include "Handler.h"
+#include "RobotAPI.h"
 
 // ExecutePreparationWhenExitBeforeCommandHandler
 // 開始のタイミングで準備処理が必要なコマンドに、準備メソッド呼び出しを実現するクラス。
@@ -20,7 +21,7 @@ private:
 
 public:
     ExecutePreparationWhenExitBeforeCommandHandler(Preparizable *preparizable);
-    void handle() override;
+    void handle(RobotAPI *robotAPI) override;
 };
 
 #endif

@@ -3,6 +3,7 @@
 
 #include "Predicate.h"
 #include "FinishConfirmable.h"
+#include "RobotAPI.h"
 
 class FinishedCommandPredicate : public Predicate
 {
@@ -11,7 +12,7 @@ private:
 
 public:
     FinishedCommandPredicate(FinishConfirmable *finishConfirmable);
-    bool test() override;
+    bool test(RobotAPI *robotAPI) override;
 };
 
 #endif

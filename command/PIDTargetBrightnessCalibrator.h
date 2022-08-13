@@ -7,6 +7,7 @@
 #include "Handler.h"
 #include "Clock.h"
 #include "string"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 using namespace std;
@@ -34,14 +35,13 @@ private:
     int black = 100;
     bool readedWhite = false;
     bool readedBlack = false;
-    ColorSensor *colorSensor;
     vector<Handler *> handlers;
     bool executedHandler = false;
-    Clock *clock;
+    RobotAPI *robotAPI;
 
 public:
-    PIDTargetBrightnessCalibrator(ColorSensor *colorSensor, Clock *clock);
-    void run() override;
+    PIDTargetBrightnessCalibrator(RobotAPI *robotAPI);
+    void run(RobotAPI *robotAPI) override;
     PIDTargetBrightnessCalibrator *generateReverseCommand() override;
     int getBlack();
     int getWhite();

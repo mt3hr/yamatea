@@ -5,31 +5,31 @@
 #include "string"
 #include "sstream"
 #include "vector"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 using namespace std;
 
 int sleepDuration = 1000 * 500;
 
-PIDTargetBrightnessCalibrator::PIDTargetBrightnessCalibrator(ColorSensor *cs, Clock *c)
+PIDTargetBrightnessCalibrator::PIDTargetBrightnessCalibrator(RobotAPI *robotAPI)
 {
-    colorSensor = cs;
-    clock = c;
+    this->robotAPI = robotAPI;
 };
 
 void PIDTargetBrightnessCalibrator::readWhiteFromColorSensor()
 {
     readedWhite = true;
-    white = colorSensor->getBrightness();
+    white = robotAPI->getColorSensor()->getBrightness();
 }
 
 void PIDTargetBrightnessCalibrator::readBlackFromColorSensor()
 {
     readedBlack = true;
-    black = colorSensor->getBrightness();
+    black = robotAPI->getColorSensor()->getBrightness();
 }
 
-void PIDTargetBrightnessCalibrator::run()
+void PIDTargetBrightnessCalibrator::run(RobotAPI *robotAPI)
 {
     if (!isReadedBlack())
     {
@@ -42,12 +42,12 @@ void PIDTargetBrightnessCalibrator::run()
             messageLines.push_back(" read black brightness");
             messageLines.push_back(" from color sensor");
             PrintMessage printMessage(messageLines, true);
-            printMessage.run();
+            printMessage.run(robotAPI);
         }
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
             readBlackFromColorSensor();
-            clock->sleep(sleepDuration);
+            robotAPI->getClock()->sleep(sleepDuration);
         }
     }
     else if (!isReadedWhite())
@@ -62,12 +62,12 @@ void PIDTargetBrightnessCalibrator::run()
             messageLines.push_back(" from color sensor");
 
             PrintMessage printMessage(messageLines, true);
-            printMessage.run();
+            printMessage.run(robotAPI);
         }
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
             readWhiteFromColorSensor();
-            clock->sleep(sleepDuration);
+            robotAPI->getClock()->sleep(sleepDuration);
         }
     }
     else
@@ -78,7 +78,7 @@ void PIDTargetBrightnessCalibrator::run()
             for (int i = 0; i < ((int)handlers.size()); i++)
             {
                 Handler *handler = handlers[i];
-                handler->handle();
+                handler->handle(robotAPI);
             }
         }
 
@@ -98,14 +98,14 @@ void PIDTargetBrightnessCalibrator::run()
             messageLines.push_back("press touch sensor");
             messageLines.push_back("      to START!");
             PrintMessage printMessage(messageLines, true);
-            printMessage.run();
+            printMessage.run(robotAPI);
         }
     }
 }
 
 PIDTargetBrightnessCalibrator *PIDTargetBrightnessCalibrator::generateReverseCommand()
 {
-    return new PIDTargetBrightnessCalibrator(colorSensor, clock);
+    return new PIDTargetBrightnessCalibrator(robotAPI);
 }
 
 int PIDTargetBrightnessCalibrator::getBlack()

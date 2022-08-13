@@ -2,12 +2,11 @@
 #include "math.h"
 #include "Setting.h"
 #include "Walker.h"
-#include "WheelController.h"
 #include "DistancePredicate.h"
 #include "ExecutePreparationWhenExitBeforeCommandHandler.h"
 
 // clock = trueで時計回り //TODO クソ実装では？
-CommandAndPredicate *generateCurvatureWalkerWithTheta(int pwm, float r, float theta, bool clock, WheelController *wheelController)
+CommandAndPredicate *generateCurvatureWalkerWithTheta(int pwm, float r, float theta, bool clock, RobotAPI *robotAPI)
 {
     // 時計回りの時。
     // 中央の孤の長さ: lone  = 半径 * rad(角度)
@@ -31,16 +30,16 @@ CommandAndPredicate *generateCurvatureWalkerWithTheta(int pwm, float r, float th
     float ratioR = loneR / lone;
     int leftPWM = pwm * ratioL;
     int rightPWM = pwm * ratioR;
-    Command *walker = new Walker(leftPWM, rightPWM, wheelController);
+    Command *walker = new Walker(leftPWM, rightPWM);
 
     DistancePredicate *predicate;
     if (clock)
     {
-        predicate = new DistancePredicate(loneL, wheelController->getLeftWheel());
+        predicate = new DistancePredicate(loneL, robotAPI->getLeftWheel());
     }
     else
     {
-        predicate = new DistancePredicate(loneR, wheelController->getRightWheel());
+        predicate = new DistancePredicate(loneR, robotAPI->getRightWheel());
     }
 
     Handler *preHandler = new ExecutePreparationWhenExitBeforeCommandHandler(predicate);

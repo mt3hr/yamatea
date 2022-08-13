@@ -1,16 +1,14 @@
 #include "AwaitingSignalRunner.h"
 #include "ObstacleDetectRunner.h"
 #include "ObstacleDetector.h"
-#include "WheelController.h"
 #include "SonarSensor.h"
+#include "RobotAPI.h"
 
-AwaitingSignalRunner::AwaitingSignalRunner(WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
+AwaitingSignalRunner::AwaitingSignalRunner(ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
-    wheelController = wc;
-    sonarSensor = ss;
 }
 
-void AwaitingSignalRunner::run()
+void AwaitingSignalRunner::run(RobotAPI *robotAPI)
 {
     // TODO
     return;
@@ -18,6 +16,5 @@ void AwaitingSignalRunner::run()
 
 AwaitingSignalRunner *AwaitingSignalRunner::generateReverseCommand()
 {
-    // TODO
-    return new AwaitingSignalRunner(wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
+    return new AwaitingSignalRunner(getObstacleDetector()->generateReverseCommand());
 }

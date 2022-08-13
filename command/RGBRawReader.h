@@ -14,14 +14,13 @@ using namespace ev3api;
 class RGBRawReader : public Command
 {
 private:
-    ColorSensor *colorSensor;
     rgb_raw_t rgbRaw;
     bool lockedRGBRawValue = false;
     bool printedLockedRGBRawValue = false;
 
 public:
-    RGBRawReader(ColorSensor *colorSensor);
-    void run();
+    RGBRawReader();
+    void run(RobotAPI *robotAPI);
     RGBRawReader *generateReverseCommand();
 };
 

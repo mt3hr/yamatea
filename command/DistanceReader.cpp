@@ -1,19 +1,19 @@
 #include "DistanceReader.h"
 #include "SonarSensor.h"
 #include "PrintMessage.h"
+#include "RobotAPI.h"
 #include "sstream"
 
 using namespace ev3api;
 using namespace std;
 
-DistanceReader::DistanceReader(SonarSensor *ss)
+DistanceReader::DistanceReader()
 {
-    sonarSensor = ss;
 }
 
-void DistanceReader::run()
+void DistanceReader::run(RobotAPI *robotAPI)
 {
-    distanceValue = sonarSensor->getDistance();
+    distanceValue = robotAPI->getSonarSensor()->getDistance();
 
     // 出力処理。変数名は雑。
     stringstream ds;
@@ -24,10 +24,10 @@ void DistanceReader::run()
     messageLines.push_back(ds.str());
 
     PrintMessage printMessage(messageLines, true);
-    printMessage.run();
+    printMessage.run(robotAPI);
 }
 
 DistanceReader *DistanceReader::generateReverseCommand()
 {
-    return new DistanceReader(sonarSensor);
+    return new DistanceReader();
 }

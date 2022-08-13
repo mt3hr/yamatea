@@ -2,7 +2,7 @@
 #define Stopper_H
 
 #include "Command.h"
-#include "WheelController.h"
+#include "RobotAPI.h"
 
 // Stopper
 // ロボットの左右車輪を停止するコマンド
@@ -11,11 +11,10 @@
 class Stopper : public Command
 {
 private:
-    WheelController *wheelController;
 
 public:
-    Stopper(WheelController *wheelController);
-    void run() override;
+    Stopper();
+    void run(RobotAPI *robotAPI) override;
     Stopper *generateReverseCommand() override;
 };
 

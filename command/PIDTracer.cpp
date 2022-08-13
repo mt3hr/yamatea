@@ -1,15 +1,15 @@
 #include "PIDTracer.h"
 #include "ColorSensor.h"
-#include "WheelController.h"
 #include "Setting.h"
 #include "string"
 #include "iomanip"
+#include "RobotAPI.h"
 #include "DebugUtil.h"
 
 using namespace ev3api;
 using namespace std;
 
-PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, float kda, float dta, int targetBrightnessa, WheelController *wheelControllera, ColorSensor *colorSensora)
+PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, float kda, float dta, int targetBrightnessa)
 {
     traceMode = traceModea;
     pwm = pwma;
@@ -18,14 +18,12 @@ PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, f
     kd = kda;
     dt = dta;
     targetBrightness = targetBrightnessa;
-    wheelController = wheelControllera;
-    colorSensor = colorSensora;
 }
 
-void PIDTracer::run()
+void PIDTracer::run(RobotAPI *robotAPI)
 {
     // PID制御
-    brightness = colorSensor->getBrightness();
+    brightness = robotAPI->getColorSensor()->getBrightness();
 
     // PID値の算出ここから
     p = brightness - targetBrightness;
@@ -48,8 +46,8 @@ void PIDTracer::run()
     }
 
     // モータを動かす
-    wheelController->getLeftWheel()->setPWM(leftPower);
-    wheelController->getRightWheel()->setPWM(rightPower);
+    robotAPI->getLeftWheel()->setPWM(leftPower);
+    robotAPI->getRightWheel()->setPWM(rightPower);
 
     writeDebug("PIDTracer");
     writeEndLineDebug();
@@ -71,7 +69,7 @@ void PIDTracer::run()
     writeDebug("brightness: ");
     writeDebug(brightness);
     writeEndLineDebug();
-    flushDebug();
+    flushDebug(robotAPI);
 }
 
 PIDTracer *PIDTracer::generateReverseCommand()
@@ -85,7 +83,7 @@ PIDTracer *PIDTracer::generateReverseCommand()
     {
         reversedMode = LEFT_TRACE;
     }
-    return new PIDTracer(reversedMode, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
+    return new PIDTracer(reversedMode, pwm, kp, ki, kd, dt, targetBrightness);
 }
 
 void PIDTracer::setTargetBrightness(int t)

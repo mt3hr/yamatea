@@ -15,7 +15,6 @@
 #include "PrintMessage.h"
 #include "Command.h"
 #include "CommandExecutor.h"
-#include "WheelController.h"
 #include "PIDTargetBrightnessCalibrator.h"
 #include "Predicate.h"
 #include "PIDTracer.h"
@@ -34,11 +33,11 @@
 #include "DistancePredicate.h"
 #include "ExecutePreparationWhenExitBeforeCommandHandler.h"
 #include "RotateRobot.h"
-#include "SteeringRobot.h"
 #include "FinishedCommandPredicate.h"
 #include "CurvatureWalker.h"
 #include "SwingSonarObstacleDetector.h"
 #include "UFORunner.h"
+#include "RobotAPI.h"
 
 using namespace std;
 using namespace ev3api;
@@ -52,15 +51,14 @@ int targetBrightness = 20;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define LeftCourceMode // 左コース用プログラム
+#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
-#define RotateTestMode // 旋回モード。テスト用
+//#define RotateTestMode // 旋回モード。テスト用
 //#define StraightTestMode // 直進モード。テスト用
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
-//#define SteeringTestMode // ステアリングモード。テスト用。Walkerでいいことに気付いたので使いません。
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
 //#define UFORunnerTestMode // UFO走行モード。テスト
@@ -68,9 +66,9 @@ int targetBrightness = 20;
 
 void setting()
 {
-  wheelDiameter = 10.4;                    // 車輪直径。センチメートル。
-  distanceFromSonarSensorToAxle = 10.5;    // ソナーセンサから車軸までの距離
-  angleFor360TurnLeftRotateRobot = 520;    // 左に360度旋回するのに必要な左右車輪回転角度数
+  wheelDiameter = 10.4;                  // 車輪直径。センチメートル。
+  distanceFromSonarSensorToAxle = 10.5;  // ソナーセンサから車軸までの距離
+  angleFor360TurnLeftRotateRobot = 520;  // 左に360度旋回するのに必要な左右車輪回転角度数
   angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必要な左右車輪回転角度数
   // TODO angleFor360の左右対応が逆になってるっぽいな
 
@@ -117,18 +115,19 @@ ColorSensor *colorSensor = new ColorSensor(PORT_2);
 SonarSensor *sonarSensor = new SonarSensor(PORT_3);
 Motor *leftWheel = new Motor(PORT_C);
 Motor *rightWheel = new Motor(PORT_B);
+Motor *armMotor = new Motor(PORT_A);
 Clock *clock = new Clock();
 
-// CommandExecutorの宣言とWheelControllerの初期化
+// CommandExecutorの宣言とRobotAPIの初期化
 CommandExecutor *commandExecutor;
-WheelController *wheelController = new WheelController(leftWheel, rightWheel);
+RobotAPI *robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, clock);
 
 // LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
 #if defined(LeftCourceMode) | defined(RightCourceMode)
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(wheelController);
+  commandExecutor = new CommandExecutor(robotAPI);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
@@ -150,8 +149,8 @@ void initializeCommandExecutor()
   // Commandの定義とCommandExecutorへの追加ここから
 
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
-  PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator = new PIDTargetBrightnessCalibrator(colorSensor, clock);
-  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator = new PIDTargetBrightnessCalibrator(robotAPI);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
   if (enableCalibrateTargetBrightness)
   {
     commandExecutor->addCommand(pidTargetBrightnessCalibrator, startButtonPredicate, doNothingHandler);
@@ -185,9 +184,9 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.7;
   dt = 1;
-  PIDTracer *bananaPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
+  PIDTracer *bananaPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness);
   bananaPIDTracer = ifRightThenReverseCommand(bananaPIDTracer, isRightCourse);
-  MotorCountPredicate *predicateBanana = generateMotorCountPredicate(isRightCourse, sceneBananaMotorCountPredicateArg, wheelController);
+  MotorCountPredicate *predicateBanana = generateMotorCountPredicate(isRightCourse, sceneBananaMotorCountPredicateArg, robotAPI);
   commandExecutor->addCommand(bananaPIDTracer, predicateBanana, doNothingHandler);
 
   // OrangePIDTracerの初期化とCommandExecutorへの追加
@@ -196,17 +195,17 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.65;
   dt = 1;
-  PIDTracer *orangePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
+  PIDTracer *orangePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness);
   orangePIDTracer = ifRightThenReverseCommand(orangePIDTracer, isRightCourse);
-  MotorCountPredicate *predicateOrange = generateMotorCountPredicate(isRightCourse, sceneOrangeMotorCountPredicateArg, wheelController);
+  MotorCountPredicate *predicateOrange = generateMotorCountPredicate(isRightCourse, sceneOrangeMotorCountPredicateArg, robotAPI);
   commandExecutor->addCommand(orangePIDTracer, predicateOrange, doNothingHandler);
 
   // StarFruitsWalkerの初期化とCommandExecutorへの追加
   leftPow = 16;
   rightPow = 20;
-  Walker *starFruitsWalker = new Walker(leftPow, rightPow, wheelController);
+  Walker *starFruitsWalker = new Walker(leftPow, rightPow);
   starFruitsWalker = ifRightThenReverseCommand(starFruitsWalker, isRightCourse);
-  MotorCountPredicate *predicateStarFruits = generateMotorCountPredicate(isRightCourse, sceneStarFruitsMotorCountPredicateArg, wheelController);
+  MotorCountPredicate *predicateStarFruits = generateMotorCountPredicate(isRightCourse, sceneStarFruitsMotorCountPredicateArg, robotAPI);
   commandExecutor->addCommand(starFruitsWalker, predicateStarFruits, doNothingHandler);
 
   // CherryPIDTracerの初期化とCommandExecutorへの追加
@@ -215,9 +214,9 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.7;
   dt = 1;
-  PIDTracer *cherryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
+  PIDTracer *cherryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness);
   cherryPIDTracer = ifRightThenReverseCommand(cherryPIDTracer, isRightCourse);
-  MotorCountPredicate *predicateCherry = generateMotorCountPredicate(isRightCourse, sceneCherryMotorCountPredicateArg, wheelController);
+  MotorCountPredicate *predicateCherry = generateMotorCountPredicate(isRightCourse, sceneCherryMotorCountPredicateArg, robotAPI);
   commandExecutor->addCommand(cherryPIDTracer, predicateCherry, doNothingHandler);
 
   // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
@@ -226,17 +225,17 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.7;
   dt = 1;
-  PIDTracer *waterMelonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
+  PIDTracer *waterMelonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness);
   waterMelonPIDTracer = ifRightThenReverseCommand(waterMelonPIDTracer, isRightCourse);
-  MotorCountPredicate *predicateWaterMelon = generateMotorCountPredicate(isRightCourse, sceneWaterMelonMotorCountPredicateArg, wheelController);
+  MotorCountPredicate *predicateWaterMelon = generateMotorCountPredicate(isRightCourse, sceneWaterMelonMotorCountPredicateArg, robotAPI);
   commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon, doNothingHandler);
 
   // BokChoyWalkerの初期化とCommandExecutorへの追加
   leftPow = 20;
   rightPow = 18;
-  Walker *bokChoyWalker = new Walker(leftPow, rightPow, wheelController);
+  Walker *bokChoyWalker = new Walker(leftPow, rightPow);
   bokChoyWalker = ifRightThenReverseCommand(bokChoyWalker, isRightCourse);
-  MotorCountPredicate *predicateBokChoy = generateMotorCountPredicate(isRightCourse, sceneBokChoyMotorCountPredicateArg, wheelController);
+  MotorCountPredicate *predicateBokChoy = generateMotorCountPredicate(isRightCourse, sceneBokChoyMotorCountPredicateArg, robotAPI);
   commandExecutor->addCommand(bokChoyWalker, predicateBokChoy, doNothingHandler);
 
   // DorianPIDTracerの初期化とCommandExecutorへの追加
@@ -245,9 +244,9 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.7;
   dt = 1;
-  PIDTracer *dorianPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
+  PIDTracer *dorianPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness);
   dorianPIDTracer = ifRightThenReverseCommand(dorianPIDTracer, isRightCourse);
-  MotorCountPredicate *predicateDorian = generateMotorCountPredicate(isRightCourse, sceneDorianMotorCountPredicateArg, wheelController);
+  MotorCountPredicate *predicateDorian = generateMotorCountPredicate(isRightCourse, sceneDorianMotorCountPredicateArg, robotAPI);
   commandExecutor->addCommand(dorianPIDTracer, predicateDorian, doNothingHandler);
 
   // MelonPIDTracerの初期化とCommandExecutorへの追加
@@ -256,9 +255,9 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.7;
   dt = 1;
-  PIDTracer *melonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
+  PIDTracer *melonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness);
   melonPIDTracer = ifRightThenReverseCommand(melonPIDTracer, isRightCourse);
-  MotorCountPredicate *predicateMelon = generateMotorCountPredicate(isRightCourse, sceneMelonMotorCountPredicateArg, wheelController);
+  MotorCountPredicate *predicateMelon = generateMotorCountPredicate(isRightCourse, sceneMelonMotorCountPredicateArg, robotAPI);
   commandExecutor->addCommand(melonPIDTracer, predicateMelon, doNothingHandler);
 
   // CucumberPIDTracerの初期化とCommandExecutorへの追加
@@ -267,9 +266,9 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.6;
   dt = 1;
-  PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
+  PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness);
   cucumberPIDTracer = ifRightThenReverseCommand(cucumberPIDTracer, isRightCourse);
-  MotorCountPredicate *predicateCucumber = generateMotorCountPredicate(isRightCourse, sceneCucumberMotorCountPredicateArg, wheelController);
+  MotorCountPredicate *predicateCucumber = generateMotorCountPredicate(isRightCourse, sceneCucumberMotorCountPredicateArg, robotAPI);
   commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber, doNothingHandler);
 
   // StrawberryPIDTracerの初期化とCommandExecutorへの追加
@@ -278,9 +277,9 @@ void initializeCommandExecutor()
   ki = 0.2;
   kd = 0.6;
   dt = 1;
-  PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, wheelController, colorSensor);
+  PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness);
   strawberryPIDTracer = ifRightThenReverseCommand(strawberryPIDTracer, isRightCourse);
-  MotorCountPredicate *predicateStrawberry = generateMotorCountPredicate(isRightCourse, sceneStrawberryMotorCountPredicateArg, wheelController);
+  MotorCountPredicate *predicateStrawberry = generateMotorCountPredicate(isRightCourse, sceneStrawberryMotorCountPredicateArg, robotAPI);
   commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry, doNothingHandler);
 
   // Commandの定義とCommandExecutorへの追加ここまで
@@ -305,14 +304,14 @@ void initializeCommandExecutor()
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(wheelController);
+  commandExecutor = new CommandExecutor(robotAPI);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
 
   // distanceReaderの初期化とCommandExecutorへの追加
-  DistanceReader *distanceReader = new DistanceReader(sonarSensor);
-  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  DistanceReader *distanceReader = new DistanceReader();
+  Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(distanceReader, startButtonPredicate, doNothingHandler);
 }
 #endif
@@ -322,14 +321,14 @@ void initializeCommandExecutor()
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(wheelController);
+  commandExecutor = new CommandExecutor(robotAPI);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
 
   // rgbRawReaderの初期化とCommandExecutorへの追加
-  RGBRawReader *rgbRawReader = new RGBRawReader(colorSensor);
-  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  RGBRawReader *rgbRawReader = new RGBRawReader();
+  Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(rgbRawReader, startButtonPredicate, doNothingHandler);
 }
 #endif
@@ -341,23 +340,23 @@ void initializeCommandExecutor()
   int motorRotateAngle = 540; // ここの値をいじってはかって
 
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(wheelController);
+  commandExecutor = new CommandExecutor(robotAPI);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
-  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
   int pwm = 10;
-  Walker *walker = new Walker(pwm, -pwm, wheelController); // 右に向く
-  Predicate *walkerPredicate = new MotorCountPredicate(leftWheel, motorRotateAngle);
+  Walker *walker = new Walker(pwm, -pwm); // 右に向く
+  Predicate *walkerPredicate = new MotorCountPredicate(leftWheel, motorRotateAngle, false);
   commandExecutor->addCommand(walker, walkerPredicate, doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
-  Stopper *stopper = new Stopper(wheelController);
+  Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
 }
@@ -368,7 +367,7 @@ void initializeCommandExecutor()
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(wheelController);
+  commandExecutor = new CommandExecutor(robotAPI);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
@@ -377,13 +376,13 @@ void initializeCommandExecutor()
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
   int angle = 10;
   int pwm = 15;
-  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
-  CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(angle, pwm, wheelController);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(angle, pwm, robotAPI);
   commandExecutor->addCommand(new Command(), startButtonPredicate, commandAndPredicate->getPreHandler()); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate(), doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
-  Stopper *stopper = new Stopper(wheelController);
+  Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
 }
@@ -393,19 +392,19 @@ void initializeCommandExecutor()
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(wheelController);
+  commandExecutor = new CommandExecutor(robotAPI);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   // 直進コマンドの初期化とCommandExecutorへの追加
-  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
 
   int pwm = 50;
   float distanceCm = 50;
-  Walker *walker = new Walker(pwm, pwm, wheelController);
-  DistancePredicate *walkerPredicate = new DistancePredicate(distanceCm, wheelController->getLeftWheel());
+  Walker *walker = new Walker(pwm, pwm);
+  DistancePredicate *walkerPredicate = new DistancePredicate(distanceCm, robotAPI->getLeftWheel());
 
   Handler *startButtonExitHandler = new ExecutePreparationWhenExitBeforeCommandHandler(walkerPredicate);
 
@@ -413,37 +412,7 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(walker, walkerPredicate, doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
-  Stopper *stopper = new Stopper(wheelController);
-  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
-  commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
-}
-#endif
-
-// Walkerでいいじゃん。今後1000年使いません、SteeringRobotクラス。
-#ifdef SteeringTestMode
-void initializeCommandExecutor()
-{
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(wheelController);
-
-  // なにもしないハンドラ
-  Handler *doNothingHandler = new Handler();
-
-  // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
-  // ステアリングコマンドの初期化とCommandExecutorへの追加
-  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
-
-  int pwm = 20;
-  int angle = 25;
-  int rightWheelDistanceCm = 10;
-  SteeringRobot *steeringCommand = new SteeringRobot(pwm, angle, leftWheel, rightWheel);
-  DistancePredicate *steeringPredicate = new DistancePredicate(rightWheelDistanceCm, leftWheel);
-
-  commandExecutor->addCommand(new Command(), startButtonPredicate, new ExecutePreparationWhenExitBeforeCommandHandler(steeringPredicate)); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
-  commandExecutor->addCommand(steeringCommand, steeringPredicate, doNothingHandler);
-
-  // 停止コマンドの初期化とCommandExecutorへの追加
-  Stopper *stopper = new Stopper(wheelController);
+  Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
 }
@@ -453,25 +422,25 @@ void initializeCommandExecutor()
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(wheelController);
+  commandExecutor = new CommandExecutor(robotAPI);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   // 曲率進行コマンドの初期化とCommandExecutorへの追加
-  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
 
   int pwm = 20; // TODO pwm上げるとおかしくなる
   float r = 20;
   float theta = 360;
-  CommandAndPredicate *commandAndPredicate = generateCurvatureWalkerWithTheta(pwm, r, theta, false, wheelController);
+  CommandAndPredicate *commandAndPredicate = generateCurvatureWalkerWithTheta(pwm, r, theta, false, robotAPI);
 
   commandExecutor->addCommand(new Command(), startButtonPredicate, commandAndPredicate->getPreHandler()); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate(), doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
-  Stopper *stopper = new Stopper(wheelController);
+  Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
 }
@@ -481,13 +450,13 @@ void initializeCommandExecutor()
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(wheelController);
+  commandExecutor = new CommandExecutor(robotAPI);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
-  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // 障害物検出コマンドの初期化とCommandExecutorへの追加
@@ -496,12 +465,12 @@ void initializeCommandExecutor()
   float swingRight = -90.0;
   int targetLeft = 20;
   int targetRight = 20;
-  SwingSonarObstacleDetector *swingSonarDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
+  SwingSonarObstacleDetector *swingSonarDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight);
   Predicate *swingSonarDetectorPredicate = new FinishedCommandPredicate(swingSonarDetector);
   commandExecutor->addCommand(swingSonarDetector, swingSonarDetectorPredicate, doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
-  Stopper *stopper = new Stopper(wheelController);
+  Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
 }
@@ -518,7 +487,7 @@ void initializeCommandExecutor()
   float n = 1.0;
 
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(wheelController);
+  commandExecutor = new CommandExecutor(robotAPI);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
@@ -528,16 +497,16 @@ void initializeCommandExecutor()
   // NCの距離進む
   // nTurn分旋回する
   // n分進む
-  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
 
-  CommandAndPredicate *turnACNCommandAndPredicate = generateRotateRobotCommand(acn, pwm, wheelController);
+  CommandAndPredicate *turnACNCommandAndPredicate = generateRotateRobotCommand(acn, pwm, robotAPI);
 
-  Walker *walkNCCommand = new Walker(pwm, pwm, wheelController);
+  Walker *walkNCCommand = new Walker(pwm, pwm);
   DistancePredicate *walkNCPredicate = new DistancePredicate(nc, leftWheel);
 
-  CommandAndPredicate *turnNCommandAndPredicate = generateRotateRobotCommand(nTurn, pwm, wheelController);
+  CommandAndPredicate *turnNCommandAndPredicate = generateRotateRobotCommand(nTurn, pwm, robotAPI);
 
-  Walker *walkNCommand = new Walker(pwm, pwm, wheelController);
+  Walker *walkNCommand = new Walker(pwm, pwm);
   DistancePredicate *walkNPredicate = new DistancePredicate(n, leftWheel);
 
   commandExecutor->addCommand(new Command(), startButtonPredicate, turnACNCommandAndPredicate->getPreHandler()); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
@@ -547,7 +516,7 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(walkNCommand, walkNPredicate, doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
-  Stopper *stopper = new Stopper(wheelController);
+  Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
 }
@@ -557,13 +526,13 @@ void initializeCommandExecutor()
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(wheelController);
+  commandExecutor = new CommandExecutor(robotAPI);
 
   // なにもしないハンドラ
   Handler *doNothingHandler = new Handler();
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
-  Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, doNothingHandler); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
@@ -574,12 +543,12 @@ void initializeCommandExecutor()
   float swingRight = -90.0;
   int targetLeft = 30;
   int targetRight = 30;
-  SwingSonarObstacleDetector *swingSonarObstacleDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, turnPWM, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
-  UFORunner *ufoRunner = new UFORunner(n, walkPWM, turnPWM, wheelController, sonarSensor, swingSonarObstacleDetector);
+  SwingSonarObstacleDetector *swingSonarObstacleDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, turnPWM, swingLeft, swingRight, targetLeft, targetRight);
+  UFORunner *ufoRunner = new UFORunner(n, walkPWM, turnPWM, swingSonarObstacleDetector);
   commandExecutor->addCommand(ufoRunner, new FinishedCommandPredicate(ufoRunner), doNothingHandler);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
-  Stopper *stopper = new Stopper(wheelController);
+  Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, doNothingHandler);
 }
@@ -619,13 +588,14 @@ void main_task(intptr_t unused)
     ref_cyc(RUNNER_CYC, &pk_rcyc);
     if (pk_rcyc.cycstat == TCYC_STP)
     {
-      Stopper stopper(wheelController);
-      stopper.run();
+      Stopper *stopper = new Stopper();
+      stopper->run(robotAPI);
+      delete stopper;
 
       vector<string> messageLines;
       messageLines.push_back("finish!!");
       PrintMessage printFinishMessage(messageLines, true);
-      printFinishMessage.run();
+      printFinishMessage.run(robotAPI);
       break;
     }
 
@@ -638,7 +608,7 @@ void main_task(intptr_t unused)
 
   // オブジェクトの削除
   delete commandExecutor;
-  delete wheelController;
+  delete robotAPI;
   delete touchSensor;
   delete colorSensor;
   delete sonarSensor;

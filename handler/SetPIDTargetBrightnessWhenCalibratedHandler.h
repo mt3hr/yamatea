@@ -4,6 +4,7 @@
 #include "Handler.h"
 #include "PIDTargetBrightnessCalibrator.h"
 #include "PIDTracer.h"
+#include "RobotAPI.h"
 
 // SetPIDTargetBrightnessWhenCalibratedHandler
 // キャリブレーションが完了したときにPIDTracerのTargetBrightnessの値を設定するHandler
@@ -18,7 +19,7 @@ private:
 
 public:
     SetPIDTargetBrightnessWhenCalibratedHandler(PIDTracer *pidTracer, PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator);
-    void handle() override;
+    void handle(RobotAPI *robotAPI) override;
 };
 
 #endif

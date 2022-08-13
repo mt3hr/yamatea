@@ -1,7 +1,6 @@
 #include "UFORunner.h"
 #include "ObstacleDetectRunner.h"
 #include "ObstacleDetector.h"
-#include "WheelController.h"
 #include "SonarSensor.h"
 #include "math.h"
 #include "DistancePredicate.h"
@@ -10,6 +9,7 @@
 #include "Setting.h"
 #include "string"
 #include "DebugUtil.h"
+#include "RobotAPI.h"
 
 using namespace std;
 using namespace ev3api;
@@ -25,11 +25,9 @@ float toDegree(float radian)
 }
 
 // TODO 右コースに対応で規定なさそう
-UFORunner::UFORunner(float na, int wp, int rp, WheelController *wc, SonarSensor *ss, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
+UFORunner::UFORunner(float na, int wp, int rp, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
     state = UFO_DETECTING_OBSTACLE;
-    wheelController = wc;
-    sonarSensor = ss;
     n = na;
     walkerPow = wp;
     rotatePow = rp;
@@ -45,14 +43,14 @@ UFORunner::~UFORunner()
     delete turnNPredicate;
 }
 
-void UFORunner::run()
+void UFORunner::run(RobotAPI *robotAPI)
 {
     ObstacleDetector *obstacleDetector = getObstacleDetector();
     switch (state)
     {
     case UFO_DETECTING_OBSTACLE: // 障害物検出状態
     {
-        obstacleDetector->run();
+        obstacleDetector->run(robotAPI);
 
         if (obstacleDetector->isFinished())
         {
@@ -153,26 +151,26 @@ void UFORunner::run()
         writeDebug("nTurnAngleACosArg: ");
         writeDebug(nTurnAngleACosArg);
         writeEndLineDebug();
-        flushDebug();
+        flushDebug(robotAPI);
 
         writeDebug("UFO_CALCRATING finished");
-        flushDebug();
+        flushDebug(robotAPI);
     }
 
     case UFO_TURNNIN_TO_P: // I方向を向くように旋回
     {
         if (!initedTurnToP)
         {
-            CommandAndPredicate *turnToPCommandAndPredicate = generateRotateRobotCommand(obstacleDetector->getLeftObstacleAngle(), rotatePow, wheelController);
+            CommandAndPredicate *turnToPCommandAndPredicate = generateRotateRobotCommand(obstacleDetector->getLeftObstacleAngle(), rotatePow, robotAPI);
             turnToPCommand = turnToPCommandAndPredicate->getCommand();
             turnToPPredicate = turnToPCommandAndPredicate->getPredicate();
-            turnToPCommandAndPredicate->getPreHandler()->handle();
+            turnToPCommandAndPredicate->getPreHandler()->handle(robotAPI);
             initedTurnToP = true;
         }
 
-        turnToPCommand->run();
+        turnToPCommand->run(robotAPI);
 
-        if (turnToPPredicate->test())
+        if (turnToPPredicate->test(robotAPI))
         {
             state = UFO_TURNNING_P_IPN;
         }
@@ -183,23 +181,23 @@ void UFORunner::run()
         }
 
         writeDebug("UFO_TURNNIN_TO_P finished");
-        flushDebug();
+        flushDebug(robotAPI);
     }
 
     case UFO_TURNNING_P_IPN: // IPN右回転
     {
         if (!initedTurnPIPN)
         {
-            CommandAndPredicate *turnPIPNCommandAndPredicate = generateRotateRobotCommand(-ipn, rotatePow, wheelController);
+            CommandAndPredicate *turnPIPNCommandAndPredicate = generateRotateRobotCommand(-ipn, rotatePow, robotAPI);
             turnPIPNCommand = turnPIPNCommandAndPredicate->getCommand();
             turnPIPNPredicate = turnPIPNCommandAndPredicate->getPredicate();
-            turnPIPNCommandAndPredicate->getPreHandler()->handle();
+            turnPIPNCommandAndPredicate->getPreHandler()->handle(robotAPI);
             initedTurnPIPN = true;
         }
 
-        turnPIPNCommand->run();
+        turnPIPNCommand->run(robotAPI);
 
-        if (turnPIPNPredicate->test())
+        if (turnPIPNPredicate->test(robotAPI))
         {
             state = UFO_RUNNING_P_N;
         }
@@ -210,22 +208,22 @@ void UFORunner::run()
         }
 
         writeDebug("UFO_TURNNING_P_IPN finished");
-        flushDebug();
+        flushDebug(robotAPI);
     }
 
     case UFO_RUNNING_P_N: // PからNまでの走行
     {
         if (!initedP_N)
         {
-            p_nWalker = new Walker(walkerPow, walkerPow, wheelController);
-            p_nDistancePredicate = new DistancePredicate(pn, wheelController->getLeftWheel());
+            p_nWalker = new Walker(walkerPow, walkerPow);
+            p_nDistancePredicate = new DistancePredicate(pn, robotAPI->getLeftWheel());
             p_nDistancePredicate->preparation();
             initedP_N = true;
         }
 
-        p_nWalker->run();
+        p_nWalker->run(robotAPI);
 
-        if (p_nDistancePredicate->test())
+        if (p_nDistancePredicate->test(robotAPI))
         {
             state = UFO_TURNNING_N;
         }
@@ -236,23 +234,23 @@ void UFORunner::run()
         }
 
         writeDebug("UFO_RUNNING_P_N finished");
-        flushDebug();
+        flushDebug(robotAPI);
     }
 
     case UFO_TURNNING_N: // N地点での旋回
     {
         if (!initedTurnN)
         {
-            CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(-nTurnAngle, rotatePow, wheelController);
+            CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(-nTurnAngle, rotatePow, robotAPI);
             turnNCommand = commandAndPredicate->getCommand();
             turnNPredicate = commandAndPredicate->getPredicate();
-            commandAndPredicate->getPreHandler()->handle();
+            commandAndPredicate->getPreHandler()->handle(robotAPI);
             initedTurnN = true;
         }
 
-        turnNCommand->run();
+        turnNCommand->run(robotAPI);
 
-        if (turnNPredicate->test())
+        if (turnNPredicate->test(robotAPI))
         {
             state = UFO_RUNNING_N_XDIVIDE2;
         }
@@ -263,22 +261,22 @@ void UFORunner::run()
         }
 
         writeDebug("UFO_TURNNING_N finished");
-        flushDebug();
+        flushDebug(robotAPI);
     }
 
     case UFO_RUNNING_N_XDIVIDE2: // Nから2/xまでの走行
     {
         if (!initedN_XDivide2)
         {
-            n_xdivide2Walker = new Walker(walkerPow, walkerPow, wheelController);
-            n_xdivide2DistancePreicate = new DistancePredicate(pn, wheelController->getLeftWheel());
+            n_xdivide2Walker = new Walker(walkerPow, walkerPow);
+            n_xdivide2DistancePreicate = new DistancePredicate(pn, robotAPI->getLeftWheel());
             n_xdivide2DistancePreicate->preparation();
             initedN_XDivide2 = true;
         }
 
-        n_xdivide2Walker->run();
+        n_xdivide2Walker->run(robotAPI);
 
-        if (n_xdivide2DistancePreicate->test())
+        if (n_xdivide2DistancePreicate->test(robotAPI))
         {
             state = UFO_FINISHED;
         }
@@ -289,13 +287,13 @@ void UFORunner::run()
         }
 
         writeDebug("UFO_RUNNING_N_XDIVIDE2 finished");
-        flushDebug();
+        flushDebug(robotAPI);
     }
 
     case UFO_FINISHED:
     {
         writeDebug("UFO_FINISHED finished");
-        flushDebug();
+        flushDebug(robotAPI);
         break;
     }
 
@@ -310,7 +308,7 @@ void UFORunner::run()
 
 UFORunner *UFORunner::generateReverseCommand()
 {
-    return new UFORunner(n, walkerPow, rotatePow, wheelController, sonarSensor, getObstacleDetector()->generateReverseCommand());
+    return new UFORunner(n, walkerPow, rotatePow, getObstacleDetector()->generateReverseCommand());
 }
 
 bool UFORunner::isFinished()

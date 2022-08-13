@@ -1,26 +1,26 @@
 #include "Stopper.h"
 #include "Setting.h"
 #include "DebugUtil.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 
-Stopper::Stopper(WheelController *wc)
+Stopper::Stopper()
 {
-    wheelController = wc;
 }
 
-void Stopper::run()
+void Stopper::run(RobotAPI *robotAPI)
 {
-    wheelController->getLeftWheel()->stop();
-    wheelController->getRightWheel()->stop();
+    robotAPI->getLeftWheel()->stop();
+    robotAPI->getRightWheel()->stop();
 
     writeDebug("Stopper");
     writeEndLineDebug();
     writeDebug("stopped.");
-    flushDebug();
+    flushDebug(robotAPI);
 }
 
 Stopper *Stopper::generateReverseCommand()
 {
-    return new Stopper(wheelController);
+    return new Stopper();
 }

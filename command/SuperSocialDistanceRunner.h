@@ -3,18 +3,15 @@
 
 #include "ObstacleDetectRunner.h"
 #include "ObstacleDetector.h"
-#include "WheelController.h"
 #include "SonarSensor.h"
+#include "RobotAPI.h"
 
 class SuperSocialDistanceRunner : public ObstacleDetectRunner
 {
 private:
-    WheelController *wheelController;
-    SonarSensor *sonarSensor;
-
 public:
-    SuperSocialDistanceRunner(WheelController *wheelController, SonarSensor *sonarSensor, ObstacleDetector *obstacleDetector);
-    void run() override;
+    SuperSocialDistanceRunner(ObstacleDetector *obstacleDetector);
+    void run(RobotAPI *robotAPI) override;
     SuperSocialDistanceRunner *generateReverseCommand() override;
 };
 

@@ -1,7 +1,6 @@
 #include "PIDTracer.h"
 #include "Walker.h"
 #include "MotorCountPredicate.h"
-#include "WheelController.h"
 
 PIDTracer *ifRightThenReverseCommand(PIDTracer *pidTracer, bool isRightCource)
 {
@@ -29,14 +28,14 @@ Walker *ifRightThenReverseCommand(Walker *walker, bool isRightCource)
     }
 }
 
-MotorCountPredicate *generateMotorCountPredicate(bool isRightCource, int count, WheelController *wheelController)
+MotorCountPredicate *generateMotorCountPredicate(bool isRightCource, int count, RobotAPI *robotAPI)
 {
     if (isRightCource)
     {
-        return new MotorCountPredicate(wheelController->getLeftWheel(), count, false);
+        return new MotorCountPredicate(robotAPI->getLeftWheel(), count, false);
     }
     else
     {
-        return new MotorCountPredicate(wheelController->getRightWheel(), count, false);
+        return new MotorCountPredicate(robotAPI->getRightWheel(), count, false);
     }
 }

@@ -1,11 +1,11 @@
 #include "StartButtonPredicate.h"
+#include "RobotAPI.h"
 
-StartButtonPredicate::StartButtonPredicate(TouchSensor *ts)
+StartButtonPredicate::StartButtonPredicate()
 {
-    touchSensor = ts;
 }
 
-bool StartButtonPredicate::test()
+bool StartButtonPredicate::test(RobotAPI *robotAPI)
 {
-    return touchSensor->isPressed();
+    return robotAPI->getTouchSensor()->isPressed();
 }

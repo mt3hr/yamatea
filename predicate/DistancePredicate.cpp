@@ -2,6 +2,7 @@
 #include "Setting.h"
 #include "math.h"
 #include "Motor.h"
+#include "RobotAPI.h"
 
 using namespace ev3api;
 
@@ -11,7 +12,7 @@ DistancePredicate::DistancePredicate(float tdc, Motor *w)
     wheel = w;
 }
 
-bool DistancePredicate::test()
+bool DistancePredicate::test(RobotAPI *robotAPI)
 {
     return wheel->getCount() > targetAngle;
 }

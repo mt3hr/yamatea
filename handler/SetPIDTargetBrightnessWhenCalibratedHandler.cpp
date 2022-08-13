@@ -2,6 +2,7 @@
 #include "Handler.h"
 #include "PIDTargetBrightnessCalibrator.h"
 #include "PIDTracer.h"
+#include "RobotAPI.h"
 
 SetPIDTargetBrightnessWhenCalibratedHandler::SetPIDTargetBrightnessWhenCalibratedHandler(PIDTracer *pt, PIDTargetBrightnessCalibrator *ptbc)
 {
@@ -9,7 +10,7 @@ SetPIDTargetBrightnessWhenCalibratedHandler::SetPIDTargetBrightnessWhenCalibrate
     pidTargetBrightnessCalibrator = ptbc;
 }
 
-void SetPIDTargetBrightnessWhenCalibratedHandler::handle()
+void SetPIDTargetBrightnessWhenCalibratedHandler::handle(RobotAPI *robotAPI)
 {
     pidTracer->setTargetBrightness(calcTargetBrightness());
 }

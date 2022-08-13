@@ -1,4 +1,5 @@
 #include "MotorCountPredicate.h"
+#include "RobotAPI.h"
 
 MotorCountPredicate::MotorCountPredicate(Motor *m, int c, bool decrease)
 {
@@ -7,7 +8,7 @@ MotorCountPredicate::MotorCountPredicate(Motor *m, int c, bool decrease)
     this->decrease = decrease;
 }
 
-bool MotorCountPredicate::test()
+bool MotorCountPredicate::test(RobotAPI *robotAPI)
 {
     if (decrease)
     {
