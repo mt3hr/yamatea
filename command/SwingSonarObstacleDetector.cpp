@@ -5,10 +5,8 @@
 #include "FinishedCommandPredicate.h"
 #include "RotateRobot.h"
 #include "Stopper.h"
-#include "string"         //TODO 消して
-#include "sstream"        //TODO 消して
-#include "vector"         //TODO 消して
-#include "PrintMessage.h" //TODO 消して
+#include "string"
+#include "DebugUtil.h"
 
 using namespace ev3api;
 
@@ -177,32 +175,20 @@ void SwingSonarObstacleDetector::run()
             leftObstacleAngle = rotateRobotDistanceAngleDetector1->getAngle();
             rightObstacleAngle = rotateRobotDistanceAngleDetector2->getAngle();
 
-            // 表示しちゃお
-            stringstream d1s;                                                        // TODO 消して
-            stringstream d2s;                                                        // TODO 消して
-            stringstream las;                                                        // TODO 消して
-            stringstream ras;                                                        // TODO 消して
-            d1s.clear();                                                             // TODO 消して
-            d2s.clear();                                                             // TODO 消して
-            las.clear();                                                             // TODO 消して
-            ras.clear();                                                             // TODO 消して
-            d1s.str("");                                                             // TODO 消して
-            d2s.str("");                                                             // TODO 消して
-            las.str("");                                                             // TODO 消して
-            ras.str("");                                                             // TODO 消して
-            d1s << "distance1: " << float(getLeftObstacleDistance());                // TODO 消して
-            d2s << "distance2: " << float(getRightObstacleDistance());               // TODO 消して
-            las << "leftAngle: " << float(getLeftObstacleAngle());                   // TODO 消して
-            ras << "rightAngle: " << float(getRightObstacleAngle());                 // TODO 消して
-            vector<string> messageLines;                                             // TODO 消して
-            messageLines.push_back(d1s.str());                                       // TODO 消して
-            messageLines.push_back(d2s.str());                                       // TODO 消して
-            messageLines.push_back(las.str());                                       // TODO 消して
-            messageLines.push_back(ras.str());                                       // TODO 消して
-            PrintMessage *resultPrintCommand = new PrintMessage(messageLines, true); // TODO 消して
-            resultPrintCommand->run();                                               // TODO 消して
-            delete resultPrintCommand;                                               // TODO 消して
-        }
+            writeDebug("SwingSonarObstacleDetector");
+            writeEndLineDebug();
+            writeDebug("leftDistance: ");
+            writeDebug(getLeftObstacleDistance());
+            writeEndLineDebug();
+            writeDebug("rightDistance: ");
+            writeDebug(getRightObstacleAngle());
+            writeEndLineDebug();
+            writeDebug("leftAngle: ");
+            writeDebug(getLeftObstacleAngle());
+            writeEndLineDebug();
+            writeDebug("rightAngle: ");
+            writeDebug(getRightObstacleAngle());
+            writeEndLineDebug();
 
         case SSD_FINISHED:
         {
@@ -215,7 +201,7 @@ void SwingSonarObstacleDetector::run()
             break;
         }
         break;
-    }
+        }
     case CENTER_RIGHT_LEFT:
     {
         // TODO
@@ -235,66 +221,66 @@ void SwingSonarObstacleDetector::run()
     default:
         break;
     }
-}
-
-SwingSonarObstacleDetector *SwingSonarObstacleDetector::generateReverseCommand()
-{
-    switch (swingOrder)
-    {
-    case CENTER_LEFT_RIGHT:
-        return new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
-    case CENTER_RIGHT_LEFT:
-        return new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
-    case LEFT_RIGHT:
-        return new SwingSonarObstacleDetector(RIGHT_LEFT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
-    case RIGHT_LEFT:
-        return new SwingSonarObstacleDetector(LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
-        ;
     }
-    return new SwingSonarObstacleDetector(swingOrder, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController); // おかしい状態
-}
 
-bool SwingSonarObstacleDetector::isFinished()
-{
-    return finished;
-}
+    SwingSonarObstacleDetector *SwingSonarObstacleDetector::generateReverseCommand()
+    {
+        switch (swingOrder)
+        {
+        case CENTER_LEFT_RIGHT:
+            return new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
+        case CENTER_RIGHT_LEFT:
+            return new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
+        case LEFT_RIGHT:
+            return new SwingSonarObstacleDetector(RIGHT_LEFT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
+        case RIGHT_LEFT:
+            return new SwingSonarObstacleDetector(LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
+            ;
+        }
+        return new SwingSonarObstacleDetector(swingOrder, pwm, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController); // おかしい状態
+    }
 
-int SwingSonarObstacleDetector::getLeftObstacleDistance()
-{
-    return leftObstacleDistance;
-}
+    bool SwingSonarObstacleDetector::isFinished()
+    {
+        return finished;
+    }
 
-int SwingSonarObstacleDetector::getRightObstacleDistance()
-{
-    return rightObstacleDistance;
-}
+    int SwingSonarObstacleDetector::getLeftObstacleDistance()
+    {
+        return leftObstacleDistance;
+    }
 
-float SwingSonarObstacleDetector::getLeftObstacleAngle()
-{
-    return leftObstacleAngle;
-}
+    int SwingSonarObstacleDetector::getRightObstacleDistance()
+    {
+        return rightObstacleDistance;
+    }
 
-float SwingSonarObstacleDetector::getRightObstacleAngle()
-{
-    return rightObstacleAngle;
-}
+    float SwingSonarObstacleDetector::getLeftObstacleAngle()
+    {
+        return leftObstacleAngle;
+    }
 
-bool SwingSonarObstacleDetector::isDetectedLeftObstacleDistance()
-{
-    return detectedLeftObstacleDistance;
-}
+    float SwingSonarObstacleDetector::getRightObstacleAngle()
+    {
+        return rightObstacleAngle;
+    }
 
-bool SwingSonarObstacleDetector::isDetectedRightObstacleDistance()
-{
-    return detectedRightObstacleDistance;
-}
+    bool SwingSonarObstacleDetector::isDetectedLeftObstacleDistance()
+    {
+        return detectedLeftObstacleDistance;
+    }
 
-bool SwingSonarObstacleDetector::isDetectedLeftObstacleAngle()
-{
-    return detectedLeftObstacleAngle;
-}
+    bool SwingSonarObstacleDetector::isDetectedRightObstacleDistance()
+    {
+        return detectedRightObstacleDistance;
+    }
 
-bool SwingSonarObstacleDetector::isDetectedRightObstacleAngle()
-{
-    return detectedRightObstacleAngle;
-}
+    bool SwingSonarObstacleDetector::isDetectedLeftObstacleAngle()
+    {
+        return detectedLeftObstacleAngle;
+    }
+
+    bool SwingSonarObstacleDetector::isDetectedRightObstacleAngle()
+    {
+        return detectedRightObstacleAngle;
+    }

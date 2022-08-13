@@ -1,12 +1,10 @@
 #include "PIDTracer.h"
 #include "ColorSensor.h"
 #include "WheelController.h"
-#include "PrintMessage.h"
 #include "Setting.h"
 #include "string"
-#include "vector"
-#include "sstream"
 #include "iomanip"
+#include "DebugUtil.h"
 
 using namespace ev3api;
 using namespace std;
@@ -53,52 +51,27 @@ void PIDTracer::run()
     wheelController->getLeftWheel()->setPWM(leftPower);
     wheelController->getRightWheel()->setPWM(rightPower);
 
-    // メッセージ出力処理。変数名は雑。
-    if (enablePrintMessageMode)
-    {
-        stringstream ps;
-        stringstream is;
-        stringstream ds;
-        stringstream ls;
-        stringstream rs;
-        stringstream bs;
-
-        ps.clear();
-        is.clear();
-        ds.clear();
-        ls.clear();
-        rs.clear();
-        bs.clear();
-
-        ps.str("");
-        is.str("");
-        ds.str("");
-        ls.str("");
-        rs.str("");
-        bs.str("");
-
-        ps << fixed;
-        is << fixed;
-        ds << fixed;
-
-        ps << "p:" << setprecision(2) << p;
-        is << "i:" << setprecision(2) << i;
-        ds << "d:" << setprecision(2) << d;
-        ls << "leftPow   :" << float(leftPower);  // intのままだと出力されないのでfloatに変換する
-        rs << "rightPow  :" << float(rightPower); // intのままだと出力されないのでfloatに変換する
-        bs << "brightness:" << float(brightness); // intのままだと出力されないのでfloatに変換する
-
-        vector<string> messageLines;
-        messageLines.push_back("pid tracing");
-        messageLines.push_back(ps.str());
-        messageLines.push_back(is.str());
-        messageLines.push_back(ds.str());
-        messageLines.push_back(ls.str());
-        messageLines.push_back(rs.str());
-        messageLines.push_back(bs.str());
-        PrintMessage printMessage(messageLines, false);
-        printMessage.run();
-    }
+    writeDebug("PIDTracer");
+    writeEndLineDebug();
+    writeDebug("p: ");
+    writeDebug(p);
+    writeEndLineDebug();
+    writeDebug("i: ");
+    writeDebug(i);
+    writeEndLineDebug();
+    writeDebug("d: ");
+    writeDebug(d);
+    writeEndLineDebug();
+    writeDebug("leftPow: ");
+    writeDebug(leftPower);
+    writeEndLineDebug();
+    writeDebug("rightPow: ");
+    writeDebug(rightPower);
+    writeEndLineDebug();
+    writeDebug("brightness: ");
+    writeDebug(brightness);
+    writeEndLineDebug();
+    flushDebug();
 }
 
 PIDTracer *PIDTracer::generateReverseCommand()

@@ -57,21 +57,22 @@ int targetBrightness = 20;
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
-//#define RotateTestMode // 旋回モード。テスト用
+#define RotateTestMode // 旋回モード。テスト用
 //#define StraightTestMode // 直進モード。テスト用
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SteeringTestMode // ステアリングモード。テスト用。Walkerでいいことに気付いたので使いません。
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
-#define UFORunnerTestMode // UFO走行モード。テスト
+//#define UFORunnerTestMode // UFO走行モード。テスト
 // モード設定ここまで
 
 void setting()
 {
-  wheelDiameter = 10.4;                  // 車輪直径。センチメートル。
-  distanceFromSonarSensorToAxle = 10.5;  // ソナーセンサから車軸までの距離
-  angleFor360TurnRightRotateRobot = 540; // 左に360度旋回するのに必要な左右車輪回転角度数
-  angleFor360TurnLeftRotateRobot = 540;  // 右に360度旋回するのに必要な左右車輪回転角度数
+  wheelDiameter = 10.4;                    // 車輪直径。センチメートル。
+  distanceFromSonarSensorToAxle = 10.5;    // ソナーセンサから車軸までの距離
+  angleFor360TurnLeftRotateRobot = 520;    // 左に360度旋回するのに必要な左右車輪回転角度数
+  angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必要な左右車輪回転角度数
+  // TODO angleFor360の左右対応が逆になってるっぽいな
 
   wheelSpace = 14.5; // 左車輪と右車輪の間隔
 
@@ -374,8 +375,8 @@ void initializeCommandExecutor()
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
-  int angle = 30.9147;
-  int pwm = 20;
+  int angle = 10;
+  int pwm = 15;
   Predicate *startButtonPredicate = new StartButtonPredicate(touchSensor);
   CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(angle, pwm, wheelController);
   commandExecutor->addCommand(new Command(), startButtonPredicate, commandAndPredicate->getPreHandler()); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
@@ -571,8 +572,8 @@ void initializeCommandExecutor()
   int turnPWM = 10;
   float swingLeft = 90.0;
   float swingRight = -90.0;
-  int targetLeft = 50;
-  int targetRight = 50;
+  int targetLeft = 30;
+  int targetRight = 30;
   SwingSonarObstacleDetector *swingSonarObstacleDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, turnPWM, swingLeft, swingRight, targetLeft, targetRight, sonarSensor, wheelController);
   UFORunner *ufoRunner = new UFORunner(n, walkPWM, turnPWM, wheelController, sonarSensor, swingSonarObstacleDetector);
   commandExecutor->addCommand(ufoRunner, new FinishedCommandPredicate(ufoRunner), doNothingHandler);

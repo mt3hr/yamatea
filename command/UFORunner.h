@@ -63,9 +63,9 @@ private:
     float din;
     float ipn;
     float pin;
-    float nTurnAngleACosArg; //TODO けして
-    float iArg;//TODO 消して
-    float dinArg;// TODO 消して
+    float nTurnAngleACosArg; // TODO けして
+    float iArg;              // TODO 消して
+    float dinArg;            // TODO 消して
     float nTurnAngle;
 
     int walkerPow;
