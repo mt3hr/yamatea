@@ -6,6 +6,7 @@
 #include "Motor.h"
 #include "Clock.h"
 #include "SonarSensor.h"
+#include "GyroSensor.h"
 
 #include "string"
 #include "sstream"
@@ -113,14 +114,15 @@ void init_f(string str)
 TouchSensor *touchSensor = new TouchSensor(PORT_1);
 ColorSensor *colorSensor = new ColorSensor(PORT_2);
 SonarSensor *sonarSensor = new SonarSensor(PORT_3);
-Motor *leftWheel = new Motor(PORT_C);
-Motor *rightWheel = new Motor(PORT_B);
+GyroSensor *gyroSensor = new GyroSensor(PORT_4);
 Motor *armMotor = new Motor(PORT_A);
+Motor *rightWheel = new Motor(PORT_B);
+Motor *leftWheel = new Motor(PORT_C);
 Clock *clock = new Clock();
 
 // CommandExecutorの宣言とRobotAPIの初期化
 CommandExecutor *commandExecutor;
-RobotAPI *robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, clock);
+RobotAPI *robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, gyroSensor,clock);
 
 // LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
 #if defined(LeftCourceMode) | defined(RightCourceMode)

@@ -1,10 +1,19 @@
 #include "RobotAPI.h"
+#include "TouchSensor.h"
+#include "ColorSensor.h"
+#include "SonarSensor.h"
+#include "GyroSensor.h"
+#include "Motor.h"
+#include "Clock.h"
 
-RobotAPI::RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSensor *sonarSensor, Motor *leftWheel, Motor *rightWheel, Motor *armMotor, Clock *clock)
+using namespace ev3api;
+
+RobotAPI::RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSensor *sonarSensor, Motor *leftWheel, Motor *rightWheel, Motor *armMotor, GyroSensor *gyroSensor, Clock *clock)
 {
     this->touchSensor = touchSensor;
     this->colorSensor = colorSensor;
     this->sonarSensor = sonarSensor;
+    this->gyroSensor = gyroSensor;
     this->leftWheel = leftWheel;
     this->rightWheel = rightWheel;
     this->armMotor = armMotor;
@@ -16,6 +25,7 @@ RobotAPI::~RobotAPI()
     delete touchSensor;
     delete colorSensor;
     delete sonarSensor;
+    delete gyroSensor;
     delete leftWheel;
     delete rightWheel;
     delete clock;
@@ -34,6 +44,11 @@ ColorSensor *RobotAPI::getColorSensor()
 SonarSensor *RobotAPI::getSonarSensor()
 {
     return sonarSensor;
+}
+
+GyroSensor *RobotAPI::getGyroSensor()
+{
+    return gyroSensor;
 }
 
 Motor *RobotAPI::getLeftWheel()
