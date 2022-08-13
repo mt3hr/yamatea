@@ -90,18 +90,18 @@ void UFORunner::run()
 
         // 3,∠Iから∠NID（arcsin((x/2)/NI)）を引き余弦定理で距離PNを求める
         // PN^2=Ik^2+NI^2-(2Ik×NI×cos∠PIN)
-        iArg = toRadian((pow(ik, 2) + pow(x, 2) - pow(dk, 2)) / (2 * ik * x));
-        dinArg = toRadian((pow(x / 2, 2) + pow(ni, 2) - pow(n, 2)) / (2 * x / 2 * ni));
+        iArg = ((pow(ik, 2) + pow(x, 2) - pow(dk, 2)) / (2 * ik * x));
+        dinArg = ((pow(x / 2, 2) + pow(ni, 2) - pow(n, 2)) / (2 * x / 2 * ni));
         i = toDegree(acos(iArg));
         din = toDegree(acos(dinArg));
-        pin = toDegree(i - din);
+        pin = i - din;
         pn = sqrt(pow(ni, 2) + pow(ik, 2) - 2 * ik * ni * (cos(toRadian(pin))));
 
         // 4,cos∠IPNをもとめ、逆関数で角度求める。
         // ∠IPN=arcsin(∠IPN)
-        ipn = toDegree(acos(toRadian((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik))));
+        ipn = toDegree(acos(((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik))));
 
-        nTurnAngleACosArg = toRadian((pow(n, 2) + pow(ni, 2) - pow(x / 2, 2)) / (2 * n * ni));
+        nTurnAngleACosArg = ((pow(n, 2) + pow(ni, 2) - pow(x / 2, 2)) / (2 * n * ni));
         nTurnAngle = toDegree(acos(nTurnAngleACosArg));
 
         state = UFO_TURNNIN_TO_P;
@@ -243,7 +243,7 @@ void UFORunner::run()
     {
         if (!initedTurnN)
         {
-            CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(nTurnAngle, rotatePow, wheelController);
+            CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(-nTurnAngle, rotatePow, wheelController);
             turnNCommand = commandAndPredicate->getCommand();
             turnNPredicate = commandAndPredicate->getPredicate();
             commandAndPredicate->getPreHandler()->handle();
