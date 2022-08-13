@@ -139,10 +139,10 @@ void UFORunner::run(RobotAPI *robotAPI)
         writeDebug("nTurnAngle: ");
         writeDebug(nTurnAngle);
         writeEndLineDebug();
-        flushDebug(D, robotAPI);
+        flushDebug(DEBUG, robotAPI);
 
         writeDebug("UFO_CALCRATING finished");
-        flushDebug(I, robotAPI);
+        flushDebug(INFO, robotAPI);
     }
 
     case UFO_TURNNIN_TO_P: // I方向を向くように旋回
@@ -169,7 +169,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         }
 
         writeDebug("UFO_TURNNIN_TO_P finished");
-        flushDebug(I, robotAPI);
+        flushDebug(INFO, robotAPI);
     }
 
     case UFO_TURNNING_P_IPN: // IPN右回転
@@ -196,7 +196,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         }
 
         writeDebug("UFO_TURNNING_P_IPN finished");
-        flushDebug(I, robotAPI);
+        flushDebug(INFO, robotAPI);
     }
 
     case UFO_RUNNING_P_N: // PからNまでの走行
@@ -222,7 +222,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         }
 
         writeDebug("UFO_RUNNING_P_N finished");
-        flushDebug(I, robotAPI);
+        flushDebug(INFO, robotAPI);
     }
 
     case UFO_TURNNING_N: // N地点での旋回
@@ -249,7 +249,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         }
 
         writeDebug("UFO_TURNNING_N finished");
-        flushDebug(I, robotAPI);
+        flushDebug(INFO, robotAPI);
     }
 
     case UFO_RUNNING_N_XDIVIDE2: // Nから2/xまでの走行
@@ -275,13 +275,13 @@ void UFORunner::run(RobotAPI *robotAPI)
         }
 
         writeDebug("UFO_RUNNING_N_XDIVIDE2 finished");
-        flushDebug(I, robotAPI);
+        flushDebug(INFO, robotAPI);
     }
 
     case UFO_FINISHED:
     {
         writeDebug("UFO_FINISHED finished");
-        flushDebug(I, robotAPI);
+        flushDebug(INFO, robotAPI);
         break;
     }
 

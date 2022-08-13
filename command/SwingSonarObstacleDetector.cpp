@@ -155,6 +155,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             writeDebug("rightAngle: ");
             writeDebug(getRightObstacleAngle());
             writeEndLineDebug();
+            flushDebug(TRACE, robotAPI);
         }
 
         case SSD_FINISHED:

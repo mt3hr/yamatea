@@ -25,7 +25,7 @@ void Walker::run(RobotAPI *robotAPI)
     writeEndLineDebug();
     writeDebug("rightPow: ");
     writeDebug(rightPower);
-    flushDebug(robotAPI);
+    flushDebug(TRACE, robotAPI);
 }
 
 Walker *Walker::generateReverseCommand()

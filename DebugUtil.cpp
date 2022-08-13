@@ -9,13 +9,14 @@ using namespace std;
 
 vector<string> messageLinesForDebugPrint;
 
+void clearDebug()
+{
+    vector<string> v;
+    messageLinesForDebugPrint = v;
+}
+
 void writeDebug(string str)
 {
-    if (!enablePrintDebugMessage)
-    {
-        return;
-    }
-
     if (messageLinesForDebugPrint.size() == 0)
     {
         messageLinesForDebugPrint.push_back("");
@@ -27,11 +28,6 @@ void writeDebug(string str)
 
 void writeDebug(int i)
 {
-    if (!enablePrintDebugMessage)
-    {
-        return;
-    }
-
     if (messageLinesForDebugPrint.size() == 0)
     {
         messageLinesForDebugPrint.push_back("");
@@ -46,11 +42,6 @@ void writeDebug(int i)
 
 void writeDebug(float f)
 {
-    if (!enablePrintDebugMessage)
-    {
-        return;
-    }
-
     if (messageLinesForDebugPrint.size() == 0)
     {
         messageLinesForDebugPrint.push_back("");
@@ -66,22 +57,16 @@ void writeDebug(float f)
 // 改行する
 void writeEndLineDebug()
 {
-    if (!enablePrintDebugMessage)
-    {
-        return;
-    }
     messageLinesForDebugPrint.push_back("");
 }
 
-void flushDebug(RobotAPI *robotAPI)
+void flushDebug(DEBUG_LEVEL level, RobotAPI *robotAPI)
 {
-    if (!enablePrintDebugMessage)
+    if (int(debugMessageLevel) >= int(level))
     {
-        return;
+        PrintMessage *printMessage = new PrintMessage(messageLinesForDebugPrint, true);
+        printMessage->run(robotAPI);
+        delete printMessage;
     }
-    PrintMessage *printMessage = new PrintMessage(messageLinesForDebugPrint, true);
-    printMessage->run(robotAPI);
-    delete printMessage;
-    vector<string> v;
-    messageLinesForDebugPrint = v;
+    clearDebug();
 }

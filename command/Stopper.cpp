@@ -17,7 +17,7 @@ void Stopper::run(RobotAPI *robotAPI)
     writeDebug("Stopper");
     writeEndLineDebug();
     writeDebug("stopped.");
-    flushDebug(robotAPI);
+    flushDebug(INFO, robotAPI);
 }
 
 Stopper *Stopper::generateReverseCommand()

@@ -51,7 +51,7 @@ int targetBrightness = 20;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define LeftCourceMode // 左コース用プログラム
+// #define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
@@ -61,7 +61,7 @@ int targetBrightness = 20;
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
-//#define UFORunnerTestMode // UFO走行モード。テスト
+#define UFORunnerTestMode // UFO走行モード。テスト
 // モード設定ここまで
 
 void setting()
@@ -80,7 +80,7 @@ void setting()
   // LeftCourceMode, RightCourceModeの設定ここまで
 
   // 情報出力の有効無効設定ここから
-  enablePrintDebugMessage = true;        // trueにするとDebugUtil経由で出力されたメッセージを出力する
+  debugMessageLevel = DEBUG;             // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
   enablePrintMessageMode = false;        // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
   enablePrintMessageForConsole = true;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
   enablePrintMessageForBluetooth = true; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、すぐ下の行、#define EnableBluetoothのコメントアウトも外して。

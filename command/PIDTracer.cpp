@@ -69,7 +69,7 @@ void PIDTracer::run(RobotAPI *robotAPI)
     writeDebug("brightness: ");
     writeDebug(brightness);
     writeEndLineDebug();
-    flushDebug(robotAPI);
+    flushDebug(TRACE, robotAPI);
 }
 
 PIDTracer *PIDTracer::generateReverseCommand()

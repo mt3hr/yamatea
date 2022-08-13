@@ -3,8 +3,8 @@ mkfile_path := $(dir $(lastword $(MAKEFILE_LIST)))
 APPL_CXXOBJS += \
 RobotAPI.o \
 PrintMessage.o \
-DebugUtil.o \
 Setting.o \
+DebugUtil.o \
 Preparizable.o \
 Command.o \
 Predicate.o \
