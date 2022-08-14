@@ -36,6 +36,7 @@
 #include "SwingSonarObstacleDetector.h"
 #include "UFORunner.h"
 #include "RobotAPI.h"
+#include "GyroRotateAnglePredicate.h"
 
 using namespace std;
 using namespace ev3api;
@@ -44,12 +45,13 @@ using namespace ev3api;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define LeftCourceMode // 左コース用プログラム
+//#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
+#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
 //#define StraightTestMode // 直進モード。テスト用
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
@@ -61,14 +63,13 @@ void setting()
 {
   wheelDiameter = 10.4;                  // 車輪直径。センチメートル。
   distanceFromSonarSensorToAxle = 10.5;  // ソナーセンサから車軸までの距離
+  wheelSpace = 14.5;                     // 左車輪と右車輪の間隔
   angleFor360TurnLeftRotateRobot = 520;  // 左に360度旋回するのに必要な左右車輪回転角度数
   angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必要な左右車輪回転角度数
   // TODO angleFor360の左右対応が逆になってるっぽいな
 
-  wheelSpace = 14.5; // 左車輪と右車輪の間隔
-
   // 情報出力の有効無効設定ここから
-  debugMessageLevel = DEBUG;             // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+  debugMessageLevel = TRACE;             // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
   enablePrintMessageMode = false;        // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
   enablePrintMessageForConsole = true;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
   enablePrintMessageForBluetooth = true; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、すぐ下の行、#define EnableBluetoothのコメントアウトも外して。
@@ -334,13 +335,39 @@ void initializeCommandExecutor()
   commandExecutor = new CommandExecutor(robotAPI);
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
+
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
   int angle = 10;
   int pwm = 15;
-  Predicate *startButtonPredicate = new StartButtonPredicate();
   CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(angle, pwm, robotAPI);
-  commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate());
+
+  // 停止コマンドの初期化とCommandExecutorへの追加
+  Stopper *stopper = new Stopper();
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(stopper, stopperPredicate);
+}
+#endif
+
+#if defined(RotateGyroTestMode)
+void initializeCommandExecutor()
+{
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(robotAPI);
+
+  // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
+
+  // 走行体回転コマンドの初期化とCommandExecutorへの追加
+  int angle = 90;
+  int pwm = 10;
+
+  Walker *rotateWalker = new Walker(pwm, -pwm);
+  GyroRotateAnglePredicate *rotatePredicate = new GyroRotateAnglePredicate(angle);
+  commandExecutor->addCommand(rotateWalker, rotatePredicate);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
   Stopper *stopper = new Stopper();
