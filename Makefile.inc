@@ -46,11 +46,15 @@ endif
 
 APPL_DIRS += \
 	$(mkfile_path)command \
+	$(mkfile_path)command/slalom \
+	$(mkfile_path)command/test \
 	$(mkfile_path)predicate \
 	$(mkfile_path)robot
 
 INCLUDES += \
 	-I$(mkfile_path)command \
+	-I$(mkfile_path)command/slalom \
+	-I$(mkfile_path)command/test \
 	-I$(mkfile_path)predicate \
 	-I$(mkfile_path)robot
 

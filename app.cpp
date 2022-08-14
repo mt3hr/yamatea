@@ -45,13 +45,13 @@ using namespace ev3api;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define LeftCourceMode // 左コース用プログラム
+#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
-#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
+//#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
 //#define StraightTestMode // 直進モード。テスト用
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
@@ -69,11 +69,11 @@ void setting()
   // TODO angleFor360の左右対応が逆になってるっぽいな
 
   // 情報出力の有効無効設定ここから
-  debugMessageLevel = DEBUG;             // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-  enablePrintMessageMode = false;        // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-  enablePrintMessageForConsole = true;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-  enablePrintMessageForBluetooth = true; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、すぐ下の行、#define EnableBluetoothのコメントアウトも外して。
-#define EnableBluetooth                  // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+  debugMessageLevel = DEBUG;              // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+  enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+  enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
+  enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、すぐ下の行、#define EnableBluetoothのコメントアウトも外して。
+  // #define EnableBluetooth              // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
   // 情報出力の有効無効設定ここまで
 }
 
@@ -410,15 +410,14 @@ void initializeCommandExecutor()
   commandExecutor = new CommandExecutor(robotAPI);
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
-  // 曲率進行コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
+  // 曲率進行コマンドの初期化とCommandExecutorへの追加
   int pwm = 20; // TODO pwm上げるとおかしくなる
   float r = 20;
   float theta = 360;
   CommandAndPredicate *commandAndPredicate = generateCurvatureWalkerWithTheta(pwm, r, theta, false, robotAPI);
-
-  commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate());
 
   // 停止コマンドの初期化とCommandExecutorへの追加
