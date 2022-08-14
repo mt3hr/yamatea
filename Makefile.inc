@@ -5,7 +5,6 @@ RobotAPI.o \
 PrintMessage.o \
 Setting.o \
 DebugUtil.o \
-Preparizable.o \
 Command.o \
 Predicate.o \
 CommandAndPredicate.o \
@@ -14,16 +13,14 @@ MotorCountPredicate.o \
 StartButtonPredicate.o \
 CommandExecutor.o \
 RotateRobot.o \
+GyroRotateAnglePredicate.o \
 SuitableForRightCourse.o \
 PIDTargetBrightnessCalibrator.o \
 PIDTracer.o \
 Walker.o \
-Handler.o \
-SetPIDTargetBrightnessWhenCalibratedHandler.o \
 RGBRawReader.o \
 DistanceReader.o \
 ArmController.o \
-ExecutePreparationWhenExitBeforeCommandHandler.o \
 MotorRotateAnglePredicate.o \
 Stopper.o \
 ObstacleDetector.o \
@@ -49,13 +46,11 @@ endif
 
 APPL_DIRS += \
 	$(mkfile_path)command \
-	$(mkfile_path)handler \
 	$(mkfile_path)predicate \
 	$(mkfile_path)robot
 
 INCLUDES += \
 	-I$(mkfile_path)command \
-	-I$(mkfile_path)handler \
 	-I$(mkfile_path)predicate \
 	-I$(mkfile_path)robot
 

@@ -1,11 +1,11 @@
 #include "PIDTargetBrightnessCalibrator.h"
 #include "PrintMessage.h"
-#include "Handler.h"
 #include "Clock.h"
 #include "string"
 #include "sstream"
 #include "vector"
 #include "RobotAPI.h"
+#include "PIDTracer.h"
 
 using namespace ev3api;
 using namespace std;
@@ -72,13 +72,12 @@ void PIDTargetBrightnessCalibrator::run(RobotAPI *robotAPI)
     }
     else
     {
-        if (!executedHandler)
+        if (!calibratedPIDTracers)
         {
-            executedHandler = true;
-            for (int i = 0; i < ((int)handlers.size()); i++)
+            calibratedPIDTracers = true;
+            for (int i = 0; i < ((int)pidTracers.size()); i++)
             {
-                Handler *handler = handlers[i];
-                handler->handle(robotAPI);
+                pidTracers[i]->setTargetBrightness((getWhite() + getBlack()) / 2);
             }
         }
 
@@ -128,7 +127,7 @@ bool PIDTargetBrightnessCalibrator::isReadedWhite()
     return readedWhite;
 }
 
-void PIDTargetBrightnessCalibrator::addRoadedHandler(Handler *h)
+void PIDTargetBrightnessCalibrator::addPIDTracer(PIDTracer *pidTracer)
 {
-    handlers.push_back(h);
+    pidTracers.push_back(pidTracer);
 }

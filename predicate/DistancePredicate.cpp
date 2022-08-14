@@ -17,7 +17,7 @@ bool DistancePredicate::test(RobotAPI *robotAPI)
     return wheel->getCount() > targetAngle;
 }
 
-void DistancePredicate::preparation()
+void DistancePredicate::preparation(RobotAPI *robotAPI)
 {
     float circumference = wheelDiameter * M_PI; // 円周
     float distanceOf360 = circumference;        // 360度回転したときに進む距離

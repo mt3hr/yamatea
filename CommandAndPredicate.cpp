@@ -1,13 +1,11 @@
 #include "CommandAndPredicate.h"
 #include "Command.h"
 #include "Predicate.h"
-#include "Handler.h"
 
-CommandAndPredicate::CommandAndPredicate(Command *c, Predicate *p, Handler *h)
+CommandAndPredicate::CommandAndPredicate(Command *c, Predicate *p)
 {
     command = c;
     predicate = p;
-    preHandler = h;
 }
 
 Command *CommandAndPredicate::getCommand()
@@ -18,8 +16,4 @@ Command *CommandAndPredicate::getCommand()
 Predicate *CommandAndPredicate::getPredicate()
 {
     return predicate;
-}
-
-Handler *CommandAndPredicate::getPreHandler() {
-    return preHandler;
 }

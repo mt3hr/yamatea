@@ -15,7 +15,7 @@ bool MotorRotateAnglePredicate::test(RobotAPI *robotAPI)
     return motor->getCount() > targetAngle;
 }
 
-void MotorRotateAnglePredicate::preparation()
+void MotorRotateAnglePredicate::preparation(RobotAPI *robotAPI)
 {
     targetAngle = motor->getCount() + angle;
 }

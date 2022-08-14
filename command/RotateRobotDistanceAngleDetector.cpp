@@ -14,7 +14,6 @@ RotateRobotDistanceAngleDetector::RotateRobotDistanceAngleDetector(float targetA
     CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(targetAngle, pwm, robotAPI);
     this->rotateRobotCommand = commandAndPredicate->getCommand();
     this->rotateRobotPredicate = commandAndPredicate->getPredicate();
-    this->rotateRobotPreHandler = commandAndPredicate->getPreHandler();
     delete commandAndPredicate;
 };
 
@@ -22,15 +21,14 @@ RotateRobotDistanceAngleDetector::~RotateRobotDistanceAngleDetector()
 {
     delete rotateRobotCommand;
     delete rotateRobotPredicate;
-    delete rotateRobotPreHandler;
 }
 
 void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
 {
-    if (!calledPreHandler)
+    if (!inited)
     {
-        calledPreHandler = true;
-        rotateRobotPreHandler->handle(robotAPI);
+        inited = true;
+        rotateRobotPredicate->preparation(robotAPI);
         leftWheelCountWhenInited = robotAPI->getLeftWheel()->getCount();
         rightWheelCountWhenInited = robotAPI->getRightWheel()->getCount();
     }

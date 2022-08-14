@@ -13,6 +13,7 @@ private:
 public:
     FinishedCommandPredicate(FinishConfirmable *finishConfirmable);
     bool test(RobotAPI *robotAPI) override;
+    void preparation(RobotAPI *robotAPI) override;
 };
 
 #endif

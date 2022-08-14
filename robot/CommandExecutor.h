@@ -3,7 +3,6 @@
 
 #include "Predicate.h"
 #include "Command.h"
-#include "Handler.h"
 #include <vector>
 #include "RobotAPI.h"
 
@@ -32,13 +31,13 @@ private:
     int currentIndexForCommand;
     vector<Command *> commands;
     vector<Predicate *> predicates;
-    vector<Handler *> exitHandlers;
+    vector<bool> preparated;
     RobotAPI *robotAPI;
 
 public:
     CommandExecutor(RobotAPI *robotAPI);
     ~CommandExecutor();
-    void addCommand(Command *command, Predicate *exitCondition, Handler *exitHandler);
+    void addCommand(Command *command, Predicate *exitCondition);
     void run();
     void emergencyStop();
 };

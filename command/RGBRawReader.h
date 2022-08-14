@@ -16,7 +16,7 @@ class RGBRawReader : public Command
 private:
     rgb_raw_t rgbRaw;
     bool lockedRGBRawValue = false;
-    bool printedLockedRGBRawValue = false;
+    bool printedLockedRGBRawValue = false; // NOTE モデルには反映しません
 
 public:
     RGBRawReader();

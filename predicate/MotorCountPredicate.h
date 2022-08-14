@@ -21,5 +21,6 @@ private:
 public:
     MotorCountPredicate(Motor *motor, int count, bool decrease);
     bool test(RobotAPI *robotAPI) override;
+    void preparation(RobotAPI *robotAPI) override;
 };
 #endif

@@ -9,7 +9,7 @@
 using namespace ev3api;
 using namespace std;
 
-PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, float kda, float dta, int targetBrightnessa)
+PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, float kda, float dta)
 {
     traceMode = traceModea;
     pwm = pwma;
@@ -17,7 +17,6 @@ PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, f
     ki = kia;
     kd = kda;
     dt = dta;
-    targetBrightness = targetBrightnessa;
 }
 
 void PIDTracer::run(RobotAPI *robotAPI)
@@ -83,7 +82,7 @@ PIDTracer *PIDTracer::generateReverseCommand()
     {
         reversedMode = LEFT_TRACE;
     }
-    return new PIDTracer(reversedMode, pwm, kp, ki, kd, dt, targetBrightness);
+    return new PIDTracer(reversedMode, pwm, kp, ki, kd, dt);
 }
 
 void PIDTracer::setTargetBrightness(int t)

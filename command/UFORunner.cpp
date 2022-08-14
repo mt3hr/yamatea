@@ -152,7 +152,7 @@ void UFORunner::run(RobotAPI *robotAPI)
             CommandAndPredicate *turnToPCommandAndPredicate = generateRotateRobotCommand(obstacleDetector->getLeftObstacleAngle(), rotatePow, robotAPI);
             turnToPCommand = turnToPCommandAndPredicate->getCommand();
             turnToPPredicate = turnToPCommandAndPredicate->getPredicate();
-            turnToPCommandAndPredicate->getPreHandler()->handle(robotAPI);
+            turnToPCommandAndPredicate->getPredicate()->preparation(robotAPI);
             initedTurnToP = true;
         }
 
@@ -179,7 +179,7 @@ void UFORunner::run(RobotAPI *robotAPI)
             CommandAndPredicate *turnPIPNCommandAndPredicate = generateRotateRobotCommand(-ipn, rotatePow, robotAPI);
             turnPIPNCommand = turnPIPNCommandAndPredicate->getCommand();
             turnPIPNPredicate = turnPIPNCommandAndPredicate->getPredicate();
-            turnPIPNCommandAndPredicate->getPreHandler()->handle(robotAPI);
+            turnPIPNCommandAndPredicate->getPredicate()->preparation(robotAPI);
             initedTurnPIPN = true;
         }
 
@@ -205,7 +205,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         {
             p_nWalker = new Walker(walkerPow, walkerPow);
             p_nDistancePredicate = new DistancePredicate(pn, robotAPI->getLeftWheel());
-            p_nDistancePredicate->preparation();
+            p_nDistancePredicate->preparation(robotAPI);
             initedP_N = true;
         }
 
@@ -232,7 +232,7 @@ void UFORunner::run(RobotAPI *robotAPI)
             CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(-nTurnAngle, rotatePow, robotAPI);
             turnNCommand = commandAndPredicate->getCommand();
             turnNPredicate = commandAndPredicate->getPredicate();
-            commandAndPredicate->getPreHandler()->handle(robotAPI);
+            commandAndPredicate->getPredicate()->preparation(robotAPI);
             initedTurnN = true;
         }
 
@@ -258,7 +258,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         {
             n_xdivide2Walker = new Walker(walkerPow, walkerPow);
             n_xdivide2DistancePreicate = new DistancePredicate(pn, robotAPI->getLeftWheel());
-            n_xdivide2DistancePreicate->preparation();
+            n_xdivide2DistancePreicate->preparation(robotAPI);
             initedN_XDivide2 = true;
         }
 

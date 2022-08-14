@@ -9,3 +9,7 @@ bool StartButtonPredicate::test(RobotAPI *robotAPI)
 {
     return robotAPI->getTouchSensor()->isPressed();
 }
+
+void StartButtonPredicate::preparation(RobotAPI *robotAPI)
+{
+}

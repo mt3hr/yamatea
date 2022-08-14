@@ -2,7 +2,6 @@
 #include "ev3api.h"
 #include "Motor.h"
 #include "Command.h"
-#include "Handler.h"
 #include "Stopper.h"
 #include "PrintMessage.h"
 #include "RobotAPI.h"
@@ -25,25 +24,27 @@ CommandExecutor::~CommandExecutor()
     {
         delete (predicates[i]);
     }
-    for (int i = 0; i < ((int)sizeof(exitHandlers)); i++)
-    {
-        delete (exitHandlers[i]);
-    }
 }
 
-void CommandExecutor::addCommand(Command *command, Predicate *exitCondition, Handler *exitHandler)
+void CommandExecutor::addCommand(Command *command, Predicate *exitCondition)
 {
     commands.push_back(command);
     predicates.push_back(exitCondition);
-    exitHandlers.push_back(exitHandler);
+    preparated.push_back(false);
 }
 
 void CommandExecutor::run()
 {
-    // 終了条件が満たされたらindexを変更して次のコマンドに移動する
-    if (((int)predicates.size()) > ((int)(currentIndexForCommand)) && predicates[currentIndexForCommand]->test(robotAPI))
+    // Commandがはじめて実行される時にPrediate.preparation()メソッドを実行する
+    if ((int)preparated.size() > ((int)currentIndexForCommand && !preparated[currentIndexForCommand]))
     {
-        exitHandlers[currentIndexForCommand]->handle(robotAPI);
+        preparated[currentIndexForCommand] = true;
+        predicates[currentIndexForCommand]->preparation(robotAPI);
+    }
+
+    // 終了条件が満たされたらindexを変更して次のコマンドに移動する
+    if (((int)predicates.size()) > ((int)currentIndexForCommand) && predicates[currentIndexForCommand]->test(robotAPI))
+    {
         currentIndexForCommand++;
         return;
     }

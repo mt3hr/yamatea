@@ -2,13 +2,12 @@
 #define DistancePredicate_H
 
 #include "Predicate.h"
-#include "Preparizable.h"
 #include "Motor.h"
 #include "RobotAPI.h"
 
 using namespace ev3api;
 
-class DistancePredicate : public Predicate, public Preparizable
+class DistancePredicate : public Predicate
 {
 private:
     float targetDistanceCm;
@@ -18,7 +17,7 @@ private:
 public:
     DistancePredicate(float targetDistanceCm, Motor *leftWheelOrRightWheel);
     bool test(RobotAPI *robotAPI) override;
-    void preparation() override;
+    void preparation(RobotAPI *robotAPI) override;
 };
 
 #endif

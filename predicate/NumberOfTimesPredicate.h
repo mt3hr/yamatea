@@ -17,6 +17,7 @@ private:
 public:
     NumberOfTimesPredicate(int targetCount);
     bool test(RobotAPI *robotAPI) override;
+    void preparation(RobotAPI *robotAPI) override;
 };
 
 #endif

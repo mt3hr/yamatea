@@ -21,6 +21,7 @@ enum PIDTracerMode
 
 // PIDTracer
 // PIDの値をもとにラインに沿って走行するトレーサ。
+// setTargetBrightnessしてから実行してください
 //
 // 実方
 class PIDTracer : public Command
@@ -44,7 +45,7 @@ private:
     int rightPower;
 
 public:
-    PIDTracer(PIDTracerMode traceMode, int pwm, float kp, float ki, float kd, float dt, int targetBrightness);
+    PIDTracer(PIDTracerMode traceMode, int pwm, float kp, float ki, float kd, float dt);
     void run(RobotAPI *robotAPI) override;
     PIDTracer *generateReverseCommand() override;
     void setTargetBrightness(int targetBrightness);

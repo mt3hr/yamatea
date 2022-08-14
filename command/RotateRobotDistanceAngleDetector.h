@@ -5,7 +5,6 @@
 #include "FinishConfirmable.h"
 #include "Predicate.h"
 #include "MotorCountPredicate.h"
-#include "Handler.h"
 #include "RobotAPI.h"
 
 class RotateRobotDistanceAngleDetector : public Command, public FinishConfirmable
@@ -20,9 +19,8 @@ private:
     RobotAPI *robotAPI;
     Command *rotateRobotCommand;
     Predicate *rotateRobotPredicate;
-    Handler *rotateRobotPreHandler;
 
-    bool calledPreHandler = false;
+    bool inited = false;
 
     int leftWheelCountWhenInited = 0;
     int rightWheelCountWhenInited = 0;

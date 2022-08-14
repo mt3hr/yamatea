@@ -10,3 +10,8 @@ bool FinishedCommandPredicate::test(RobotAPI *robotAPI)
 {
     return finishConfirmable->isFinished();
 }
+
+void FinishedCommandPredicate::preparation(RobotAPI *robotAPI)
+{
+    return;
+}

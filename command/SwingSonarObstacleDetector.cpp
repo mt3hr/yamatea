@@ -71,7 +71,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             {
                 initedRotateRobotCommandAndPreicate1 = true;
                 rotateRobotCommandAndPredicate1 = generateRotateRobotCommand(-(rotateRobotDistanceAngleDetector1->getAngle()), pwm, robotAPI);
-                rotateRobotCommandAndPredicate1->getPreHandler()->handle(robotAPI);
+                rotateRobotCommandAndPredicate1->getPredicate()->preparation(robotAPI);
             }
 
             rotateRobotCommandAndPredicate1->getCommand()->run(robotAPI);
@@ -120,7 +120,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             {
                 initedRotateRobotCommandAndPreicate2 = true;
                 rotateRobotCommandAndPredicate2 = generateRotateRobotCommand(rotateRobotDistanceAngleDetector2->getAngle(), pwm, robotAPI);
-                rotateRobotCommandAndPredicate2->getPreHandler()->handle(robotAPI);
+                rotateRobotCommandAndPredicate2->getPredicate()->preparation(robotAPI);
             }
 
             rotateRobotCommandAndPredicate2->getCommand()->run(robotAPI);

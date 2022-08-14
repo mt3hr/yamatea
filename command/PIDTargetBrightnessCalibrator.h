@@ -4,10 +4,10 @@
 #include <vector>
 #include "ColorSensor.h"
 #include "Command.h"
-#include "Handler.h"
 #include "Clock.h"
 #include "string"
 #include "RobotAPI.h"
+#include "PIDTracer.h"
 
 using namespace ev3api;
 using namespace std;
@@ -35,8 +35,8 @@ private:
     int black = 100;
     bool readedWhite = false;
     bool readedBlack = false;
-    vector<Handler *> handlers;
-    bool executedHandler = false;
+    vector<PIDTracer *> pidTracers;
+    bool calibratedPIDTracers = false;
     RobotAPI *robotAPI;
 
 public:
@@ -49,7 +49,7 @@ public:
     bool isReadedWhite();
     void readWhiteFromColorSensor();
     void readBlackFromColorSensor();
-    void addRoadedHandler(Handler *handler);
+    void addPIDTracer(PIDTracer *pidTracer);
 };
 
 #endif

@@ -19,3 +19,8 @@ bool MotorCountPredicate::test(RobotAPI *robotAPI)
         return motor->getCount() >= count;
     }
 }
+
+void MotorCountPredicate::preparation(RobotAPI *robotAPI)
+{
+    return;
+}

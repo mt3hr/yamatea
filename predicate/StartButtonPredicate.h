@@ -18,6 +18,7 @@ private:
 public:
   StartButtonPredicate();
   bool test(RobotAPI *robotAPI) override;
+  void preparation(RobotAPI *robotAPI) override;
 };
 
 #endif

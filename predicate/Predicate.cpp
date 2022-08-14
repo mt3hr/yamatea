@@ -10,3 +10,8 @@ bool Predicate::test(RobotAPI *robotAPI)
 {
     return false;
 }
+
+void Predicate::preparation(RobotAPI *robotAPI)
+{
+    return;
+}

@@ -23,7 +23,7 @@ private:
     Clock *clock;
 
 public:
-    RobotAPI(TouchSensor *TouchSensor, ColorSensor *colorSensor, SonarSensor *sonarSensor, Motor *leftWheel, Motor *rightWheel, Motor *armMotor, GyroSensor *gyroSensor, Clock *clock);
+    RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSensor *sonarSensor, Motor *leftWheel, Motor *rightWheel, Motor *armMotor, GyroSensor *gyroSensor, Clock *clock);
     ~RobotAPI();
     TouchSensor *getTouchSensor();
     ColorSensor *getColorSensor();

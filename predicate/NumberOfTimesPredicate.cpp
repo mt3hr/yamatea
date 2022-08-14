@@ -10,3 +10,8 @@ bool NumberOfTimesPredicate::test(RobotAPI *robotAPI)
 {
     return currentCount++ == targetCount;
 }
+
+void NumberOfTimesPredicate::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
