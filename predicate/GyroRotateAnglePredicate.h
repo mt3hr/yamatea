@@ -8,9 +8,10 @@ class GyroRotateAnglePredicate : public Predicate
 private:
     int angle;
     int targetAngle;
+    bool decrease;
 
 public:
-    GyroRotateAnglePredicate(int angle);
+    GyroRotateAnglePredicate(int angle, bool decrease);
     bool test(RobotAPI *robotAPI) override;
     void preparation(RobotAPI *robotAPI) override;
 };

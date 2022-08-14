@@ -35,28 +35,36 @@ void CommandExecutor::addCommand(Command *command, Predicate *exitCondition)
 
 void CommandExecutor::run()
 {
+    // 完了していればなにもしないで返す
+    if (finished)
+    {
+        return;
+    }
+
     // Commandがはじめて実行される時にPrediate.preparation()メソッドを実行する
-    if ((int)preparated.size() > ((int)currentIndexForCommand && !preparated[currentIndexForCommand]))
+    if (!preparated[currentIndexForCommand])
     {
         preparated[currentIndexForCommand] = true;
         predicates[currentIndexForCommand]->preparation(robotAPI);
     }
 
     // 終了条件が満たされたらindexを変更して次のコマンドに移動する
-    if (((int)predicates.size()) > ((int)currentIndexForCommand) && predicates[currentIndexForCommand]->test(robotAPI))
+    if (predicates[currentIndexForCommand]->test(robotAPI))
     {
         currentIndexForCommand++;
-        return;
     }
 
-    // 現在の要素が有ればやる。なければタスクを終了する。
     if (((int)commands.size()) > ((int)currentIndexForCommand))
     {
+        // コマンドを実行する
         commands[currentIndexForCommand]->run(robotAPI);
     }
     else
     {
+        // 現在の要素がなければタスクを終了する。
+        finished = true;
         stp_cyc(RUNNER_CYC);
+        return;
     }
 
     return;
