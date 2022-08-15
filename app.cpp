@@ -45,7 +45,7 @@ using namespace ev3api;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define LeftCourceMode // 左コース用プログラム
+//#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
@@ -56,7 +56,7 @@ using namespace ev3api;
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
-//#define UFORunnerTestMode // UFO走行モード。テスト
+#define UFORunnerTestMode // UFO走行モード。テスト
 // モード設定ここまで
 
 void setting()
@@ -71,7 +71,7 @@ void setting()
   // 情報出力の有効無効設定ここから
   debugMessageLevel = DEBUG;              // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
   enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-  enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
+  enablePrintMessageForConsole = true;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
   enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、すぐ下の行、#define EnableBluetoothのコメントアウトも外して。
   // #define EnableBluetooth              // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
   // 情報出力の有効無効設定ここまで
@@ -506,15 +506,23 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
-  float n = 5.0;
+  float n = 5;
   int walkPWM = 20;
   int turnPWM = 10;
   float swingLeft = 90.0;
   float swingRight = -90.0;
   int targetLeft = 30;
   int targetRight = 30;
-  SwingSonarObstacleDetector *swingSonarObstacleDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, turnPWM, swingLeft, swingRight, targetLeft, targetRight);
-  UFORunner *ufoRunner = new UFORunner(n, walkPWM, turnPWM, swingSonarObstacleDetector);
+  bool turnToI = false;
+  bool iIsLeft = false;
+  bool reverseTest = false;
+
+  SwingSonarObstacleDetector *swingSonarObstacleDetector = new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, turnPWM, swingLeft, swingRight, targetLeft, targetRight);
+  UFORunner *ufoRunner = new UFORunner(n, walkPWM, turnPWM, iIsLeft, turnToI, swingSonarObstacleDetector);
+  if (reverseTest)
+  {
+    ufoRunner = ufoRunner->generateReverseCommand();
+  }
   commandExecutor->addCommand(ufoRunner, new FinishedCommandPredicate(ufoRunner));
 
   // 停止コマンドの初期化とCommandExecutorへの追加

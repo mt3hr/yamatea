@@ -29,6 +29,8 @@ class UFORunner : public ObstacleDetectRunner, public FinishConfirmable
 {
 private:
     UFORunnerState state;
+    bool turnToI = false;
+    bool iIsLeft = false;
 
     Command *turnToPCommand;
     Command *turnPIPNCommand;
@@ -66,7 +68,7 @@ private:
     int rotatePow;
 
 public:
-    UFORunner(float n, int walkerPow, int rotatePow, ObstacleDetector *obstacleDetector);
+    UFORunner(float n, int walkerPow, int rotatePow, bool iIsLeft, bool turnToI, ObstacleDetector *obstacleDetector);
     ~UFORunner();
     void run(RobotAPI *robotAPI) override;
     UFORunner *generateReverseCommand() override;

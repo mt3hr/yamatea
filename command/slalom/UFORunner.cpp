@@ -25,9 +25,11 @@ float toDegree(float radian)
 }
 
 // TODO 右コースに対応で規定なさそう
-UFORunner::UFORunner(float na, int wp, int rp, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
+UFORunner::UFORunner(float na, int wp, int rp, bool iIsLeft, bool turnToI, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
+    this->iIsLeft = iIsLeft;
     state = UFO_DETECTING_OBSTACLE;
+    this->turnToI = turnToI;
     n = na;
     walkerPow = wp;
     rotatePow = rp;
@@ -72,9 +74,17 @@ void UFORunner::run(RobotAPI *robotAPI)
         }
         startedCalcrate = true;
 
-        ik = obstacleDetector->getLeftObstacleDistance() + distanceFromSonarSensorToAxle;
-        dk = obstacleDetector->getRightObstacleDistance() + distanceFromSonarSensorToAxle;
         p = obstacleDetector->getLeftObstacleAngle() + obstacleDetector->getRightObstacleAngle();
+        if (iIsLeft)
+        {
+            ik = obstacleDetector->getRightObstacleDistance() + distanceFromSonarSensorToAxle;
+            dk = obstacleDetector->getLeftObstacleDistance() + distanceFromSonarSensorToAxle;
+        }
+        else
+        {
+            ik = obstacleDetector->getLeftObstacleDistance() + distanceFromSonarSensorToAxle;
+            dk = obstacleDetector->getRightObstacleDistance() + distanceFromSonarSensorToAxle;
+        }
 
         // C++のmathの三角関数系統はラジアンをうけとるしラジアンを返してくる
 
@@ -89,7 +99,9 @@ void UFORunner::run(RobotAPI *robotAPI)
         // 3,∠Iから∠NID（arcsin((x/2)/NI)）を引き余弦定理で距離PNを求める
         // PN^2=Ik^2+NI^2-(2Ik×NI×cos∠PIN)
         i = toDegree(acos((pow(ik, 2) + pow(x, 2) - pow(dk, 2)) / (2 * ik * x)));
+        // TODO din怪しい
         din = toDegree(acos((pow(x / 2, 2) + pow(ni, 2) - pow(n, 2)) / (2 * x / 2 * ni)));
+        // BAN = toDegree(acos((pow(C / 2, 2) + pow(NA, 2) - pow(N, 2)) / (2 * X / 2 * NA)));
         pin = i - din;
         pn = sqrt(pow(ni, 2) + pow(ik, 2) - 2 * ik * ni * (cos(toRadian(pin))));
 
@@ -99,9 +111,27 @@ void UFORunner::run(RobotAPI *robotAPI)
 
         nTurnAngle = 180 - (180 - pin - ipn) - toDegree(asin(n / ni));
 
-        state = UFO_TURNNIN_TO_P;
+        // 左右対応
+        if (!iIsLeft)
+        {
+            ipn *= -1;
+            nTurnAngle *= -1;
+        }
+        else
+        {
+            ipn = p - ipn;
+        }
 
-        if (state != UFO_TURNNIN_TO_P)
+        if (turnToI)
+        {
+            state = UFO_TURNNIN_TO_P;
+        }
+        else
+        {
+            state = UFO_TURNNING_P_IPN;
+        }
+
+        if (!(state == UFO_TURNNIN_TO_P || state == UFO_TURNNING_P_IPN))
         {
             break;
         }
@@ -176,7 +206,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnPIPN)
         {
-            CommandAndPredicate *turnPIPNCommandAndPredicate = new RotateRobotCommandAndPredicate(-ipn, rotatePow, robotAPI);
+            CommandAndPredicate *turnPIPNCommandAndPredicate = new RotateRobotCommandAndPredicate(ipn, rotatePow, robotAPI);
             turnPIPNCommand = turnPIPNCommandAndPredicate->getCommand();
             turnPIPNPredicate = turnPIPNCommandAndPredicate->getPredicate();
             turnPIPNCommandAndPredicate->getPredicate()->preparation(robotAPI);
@@ -229,7 +259,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnN)
         {
-            CommandAndPredicate *commandAndPredicate = new RotateRobotCommandAndPredicate(-nTurnAngle, rotatePow, robotAPI);
+            CommandAndPredicate *commandAndPredicate = new RotateRobotCommandAndPredicate(nTurnAngle, rotatePow, robotAPI);
             turnNCommand = commandAndPredicate->getCommand();
             turnNPredicate = commandAndPredicate->getPredicate();
             commandAndPredicate->getPredicate()->preparation(robotAPI);
@@ -296,7 +326,7 @@ void UFORunner::run(RobotAPI *robotAPI)
 
 UFORunner *UFORunner::generateReverseCommand()
 {
-    return new UFORunner(n, walkerPow, rotatePow, getObstacleDetector()->generateReverseCommand());
+    return new UFORunner(n, walkerPow, rotatePow, !iIsLeft, turnToI, getObstacleDetector()->generateReverseCommand());
 }
 
 bool UFORunner::isFinished()
