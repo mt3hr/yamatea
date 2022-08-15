@@ -99,9 +99,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         // 3,∠Iから∠NID（arcsin((x/2)/NI)）を引き余弦定理で距離PNを求める
         // PN^2=Ik^2+NI^2-(2Ik×NI×cos∠PIN)
         i = toDegree(acos((pow(ik, 2) + pow(x, 2) - pow(dk, 2)) / (2 * ik * x)));
-        // TODO din怪しい
-        din = toDegree(acos((pow(x / 2, 2) + pow(ni, 2) - pow(n, 2)) / (2 * x / 2 * ni)));
-        // BAN = toDegree(acos((pow(C / 2, 2) + pow(NA, 2) - pow(N, 2)) / (2 * X / 2 * NA)));
+        din = toDegree(acos((x / 2) / ni));
         pin = i - din;
         pn = sqrt(pow(ni, 2) + pow(ik, 2) - 2 * ik * ni * (cos(toRadian(pin))));
 
