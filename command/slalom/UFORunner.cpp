@@ -24,7 +24,8 @@ float toDegree(float radian)
     return radian * 180 / M_PI;
 }
 
-// TODO 右コースに対応で規定なさそう
+// iIsLeft: 計算に用いる障害物が走行体から見て左に存在するかどうか。嘘。左右逆だわ。シミュレータ見てたから間違えた。// TODO
+// turnToI: 計算に用いる障害物に振り向くかどうか。すでに向いている場合はfalseにする。（タイム短縮のためにこの引数が生まれた）
 UFORunner::UFORunner(float na, int wp, int rp, bool iIsLeft, bool turnToI, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
 {
     this->iIsLeft = iIsLeft;
@@ -74,38 +75,31 @@ void UFORunner::run(RobotAPI *robotAPI)
         }
         startedCalcrate = true;
 
+        ik = obstacleDetector->getLeftObstacleDistance() + distanceFromSonarSensorToAxle;
+        dk = obstacleDetector->getRightObstacleDistance() + distanceFromSonarSensorToAxle;
         p = obstacleDetector->getLeftObstacleAngle() + obstacleDetector->getRightObstacleAngle();
-        if (iIsLeft)
-        {
-            ik = obstacleDetector->getRightObstacleDistance() + distanceFromSonarSensorToAxle;
-            dk = obstacleDetector->getLeftObstacleDistance() + distanceFromSonarSensorToAxle;
-        }
-        else
-        {
-            ik = obstacleDetector->getLeftObstacleDistance() + distanceFromSonarSensorToAxle;
-            dk = obstacleDetector->getRightObstacleDistance() + distanceFromSonarSensorToAxle;
-        }
 
         // C++のmathの三角関数系統はラジアンをうけとるしラジアンを返してくる
 
         // １，余弦定理で障害物間の距離Xを求める
         // X^2=Ik^2+Dk^2-(2Ik×Dk×cos∠P)
-        x = sqrt(pow(ik, 2) + pow(dk, 2) - 2 * ik * dk * cos(toRadian(p))); // 多分OK
+        x = sqrt(pow(ik, 2) + pow(dk, 2) - 2 * ik * dk * cos(toRadian(p)));
 
         // ２，Xの中点から車体側に対し垂直に距離Nを引き、NIを求める
         // X/2^2+N^2=NI^2
-        ni = sqrt(pow(x / 2, 2) + pow(n, 2)); // OK
+        ni = sqrt(pow(x / 2, 2) + pow(n, 2));
 
         // 3,∠Iから∠NID（arcsin((x/2)/NI)）を引き余弦定理で距離PNを求める
         // PN^2=Ik^2+NI^2-(2Ik×NI×cos∠PIN)
-        i = toDegree(acos((pow(ik, 2) + pow(x, 2) - pow(dk, 2)) / (2 * ik * x))); // OK
-        din = toDegree(acos((x / 2) / ni));                                       // OK
-        pin = i - din;                                                            // OK
+        i = toDegree(acos((pow(ik, 2) + pow(x, 2) - pow(dk, 2)) / (2 * ik * x)));
+        din = toDegree(acos((x / 2) / ni));
+        pin = i - din;
         pn = sqrt(pow(ni, 2) + pow(ik, 2) - 2 * ik * ni * (cos(toRadian(pin))));
 
         // 4,cos∠IPNをもとめ、逆関数で角度求める。
         // ∠IPN=arcsin(∠IPN)
-        ipn = toDegree(acos(((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik)))); // 実測誤差が少ないので多分OK
+        ipn = toDegree(acos(((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik))));
+        dpn = p - ipn;
 
         nTurnAngle = 180 - (180 - pin - ipn) - (180 - 90 - din);
 
@@ -114,11 +108,6 @@ void UFORunner::run(RobotAPI *robotAPI)
         {
             ipn *= -1;
         }
-        else
-        {
-            ipn = p - ipn;
-            nTurnAngle *= -1;
-        }
 
         if (turnToI)
         {
@@ -126,10 +115,17 @@ void UFORunner::run(RobotAPI *robotAPI)
         }
         else
         {
-            state = UFO_TURNNING_P_IPN;
+            if (!iIsLeft)
+            {
+                state = UFO_TURNNING_P_IPN;
+            }
+            else
+            {
+                state = UFO_TURNNING_P_DPN;
+            }
         }
 
-        if (!(state == UFO_TURNNIN_TO_P || state == UFO_TURNNING_P_IPN))
+        if (!(state == UFO_TURNNIN_TO_P || state == UFO_TURNNING_P_IPN || state == UFO_TURNNING_P_DPN))
         {
             break;
         }
@@ -224,6 +220,33 @@ void UFORunner::run(RobotAPI *robotAPI)
         }
 
         writeDebug("UFO_TURNNING_P_IPN finished");
+        flushDebug(INFO, robotAPI);
+    }
+
+    case UFO_TURNNING_P_DPN: // DPN右回転
+    {
+        if (!initedTurnPDPN)
+        {
+            CommandAndPredicate *turnPDPNCommandAndPredicate = new RotateRobotCommandAndPredicate(dpn, rotatePow, robotAPI);
+            turnPDPNCommand = turnPDPNCommandAndPredicate->getCommand();
+            turnPDPNPredicate = turnPDPNCommandAndPredicate->getPredicate();
+            turnPDPNCommandAndPredicate->getPredicate()->preparation(robotAPI);
+            initedTurnPDPN = true;
+        }
+
+        turnPDPNCommand->run(robotAPI);
+
+        if (turnPDPNPredicate->test(robotAPI))
+        {
+            state = UFO_RUNNING_P_N;
+        }
+
+        if (state != UFO_RUNNING_P_N)
+        {
+            break;
+        }
+
+        writeDebug("UFO_TURNNING_P_DPN finished");
         flushDebug(INFO, robotAPI);
     }
 

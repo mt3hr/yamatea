@@ -71,7 +71,7 @@ void setting()
   // 情報出力の有効無効設定ここから
   debugMessageLevel = DEBUG;              // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
   enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-  enablePrintMessageForConsole = true;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
+  enablePrintMessageForConsole = true;    // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
   enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、すぐ下の行、#define EnableBluetoothのコメントアウトも外して。
   // #define EnableBluetooth              // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
   // 情報出力の有効無効設定ここまで
@@ -506,7 +506,7 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
-  float n = 5;
+  float n = 10;
   int walkPWM = 20;
   int turnPWM = 10;
   float swingLeft = 90.0;
@@ -515,7 +515,7 @@ void initializeCommandExecutor()
   int targetRight = 30;
   bool turnToI = false;
   bool iIsLeft = false;
-  bool reverseTest = false;
+  bool reverseTest = true;
 
   SwingSonarObstacleDetector *swingSonarObstacleDetector = new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, turnPWM, swingLeft, swingRight, targetLeft, targetRight);
   UFORunner *ufoRunner = new UFORunner(n, walkPWM, turnPWM, iIsLeft, turnToI, swingSonarObstacleDetector);
