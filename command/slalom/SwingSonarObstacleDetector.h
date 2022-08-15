@@ -24,18 +24,19 @@ using namespace ev3api;
 // 実方
 enum SwingOrder
 {
+    CENTER_LEFT_RIGHT_CENTER,
+    CENTER_RIGHT_LEFT_CENTER,
     CENTER_LEFT_RIGHT,
     CENTER_RIGHT_LEFT,
-    LEFT_RIGHT,
-    RIGHT_LEFT,
 };
 
 enum SwingSonarObstacleDetectorState
 {
-    SSD_DETECT_OBSTACLE_1,
-    SSD_RETURNING1,
-    SSD_DETECT_OBSTACLE_2,
-    SSD_RETURNING2,
+    SSD_WAIT_START,
+    SSD_DETECT_OBSTACLE_LEFT,
+    SSD_RETURNING_LEFT,
+    SSD_DETECT_OBSTACLE_RIGHT,
+    SSD_RETURNING_RIGHT,
     SSD_FINISHED,
 };
 
@@ -85,6 +86,12 @@ private:
     bool initedRotateRobotCommandAndPreicate2 = false;
 
     bool finished = false;
+
+    void detectLeftObstacle(RobotAPI *robotAPI, SwingSonarObstacleDetectorState next);
+    void returningLeft(RobotAPI *robotAPI, SwingSonarObstacleDetectorState next);
+    void detectRightObstacle(RobotAPI *robotAPI, SwingSonarObstacleDetectorState next);
+    void returningRight(RobotAPI *robotAPI, SwingSonarObstacleDetectorState next);
+    void printValues(RobotAPI *robotAPI);
 
 public:
     SwingSonarObstacleDetector(SwingOrder swingOrder, int pwm, float swingLeft, float swingRight, int targetLeft, int targetRight);

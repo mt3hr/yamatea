@@ -352,7 +352,6 @@ void initializeCommandExecutor()
 #endif
 
 // NOTE ジャイロ、 実機とシミュレータで左右判定が逆になる？
-// TODO ジャイロ旋回のやつ、angleが-だと動かんので対処して
 #if defined(RotateGyroTestMode)
 void initializeCommandExecutor()
 {
@@ -414,7 +413,7 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // 曲率進行コマンドの初期化とCommandExecutorへの追加
-  int pwm = 20; // TODO pwm上げるとおかしくなる
+  int pwm = 20; // NOTE pwm上げるとおかしくなる
   float r = 20;
   float theta = 360;
   CurvatureWalkerCommandAndPredicate *commandAndPredicate = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, false, robotAPI);
@@ -443,7 +442,7 @@ void initializeCommandExecutor()
   float swingRight = -90.0;
   int targetLeft = 20;
   int targetRight = 20;
-  SwingSonarObstacleDetector *swingSonarDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight);
+  SwingSonarObstacleDetector *swingSonarDetector = new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT_CENTER, pwm, swingLeft, swingRight, targetLeft, targetRight);
   Predicate *swingSonarDetectorPredicate = new FinishedCommandPredicate(swingSonarDetector);
   commandExecutor->addCommand(swingSonarDetector, swingSonarDetectorPredicate);
 

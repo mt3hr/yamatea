@@ -39,7 +39,6 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
     // 360度回転するのに必要なモータ回転数:360 = totalWheelRotateAngle:x
     int totalWheelRotateAngle;
 
-    // TODO ここあやしい
     if (targetAngle > 0)
     {
         totalWheelRotateAngle = (robotAPI->getLeftWheel()->getCount() - leftWheelCountWhenInited);

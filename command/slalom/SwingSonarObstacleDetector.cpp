@@ -20,7 +20,7 @@ SwingSonarObstacleDetector::SwingSonarObstacleDetector(SwingOrder so, int pwm, f
 
     swingOrder = so;
     this->pwm = pwm;
-    state = SSD_DETECT_OBSTACLE_1;
+    state = SSD_WAIT_START;
     stopper = new Stopper();
 };
 
@@ -30,83 +30,137 @@ SwingSonarObstacleDetector::~SwingSonarObstacleDetector()
     // TODO
 };
 
+void SwingSonarObstacleDetector::detectLeftObstacle(RobotAPI *robotAPI, SwingSonarObstacleDetectorState next)
+{
+    if (!initedRotateRobotDistanceAngleDetector1)
+    {
+        rotateRobotDistanceAngleDetector1 = new RotateRobotDistanceAngleDetector(swingLeft, targetLeft, pwm, robotAPI);
+        rotateRobotDistanceAngleDetector1Predicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetector1);
+        initedRotateRobotDistanceAngleDetector1 = true;
+        return;
+    }
+
+    rotateRobotDistanceAngleDetector1->run(robotAPI);
+
+    if (rotateRobotDistanceAngleDetector1Predicate->test(robotAPI))
+    {
+        leftObstacleDistance = rotateRobotDistanceAngleDetector1->getDistance();
+        leftObstacleAngle = rotateRobotDistanceAngleDetector1->getAngle();
+        state = next;
+    }
+}
+
+void SwingSonarObstacleDetector::returningLeft(RobotAPI *robotAPI, SwingSonarObstacleDetectorState next)
+{
+    if (!initedRotateRobotCommandAndPreicate1)
+    {
+        initedRotateRobotCommandAndPreicate1 = true;
+        rotateRobotCommandAndPredicate1 = new RotateRobotCommandAndPredicate(-(rotateRobotDistanceAngleDetector1->getAngle()), pwm, robotAPI);
+        rotateRobotCommandAndPredicate1->getPredicate()->preparation(robotAPI);
+    }
+
+    rotateRobotCommandAndPredicate1->getCommand()->run(robotAPI);
+
+    if (rotateRobotCommandAndPredicate1->getPredicate()->test(robotAPI))
+    {
+        state = next;
+    }
+}
+
+void SwingSonarObstacleDetector::detectRightObstacle(RobotAPI *robotAPI, SwingSonarObstacleDetectorState next)
+{
+    if (!initedRotateRobotDistanceAngleDetector2)
+    {
+        initedRotateRobotDistanceAngleDetector2 = true;
+        rotateRobotDistanceAngleDetector2 = new RotateRobotDistanceAngleDetector(swingRight, targetRight, pwm, robotAPI);
+        rotateRobotDistanceAngleDetector2Predicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetector2);
+    }
+
+    rotateRobotDistanceAngleDetector2->run(robotAPI);
+
+    if (rotateRobotDistanceAngleDetector2Predicate->test(robotAPI))
+    {
+        rightObstacleDistance = rotateRobotDistanceAngleDetector2->getDistance();
+        rightObstacleAngle = rotateRobotDistanceAngleDetector2->getAngle();
+        state = next;
+    }
+}
+
+void SwingSonarObstacleDetector::returningRight(RobotAPI *robotAPI, SwingSonarObstacleDetectorState next)
+{
+    if (!initedRotateRobotCommandAndPreicate2)
+    {
+        initedRotateRobotCommandAndPreicate2 = true;
+        rotateRobotCommandAndPredicate2 = new RotateRobotCommandAndPredicate(rotateRobotDistanceAngleDetector2->getAngle(), pwm, robotAPI);
+        rotateRobotCommandAndPredicate2->getPredicate()->preparation(robotAPI);
+    }
+
+    rotateRobotCommandAndPredicate2->getCommand()->run(robotAPI);
+
+    if (rotateRobotCommandAndPredicate2->getPredicate()->test(robotAPI))
+    {
+        state = next;
+    }
+}
+
+void SwingSonarObstacleDetector::printValues(RobotAPI *robotAPI)
+{
+    writeDebug("SwingSonarObstacleDetector");
+    writeEndLineDebug();
+    writeDebug("leftDistance: ");
+    writeDebug(getLeftObstacleDistance());
+    writeEndLineDebug();
+    writeDebug("rightDistance: ");
+    writeDebug(getRightObstacleAngle());
+    writeEndLineDebug();
+    writeDebug("leftAngle: ");
+    writeDebug(getLeftObstacleAngle());
+    writeEndLineDebug();
+    writeDebug("rightAngle: ");
+    writeDebug(getRightObstacleAngle());
+    writeEndLineDebug();
+    flushDebug(TRACE, robotAPI);
+}
+
 void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
 {
     // 障害物の端っこを検出する形となるであろう
     switch (swingOrder)
     {
-    case CENTER_LEFT_RIGHT:
+
+    case CENTER_LEFT_RIGHT_CENTER:
     {
         switch (state)
         {
-        case SSD_DETECT_OBSTACLE_1:
+        case SSD_WAIT_START:
         {
-            if (!initedRotateRobotDistanceAngleDetector1)
-            {
-                rotateRobotDistanceAngleDetector1 = new RotateRobotDistanceAngleDetector(swingLeft, targetLeft, pwm, robotAPI);
-                rotateRobotDistanceAngleDetector1Predicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetector1);
-                initedRotateRobotDistanceAngleDetector1 = true;
-                return;
-            }
+            state = SSD_DETECT_OBSTACLE_LEFT;
+        }
 
-            rotateRobotDistanceAngleDetector1->run(robotAPI);
-
-            if (rotateRobotDistanceAngleDetector1Predicate->test(robotAPI))
-            {
-                leftObstacleDistance = rotateRobotDistanceAngleDetector1->getDistance();
-                leftObstacleAngle = rotateRobotDistanceAngleDetector1->getAngle();
-                state = SSD_RETURNING1;
-            }
-
-            if (state != SSD_RETURNING1)
+        case SSD_DETECT_OBSTACLE_LEFT:
+        {
+            detectLeftObstacle(robotAPI, SSD_RETURNING_LEFT);
+            if (state != SSD_RETURNING_LEFT)
             {
                 break;
             }
             stopper->run(robotAPI);
         }
 
-        case SSD_RETURNING1:
+        case SSD_RETURNING_LEFT:
         {
-            if (!initedRotateRobotCommandAndPreicate1)
-            {
-                initedRotateRobotCommandAndPreicate1 = true;
-                rotateRobotCommandAndPredicate1 = new RotateRobotCommandAndPredicate(-(rotateRobotDistanceAngleDetector1->getAngle()), pwm, robotAPI);
-                rotateRobotCommandAndPredicate1->getPredicate()->preparation(robotAPI);
-            }
-
-            rotateRobotCommandAndPredicate1->getCommand()->run(robotAPI);
-
-            if (rotateRobotCommandAndPredicate1->getPredicate()->test(robotAPI))
-            {
-                state = SSD_DETECT_OBSTACLE_2;
-            }
-
-            if (state != SSD_DETECT_OBSTACLE_2)
+            returningLeft(robotAPI, SSD_DETECT_OBSTACLE_RIGHT);
+            if (state != SSD_DETECT_OBSTACLE_RIGHT)
             {
                 break;
             }
             stopper->run(robotAPI);
         }
 
-        case SSD_DETECT_OBSTACLE_2:
+        case SSD_DETECT_OBSTACLE_RIGHT:
         {
-            if (!initedRotateRobotDistanceAngleDetector2)
-            {
-                initedRotateRobotDistanceAngleDetector2 = true;
-                rotateRobotDistanceAngleDetector2 = new RotateRobotDistanceAngleDetector(swingRight, targetRight, pwm, robotAPI);
-                rotateRobotDistanceAngleDetector2Predicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetector2);
-            }
-
-            rotateRobotDistanceAngleDetector2->run(robotAPI);
-
-            if (rotateRobotDistanceAngleDetector2Predicate->test(robotAPI))
-            {
-                rightObstacleDistance = rotateRobotDistanceAngleDetector2->getDistance();
-                rightObstacleAngle = rotateRobotDistanceAngleDetector2->getAngle();
-                state = SSD_RETURNING2;
-            }
-
-            if (state != SSD_RETURNING2)
+            detectRightObstacle(robotAPI, SSD_RETURNING_RIGHT);
+            if (state != SSD_RETURNING_RIGHT)
             {
                 break;
             }
@@ -114,22 +168,9 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             stopper->run(robotAPI);
         }
 
-        case SSD_RETURNING2:
+        case SSD_RETURNING_RIGHT:
         {
-            if (!initedRotateRobotCommandAndPreicate2)
-            {
-                initedRotateRobotCommandAndPreicate2 = true;
-                rotateRobotCommandAndPredicate2 = new RotateRobotCommandAndPredicate(rotateRobotDistanceAngleDetector2->getAngle(), pwm, robotAPI);
-                rotateRobotCommandAndPredicate2->getPredicate()->preparation(robotAPI);
-            }
-
-            rotateRobotCommandAndPredicate2->getCommand()->run(robotAPI);
-
-            if (rotateRobotCommandAndPredicate2->getPredicate()->test(robotAPI))
-            {
-                state = SSD_FINISHED;
-            }
-
+            returningRight(robotAPI, SSD_FINISHED);
             if (state != SSD_FINISHED)
             {
                 break;
@@ -141,21 +182,136 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             leftObstacleAngle = rotateRobotDistanceAngleDetector1->getAngle();
             rightObstacleAngle = rotateRobotDistanceAngleDetector2->getAngle();
 
-            writeDebug("SwingSonarObstacleDetector");
-            writeEndLineDebug();
-            writeDebug("leftDistance: ");
-            writeDebug(getLeftObstacleDistance());
-            writeEndLineDebug();
-            writeDebug("rightDistance: ");
-            writeDebug(getRightObstacleAngle());
-            writeEndLineDebug();
-            writeDebug("leftAngle: ");
-            writeDebug(getLeftObstacleAngle());
-            writeEndLineDebug();
-            writeDebug("rightAngle: ");
-            writeDebug(getRightObstacleAngle());
-            writeEndLineDebug();
-            flushDebug(TRACE, robotAPI);
+            printValues(robotAPI);
+        }
+
+        case SSD_FINISHED:
+        {
+            finished = true;
+            stopper->run(robotAPI);
+            break;
+        }
+
+        default:
+            break;
+        }
+        break;
+    }
+    case CENTER_RIGHT_LEFT_CENTER:
+    {
+        switch (state)
+        {
+        case SSD_WAIT_START:
+        {
+            state = SSD_DETECT_OBSTACLE_RIGHT;
+        }
+
+        case SSD_DETECT_OBSTACLE_RIGHT:
+        {
+            detectRightObstacle(robotAPI, SSD_RETURNING_RIGHT);
+            if (state != SSD_RETURNING_RIGHT)
+            {
+                break;
+            }
+
+            stopper->run(robotAPI);
+        }
+
+        case SSD_RETURNING_RIGHT:
+        {
+            returningRight(robotAPI, SSD_DETECT_OBSTACLE_LEFT);
+            if (state != SSD_DETECT_OBSTACLE_LEFT)
+            {
+                break;
+            }
+            stopper->run(robotAPI);
+        }
+
+        case SSD_DETECT_OBSTACLE_LEFT:
+        {
+            detectLeftObstacle(robotAPI, SSD_RETURNING_LEFT);
+            if (state != SSD_RETURNING_LEFT)
+            {
+                break;
+            }
+            stopper->run(robotAPI);
+        }
+
+        case SSD_RETURNING_LEFT:
+        {
+            returningLeft(robotAPI, SSD_FINISHED);
+            if (state != SSD_FINISHED)
+            {
+                break;
+            }
+            stopper->run(robotAPI);
+
+            leftObstacleDistance = rotateRobotDistanceAngleDetector1->getDistance();
+            rightObstacleDistance = rotateRobotDistanceAngleDetector2->getDistance();
+            leftObstacleAngle = rotateRobotDistanceAngleDetector1->getAngle();
+            rightObstacleAngle = rotateRobotDistanceAngleDetector2->getAngle();
+
+            printValues(robotAPI);
+        }
+
+        case SSD_FINISHED:
+        {
+            finished = true;
+            stopper->run(robotAPI);
+            break;
+        }
+
+        default:
+            break;
+        }
+        break;
+    }
+
+    case CENTER_LEFT_RIGHT:
+    {
+        switch (state)
+        {
+        case SSD_WAIT_START:
+        {
+            state = SSD_DETECT_OBSTACLE_LEFT;
+        }
+
+        case SSD_DETECT_OBSTACLE_LEFT:
+        {
+            detectLeftObstacle(robotAPI, SSD_RETURNING_LEFT);
+            if (state != SSD_RETURNING_LEFT)
+            {
+                break;
+            }
+            stopper->run(robotAPI);
+        }
+
+        case SSD_RETURNING_LEFT:
+        {
+            returningLeft(robotAPI, SSD_DETECT_OBSTACLE_RIGHT);
+            if (state != SSD_DETECT_OBSTACLE_RIGHT)
+            {
+                break;
+            }
+            stopper->run(robotAPI);
+        }
+
+        case SSD_DETECT_OBSTACLE_RIGHT:
+        {
+            detectRightObstacle(robotAPI, SSD_FINISHED);
+            if (state != SSD_FINISHED)
+            {
+                break;
+            }
+
+            stopper->run(robotAPI);
+
+            leftObstacleDistance = rotateRobotDistanceAngleDetector1->getDistance();
+            rightObstacleDistance = rotateRobotDistanceAngleDetector2->getDistance();
+            leftObstacleAngle = rotateRobotDistanceAngleDetector1->getAngle();
+            rightObstacleAngle = rotateRobotDistanceAngleDetector2->getAngle();
+
+            printValues(robotAPI);
         }
 
         case SSD_FINISHED:
@@ -172,17 +328,61 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
     }
     case CENTER_RIGHT_LEFT:
     {
-        // TODO
-        break;
-    }
-    case LEFT_RIGHT:
-    {
-        // TODO
-        break;
-    }
-    case RIGHT_LEFT:
-    {
-        // TODO
+        switch (state)
+        {
+        case SSD_WAIT_START:
+        {
+            state = SSD_DETECT_OBSTACLE_RIGHT;
+        }
+
+        case SSD_DETECT_OBSTACLE_RIGHT:
+        {
+            detectRightObstacle(robotAPI, SSD_RETURNING_RIGHT);
+            if (state != SSD_RETURNING_RIGHT)
+            {
+                break;
+            }
+
+            stopper->run(robotAPI);
+        }
+
+        case SSD_RETURNING_RIGHT:
+        {
+            returningRight(robotAPI, SSD_DETECT_OBSTACLE_LEFT);
+            if (state != SSD_DETECT_OBSTACLE_LEFT)
+            {
+                break;
+            }
+            stopper->run(robotAPI);
+        }
+
+        case SSD_DETECT_OBSTACLE_LEFT:
+        {
+            detectLeftObstacle(robotAPI, SSD_FINISHED);
+            if (state != SSD_FINISHED)
+            {
+                break;
+            }
+            stopper->run(robotAPI);
+
+            leftObstacleDistance = rotateRobotDistanceAngleDetector1->getDistance();
+            rightObstacleDistance = rotateRobotDistanceAngleDetector2->getDistance();
+            leftObstacleAngle = rotateRobotDistanceAngleDetector1->getAngle();
+            rightObstacleAngle = rotateRobotDistanceAngleDetector2->getAngle();
+
+            printValues(robotAPI);
+        }
+
+        case SSD_FINISHED:
+        {
+            finished = true;
+            stopper->run(robotAPI);
+            break;
+        }
+
+        default:
+            break;
+        }
         break;
     }
 
@@ -195,14 +395,14 @@ SwingSonarObstacleDetector *SwingSonarObstacleDetector::generateReverseCommand()
 {
     switch (swingOrder)
     {
+    case CENTER_LEFT_RIGHT_CENTER:
+        return new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT_CENTER, pwm, swingLeft, swingRight, targetLeft, targetRight);
+    case CENTER_RIGHT_LEFT_CENTER:
+        return new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT_CENTER, pwm, swingLeft, swingRight, targetLeft, targetRight);
     case CENTER_LEFT_RIGHT:
         return new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, pwm, swingLeft, swingRight, targetLeft, targetRight);
     case CENTER_RIGHT_LEFT:
         return new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight);
-    case LEFT_RIGHT:
-        return new SwingSonarObstacleDetector(RIGHT_LEFT, pwm, swingLeft, swingRight, targetLeft, targetRight);
-    case RIGHT_LEFT:
-        return new SwingSonarObstacleDetector(LEFT_RIGHT, pwm, swingLeft, swingRight, targetLeft, targetRight);
     }
     return new SwingSonarObstacleDetector(swingOrder, pwm, swingLeft, swingRight, targetLeft, targetRight); // おかしい状態
 }
