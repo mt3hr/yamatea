@@ -9,6 +9,7 @@
 #include "Predicate.h"
 #include "Stopper.h"
 #include "RobotAPI.h"
+#include "RotateRobotCommandAndPredicate.h"
 
 using namespace ev3api;
 
@@ -75,8 +76,8 @@ private:
     Predicate *rotateRobotDistanceAngleDetector1Predicate;
     Predicate *rotateRobotDistanceAngleDetector2Predicate;
 
-    CommandAndPredicate *rotateRobotCommandAndPredicate1; // 検知したら向き直るやつ1回目
-    CommandAndPredicate *rotateRobotCommandAndPredicate2; // 検知したら向き直るやつ2回目
+    RotateRobotCommandAndPredicate *rotateRobotCommandAndPredicate1; // 検知したら向き直るやつ1回目
+    RotateRobotCommandAndPredicate *rotateRobotCommandAndPredicate2; // 検知したら向き直るやつ2回目
 
     bool initedRotateRobotDistanceAngleDetector1 = false;
     bool initedRotateRobotDistanceAngleDetector2 = false;

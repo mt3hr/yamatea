@@ -30,9 +30,9 @@
 #include "Stopper.h"
 #include "RGBRawReader.h"
 #include "DistancePredicate.h"
-#include "RotateRobot.h"
+#include "RotateRobotCommandAndPredicate.h"
 #include "FinishedCommandPredicate.h"
-#include "CurvatureWalker.h"
+#include "CurvatureWalkerCommandAndPredicate.h"
 #include "SwingSonarObstacleDetector.h"
 #include "UFORunner.h"
 #include "RobotAPI.h"
@@ -341,7 +341,7 @@ void initializeCommandExecutor()
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
   int angle = 10;
   int pwm = 15;
-  CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(angle, pwm, robotAPI);
+  RotateRobotCommandAndPredicate *commandAndPredicate = new RotateRobotCommandAndPredicate(angle, pwm, robotAPI);
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate());
 
   // 停止コマンドの初期化とCommandExecutorへの追加
@@ -417,7 +417,7 @@ void initializeCommandExecutor()
   int pwm = 20; // TODO pwm上げるとおかしくなる
   float r = 20;
   float theta = 360;
-  CommandAndPredicate *commandAndPredicate = generateCurvatureWalkerWithTheta(pwm, r, theta, false, robotAPI);
+  CurvatureWalkerCommandAndPredicate *commandAndPredicate = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, false, robotAPI);
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate());
 
   // 停止コマンドの初期化とCommandExecutorへの追加
@@ -472,7 +472,7 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // ACN度回転する
-  CommandAndPredicate *turnACNCommandAndPredicate = generateRotateRobotCommand(acn, pwm, robotAPI);
+  RotateRobotCommandAndPredicate *turnACNCommandAndPredicate = new RotateRobotCommandAndPredicate(acn, pwm, robotAPI);
   commandExecutor->addCommand(turnACNCommandAndPredicate->getCommand(), turnACNCommandAndPredicate->getPredicate());
 
   // NCの距離進む
@@ -481,7 +481,7 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(walkNCCommand, walkNCPredicate);
 
   // nTurn分旋回する
-  CommandAndPredicate *turnNCommandAndPredicate = generateRotateRobotCommand(nTurn, pwm, robotAPI);
+  RotateRobotCommandAndPredicate *turnNCommandAndPredicate = new RotateRobotCommandAndPredicate(nTurn, pwm, robotAPI);
   commandExecutor->addCommand(turnNCommandAndPredicate->getCommand(), turnNCommandAndPredicate->getPredicate());
 
   // n分進む

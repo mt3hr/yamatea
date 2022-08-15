@@ -4,7 +4,7 @@
 #include "SonarSensor.h"
 #include "math.h"
 #include "DistancePredicate.h"
-#include "RotateRobot.h"
+#include "RotateRobotCommandAndPredicate.h"
 #include "CommandAndPredicate.h"
 #include "Setting.h"
 #include "string"
@@ -149,7 +149,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnToP)
         {
-            CommandAndPredicate *turnToPCommandAndPredicate = generateRotateRobotCommand(obstacleDetector->getLeftObstacleAngle(), rotatePow, robotAPI);
+            CommandAndPredicate *turnToPCommandAndPredicate = new RotateRobotCommandAndPredicate(obstacleDetector->getLeftObstacleAngle(), rotatePow, robotAPI);
             turnToPCommand = turnToPCommandAndPredicate->getCommand();
             turnToPPredicate = turnToPCommandAndPredicate->getPredicate();
             turnToPCommandAndPredicate->getPredicate()->preparation(robotAPI);
@@ -176,7 +176,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnPIPN)
         {
-            CommandAndPredicate *turnPIPNCommandAndPredicate = generateRotateRobotCommand(-ipn, rotatePow, robotAPI);
+            CommandAndPredicate *turnPIPNCommandAndPredicate = new RotateRobotCommandAndPredicate(-ipn, rotatePow, robotAPI);
             turnPIPNCommand = turnPIPNCommandAndPredicate->getCommand();
             turnPIPNPredicate = turnPIPNCommandAndPredicate->getPredicate();
             turnPIPNCommandAndPredicate->getPredicate()->preparation(robotAPI);
@@ -229,7 +229,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnN)
         {
-            CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(-nTurnAngle, rotatePow, robotAPI);
+            CommandAndPredicate *commandAndPredicate = new RotateRobotCommandAndPredicate(-nTurnAngle, rotatePow, robotAPI);
             turnNCommand = commandAndPredicate->getCommand();
             turnNPredicate = commandAndPredicate->getPredicate();
             commandAndPredicate->getPredicate()->preparation(robotAPI);

@@ -16,9 +16,11 @@ private:
     Predicate *predicate;
 
 public:
-    CommandAndPredicate(Command *command, Predicate *predicate);
+    CommandAndPredicate();
     Command *getCommand();
     Predicate *getPredicate();
+    void setCommand(Command *command);
+    void setPredicate(Predicate *predicate);
 };
 
 #endif

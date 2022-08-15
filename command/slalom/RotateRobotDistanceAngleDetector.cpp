@@ -1,6 +1,6 @@
 #include "RotateRobotDistanceAngleDetector.h"
 #include "CommandAndPredicate.h"
-#include "RotateRobot.h"
+#include "RotateRobotCommandAndPredicate.h"
 #include "SonarSensor.h"
 #include "Setting.h"
 #include "Stopper.h"
@@ -11,7 +11,7 @@ RotateRobotDistanceAngleDetector::RotateRobotDistanceAngleDetector(float targetA
     this->targetAngle = targetAngle;
     this->distanceThreshold = distanceThreshold;
 
-    CommandAndPredicate *commandAndPredicate = generateRotateRobotCommand(targetAngle, pwm, robotAPI);
+    CommandAndPredicate *commandAndPredicate = new RotateRobotCommandAndPredicate(targetAngle, pwm, robotAPI);
     this->rotateRobotCommand = commandAndPredicate->getCommand();
     this->rotateRobotPredicate = commandAndPredicate->getPredicate();
     delete commandAndPredicate;

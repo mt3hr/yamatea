@@ -1,3 +1,4 @@
+#include "RotateRobotCommandAndPredicate.h"
 #include "Command.h"
 #include "Predicate.h"
 #include "CommandAndPredicate.h"
@@ -5,7 +6,7 @@
 #include "MotorRotateAnglePredicate.h"
 #include "Setting.h"
 
-CommandAndPredicate *generateRotateRobotCommand(int targetAngle, int pwm, RobotAPI *robotAPI)
+RotateRobotCommandAndPredicate::RotateRobotCommandAndPredicate(int targetAngle, int pwm, RobotAPI *robotAPI)
 {
     int angle;
     Command *command;
@@ -23,5 +24,6 @@ CommandAndPredicate *generateRotateRobotCommand(int targetAngle, int pwm, RobotA
         predicate = new MotorRotateAnglePredicate(-angle, robotAPI->getRightWheel());
     }
 
-    return new CommandAndPredicate(command, predicate);
+    setCommand(command);
+    setPredicate(predicate);
 }

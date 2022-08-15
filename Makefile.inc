@@ -12,7 +12,7 @@ NumberOfTimesPredicate.o \
 MotorCountPredicate.o \
 StartButtonPredicate.o \
 CommandExecutor.o \
-RotateRobot.o \
+RotateRobotCommandAndPredicate.o \
 GyroRotateAnglePredicate.o \
 SuitableForRightCourse.o \
 PIDTargetBrightnessCalibrator.o \
@@ -29,7 +29,7 @@ SwingSonarObstacleDetector.o \
 FinishConfirmable.o \
 FinishedCommandPredicate.o \
 DistancePredicate.o \
-CurvatureWalker.o \
+CurvatureWalkerCommandAndPredicate.o \
 UFORunner.o \
 AwaitingSignalRunner.o \
 StraightBetweenRunner.o \
@@ -48,6 +48,7 @@ APPL_DIRS += \
 	$(mkfile_path)command \
 	$(mkfile_path)command/slalom \
 	$(mkfile_path)command/test \
+	$(mkfile_path)command_and_predicate \
 	$(mkfile_path)predicate \
 	$(mkfile_path)robot
 
@@ -55,6 +56,7 @@ INCLUDES += \
 	-I$(mkfile_path)command \
 	-I$(mkfile_path)command/slalom \
 	-I$(mkfile_path)command/test \
+	-I$(mkfile_path)command_and_predicate \
 	-I$(mkfile_path)predicate \
 	-I$(mkfile_path)robot
 
