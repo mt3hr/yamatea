@@ -506,7 +506,7 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
-  float n = 1;
+  float n = 5;
   int walkPWM = 20;
   int turnPWM = 10;
   float swingLeft = 90.0;

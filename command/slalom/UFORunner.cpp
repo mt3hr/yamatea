@@ -90,34 +90,34 @@ void UFORunner::run(RobotAPI *robotAPI)
 
         // １，余弦定理で障害物間の距離Xを求める
         // X^2=Ik^2+Dk^2-(2Ik×Dk×cos∠P)
-        x = sqrt(pow(ik, 2) + pow(dk, 2) - 2 * ik * dk * cos(toRadian(p)));
+        x = sqrt(pow(ik, 2) + pow(dk, 2) - 2 * ik * dk * cos(toRadian(p))); // 多分OK
 
         // ２，Xの中点から車体側に対し垂直に距離Nを引き、NIを求める
         // X/2^2+N^2=NI^2
-        ni = sqrt(pow(x / 2, 2) + pow(n, 2));
+        ni = sqrt(pow(x / 2, 2) + pow(n, 2)); // OK
 
         // 3,∠Iから∠NID（arcsin((x/2)/NI)）を引き余弦定理で距離PNを求める
         // PN^2=Ik^2+NI^2-(2Ik×NI×cos∠PIN)
-        i = toDegree(acos((pow(ik, 2) + pow(x, 2) - pow(dk, 2)) / (2 * ik * x)));
-        din = toDegree(acos((x / 2) / ni));
-        pin = i - din;
+        i = toDegree(acos((pow(ik, 2) + pow(x, 2) - pow(dk, 2)) / (2 * ik * x))); // OK
+        din = toDegree(acos((x / 2) / ni));                                       // OK
+        pin = i - din;                                                            // OK
         pn = sqrt(pow(ni, 2) + pow(ik, 2) - 2 * ik * ni * (cos(toRadian(pin))));
 
         // 4,cos∠IPNをもとめ、逆関数で角度求める。
         // ∠IPN=arcsin(∠IPN)
-        ipn = toDegree(acos(((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik))));
+        ipn = toDegree(acos(((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik)))); // 実測誤差が少ないので多分OK
 
-        nTurnAngle = 180 - (180 - pin - ipn) - toDegree(asin(n / ni));
+        nTurnAngle = 180 - (180 - pin - ipn) - (180 - 90 - din);
 
         // 左右対応
         if (!iIsLeft)
         {
             ipn *= -1;
-            nTurnAngle *= -1;
         }
         else
         {
             ipn = p - ipn;
+            nTurnAngle *= -1;
         }
 
         if (turnToI)
