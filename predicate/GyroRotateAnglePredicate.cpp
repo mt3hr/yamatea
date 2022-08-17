@@ -11,6 +11,7 @@ GyroRotateAnglePredicate::GyroRotateAnglePredicate(int angle, bool decrease)
 bool GyroRotateAnglePredicate::test(RobotAPI *robotAPI)
 {
     int gyroAngle = robotAPI->getGyroSensor()->getAngle();
+    gyroAngle *= -1; // 分度器で測りやすくするために
     writeDebug("gyroAngle: ");
     writeDebug(gyroAngle);
     flushDebug(TRACE, robotAPI);

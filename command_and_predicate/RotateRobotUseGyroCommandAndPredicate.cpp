@@ -4,19 +4,17 @@
 
 RotateRobotUseGyroCommandAndPredicate::RotateRobotUseGyroCommandAndPredicate(int targetAngle, int pwm, RobotAPI *robotAPI)
 {
-    bool decrease = targetAngle < 0;
-
     Command *command;
     if (targetAngle >= 0)
     {
-        command = new Walker(-pwm, pwm);
+        command = new Walker(pwm, -pwm);
     }
     else
     {
-        command = new Walker(pwm, -pwm);
+        command = new Walker(-pwm, pwm);
     }
 
-    GyroRotateAnglePredicate *predicate = new GyroRotateAnglePredicate(targetAngle, decrease);
+    GyroRotateAnglePredicate *predicate = new GyroRotateAnglePredicate(targetAngle, targetAngle < 0);
 
     setCommand(command);
     setPredicate(predicate);
