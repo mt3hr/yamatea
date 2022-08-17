@@ -71,19 +71,19 @@ private:
     SwingOrder swingOrder;
     Stopper *stopper;
 
-    RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetector1;
-    RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetector2;
+    RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetectorLeft;
+    RotateRobotDistanceAngleDetector *rotateRobotDistanceAngleDetectorRight;
 
-    Predicate *rotateRobotDistanceAngleDetector1Predicate;
-    Predicate *rotateRobotDistanceAngleDetector2Predicate;
+    Predicate *rotateRobotDistanceAngleDetectorLeftPredicate;
+    Predicate *rotateRobotDistanceAngleDetectorRightPredicate;
 
-    RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicate1; // 検知したら向き直るやつ1回目
-    RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicate2; // 検知したら向き直るやつ2回目
+    RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicateLeft; // 検知したら向き直るやつ左
+    RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicateRight; // 検知したら向き直るやつ右
 
-    bool initedRotateRobotDistanceAngleDetector1 = false;
-    bool initedRotateRobotDistanceAngleDetector2 = false;
-    bool initedRotateRobotCommandAndPreicate1 = false;
-    bool initedRotateRobotCommandAndPreicate2 = false;
+    bool initedRotateRobotDistanceAngleDetectorLeft = false;
+    bool initedRotateRobotDistanceAngleDetectorRight = false;
+    bool initedRotateRobotCommandAndPreicateLeft = false;
+    bool initedRotateRobotCommandAndPreicateRight = false;
 
     bool finished = false;
 

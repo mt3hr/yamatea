@@ -8,7 +8,7 @@
 
 using namespace ev3api;
 
-RobotAPI::RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSensor *sonarSensor, Motor *leftWheel, Motor *rightWheel, Motor *armMotor, GyroSensor *gyroSensor, Clock *clock)
+RobotAPI::RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSensor *sonarSensor, Motor *leftWheel, Motor *rightWheel, Motor *armMotor, GyroSensor *gyroSensor, Clock *clock, Motor *tailMotor)
 {
     this->touchSensor = touchSensor;
     this->colorSensor = colorSensor;
@@ -18,6 +18,7 @@ RobotAPI::RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSens
     this->rightWheel = rightWheel;
     this->armMotor = armMotor;
     this->clock = clock;
+    this->tailMotor = tailMotor;
 }
 
 RobotAPI::~RobotAPI()
@@ -69,4 +70,19 @@ Motor *RobotAPI::getArmMotor()
 Clock *RobotAPI::getClock()
 {
     return clock;
+}
+
+Motor *RobotAPI::getTailMotor()
+{
+    return tailMotor;
+}
+
+void RobotAPI::reset()
+{
+    gyroSensor->reset();
+    leftWheel->reset();
+    rightWheel->reset();
+    armMotor->reset();
+    clock->reset();
+    tailMotor->reset();
 }

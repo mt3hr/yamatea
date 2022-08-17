@@ -10,6 +10,7 @@
 #include "DebugUtil.h"
 #include "RobotAPI.h"
 #include "RotateRobotUseGyroCommandAndPredicate.h"
+#include "SwingSonarObstacleDetector.h"
 
 using namespace std;
 using namespace ev3api;
@@ -24,16 +25,16 @@ float toDegree(float radian)
     return radian * 180 / M_PI;
 }
 
-// iIsLeft: 計算に用いる障害物が走行体から見て左に存在するかどうか。嘘。左右逆だわ。シミュレータ見てたから間違えた。// TODO
-// turnToI: 計算に用いる障害物に振り向くかどうか。すでに向いている場合はfalseにする。（タイム短縮のためにこの引数が生まれた）
-UFORunner::UFORunner(float na, int wp, int rp, bool iIsLeft, bool turnToI, ObstacleDetector *obstacleDetector) : ObstacleDetectRunner(obstacleDetector)
+UFORunner::UFORunner(float na, int wp, int rp, float sl, float sr, int tl, int tr) : ObstacleDetectRunner(new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, rp, sl, sr, tl, tr))
 {
-    this->iIsLeft = iIsLeft;
     state = UFO_DETECTING_OBSTACLE;
-    this->turnToI = turnToI;
     n = na;
     walkerPow = wp;
     rotatePow = rp;
+    this->swingLeftAngle = sl;
+    this->swingRightAngle = sr;
+    this->targetLeftDistance = tl;
+    this->targetRightDistance = tr;
 }
 
 UFORunner::~UFORunner()
@@ -64,6 +65,9 @@ void UFORunner::run(RobotAPI *robotAPI)
         {
             break;
         }
+
+        writeDebug("UFO_DETECTING_OBSTACLE finished");
+        flushDebug(INFO, robotAPI);
     }
 
     case UFO_CALCRATING: // 角度計算処理。各値については要求モデルを参照して。
@@ -103,26 +107,16 @@ void UFORunner::run(RobotAPI *robotAPI)
 
         nTurnAngle = 180 - (180 - pin - ipn) - (180 - 90 - din);
 
-        // 左右対応
-        if (!iIsLeft)
+        if (!reverse)
         {
-            ipn *= -1;
-        }
-
-        if (turnToI)
-        {
-            state = UFO_TURNNIN_TO_P;
+            nTurnAngle *= -1;
+            state = UFO_TURNNING_P_IPN;
         }
         else
         {
-            if (!iIsLeft)
-            {
-                state = UFO_TURNNING_P_IPN;
-            }
-            else
-            {
-                state = UFO_TURNNING_P_DPN;
-            }
+            dpn *= -1;
+            nTurnAngle *= -1;
+            state = UFO_TURNNING_P_DPN;
         }
 
         if (!(state == UFO_TURNNIN_TO_P || state == UFO_TURNNING_P_IPN || state == UFO_TURNNING_P_DPN))
@@ -153,6 +147,9 @@ void UFORunner::run(RobotAPI *robotAPI)
         writeEndLineDebug();
         writeDebug("pin: ");
         writeDebug(pin);
+        writeEndLineDebug();
+        writeDebug("din: ");
+        writeDebug(din);
         writeEndLineDebug();
         writeDebug("pn: ");
         writeDebug(pn);
@@ -347,7 +344,10 @@ void UFORunner::run(RobotAPI *robotAPI)
 
 UFORunner *UFORunner::generateReverseCommand()
 {
-    return new UFORunner(n, walkerPow, rotatePow, !iIsLeft, turnToI, getObstacleDetector()->generateReverseCommand());
+    UFORunner *reversed = new UFORunner(n, walkerPow, rotatePow, swingRightAngle, swingLeftAngle, targetRightDistance, targetLeftDistance);
+    reversed->reverse = !reverse;
+    reversed->setObstacleDetector(getObstacleDetector()->generateReverseCommand());
+    return reversed;
 }
 
 bool UFORunner::isFinished()

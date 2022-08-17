@@ -1,17 +1,19 @@
 #include "RotateRobotDistanceAngleDetector.h"
 #include "CommandAndPredicate.h"
-#include "RotateRobotCommandAndPredicate.h"
+#include "RotateRobotUseGyroCommandAndPredicate.h"
 #include "SonarSensor.h"
 #include "Setting.h"
 #include "Stopper.h"
+#include "DebugUtil.h"
 
 RotateRobotDistanceAngleDetector::RotateRobotDistanceAngleDetector(float targetAngle, int distanceThreshold, int pwm, RobotAPI *robotAPI)
 {
+    this->robotAPI = robotAPI;
     this->pwm = pwm;
     this->targetAngle = targetAngle;
     this->distanceThreshold = distanceThreshold;
 
-    CommandAndPredicate *commandAndPredicate = new RotateRobotCommandAndPredicate(targetAngle, pwm, robotAPI);
+    CommandAndPredicate *commandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(targetAngle, pwm, robotAPI);
     this->rotateRobotCommand = commandAndPredicate->getCommand();
     this->rotateRobotPredicate = commandAndPredicate->getPredicate();
     delete commandAndPredicate;
@@ -29,25 +31,20 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
     {
         inited = true;
         rotateRobotPredicate->preparation(robotAPI);
-        leftWheelCountWhenInited = robotAPI->getLeftWheel()->getCount();
-        rightWheelCountWhenInited = robotAPI->getRightWheel()->getCount();
+        angleWhenInited = robotAPI->getGyroSensor()->getAngle() * -1;
+        writeDebug("RotateRobotDistanceAngleDetector.angleWhenInited: ");
+        writeDebug(angleWhenInited);
+        flushDebug(DEBUG, robotAPI);
     }
 
     rotateRobotCommand->run(robotAPI);
     distance = robotAPI->getSonarSensor()->getDistance();
 
-    // 360度回転するのに必要なモータ回転数:360 = totalWheelRotateAngle:x
-    int totalWheelRotateAngle;
-
-    if (targetAngle > 0)
+    angle = (robotAPI->getGyroSensor()->getAngle() * -1) + angleWhenInited; // 分度器で角度をはかる都合で時計回りを+にしたいｔめ、-1をかける
+    // 角度から符号を消す
+    if (angle < 0)
     {
-        totalWheelRotateAngle = (robotAPI->getLeftWheel()->getCount() - leftWheelCountWhenInited);
-        angle = float(360) * float(totalWheelRotateAngle) / float(angleFor360TurnLeftRotateRobot);
-    }
-    else
-    {
-        totalWheelRotateAngle = (robotAPI->getRightWheel()->getCount() - rightWheelCountWhenInited);
-        angle = (float(360) * float(totalWheelRotateAngle) / float(angleFor360TurnLeftRotateRobot));
+        angle *= -1;
     }
 
     if (isFinished())

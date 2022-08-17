@@ -11,11 +11,14 @@ private:
     float n;
     int walkerPow;
     int rotatePow;
-    bool turnToI;
-    bool iIsLeft;
+
+    float swingLeftAngle;
+    float swingRightAngle;
+    int targetLeftDistance;
+    int targetRightDistance;
 
 public:
-    StraightBetweenRunner(int walkerPow, int rotatePow, bool iIsLeft, bool turnToI, ObstacleDetector *obstacleDetector);
+    StraightBetweenRunner(int walkerPow, int rotatePow, float swingLeftAngle, float swingRightAngle, int targetLeftDistance, int targetRightDistance);
     StraightBetweenRunner *generateReverseCommand() override;
 };
 

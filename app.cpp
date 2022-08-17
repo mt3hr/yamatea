@@ -38,6 +38,7 @@
 #include "RobotAPI.h"
 #include "GyroRotateAnglePredicate.h"
 #include "RotateRobotUseGyroCommandAndPredicate.h"
+#include "DebugUtil.h"
 
 using namespace std;
 using namespace ev3api;
@@ -62,6 +63,8 @@ using namespace ev3api;
 
 void setting()
 {
+  ev3_lcd_set_font(EV3_FONT_MEDIUM); // フォントの設定
+
   wheelDiameter = 10.4;                  // 車輪直径。センチメートル。
   distanceFromSonarSensorToAxle = 10.5;  // ソナーセンサから車軸までの距離
   wheelSpace = 14.5;                     // 左車輪と右車輪の間隔
@@ -80,6 +83,21 @@ void setting()
 
 // ********** 設定ここまで **********
 
+// EV3APIオブジェクトの初期化
+TouchSensor *touchSensor = new TouchSensor(PORT_1);
+ColorSensor *colorSensor = new ColorSensor(PORT_2);
+SonarSensor *sonarSensor = new SonarSensor(PORT_3);
+GyroSensor *gyroSensor = new GyroSensor(PORT_4);
+Motor *armMotor = new Motor(PORT_A);
+Motor *rightWheel = new Motor(PORT_B);
+Motor *leftWheel = new Motor(PORT_C);
+Motor *tailMotor = new Motor(PORT_D);
+Clock *clock = new Clock();
+
+// CommandExecutorとRobotAPIの宣言
+CommandExecutor *commandExecutor;
+RobotAPI *robotAPI;
+
 // 設定反映処理
 bool isRightCourse =
 #if defined(RightCourceMode)
@@ -89,29 +107,6 @@ bool isRightCourse =
 #else
     false;
 #endif
-
-// サンプルのutil.cppから引っ張ってきたやつ
-// char*ではなくstd::stringで受け取る
-void init_f(string str)
-{
-  // フォントの設定と0行目の表示
-  ev3_lcd_set_font(EV3_FONT_MEDIUM);
-  ev3_lcd_draw_string(str.c_str(), 0, 0);
-}
-
-// EV3APIオブジェクトの初期化
-TouchSensor *touchSensor = new TouchSensor(PORT_1);
-ColorSensor *colorSensor = new ColorSensor(PORT_2);
-SonarSensor *sonarSensor = new SonarSensor(PORT_3);
-GyroSensor *gyroSensor = new GyroSensor(PORT_4);
-Motor *armMotor = new Motor(PORT_A);
-Motor *rightWheel = new Motor(PORT_B);
-Motor *leftWheel = new Motor(PORT_C);
-Clock *clock = new Clock();
-
-// CommandExecutorの宣言とRobotAPIの初期化
-CommandExecutor *commandExecutor;
-RobotAPI *robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, gyroSensor, clock);
 
 // LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
 #if defined(LeftCourceMode) | defined(RightCourceMode)
@@ -505,18 +500,15 @@ void initializeCommandExecutor()
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
   float n = 5;
-  int walkPWM = 20;
-  int turnPWM = 10;
-  float swingLeft = 90.0;
-  float swingRight = -90.0;
-  int targetLeft = 40;
-  int targetRight = 40;
-  bool turnToI = false;
-  bool iIsLeft = false;
-  bool reverseTest = true;
+  int walkerPWM = 20;
+  int rotatePWM = 10;
+  float swingLeftAngle = 90.0;
+  float swingRightAngle = 90.0;
+  int targetLeftDistance = 40;
+  int targetRightDistance = 40;
+  bool reverseTest = false;
 
-  SwingSonarObstacleDetector *swingSonarObstacleDetector = new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, turnPWM, swingLeft, swingRight, targetLeft, targetRight);
-  UFORunner *ufoRunner = new UFORunner(n, walkPWM, turnPWM, iIsLeft, turnToI, swingSonarObstacleDetector);
+  UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
   if (reverseTest)
   {
     ufoRunner = ufoRunner->generateReverseCommand();
@@ -532,15 +524,26 @@ void initializeCommandExecutor()
 
 void runner_task(intptr_t exinf)
 {
-  init_f(string("*** yamatea ***"));
-  setting();              // 設定を済ませてから
-  commandExecutor->run(); // 走らせる
+  ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
+  commandExecutor->run();                         // 走らせる
   ext_tsk();
 }
 
 void main_task(intptr_t unused)
 {
-  const uint32_t duration = 100 * 1000;
+  const uint32_t sleepDuration = 100 * 1000;
+
+  // robotAPIの初期化。完全停止してapiを初期化する
+  robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, gyroSensor, clock, tailMotor);
+  Stopper *stopper = new Stopper();
+  stopper->run(robotAPI);
+  delete stopper;
+  robotAPI->reset();
+  writeDebug("reseted api");
+  flushDebug(DEBUG, robotAPI);
+
+  // 設定処理を行う
+  setting();
 
   // commandExecutorを初期化する
   initializeCommandExecutor();
@@ -576,7 +579,7 @@ void main_task(intptr_t unused)
     }
 
     // ちょっと待つ
-    clock->sleep(duration);
+    clock->sleep(sleepDuration);
   }
 
   // メインタスクの終了

@@ -2,30 +2,35 @@
 #include "RobotAPI.h"
 #include "DebugUtil.h"
 
-GyroRotateAnglePredicate::GyroRotateAnglePredicate(int angle, bool decrease)
+// +で時計回り、-で反時計回り
+GyroRotateAnglePredicate::GyroRotateAnglePredicate(int angle)
 {
     this->angle = angle;
-    this->decrease = decrease;
+    clockwise = angle > 0;
 }
 
 bool GyroRotateAnglePredicate::test(RobotAPI *robotAPI)
 {
     int gyroAngle = robotAPI->getGyroSensor()->getAngle();
-    gyroAngle *= -1; // 分度器で測りやすくするために
+
     writeDebug("gyroAngle: ");
     writeDebug(gyroAngle);
     flushDebug(TRACE, robotAPI);
-    if (decrease)
+
+    if (clockwise)
     {
-        return gyroAngle <= targetAngle;
+        return gyroAngle >= targetAngle;
     }
     else
     {
-        return gyroAngle >= targetAngle;
+        return gyroAngle <= targetAngle;
     }
 }
 
 void GyroRotateAnglePredicate::preparation(RobotAPI *robotAPI)
 {
-    targetAngle = robotAPI->getGyroSensor()->getAngle() + angle;
+    targetAngle = (robotAPI->getGyroSensor()->getAngle() + angle);
+    writeDebug("GyroRotateAnglePredicate.preparation().targetAngle: ");
+    writeDebug(targetAngle);
+    flushDebug(DEBUG, robotAPI);
 }

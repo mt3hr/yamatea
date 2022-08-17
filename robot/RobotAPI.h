@@ -21,9 +21,10 @@ private:
     Motor *rightWheel;
     Motor *armMotor;
     Clock *clock;
+    Motor *tailMotor;
 
 public:
-    RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSensor *sonarSensor, Motor *leftWheel, Motor *rightWheel, Motor *armMotor, GyroSensor *gyroSensor, Clock *clock);
+    RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSensor *sonarSensor, Motor *leftWheel, Motor *rightWheel, Motor *armMotor, GyroSensor *gyroSensor, Clock *clock, Motor *tailMotor);
     ~RobotAPI();
     TouchSensor *getTouchSensor();
     ColorSensor *getColorSensor();
@@ -33,6 +34,8 @@ public:
     Motor *getRightWheel();
     Motor *getArmMotor();
     Clock *getClock();
+    Motor *getTailMotor();
+    void reset();
 };
 
 #endif

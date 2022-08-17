@@ -15,6 +15,7 @@ private:
 
 protected:
     ObstacleDetector *getObstacleDetector();
+    void setObstacleDetector(ObstacleDetector *obstacleDetector);
 
 public:
     ObstacleDetectRunner(ObstacleDetector *obstacleDetector);

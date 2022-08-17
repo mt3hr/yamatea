@@ -14,7 +14,7 @@ RotateRobotUseGyroCommandAndPredicate::RotateRobotUseGyroCommandAndPredicate(int
         command = new Walker(-pwm, pwm);
     }
 
-    GyroRotateAnglePredicate *predicate = new GyroRotateAnglePredicate(targetAngle, targetAngle < 0);
+    GyroRotateAnglePredicate *predicate = new GyroRotateAnglePredicate(targetAngle);
 
     setCommand(command);
     setPredicate(predicate);

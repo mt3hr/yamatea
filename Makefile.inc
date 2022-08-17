@@ -64,5 +64,3 @@ INCLUDES += \
 #COPTS += -fno-use-cxa-atexit
 
 COPTS += -DMAKE_EV3
-
-COPTS += -DMAKE_EV3

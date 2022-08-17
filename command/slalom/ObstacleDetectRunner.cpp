@@ -16,6 +16,12 @@ ObstacleDetector *ObstacleDetectRunner::getObstacleDetector()
     return obstacleDetector;
 }
 
-ObstacleDetectRunner *ObstacleDetectRunner::generateReverseCommand() {
+void ObstacleDetectRunner::setObstacleDetector(ObstacleDetector *obstacleDetector)
+{
+    this->obstacleDetector = obstacleDetector;
+}
+
+ObstacleDetectRunner *ObstacleDetectRunner::generateReverseCommand()
+{
     return new ObstacleDetectRunner(obstacleDetector);
 }

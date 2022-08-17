@@ -22,8 +22,7 @@ private:
 
     bool inited = false;
 
-    int leftWheelCountWhenInited = 0;
-    int rightWheelCountWhenInited = 0;
+    int angleWhenInited;
 
 public:
     RotateRobotDistanceAngleDetector(float angle, int distanceThreshold, int pwm, RobotAPI *robotAPI);
