@@ -29,12 +29,12 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
 {
     if (!inited)
     {
-        inited = true;
         rotateRobotPredicate->preparation(robotAPI);
         angleWhenInited = robotAPI->getGyroSensor()->getAngle() * -1;
         writeDebug("RotateRobotDistanceAngleDetector.angleWhenInited: ");
         writeDebug(angleWhenInited);
         flushDebug(DEBUG, robotAPI);
+        inited = true;
     }
 
     rotateRobotCommand->run(robotAPI);

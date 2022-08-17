@@ -96,26 +96,24 @@ void UFORunner::run(RobotAPI *robotAPI)
         // 3,∠Iから∠NID（arcsin((x/2)/NI)）を引き余弦定理で距離PNを求める
         // PN^2=Ik^2+NI^2-(2Ik×NI×cos∠PIN)
         i = toDegree(acos((pow(ik, 2) + pow(x, 2) - pow(dk, 2)) / (2 * ik * x)));
-        din = toDegree(acos((x / 2) / ni));
+        din = toDegree(acos((pow(x / 2, 2) + pow(ni, 2) - pow(n, 2)) / (2 * x / 2 * ni)));
         pin = i - din;
-        pn = sqrt(pow(ni, 2) + pow(ik, 2) - 2 * ik * ni * (cos(toRadian(pin))));
+        pn = sqrt(pow(ni, 2) + pow(ik, 2) - 2 * ik * ni * cos(toRadian(pin)));
 
         // 4,cos∠IPNをもとめ、逆関数で角度求める。
         // ∠IPN=arcsin(∠IPN)
-        ipn = toDegree(acos(((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik))));
+        ipn = toDegree(acos((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik)));
         dpn = p - ipn;
 
-        nTurnAngle = 180 - (180 - pin - ipn) - (180 - 90 - din);
+        // nTurnAngle = 180 - (180 - pin - ipn) - (180 - 90 - din);
+        nTurnAngle = toDegree(acos((pow(n, 2) + pow(ni, 2) - pow(x / 2, 2)) / (2 * n * ni)));
 
         if (!reverse)
         {
-            nTurnAngle *= -1;
             state = UFO_TURNNING_P_IPN;
         }
         else
         {
-            dpn *= -1;
-            nTurnAngle *= -1;
             state = UFO_TURNNING_P_DPN;
         }
 
@@ -141,9 +139,6 @@ void UFORunner::run(RobotAPI *robotAPI)
         writeEndLineDebug();
         writeDebug("i: ");
         writeDebug(i);
-        writeEndLineDebug();
-        writeDebug("din: ");
-        writeDebug(din);
         writeEndLineDebug();
         writeDebug("pin: ");
         writeDebug(pin);
@@ -197,7 +192,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnPIPN)
         {
-            CommandAndPredicate *turnPIPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(ipn, rotatePow, robotAPI);
+            CommandAndPredicate *turnPIPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(-ipn, rotatePow, robotAPI);
             turnPIPNCommand = turnPIPNCommandAndPredicate->getCommand();
             turnPIPNPredicate = turnPIPNCommandAndPredicate->getPredicate();
             turnPIPNCommandAndPredicate->getPredicate()->preparation(robotAPI);
@@ -224,7 +219,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnPDPN)
         {
-            CommandAndPredicate *turnPDPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(dpn, rotatePow, robotAPI);
+            CommandAndPredicate *turnPDPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(-dpn, rotatePow, robotAPI);
             turnPDPNCommand = turnPDPNCommandAndPredicate->getCommand();
             turnPDPNPredicate = turnPDPNCommandAndPredicate->getPredicate();
             turnPDPNCommandAndPredicate->getPredicate()->preparation(robotAPI);
@@ -305,7 +300,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         if (!initedN_XDivide2)
         {
             n_xdivide2Walker = new Walker(walkerPow, walkerPow);
-            n_xdivide2DistancePreicate = new DistancePredicate(pn, robotAPI->getLeftWheel());
+            n_xdivide2DistancePreicate = new DistancePredicate(n, robotAPI->getLeftWheel());
             n_xdivide2DistancePreicate->preparation(robotAPI);
             initedN_XDivide2 = true;
         }

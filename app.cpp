@@ -499,13 +499,13 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
-  float n = 5;
-  int walkerPWM = 20;
-  int rotatePWM = 10;
+  float n = 7;
+  int walkerPWM = 10;
+  int rotatePWM = 3;
   float swingLeftAngle = 90.0;
   float swingRightAngle = 90.0;
-  int targetLeftDistance = 40;
-  int targetRightDistance = 40;
+  int targetLeftDistance = 35;
+  int targetRightDistance = 35;
   bool reverseTest = false;
 
   UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
