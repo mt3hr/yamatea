@@ -509,8 +509,8 @@ void initializeCommandExecutor()
   int turnPWM = 10;
   float swingLeft = 90.0;
   float swingRight = -90.0;
-  int targetLeft = 25;
-  int targetRight = 25;
+  int targetLeft = 40;
+  int targetRight = 40;
   bool turnToI = false;
   bool iIsLeft = false;
   bool reverseTest = true;

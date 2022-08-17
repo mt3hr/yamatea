@@ -2,7 +2,7 @@
 #include "SonarSensor.h"
 #include "RotateRobotDistanceAngleDetector.h"
 #include "FinishedCommandPredicate.h"
-#include "RotateRobotCommandAndPredicate.h"
+#include "RotateRobotUseGyroCommandAndPredicate.h"
 #include "Stopper.h"
 #include "string"
 #include "DebugUtil.h"
@@ -55,7 +55,7 @@ void SwingSonarObstacleDetector::returningLeft(RobotAPI *robotAPI, SwingSonarObs
     if (!initedRotateRobotCommandAndPreicate1)
     {
         initedRotateRobotCommandAndPreicate1 = true;
-        rotateRobotCommandAndPredicate1 = new RotateRobotCommandAndPredicate(-(rotateRobotDistanceAngleDetector1->getAngle()), pwm, robotAPI);
+        rotateRobotCommandAndPredicate1 = new RotateRobotUseGyroCommandAndPredicate(-(rotateRobotDistanceAngleDetector1->getAngle()), pwm, robotAPI);
         rotateRobotCommandAndPredicate1->getPredicate()->preparation(robotAPI);
     }
 
@@ -91,7 +91,7 @@ void SwingSonarObstacleDetector::returningRight(RobotAPI *robotAPI, SwingSonarOb
     if (!initedRotateRobotCommandAndPreicate2)
     {
         initedRotateRobotCommandAndPreicate2 = true;
-        rotateRobotCommandAndPredicate2 = new RotateRobotCommandAndPredicate(rotateRobotDistanceAngleDetector2->getAngle(), pwm, robotAPI);
+        rotateRobotCommandAndPredicate2 = new RotateRobotUseGyroCommandAndPredicate(rotateRobotDistanceAngleDetector2->getAngle(), pwm, robotAPI);
         rotateRobotCommandAndPredicate2->getPredicate()->preparation(robotAPI);
     }
 
