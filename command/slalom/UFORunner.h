@@ -25,6 +25,7 @@ enum UFORunnerState
 
 float toRadian(float degree);
 float toDegree(float radian);
+float ufoAbs(float f);
 
 class UFORunner : public ObstacleDetectRunner, public FinishConfirmable
 {
