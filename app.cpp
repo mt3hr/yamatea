@@ -52,12 +52,12 @@ using namespace ev3api;
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
-#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
+//#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
 //#define StraightTestMode // 直進モード。テスト用
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
-//#define UFORunnerTestMode // UFO走行モード。テスト
+#define UFORunnerTestMode // UFO走行モード。テスト
 // モード設定ここまで
 
 void setting()
@@ -504,13 +504,13 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
-  float n = 10;
+  float n = 5;
   int walkPWM = 20;
   int turnPWM = 10;
   float swingLeft = 90.0;
   float swingRight = -90.0;
-  int targetLeft = 30;
-  int targetRight = 30;
+  int targetLeft = 25;
+  int targetRight = 25;
   bool turnToI = false;
   bool iIsLeft = false;
   bool reverseTest = true;

@@ -4,12 +4,12 @@
 #include "SonarSensor.h"
 #include "math.h"
 #include "DistancePredicate.h"
-#include "RotateRobotCommandAndPredicate.h"
 #include "CommandAndPredicate.h"
 #include "Setting.h"
 #include "string"
 #include "DebugUtil.h"
 #include "RobotAPI.h"
+#include "RotateRobotUseGyroCommandAndPredicate.h"
 
 using namespace std;
 using namespace ev3api;
@@ -173,7 +173,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnToP)
         {
-            CommandAndPredicate *turnToPCommandAndPredicate = new RotateRobotCommandAndPredicate(obstacleDetector->getLeftObstacleAngle(), rotatePow, robotAPI);
+            CommandAndPredicate *turnToPCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(obstacleDetector->getLeftObstacleAngle(), rotatePow, robotAPI);
             turnToPCommand = turnToPCommandAndPredicate->getCommand();
             turnToPPredicate = turnToPCommandAndPredicate->getPredicate();
             turnToPCommandAndPredicate->getPredicate()->preparation(robotAPI);
@@ -200,7 +200,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnPIPN)
         {
-            CommandAndPredicate *turnPIPNCommandAndPredicate = new RotateRobotCommandAndPredicate(ipn, rotatePow, robotAPI);
+            CommandAndPredicate *turnPIPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(ipn, rotatePow, robotAPI);
             turnPIPNCommand = turnPIPNCommandAndPredicate->getCommand();
             turnPIPNPredicate = turnPIPNCommandAndPredicate->getPredicate();
             turnPIPNCommandAndPredicate->getPredicate()->preparation(robotAPI);
@@ -227,7 +227,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnPDPN)
         {
-            CommandAndPredicate *turnPDPNCommandAndPredicate = new RotateRobotCommandAndPredicate(dpn, rotatePow, robotAPI);
+            CommandAndPredicate *turnPDPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(dpn, rotatePow, robotAPI);
             turnPDPNCommand = turnPDPNCommandAndPredicate->getCommand();
             turnPDPNPredicate = turnPDPNCommandAndPredicate->getPredicate();
             turnPDPNCommandAndPredicate->getPredicate()->preparation(robotAPI);
@@ -280,7 +280,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnN)
         {
-            CommandAndPredicate *commandAndPredicate = new RotateRobotCommandAndPredicate(nTurnAngle, rotatePow, robotAPI);
+            CommandAndPredicate *commandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(nTurnAngle, rotatePow, robotAPI);
             turnNCommand = commandAndPredicate->getCommand();
             turnNPredicate = commandAndPredicate->getPredicate();
             commandAndPredicate->getPredicate()->preparation(robotAPI);
