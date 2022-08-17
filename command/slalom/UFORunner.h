@@ -16,6 +16,7 @@ enum UFORunnerState
     UFO_CALCRATING,
     UFO_TURNNIN_TO_P,
     UFO_TURNNING_P_IPN,
+    UFO_TURNNING_P_DPN,
     UFO_RUNNING_P_N,
     UFO_TURNNING_N,
     UFO_RUNNING_N_XDIVIDE2,
@@ -34,18 +35,21 @@ private:
 
     Command *turnToPCommand;
     Command *turnPIPNCommand;
+    Command *turnPDPNCommand;
     Walker *p_nWalker;
     Walker *n_xdivide2Walker;
     Command *turnNCommand;
 
     Predicate *turnToPPredicate;
     Predicate *turnPIPNPredicate;
+    Predicate *turnPDPNPredicate;
     DistancePredicate *p_nDistancePredicate;
     DistancePredicate *n_xdivide2DistancePreicate;
     Predicate *turnNPredicate;
 
     bool initedTurnToP = false;
     bool initedTurnPIPN = false;
+    bool initedTurnPDPN = false;
     bool startedCalcrate = false;
     bool initedP_N = false;
     bool initedN_XDivide2 = false;
@@ -61,6 +65,7 @@ private:
     float i;
     float din;
     float ipn;
+    float dpn;
     float pin;
     float nTurnAngle;
 
