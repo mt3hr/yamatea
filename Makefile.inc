@@ -35,6 +35,7 @@ AwaitingSignalRunner.o \
 StraightBetweenRunner.o \
 SuperSocialDistanceRunner.o \
 RotateRobotDistanceAngleDetector.o \
+RotateRobotUseGyroCommandAndPredicate.o \
 
 SRCLANG := c++
 
