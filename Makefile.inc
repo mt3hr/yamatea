@@ -2,6 +2,7 @@ mkfile_path := $(dir $(lastword $(MAKEFILE_LIST)))
 
 APPL_CXXOBJS += \
 Setting.o \
+Bluetooth.o \
 RobotAPI.o \
 PrintMessage.o \
 DebugUtil.o \

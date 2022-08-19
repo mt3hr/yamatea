@@ -62,8 +62,8 @@ private:
     int pwm;
     int leftObstacleDistance = -1;
     int rightObstacleDistance = -1;
-    int leftObstacleAngle = -1;
-    int rightObstacleAngle = -1;
+    int leftObstacleAngle = 256;
+    int rightObstacleAngle = 256;
     bool detectedLeftObstacleDistance = false;
     bool detectedRightObstacleDistance = false;
     bool detectedLeftObstacleAngle = false;

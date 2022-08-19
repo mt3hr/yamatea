@@ -4,6 +4,7 @@
 #include "string"
 #include "Setting.h"
 #include "RobotAPI.h"
+#include "Bluetooth.h"
 
 using namespace std;
 
@@ -90,7 +91,6 @@ void PrintMessage::msg_f(string str, int32_t line)
 }
 
 #if defined(EnableBluetooth)
-FILE *bt = ev3_serial_open_file(EV3_SERIAL_BT);
 void PrintMessage::msg_bt(string str)
 {
     fprintf(bt, str.c_str());

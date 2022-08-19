@@ -51,6 +51,7 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
 
     rotateRobotCommand->run(robotAPI);
     distance = robotAPI->getSonarSensor()->getDistance();
+    distance = robotAPI->getSonarSensor()->getDistance(); // 2回読み取ってみるか
     float rawAngle = robotAPI->getGyroSensor()->getAngle();
 
 #ifndef SimulatorMode

@@ -44,6 +44,7 @@
 #include "GyroRotateAnglePredicate.h"
 #include "RotateRobotUseGyroCommandAndPredicate.h"
 #include "DebugUtil.h"
+#include "Bluetooth.h"
 
 using namespace std;
 using namespace ev3api;
@@ -494,6 +495,132 @@ void runner_task(intptr_t exinf)
   ext_tsk();
 }
 
+// TODO コードの場所移動して
+enum ReturnToStartPointState
+{
+  RTSP_TURNNING_UP,
+  RTSP_WALKING_UP,
+  RTSP_TURNNING_RIGHT,
+  RTSP_WALKING_RIGHT,
+  RTSP_FINISH,
+};
+
+// TODO コードの場所移動して
+ReturnToStartPointState returnToStartPointState = RTSP_TURNNING_UP;
+Walker *returnToStartPointStraightWalker = new Walker(20, 20);
+Walker *returnToStartPointTurnRightWalker = new Walker(20, -20);   
+Walker *returnToStartPointTurnLeftWalker = new Walker(20, -20);   
+colorid_t returnToStartPointEdgeLineColor = COLOR_RED;
+
+void return_to_start_point_task(intptr_t exinf)
+{
+  switch (returnToStartPointState)
+  {
+  case RTSP_TURNNING_UP:
+  {
+    int targetAngle = 180;
+    int angle = gyroSensor->getAngle();
+
+    if (angle < targetAngle) {
+    returnToStartPointTurnRightWalker->run(robotAPI);
+    } else {
+    returnToStartPointTurnLeftWalker->run(robotAPI);
+    }
+
+    // これのためだけにPredicate定義するのは嫌なので筋肉コーディングします
+    if (angle > targetAngle - 2 && angle < targetAngle + 2)
+    {
+      returnToStartPointState = RTSP_WALKING_UP;
+    }
+  }
+  break;
+
+  case RTSP_WALKING_UP:
+  {
+    returnToStartPointStraightWalker->run(robotAPI);
+    colorid_t colorID = colorSensor->getColorNumber();
+    if (colorID == returnToStartPointEdgeLineColor)
+    {
+      returnToStartPointState = RTSP_TURNNING_RIGHT;
+    }
+  }
+  break;
+
+  case RTSP_TURNNING_RIGHT:
+  {
+    int targetAngle = 270;
+    int angle = gyroSensor->getAngle();
+
+    if (angle < targetAngle) {
+      returnToStartPointTurnRightWalker->run(robotAPI);
+    } else {
+      returnToStartPointTurnLeftWalker->run(robotAPI);
+    }
+
+    // これのためだけにPredicate定義するのは嫌なので筋肉コーディングします
+    if (angle > targetAngle - 2 && angle < targetAngle + 2)
+    {
+      returnToStartPointState = RTSP_WALKING_RIGHT;
+    }
+  }
+  break;
+
+  case RTSP_WALKING_RIGHT:
+  {
+    returnToStartPointStraightWalker->run(robotAPI);
+  }
+  break;
+
+  case RTSP_FINISH:
+  {
+    // 別になくてもいっか。スタート地点に帰ってくればいいんだからな。
+  }
+  break;
+
+  default:
+    break;
+  }
+  ext_tsk();
+}
+
+//TODO コードの場所移動して
+enum BTCommand{
+  BTC_RETURN_TO_START_POINT = 1,
+};
+
+void listen_bluetooth_command_task(intptr_t exinf)
+{
+  char btCommand[20];
+  fread(btCommand, sizeof(char), 20, bt);
+
+  string btCommandStr = string(btCommand);
+  switch (BTC_RETURN_TO_START_POINT)
+  {
+  case BTC_RETURN_TO_START_POINT:
+  {
+    commandExecutor->emergencyStop();
+
+    // runnerTaskが終了するのを待機する
+    while (true)
+    {
+      T_RCYC pk_rcyc;
+      ref_cyc(RUNNER_CYC, &pk_rcyc);
+      if (pk_rcyc.cycstat == TCYC_STP)
+      {
+        break;
+      }
+    }
+    sta_cyc(RETURN_TO_START_POINT_CYC);
+
+    break;
+  }
+  default:
+    break;
+  }
+
+  ext_tsk();
+}
+
 void main_task(intptr_t unused)
 {
   ev3_lcd_set_font(EV3_FONT_MEDIUM);              // フォントの設定
@@ -518,6 +645,7 @@ void main_task(intptr_t unused)
 
   // commandExecutor->run()の周期ハンドラを起動する
   sta_cyc(RUNNER_CYC);
+  sta_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);//TODO 止めて
 
   // 終了判定処理
   while (true)
@@ -562,4 +690,8 @@ void main_task(intptr_t unused)
   delete leftWheel;
   delete rightWheel;
   delete clock;
+
+  delete returnToStartPointStraightWalker ;
+  delete returnToStartPointTurnLeftWalker ;
+  delete returnToStartPointTurnRightWalker ;
 }

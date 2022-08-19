@@ -10,6 +10,8 @@ extern "C"
 
 #define MAIN_PRIORITY (TMIN_APP_TPRI + 1)
 #define RUNNER_PRIORITY (TMIN_APP_TPRI + 2)
+#define LISTEN_BLUETOOTH_COMMAND_PRIORITY (TMIN_APP_TPRI + 3)
+#define RETURN_TO_START_POINT_PRIORITY (TMIN_APP_TPRI + 4)
 
 #ifndef STACK_SIZE
 #define STACK_SIZE (4096)
@@ -20,6 +22,8 @@ extern "C"
     extern void main_task(intptr_t exinf);
     extern void runner_task(intptr_t exinf);
     extern void runner_cyc(intptr_t exinf);
+    extern void listen_bluetooth_command_task(intptr_t exinf);
+    extern void return_to_start_point_task(intptr_t exinf);
 
 #endif /* TOPPERS_MACRO_ONLY */
 
