@@ -12,19 +12,21 @@
 #define SimulatorMode // 実機で動かすときにはコメントアウトして
 
 // モード設定ここから
+
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define LeftCourceMode // 左コース用プログラム
-//#define RightCourceMode // 右コース用プログラム
-//#define DistanceReaderMode // 距離をはかり続けるプログラム
-//#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
-//#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
-//#define RotateTestMode // 旋回モード。テスト用
-//#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
-//#define StraightTestMode // 直進モード。テスト用
-//#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
-//#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
-//#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
+// #define LeftCourceMode // 左コース用プログラム
+// #define RightCourceMode // 右コース用プログラム
+// #define DistanceReaderMode // 距離をはかり続けるプログラム
+// #define RGBRawReaderMode // RGBRawの値をはかるプログラム
+// #define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
+// #define RotateTestMode // 旋回モード。テスト用
+// #define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
+// #define StraightTestMode // 直進モード。テスト用
+// #define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
+// #define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
+// #define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
 #define UFORunnerTestMode // UFO走行モード。テスト
+
 // モード設定ここまで
 
 #define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
