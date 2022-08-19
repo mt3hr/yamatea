@@ -508,8 +508,8 @@ enum ReturnToStartPointState
 // TODO コードの場所移動して
 ReturnToStartPointState returnToStartPointState = RTSP_TURNNING_UP;
 Walker *returnToStartPointStraightWalker = new Walker(20, 20);
-Walker *returnToStartPointTurnRightWalker = new Walker(20, -20);   
-Walker *returnToStartPointTurnLeftWalker = new Walker(20, -20);   
+Walker *returnToStartPointTurnRightWalker = new Walker(20, -20);
+Walker *returnToStartPointTurnLeftWalker = new Walker(20, -20);
 colorid_t returnToStartPointEdgeLineColor = COLOR_RED;
 
 void return_to_start_point_task(intptr_t exinf)
@@ -521,10 +521,13 @@ void return_to_start_point_task(intptr_t exinf)
     int targetAngle = 180;
     int angle = gyroSensor->getAngle();
 
-    if (angle < targetAngle) {
-    returnToStartPointTurnRightWalker->run(robotAPI);
-    } else {
-    returnToStartPointTurnLeftWalker->run(robotAPI);
+    if (angle < targetAngle)
+    {
+      returnToStartPointTurnRightWalker->run(robotAPI);
+    }
+    else
+    {
+      returnToStartPointTurnLeftWalker->run(robotAPI);
     }
 
     // これのためだけにPredicate定義するのは嫌なので筋肉コーディングします
@@ -551,9 +554,12 @@ void return_to_start_point_task(intptr_t exinf)
     int targetAngle = 270;
     int angle = gyroSensor->getAngle();
 
-    if (angle < targetAngle) {
+    if (angle < targetAngle)
+    {
       returnToStartPointTurnRightWalker->run(robotAPI);
-    } else {
+    }
+    else
+    {
       returnToStartPointTurnLeftWalker->run(robotAPI);
     }
 
@@ -583,40 +589,46 @@ void return_to_start_point_task(intptr_t exinf)
   ext_tsk();
 }
 
-//TODO コードの場所移動して
-enum BTCommand{
+// TODO コードの場所移動して
+enum BTCommand
+{
   BTC_RETURN_TO_START_POINT = 1,
 };
 
 void listen_bluetooth_command_task(intptr_t exinf)
 {
+#ifdef BluetoothMode
   char btCommand[20];
-  fread(btCommand, sizeof(char), 20, bt);
-
-  string btCommandStr = string(btCommand);
-  switch (BTC_RETURN_TO_START_POINT)
+  while (true)
   {
-  case BTC_RETURN_TO_START_POINT:
-  {
-    commandExecutor->emergencyStop();
+    fread(btCommand, sizeof(char), 20, bt);
 
-    // runnerTaskが終了するのを待機する
-    while (true)
+    string btCommandStr = string(btCommand);
+    switch (BTC_RETURN_TO_START_POINT)
     {
-      T_RCYC pk_rcyc;
-      ref_cyc(RUNNER_CYC, &pk_rcyc);
-      if (pk_rcyc.cycstat == TCYC_STP)
-      {
-        break;
-      }
-    }
-    sta_cyc(RETURN_TO_START_POINT_CYC);
+    case BTC_RETURN_TO_START_POINT:
+    {
+      commandExecutor->emergencyStop();
 
-    break;
+      // runnerTaskが終了するのを待機する
+      while (true)
+      {
+        T_RCYC pk_rcyc;
+        ref_cyc(RUNNER_CYC, &pk_rcyc);
+        if (pk_rcyc.cycstat == TCYC_STP)
+        {
+          break;
+        }
+      }
+      sta_cyc(RETURN_TO_START_POINT_CYC);
+
+      break;
+    }
+    default:
+      break;
+    }
   }
-  default:
-    break;
-  }
+#endif
 
   ext_tsk();
 }
@@ -645,7 +657,6 @@ void main_task(intptr_t unused)
 
   // commandExecutor->run()の周期ハンドラを起動する
   sta_cyc(RUNNER_CYC);
-  sta_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);//TODO 止めて
 
   // 終了判定処理
   while (true)
@@ -678,6 +689,9 @@ void main_task(intptr_t unused)
     clock->sleep(sleepDuration);
   }
 
+#ifdef EnableBluetooth
+  stp_cyc(RETURN_TO_START_POINT_CYC);
+#endif
   // メインタスクの終了
   ext_tsk();
 
@@ -691,7 +705,7 @@ void main_task(intptr_t unused)
   delete rightWheel;
   delete clock;
 
-  delete returnToStartPointStraightWalker ;
-  delete returnToStartPointTurnLeftWalker ;
-  delete returnToStartPointTurnRightWalker ;
+  delete returnToStartPointStraightWalker;
+  delete returnToStartPointTurnLeftWalker;
+  delete returnToStartPointTurnRightWalker;
 }
