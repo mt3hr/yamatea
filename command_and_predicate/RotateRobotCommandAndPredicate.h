@@ -3,6 +3,7 @@
 
 #include "CommandAndPredicate.h"
 
+// 非推奨。RotateRobotUseGyroCommandAndPredicateのほうが高精度
 class RotateRobotCommandAndPredicate : public CommandAndPredicate
 {
 private:

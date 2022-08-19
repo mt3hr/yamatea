@@ -7,6 +7,7 @@
 #include "string"
 #include "DebugUtil.h"
 #include "RobotAPI.h"
+#include "Setting.h"
 
 using namespace ev3api;
 

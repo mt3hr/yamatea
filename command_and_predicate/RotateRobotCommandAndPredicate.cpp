@@ -11,6 +11,7 @@ RotateRobotCommandAndPredicate::RotateRobotCommandAndPredicate(int targetAngle, 
     int angle;
     Command *command;
     MotorRotateAnglePredicate *predicate;
+
     if (targetAngle > 0)
     {
         angle = ((int)(((float)targetAngle) / ((float)360) * ((float)angleFor360TurnLeftRotateRobot)));

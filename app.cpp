@@ -1,4 +1,10 @@
+// TODO シミュレータの問題: UFO左検出で距離を最初から拾っている
+
+// 設定は2箇所に分散しています。
+// 設定1/2: Setting.h
+// 設定2/2: Setting.cpp
 #include "app.h"
+#include "Setting.h"
 
 #include "ev3api.h"
 #include "TouchSensor.h"
@@ -8,11 +14,10 @@
 #include "SonarSensor.h"
 #include "GyroSensor.h"
 
-#include "string"
 #include "sstream"
 #include "vector"
+#include "string"
 
-#include "Setting.h"
 #include "PrintMessage.h"
 #include "Command.h"
 #include "CommandExecutor.h"
@@ -42,46 +47,6 @@
 
 using namespace std;
 using namespace ev3api;
-
-// ********** 設定ここから **********
-
-// モード設定ここから
-// どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define LeftCourceMode // 左コース用プログラム
-//#define RightCourceMode // 右コース用プログラム
-//#define DistanceReaderMode // 距離をはかり続けるプログラム
-//#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
-//#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
-//#define RotateTestMode // 旋回モード。テスト用
-//#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
-//#define StraightTestMode // 直進モード。テスト用
-//#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
-//#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
-//#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
-#define UFORunnerTestMode // UFO走行モード。テスト
-// モード設定ここまで
-
-void setting()
-{
-  ev3_lcd_set_font(EV3_FONT_MEDIUM); // フォントの設定
-
-  wheelDiameter = 10.4;                  // 車輪直径。センチメートル。
-  distanceFromSonarSensorToAxle = 10.5;  // ソナーセンサから車軸までの距離
-  wheelSpace = 14.5;                     // 左車輪と右車輪の間隔
-  angleFor360TurnLeftRotateRobot = 520;  // 左に360度旋回するのに必要な左右車輪回転角度数
-  angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必要な左右車輪回転角度数
-  // TODO angleFor360の左右対応が逆になってるっぽいな
-
-  // 情報出力の有効無効設定ここから
-  debugMessageLevel = TRACE;             // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-  enablePrintMessageMode = true;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-  enablePrintMessageForConsole = true;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-  enablePrintMessageForBluetooth = true; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、すぐ下の行、#define EnableBluetoothのコメントアウトも外して。
-#define EnableBluetooth                  // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
-  // 情報出力の有効無効設定ここまで
-}
-
-// ********** 設定ここまで **********
 
 // EV3APIオブジェクトの初期化
 TouchSensor *touchSensor = new TouchSensor(PORT_1);
@@ -500,12 +465,12 @@ void initializeCommandExecutor()
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
   float n = 7;
-  int walkerPWM = 10;
-  int rotatePWM = 3;
+  int walkerPWM = 20;
+  int rotatePWM = 10;
   float swingLeftAngle = 90.0;
   float swingRightAngle = 90.0;
-  int targetLeftDistance = 35;
-  int targetRightDistance = 35;
+  int targetLeftDistance = 20;
+  int targetRightDistance = 20;
   bool reverseTest = false;
 
   UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
@@ -531,6 +496,9 @@ void runner_task(intptr_t exinf)
 
 void main_task(intptr_t unused)
 {
+  ev3_lcd_set_font(EV3_FONT_MEDIUM);              // フォントの設定
+  ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
+
   const uint32_t sleepDuration = 100 * 1000;
 
   // robotAPIの初期化。完全停止してapiを初期化する
@@ -542,11 +510,11 @@ void main_task(intptr_t unused)
   writeDebug("reseted api");
   flushDebug(DEBUG, robotAPI);
 
-  // 設定処理を行う
-  setting();
-
   // commandExecutorを初期化する
   initializeCommandExecutor();
+
+  writeDebug("ready");
+  flushDebug(INFO, robotAPI);
 
   // commandExecutor->run()の周期ハンドラを起動する
   sta_cyc(RUNNER_CYC);

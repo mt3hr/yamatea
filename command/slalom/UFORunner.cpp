@@ -79,9 +79,19 @@ void UFORunner::run(RobotAPI *robotAPI)
         }
         startedCalcrate = true;
 
-        ik = obstacleDetector->getLeftObstacleDistance() + distanceFromSonarSensorToAxle;
-        dk = obstacleDetector->getRightObstacleDistance() + distanceFromSonarSensorToAxle;
-        p = obstacleDetector->getLeftObstacleAngle() + obstacleDetector->getRightObstacleAngle();
+        ik = float(obstacleDetector->getLeftObstacleDistance()) + distanceFromSonarSensorToAxle;
+        dk = float(obstacleDetector->getRightObstacleDistance()) + distanceFromSonarSensorToAxle;
+        float leftAngle = obstacleDetector->getLeftObstacleAngle();
+        float rightAngle = obstacleDetector->getRightObstacleAngle();
+        if (leftAngle < 0)
+        {
+            leftAngle *= -1;
+        }
+        if (rightAngle < 0)
+        {
+            rightAngle *= -1;
+        }
+        p = leftAngle + rightAngle;
 
         // C++のmathの三角関数系統はラジアンをうけとるしラジアンを返してくる
 
@@ -191,7 +201,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnPIPN)
         {
-            CommandAndPredicate *turnPIPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(-ipn, rotatePow, robotAPI);
+            CommandAndPredicate *turnPIPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(ipn, rotatePow, robotAPI);
             turnPIPNCommand = turnPIPNCommandAndPredicate->getCommand();
             turnPIPNPredicate = turnPIPNCommandAndPredicate->getPredicate();
             turnPIPNCommandAndPredicate->getPredicate()->preparation(robotAPI);
@@ -218,7 +228,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnPDPN)
         {
-            CommandAndPredicate *turnPDPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(-dpn, rotatePow, robotAPI);
+            CommandAndPredicate *turnPDPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(dpn, rotatePow, robotAPI);
             turnPDPNCommand = turnPDPNCommandAndPredicate->getCommand();
             turnPDPNPredicate = turnPDPNCommandAndPredicate->getPredicate();
             turnPDPNCommandAndPredicate->getPredicate()->preparation(robotAPI);

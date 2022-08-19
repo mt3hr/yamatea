@@ -13,6 +13,10 @@ RotateRobotDistanceAngleDetector::RotateRobotDistanceAngleDetector(float targetA
     this->targetAngle = targetAngle;
     this->distanceThreshold = distanceThreshold;
 
+    writeDebug("RotateRobotDistanceAngleDetector.targetAngle: ");
+    writeDebug(targetAngle);
+    flushDebug(TRACE, robotAPI);
+
     CommandAndPredicate *commandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(targetAngle, pwm, robotAPI);
     this->rotateRobotCommand = commandAndPredicate->getCommand();
     this->rotateRobotPredicate = commandAndPredicate->getPredicate();
@@ -33,7 +37,12 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
         stopper->run(robotAPI);
         delete stopper;
         rotateRobotPredicate->preparation(robotAPI);
-        angleWhenInited = robotAPI->getGyroSensor()->getAngle() * -1;
+        angleWhenInited = robotAPI->getGyroSensor()->getAngle();
+
+#ifndef SimulatorMode
+        angleWhenInited *= -1;
+#endif
+
         writeDebug("RotateRobotDistanceAngleDetector.angleWhenInited: ");
         writeDebug(angleWhenInited);
         flushDebug(DEBUG, robotAPI);
@@ -42,19 +51,27 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
 
     rotateRobotCommand->run(robotAPI);
     distance = robotAPI->getSonarSensor()->getDistance();
+    float rawAngle = robotAPI->getGyroSensor()->getAngle();
 
-    angle = (robotAPI->getGyroSensor()->getAngle() * -1) + angleWhenInited; // 分度器で角度をはかる都合で時計回りを+にしたいｔめ、-1をかける
-    // 角度から符号を消す
-    if (angle < 0)
-    {
-        angle *= -1;
-    }
+#ifndef SimulatorMode
+    rawAngle *= -1;
+#endif
+
+    angle = rawAngle - angleWhenInited; // 分度器で角度をはかる都合で時計回りを+にしたいｔめ、-1をかける
+
+    writeDebug("distance: ");
+    writeDebug(distance);
+    flushDebug(TRACE, robotAPI);
+    writeDebug("angle: ");
+    writeDebug(angle);
+    flushDebug(TRACE, robotAPI);
 
     if (isFinished())
     {
         Stopper *stopper = new Stopper();
         stopper->run(robotAPI);
         delete stopper;
+        return;
     }
 }
 

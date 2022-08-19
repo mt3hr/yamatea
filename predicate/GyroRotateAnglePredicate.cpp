@@ -1,6 +1,7 @@
 #include "GyroRotateAnglePredicate.h"
 #include "RobotAPI.h"
 #include "DebugUtil.h"
+#include "Setting.h"
 
 // +で時計回り、-で反時計回り
 GyroRotateAnglePredicate::GyroRotateAnglePredicate(int angle)
@@ -13,10 +14,15 @@ bool GyroRotateAnglePredicate::test(RobotAPI *robotAPI)
 {
     int gyroAngle = robotAPI->getGyroSensor()->getAngle();
 
+#ifndef SimulatorMode
+    gyroAngle *= -1;
+#endif
+
     writeDebug("gyroAngle: ");
     writeDebug(gyroAngle);
     flushDebug(TRACE, robotAPI);
 
+//TODO ここあやしい
     if (clockwise)
     {
         return gyroAngle >= targetAngle;
@@ -29,7 +35,16 @@ bool GyroRotateAnglePredicate::test(RobotAPI *robotAPI)
 
 void GyroRotateAnglePredicate::preparation(RobotAPI *robotAPI)
 {
-    targetAngle = (robotAPI->getGyroSensor()->getAngle() + angle);
+    float currentAngle = robotAPI->getGyroSensor()->getAngle();
+
+#ifndef SimulatorMode
+    currentAngle *= -1;
+#endif
+
+    targetAngle = (currentAngle + angle);
+    writeDebug("GyroRotateAnglePredicate.preparation().angle: ");
+    writeDebug(angle);
+    writeEndLineDebug();
     writeDebug("GyroRotateAnglePredicate.preparation().targetAngle: ");
     writeDebug(targetAngle);
     flushDebug(DEBUG, robotAPI);
