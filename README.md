@@ -134,6 +134,9 @@ CommandはWalkerの他にPIDTracerや、
 冗長、そしてキャメルケースという観点からは読み辛いコードかもしれないけど、私頑張ったから。  
 えらいね、ありがとう。  
 
+## リンク
+- [yamatea_manual](https://github.com/mt3hr/yamatea/blob/master/yamatea_manual.md)
+
 ## 終わり
 この文章を読んだ人は今後頑張らなければなりません。  
 頑張って。  
