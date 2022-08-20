@@ -92,7 +92,6 @@ void runner_task(intptr_t exinf)
 void main_task(intptr_t unused)
 {
   ev3_lcd_set_font(EV3_FONT_MEDIUM);
-  // フォントの設定と0行目の表示
   ev3_lcd_draw_string("yamatea green tea", 0, 0);
   robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, gyroSensor, clock, tailMotor);
 
@@ -131,8 +130,7 @@ void main_task(intptr_t unused)
   // メインタスクの終了
   ext_tsk();
 
-  // 終了処理。各オブジェクトの削除
-  commandExecutor->emergencyStop();
+  // 各オブジェクトの削除
   delete commandExecutor;
   delete robotAPI;
   delete touchSensor;
