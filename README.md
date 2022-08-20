@@ -21,20 +21,24 @@ app.cppのサンプルコードを載せておきます。
 もし動かなかったら切腹します。  
 
 ```c++:app.cpp
+#include "app.h"
+
+#include "ev3api.h"
+#include "TouchSensor.h"
+#include "ColorSensor.h"
 #include "Motor.h"
 #include "Clock.h"
+#include "SonarSensor.h"
+#include "GyroSensor.h"
 
-#include "app.h"
+#include "string"
 
 #include "Command.h"
 #include "CommandExecutor.h"
 #include "Predicate.h"
-#include "Handler.h"
-#include "WheelController.h"
 #include "Walker.h"
-#include "MotorCountPredicate.h"
-
-#include "string"
+#include "Stopper.h"
+#include "LeftWheelCountPredicate.h"
 
 using namespace ev3api;
 
@@ -42,24 +46,17 @@ using namespace ev3api;
 TouchSensor *touchSensor = new TouchSensor(PORT_1);
 ColorSensor *colorSensor = new ColorSensor(PORT_2);
 SonarSensor *sonarSensor = new SonarSensor(PORT_3);
-Motor *leftWheel = new Motor(PORT_C);
-Motor *rightWheel = new Motor(PORT_B);
+GyroSensor *gyroSensor = new GyroSensor(PORT_4);
 Motor *armMotor = new Motor(PORT_A);
+Motor *rightWheel = new Motor(PORT_B);
+Motor *leftWheel = new Motor(PORT_C);
+Motor *tailMotor = new Motor(PORT_D);
 Clock *clock = new Clock();
 
 // Commandを実行するオブジェクト
 CommandExecutor *commandExecutor;
 // 走行体のAPIをまとめたオブジェクト
-RobotAPI *robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, clock);
-
-// サンプルのutil.cppから引っ張ってきたやつ
-// char*ではなくstd::stringで受け取る
-void init_f(string str)
-{
-  // フォントの設定と0行目の表示
-  ev3_lcd_set_font(EV3_FONT_MEDIUM);
-  ev3_lcd_draw_string(str.c_str(), 0, 0);
-}
+RobotAPI *robotAPI;
 
 // commandExecutorなどの初期化処理。
 void initialize()
@@ -74,21 +71,18 @@ void initialize()
 
   // ウォーカを終了するタイミングを決定するPredicate
   // この例では左車輪が360度回転したら終了する
-  Predicate *oneRotateLeftWheelPredicate = new MotorCountPredicate(leftWheel, 360);
-
-  // コマンド終了時に走らされるハンドラ。この例ではなにもしない。
-  Handler *doNothingExitHandler = new Handler();
+  Predicate *oneRotateLeftWheelPredicate = new LeftWheelCountPredicate(360);
 
   // 上で定義したウォーカと終了条件をcommandExecutorに追加する。
-  commandExecutor->addCommand(walker, oneRotateLeftWheelPredicate, doNothingExitHandler);
+  commandExecutor->addCommand(walker, oneRotateLeftWheelPredicate);
 }
 
 // ここからいつものやつ
 
 // 周期ハンドラトレーサタスクの定義
-void tracer_task(intptr_t exinf)
+void runner_task(intptr_t exinf)
 {
-  init_f(string("yamatea green tea"));
+  ev3_lcd_draw_string("yamatea green tea", 0, 0);
   // 走って！！！
   commandExecutor->run();
   ext_tsk();
@@ -97,17 +91,45 @@ void tracer_task(intptr_t exinf)
 // メインタスクの定義
 void main_task(intptr_t unused)
 {
-  sta_cyc(TRACER_CYC);
+  ev3_lcd_set_font(EV3_FONT_MEDIUM);
+  // フォントの設定と0行目の表示
+  ev3_lcd_draw_string("yamatea green tea", 0, 0);
+  robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, gyroSensor, clock, tailMotor);
 
   // 初期化処理を呼び出す
   initialize();
 
-  while (!ev3_button_is_pressed(LEFT_BUTTON))
+  // 周期ハンドラを開始する
+  sta_cyc(RUNNER_CYC);
+
+  // 終了判定処理
+  while (true)
   {
-    clock->sleep(100000);
+    // 左ボタンが押されたら緊急停止のためにループを抜ける
+    if (ev3_button_is_pressed(LEFT_BUTTON))
+    {
+      // 停止処理
+      commandExecutor->emergencyStop();
+      break;
+    }
+
+    // RUNNER_CYCが終了していたら走行完了なのでループを抜ける
+    T_RCYC pk_rcyc;
+    ref_cyc(RUNNER_CYC, &pk_rcyc);
+    if (pk_rcyc.cycstat == TCYC_STP)
+    {
+      Stopper *stopper = new Stopper();
+      stopper->run(robotAPI);
+      delete stopper;
+      break;
+    }
+
+    // ちょっと待つ
+    clock->sleep(100*1000);
   }
 
-  stp_cyc(TRACER_CYC);
+  // メインタスクの終了
+  ext_tsk();
 
   // 終了処理。各オブジェクトの削除
   commandExecutor->emergencyStop();
@@ -116,13 +138,26 @@ void main_task(intptr_t unused)
   delete touchSensor;
   delete colorSensor;
   delete sonarSensor;
+  delete gyroSensor;
+  delete armMotor;
   delete leftWheel;
   delete rightWheel;
+  delete tailMotor;
   delete clock;
-  ext_tsk();
 }
 
 // ここまでいつものやつ
+
+// ここから無視してOK
+void listen_bluetooth_command_task(intptr_t exinf)
+{
+  ext_tsk();
+}
+void return_to_start_point_task(intptr_t exinf)
+{
+  ext_tsk();
+}
+// ここまで無視してOK
 ```
 CommandはWalkerの他にPIDTracerや、  
 それのためのPIDTargetBrightnessCalibratorがあります。  

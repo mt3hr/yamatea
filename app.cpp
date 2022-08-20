@@ -717,8 +717,11 @@ void main_task(intptr_t unused)
   delete touchSensor;
   delete colorSensor;
   delete sonarSensor;
+  delete gyroSensor;
+  delete armMotor;
   delete leftWheel;
   delete rightWheel;
+  delete tailMotor;
   delete clock;
   delete returnToStartPointStraightWalker;
   delete returnToStartPointTurnLeftWalker;
