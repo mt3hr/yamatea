@@ -220,6 +220,19 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry);
 
   // Commandの定義とCommandExecutorへの追加ここまで
+
+#ifdef SimulatorMode
+  // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
+  int targetBrightness = 20;
+  bananaPIDTracer->setTargetBrightness(targetBrightness);
+  orangePIDTracer->setTargetBrightness(targetBrightness);
+  cherryPIDTracer->setTargetBrightness(targetBrightness);
+  waterMelonPIDTracer->setTargetBrightness(targetBrightness);
+  dorianPIDTracer->setTargetBrightness(targetBrightness);
+  melonPIDTracer->setTargetBrightness(targetBrightness);
+  cucumberPIDTracer->setTargetBrightness(targetBrightness);
+  strawberryPIDTracer->setTargetBrightness(targetBrightness);
+#endif
 }
 #endif
 
