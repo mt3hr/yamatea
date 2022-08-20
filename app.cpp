@@ -600,7 +600,7 @@ enum BTCommand
 void listen_bluetooth_command_task(intptr_t exinf)
 {
 #ifdef BluetoothMode
-  const uint32_t sleepDuration = 100 * 1000;
+  const uint32_t sleepDuration = 1000 * 1000;
 
   char btCommand[20];
 BTCLOOP:
@@ -617,7 +617,6 @@ BTCLOOP:
       commandExecutor->emergencyStop();
       break BTCLOOP;
     }
-    // TODO
     case BTC_RETURN_TO_START_POINT:
     {
       commandExecutor->emergencyStop();
