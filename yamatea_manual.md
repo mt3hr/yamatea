@@ -175,3 +175,7 @@ make app=yamatea sim up
 それに対応するための設定「SimulatorMode」があります。  
 設定し忘れていると、GyroRotateAnglePredicateなどが期待どおりに動かないです。  
 （内部でそれを使ったクラス、例えばUFORunnerなども期待どおりに動きません）  
+
+### 「EnableBluetooth」を有効化しているのにBluetooth接続していない
+Bluetooth接続しない場合はコメントアウトしてください。
+期待どおりの走行をしなくなります。
