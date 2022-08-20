@@ -1,5 +1,3 @@
-// TODO シミュレータの問題: UFO左検出で距離を最初から拾っている
-
 // 設定は2箇所に分散しています。
 // 設定1/2: Setting.h
 // 設定2/2: Setting.cpp
@@ -472,7 +470,7 @@ void initializeCommandExecutor()
   float swingRightAngle = 90.0;
   int targetLeftDistance = 20;
   int targetRightDistance = 20;
-  bool reverseTest = false;
+  bool reverseTest = true;
 
   UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
   if (reverseTest)
@@ -598,6 +596,8 @@ enum BTCommand
 void listen_bluetooth_command_task(intptr_t exinf)
 {
 #ifdef BluetoothMode
+  const uint32_t sleepDuration = 100 * 1000;
+
   char btCommand[20];
   while (true)
   {
@@ -621,12 +621,18 @@ void listen_bluetooth_command_task(intptr_t exinf)
         }
       }
       sta_cyc(RETURN_TO_START_POINT_CYC);
-
       break;
     }
     default:
       break;
     }
+
+    if (ev3_button_is_pressed(LEFT_BUTTON))
+    {
+      break;
+    }
+    // ちょっと待つ
+    clock->sleep(sleepDuration);
   }
 #endif
 
@@ -690,8 +696,15 @@ void main_task(intptr_t unused)
   }
 
 #ifdef EnableBluetooth
-  stp_cyc(RETURN_TO_START_POINT_CYC);
+  // RUNNER_CYCが走っていたら止める
+  T_RCYC pk_rcyc;
+  ref_cyc(RETURN_TO_START_POINT_CYC, &pk_rcyc);
+  if (pk_rcyc.cycstat == TCYC_STA)
+  {
+    stp_cyc(RETURN_TO_START_POINT_CYC);
+  }
 #endif
+
   // メインタスクの終了
   ext_tsk();
 
@@ -704,7 +717,6 @@ void main_task(intptr_t unused)
   delete leftWheel;
   delete rightWheel;
   delete clock;
-
   delete returnToStartPointStraightWalker;
   delete returnToStartPointTurnLeftWalker;
   delete returnToStartPointTurnRightWalker;
