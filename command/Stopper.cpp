@@ -13,6 +13,8 @@ void Stopper::run(RobotAPI *robotAPI)
 {
     robotAPI->getLeftWheel()->stop();
     robotAPI->getRightWheel()->stop();
+    robotAPI->getArmMotor()->stop();
+    robotAPI->getTailMotor()->stop();
 
     writeDebug("Stopper");
     writeEndLineDebug();
