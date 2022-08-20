@@ -31,14 +31,10 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, 
     int rightPWM = pwm * ratioR;
     Command *walker = new Walker(leftPWM, rightPWM);
 
-    DistancePredicate *predicate;
-    if (clock)
+    DistancePredicate *predicate = new DistancePredicate(loneL, robotAPI);
+    if (!clock)
     {
-        predicate = new DistancePredicate(loneL, robotAPI->getLeftWheel());
-    }
-    else
-    {
-        predicate = new DistancePredicate(loneR, robotAPI->getRightWheel());
+        predicate = predicate->generateReversePredicate();
     }
 
     setCommand(walker);

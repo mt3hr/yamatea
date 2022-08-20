@@ -1,11 +1,10 @@
 #include "MotorCountPredicate.h"
 #include "RobotAPI.h"
 
-MotorCountPredicate::MotorCountPredicate(Motor *m, int c, bool decrease)
+MotorCountPredicate::MotorCountPredicate(Motor *m, int c)
 {
     motor = m;
     count = c;
-    this->decrease = decrease;
 }
 
 bool MotorCountPredicate::test(RobotAPI *robotAPI)
@@ -22,5 +21,11 @@ bool MotorCountPredicate::test(RobotAPI *robotAPI)
 
 void MotorCountPredicate::preparation(RobotAPI *robotAPI)
 {
-    return;
+    int currentCount = motor->getCount();
+    decrease = count < currentCount;
+}
+
+MotorCountPredicate *MotorCountPredicate::generateReversePredicate()
+{
+    return new MotorCountPredicate(motor, count);
 }

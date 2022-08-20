@@ -19,8 +19,9 @@ private:
     bool decrease;
 
 public:
-    MotorCountPredicate(Motor *motor, int count, bool decrease);
+    MotorCountPredicate(Motor *motor, int count);
     bool test(RobotAPI *robotAPI) override;
     void preparation(RobotAPI *robotAPI) override;
+    MotorCountPredicate *generateReversePredicate() override;
 };
 #endif

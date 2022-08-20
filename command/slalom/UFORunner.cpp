@@ -261,7 +261,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         if (!initedP_N)
         {
             p_nWalker = new Walker(walkerPow, walkerPow);
-            p_nDistancePredicate = new DistancePredicate(pn, robotAPI->getLeftWheel());
+            p_nDistancePredicate = new DistancePredicate(pn, robotAPI);
             p_nDistancePredicate->preparation(robotAPI);
             initedP_N = true;
         }
@@ -314,7 +314,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         if (!initedN_XDivide2)
         {
             n_xdivide2Walker = new Walker(walkerPow, walkerPow);
-            n_xdivide2DistancePreicate = new DistancePredicate(n, robotAPI->getLeftWheel());
+            n_xdivide2DistancePreicate = new DistancePredicate(n, robotAPI);
             n_xdivide2DistancePreicate->preparation(robotAPI);
             initedN_XDivide2 = true;
         }

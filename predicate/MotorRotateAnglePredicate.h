@@ -22,6 +22,7 @@ public:
     MotorRotateAnglePredicate(int angle, Motor *motor);
     bool test(RobotAPI *robotAPI) override;
     void preparation(RobotAPI *robotAPI) override;
+    MotorRotateAnglePredicate *generateReversePredicate() override;
 };
 
 #endif

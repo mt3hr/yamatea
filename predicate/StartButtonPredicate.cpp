@@ -13,3 +13,8 @@ bool StartButtonPredicate::test(RobotAPI *robotAPI)
 void StartButtonPredicate::preparation(RobotAPI *robotAPI)
 {
 }
+
+StartButtonPredicate *StartButtonPredicate::generateReversePredicate()
+{
+    return new StartButtonPredicate();
+}

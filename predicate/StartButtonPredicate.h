@@ -19,6 +19,7 @@ public:
   StartButtonPredicate();
   bool test(RobotAPI *robotAPI) override;
   void preparation(RobotAPI *robotAPI) override;
+  StartButtonPredicate *generateReversePredicate() override;
 };
 
 #endif

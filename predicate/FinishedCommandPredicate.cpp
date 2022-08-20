@@ -15,3 +15,8 @@ void FinishedCommandPredicate::preparation(RobotAPI *robotAPI)
 {
     return;
 }
+
+FinishedCommandPredicate *FinishedCommandPredicate::generateReversePredicate()
+{
+    return new FinishedCommandPredicate(finishConfirmable);
+}

@@ -14,6 +14,7 @@ public:
     GyroRotateAnglePredicate(int angle);
     bool test(RobotAPI *robotAPI) override;
     void preparation(RobotAPI *robotAPI) override;
+    GyroRotateAnglePredicate* generateReversePredicate() override;
 };
 
 #endif

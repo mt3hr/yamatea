@@ -1,41 +1,40 @@
 #include "PIDTracer.h"
 #include "Walker.h"
-#include "MotorCountPredicate.h"
+#include "LeftWheelCountPredicate.h"
+#include "RightWheelCountPredicate.h"
+#include "Setting.h"
 
-PIDTracer *ifRightThenReverseCommand(PIDTracer *pidTracer, bool isRightCource)
+PIDTracer *ifRightThenReverseCommand(PIDTracer *pidTracer)
 {
-    if (isRightCource)
-    {
-        PIDTracer *reversed = pidTracer->generateReverseCommand();
-        return reversed;
-    }
-    else
-    {
-        return pidTracer;
-    }
+#ifdef LeftCourceMode
+    return pidTracer;
+#endif
+#ifdef RightCourceMode
+    PIDTracer *reversed = pidTracer->generateReverseCommand();
+    delete pidTracer;
+    return reversed;
+#endif
 }
 
-Walker *ifRightThenReverseCommand(Walker *walker, bool isRightCource)
+Walker *ifRightThenReverseCommand(Walker *walker)
 {
-    if (isRightCource)
-    {
-        Walker *reversed = walker->generateReverseCommand();
-        return reversed;
-    }
-    else
-    {
-        return walker;
-    }
+#ifdef LeftCourceMode
+    return walker;
+#endif
+#ifdef RightCourceMode
+    Walker *reversed = walker->generateReverseCommand();
+    delete walker;
+    return reversed;
+#endif
 }
 
-MotorCountPredicate *generateMotorCountPredicate(bool isRightCource, int count, RobotAPI *robotAPI)
+Predicate *generateWheelCountPredicate(int count)
 {
-    if (isRightCource)
-    {
-        return new MotorCountPredicate(robotAPI->getLeftWheel(), count, false);
-    }
-    else
-    {
-        return new MotorCountPredicate(robotAPI->getRightWheel(), count, false);
-    }
+
+#ifdef LeftCourceMode
+    return new LeftWheelCountPredicate(count);
+#endif
+#ifdef RightCourceMode
+    return new RightWheelCountPredicate(count);
+#endif
 }

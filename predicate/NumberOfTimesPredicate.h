@@ -18,6 +18,7 @@ public:
     NumberOfTimesPredicate(int targetCount);
     bool test(RobotAPI *robotAPI) override;
     void preparation(RobotAPI *robotAPI) override;
+    NumberOfTimesPredicate* generateReversePredicate() override;
 };
 
 #endif

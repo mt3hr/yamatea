@@ -15,3 +15,8 @@ void NumberOfTimesPredicate::preparation(RobotAPI *robotAPI)
 {
     return;
 }
+
+NumberOfTimesPredicate *NumberOfTimesPredicate::generateReversePredicate()
+{
+    return new NumberOfTimesPredicate(targetCount);
+}

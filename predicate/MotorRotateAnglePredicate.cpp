@@ -19,3 +19,8 @@ void MotorRotateAnglePredicate::preparation(RobotAPI *robotAPI)
 {
     targetAngle = motor->getCount() + angle;
 }
+
+MotorRotateAnglePredicate *MotorRotateAnglePredicate::generateReversePredicate()
+{
+    return new MotorRotateAnglePredicate(angle, motor);
+}

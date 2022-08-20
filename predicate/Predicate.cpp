@@ -15,3 +15,8 @@ void Predicate::preparation(RobotAPI *robotAPI)
 {
     return;
 }
+
+Predicate *Predicate::generateReversePredicate()
+{
+    return new Predicate();
+}

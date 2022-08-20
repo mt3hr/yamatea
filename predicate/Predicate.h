@@ -16,5 +16,6 @@ public:
     virtual ~Predicate();
     virtual bool test(RobotAPI *robotAPI);
     virtual void preparation(RobotAPI *robotAPI);
+    virtual Predicate *generateReversePredicate();
 };
 #endif
