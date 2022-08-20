@@ -5,6 +5,8 @@
 #include "Stopper.h"
 #include "PrintMessage.h"
 #include "RobotAPI.h"
+#include "Setting.h"
+#include "DebugUtil.h"
 
 using namespace ev3api;
 using namespace std;
@@ -52,6 +54,7 @@ void CommandExecutor::run()
     if (predicates[currentIndexForCommand]->test(robotAPI))
     {
         currentIndexForCommand++;
+        beepDebug();
     }
 
     if (((int)commands.size()) > ((int)currentIndexForCommand))

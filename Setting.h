@@ -48,6 +48,7 @@ extern DEBUG_LEVEL debugMessageLevel;
 extern bool enablePrintMessageMode;
 extern bool enablePrintMessageForConsole;
 extern bool enablePrintMessageForBluetooth;
+extern bool enableBeep;
 extern void setting();
 
 #endif

@@ -75,13 +75,13 @@ void initializeCommandExecutor()
   int sceneBananaMotorCountPredicateArg = 1200;      // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
   int sceneOrangeMotorCountPredicateArg = 2450;      // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
   int sceneStarFruitsMotorCountPredicateArg = 2550;  // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
-  int sceneCherryMotorCountPredicateArg = 2700;      // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneCherryMotorCountPredicateArg = 2750;      // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
   int sceneWaterMelonMotorCountPredicateArg = 5150;  // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
   int sceneBokChoyMotorCountPredicateArg = 5400;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
   int sceneDorianMotorCountPredicateArg = 5700;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
   int sceneMelonMotorCountPredicateArg = 8000;       // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
   int sceneCucumberMotorCountPredicateArg = 9700;    // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
-  int sceneStrawberryMotorCountPredicateArg = 10000; // ゴールまで。いちご好き。ライントレースする。
+  int sceneStrawberryMotorCountPredicateArg = 11200; // ゴールまで。いちご好き。ライントレースする。
 
   // Commandの定義とCommandExecutorへの追加ここから
 
@@ -209,9 +209,9 @@ void initializeCommandExecutor()
 
   // StrawberryPIDTracerの初期化とCommandExecutorへの追加
   pwm = 20;
-  kp = 0.6;
+  kp = 0.7;
   ki = 0.2;
-  kd = 0.6;
+  kd = 0.7;
   dt = 1;
   PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   strawberryPIDTracer = ifRightThenReverseCommand(strawberryPIDTracer);
@@ -593,7 +593,8 @@ void return_to_start_point_task(intptr_t exinf)
 // TODO コードの場所移動して
 enum BTCommand
 {
-  BTC_RETURN_TO_START_POINT = 1,
+  BTC_EMERGENCY_STOP = 1,
+  BTC_RETURN_TO_START_POINT = 2,
 };
 
 void listen_bluetooth_command_task(intptr_t exinf)
@@ -602,6 +603,7 @@ void listen_bluetooth_command_task(intptr_t exinf)
   const uint32_t sleepDuration = 100 * 1000;
 
   char btCommand[20];
+BTCLOOP:
   while (true)
   {
     fread(btCommand, sizeof(char), 20, bt);
@@ -609,6 +611,13 @@ void listen_bluetooth_command_task(intptr_t exinf)
     string btCommandStr = string(btCommand);
     switch (BTC_RETURN_TO_START_POINT)
     {
+
+    case BTC_EMERGENCY_STOP:
+    {
+      commandExecutor->emergencyStop();
+      break BTCLOOP;
+    }
+    // TODO
     case BTC_RETURN_TO_START_POINT:
     {
       commandExecutor->emergencyStop();
