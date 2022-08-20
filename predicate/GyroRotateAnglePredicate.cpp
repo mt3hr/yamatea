@@ -22,7 +22,6 @@ bool GyroRotateAnglePredicate::test(RobotAPI *robotAPI)
     writeDebug(gyroAngle);
     flushDebug(TRACE, robotAPI);
 
-    // TODO ここあやしい
     if (clockwise)
     {
         return gyroAngle >= targetAngle;

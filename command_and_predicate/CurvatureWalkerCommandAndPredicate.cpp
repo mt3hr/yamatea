@@ -4,8 +4,7 @@
 #include "Walker.h"
 #include "DistancePredicate.h"
 
-// clock = trueで時計回り //TODO クソ実装では？
-CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, float r, float theta, bool clock, RobotAPI *robotAPI)
+CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, float r, float theta, RobotAPI *robotAPI)
 {
     // 時計回りの時。
     // 中央の孤の長さ: lone  = 半径 * rad(角度)
@@ -14,15 +13,15 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, 
     float lone = r * (theta * M_PI / float(180));
     float loneL;
     float loneR;
-    if (clock)
+    if (theta > 0)
     {
         loneL = (r + (wheelSpace / float(2))) * (theta * M_PI / float(180));
         loneR = (r - (wheelSpace / float(2))) * (theta * M_PI / float(180));
     }
     else
     {
-        loneL = (r - (wheelSpace / float(2))) * (theta * M_PI / float(180));
-        loneR = (r + (wheelSpace / float(2))) * (theta * M_PI / float(180));
+        loneL = (r - (wheelSpace / float(2))) * (-theta * M_PI / float(180));
+        loneR = (r + (wheelSpace / float(2))) * (-theta * M_PI / float(180));
     }
 
     float ratioL = loneL / lone;

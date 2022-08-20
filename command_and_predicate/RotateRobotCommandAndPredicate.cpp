@@ -14,13 +14,13 @@ RotateRobotCommandAndPredicate::RotateRobotCommandAndPredicate(int targetAngle, 
 
     if (targetAngle > 0)
     {
-        angle = ((int)(((float)targetAngle) / ((float)360) * ((float)angleFor360TurnLeftRotateRobot)));
+        angle = ((int)(((float)targetAngle) / ((float)360) * ((float)angleFor360TurnRightRotateRobot)));
         command = new Walker(pwm, -pwm); // 右に向く
         predicate = new MotorRotateAnglePredicate(angle, robotAPI->getLeftWheel());
     }
     else
     {
-        angle = ((int)(((float)targetAngle) / ((float)360) * ((float)angleFor360TurnRightRotateRobot)));
+        angle = ((int)(((float)targetAngle) / ((float)360) * ((float)angleFor360TurnLeftRotateRobot)));
         command = new Walker(-pwm, pwm); // 左に向く
         predicate = new MotorRotateAnglePredicate(-angle, robotAPI->getRightWheel());
     }

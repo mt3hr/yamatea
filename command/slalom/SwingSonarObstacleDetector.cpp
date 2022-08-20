@@ -37,7 +37,12 @@ SwingSonarObstacleDetector::SwingSonarObstacleDetector(SwingOrder so, int pwm, f
 SwingSonarObstacleDetector::~SwingSonarObstacleDetector()
 {
     delete stopper;
-    // TODO
+    delete rotateRobotDistanceAngleDetectorLeft;
+    delete rotateRobotDistanceAngleDetectorRight;
+    delete rotateRobotDistanceAngleDetectorLeftPredicate;
+    delete rotateRobotDistanceAngleDetectorRightPredicate;
+    delete rotateRobotCommandAndPredicateLeft; 
+    delete rotateRobotCommandAndPredicateRight;
 };
 
 void SwingSonarObstacleDetector::detectLeftObstacle(RobotAPI *robotAPI, SwingSonarObstacleDetectorState next)
