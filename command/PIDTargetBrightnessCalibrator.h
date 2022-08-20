@@ -28,9 +28,8 @@ using namespace std;
 class PIDTargetBrightnessCalibrator : public Command
 {
 private:
-    bool printedReadBlackMessage = false;  // NOTE モデルに反映しません。
-    bool printedReadWhiteMessage = false;  // NOTE モデルに反映しません。
-    bool printedCalibratedMessage = false; // NOTE モデルに反映しません。
+    bool printedReadBlackMessage = false; // NOTE モデルに反映しません。
+    bool printedReadWhiteMessage = false; // NOTE モデルに反映しません。
     int white = 0;
     int black = 100;
     bool readedWhite = false;
@@ -41,15 +40,16 @@ private:
 
 public:
     PIDTargetBrightnessCalibrator(RobotAPI *robotAPI);
-    void run(RobotAPI *robotAPI) override;
-    PIDTargetBrightnessCalibrator *generateReverseCommand() override;
-    int getBlack();
-    int getWhite();
-    bool isReadedBlack();
-    bool isReadedWhite();
-    void readWhiteFromColorSensor();
-    void readBlackFromColorSensor();
-    void addPIDTracer(PIDTracer *pidTracer);
+    virtual ~PIDTargetBrightnessCalibrator();
+    virtual void run(RobotAPI *robotAPI) override;
+    virtual PIDTargetBrightnessCalibrator *generateReverseCommand() override;
+    virtual int getBlack();
+    virtual int getWhite();
+    virtual bool isReadedBlack();
+    virtual bool isReadedWhite();
+    virtual void readWhiteFromColorSensor();
+    virtual void readBlackFromColorSensor();
+    virtual void addPIDTracer(PIDTracer *pidTracer);
 };
 
 #endif

@@ -14,8 +14,9 @@ private:
 
 public:
     Stopper();
-    void run(RobotAPI *robotAPI) override;
-    Stopper *generateReverseCommand() override;
+    virtual ~Stopper();
+    virtual void run(RobotAPI *robotAPI) override;
+    virtual Stopper *generateReverseCommand() override;
 };
 
 #endif

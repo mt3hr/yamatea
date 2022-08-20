@@ -17,6 +17,10 @@ PIDTargetBrightnessCalibrator::PIDTargetBrightnessCalibrator(RobotAPI *robotAPI)
     this->robotAPI = robotAPI;
 };
 
+PIDTargetBrightnessCalibrator::~PIDTargetBrightnessCalibrator()
+{
+}
+
 void PIDTargetBrightnessCalibrator::readWhiteFromColorSensor()
 {
     readedWhite = true;
@@ -81,24 +85,23 @@ void PIDTargetBrightnessCalibrator::run(RobotAPI *robotAPI)
             }
         }
 
-        if (!printedCalibratedMessage)
-        {
-            printedCalibratedMessage = true;
-            stringstream bs;
-            stringstream ws;
+        stringstream bs;
+        stringstream ws;
+        stringstream brightnessStream;
 
-            bs << "black bright:" << getBlack();
-            ws << "white bright:" << getWhite();
+        bs << "black bright:" << getBlack();
+        ws << "white bright:" << getWhite();
+        brightnessStream << "brightness: " << float(robotAPI->getColorSensor()->getBrightness());
 
-            vector<string> messageLines;
-            messageLines.push_back("calibrated!");
-            messageLines.push_back(bs.str());
-            messageLines.push_back(ws.str());
-            messageLines.push_back("press touch sensor");
-            messageLines.push_back("      to START!");
-            PrintMessage printMessage(messageLines, true);
-            printMessage.run(robotAPI);
-        }
+        vector<string> messageLines;
+        messageLines.push_back("calibrated!");
+        messageLines.push_back(bs.str());
+        messageLines.push_back(ws.str());
+        messageLines.push_back(brightnessStream.str());
+        messageLines.push_back("press touch sensor");
+        messageLines.push_back("      to START!");
+        PrintMessage printMessage(messageLines, true);
+        printMessage.run(robotAPI);
     }
 }
 

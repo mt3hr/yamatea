@@ -7,6 +7,10 @@ RightWheelCountPredicate::RightWheelCountPredicate(int count)
     this->count = count;
 }
 
+RightWheelCountPredicate::~RightWheelCountPredicate()
+{
+}
+
 bool RightWheelCountPredicate::test(RobotAPI *robotAPI)
 {
     if (!decrease)

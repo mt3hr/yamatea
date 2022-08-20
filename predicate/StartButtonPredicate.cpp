@@ -3,7 +3,11 @@
 
 StartButtonPredicate::StartButtonPredicate()
 {
-}
+};
+
+StartButtonPredicate::~StartButtonPredicate()
+{
+};
 
 bool StartButtonPredicate::test(RobotAPI *robotAPI)
 {

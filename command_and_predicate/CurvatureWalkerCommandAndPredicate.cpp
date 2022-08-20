@@ -39,3 +39,7 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, 
     setCommand(walker);
     setPredicate(predicate);
 }
+
+CurvatureWalkerCommandAndPredicate::~CurvatureWalkerCommandAndPredicate()
+{
+}

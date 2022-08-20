@@ -9,6 +9,10 @@ ArmController::ArmController(int p)
     pwm = p;
 }
 
+ArmController::~ArmController()
+{
+}
+
 void ArmController::run(RobotAPI *robotAPI)
 {
     robotAPI->getArmMotor()->setPWM(pwm);

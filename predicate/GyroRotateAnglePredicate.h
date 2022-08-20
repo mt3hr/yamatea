@@ -12,9 +12,10 @@ private:
 
 public:
     GyroRotateAnglePredicate(int angle);
-    bool test(RobotAPI *robotAPI) override;
-    void preparation(RobotAPI *robotAPI) override;
-    GyroRotateAnglePredicate* generateReversePredicate() override;
+    virtual ~GyroRotateAnglePredicate();
+    virtual bool test(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
+    virtual GyroRotateAnglePredicate *generateReversePredicate() override;
 };
 
 #endif

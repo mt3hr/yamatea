@@ -14,12 +14,12 @@ private:
     ObstacleDetector *obstacleDetector;
 
 protected:
-    ObstacleDetector *getObstacleDetector();
-    void setObstacleDetector(ObstacleDetector *obstacleDetector);
+    virtual ObstacleDetector *getObstacleDetector();
+    virtual void setObstacleDetector(ObstacleDetector *obstacleDetector);
 
 public:
     ObstacleDetectRunner(ObstacleDetector *obstacleDetector);
-    ~ObstacleDetectRunner();
+    virtual ~ObstacleDetectRunner();
     virtual ObstacleDetectRunner *generateReverseCommand() override;
 };
 

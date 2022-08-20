@@ -8,6 +8,10 @@ SuperSocialDistanceRunner::SuperSocialDistanceRunner(ObstacleDetector *obstacleD
 {
 }
 
+SuperSocialDistanceRunner::~SuperSocialDistanceRunner()
+{
+}
+
 void SuperSocialDistanceRunner::run(RobotAPI *robotAPI)
 {
     // TODO

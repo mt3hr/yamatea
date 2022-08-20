@@ -16,9 +16,10 @@ private:
 
 public:
     NumberOfTimesPredicate(int targetCount);
-    bool test(RobotAPI *robotAPI) override;
-    void preparation(RobotAPI *robotAPI) override;
-    NumberOfTimesPredicate* generateReversePredicate() override;
+    virtual ~NumberOfTimesPredicate();
+    virtual bool test(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
+    virtual NumberOfTimesPredicate *generateReversePredicate() override;
 };
 
 #endif

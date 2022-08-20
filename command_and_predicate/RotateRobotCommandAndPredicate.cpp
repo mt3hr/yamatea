@@ -28,3 +28,7 @@ RotateRobotCommandAndPredicate::RotateRobotCommandAndPredicate(int targetAngle, 
     setCommand(command);
     setPredicate(predicate);
 }
+
+RotateRobotCommandAndPredicate::~RotateRobotCommandAndPredicate()
+{
+}

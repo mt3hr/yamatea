@@ -11,6 +11,10 @@ RGBRawReader::RGBRawReader()
 {
 }
 
+RGBRawReader::~RGBRawReader()
+{
+}
+
 void RGBRawReader::run(RobotAPI *robotAPI)
 {
     if (!lockedRGBRawValue)

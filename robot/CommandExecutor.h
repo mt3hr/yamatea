@@ -37,10 +37,10 @@ private:
 
 public:
     CommandExecutor(RobotAPI *robotAPI);
-    ~CommandExecutor();
-    void addCommand(Command *command, Predicate *exitCondition);
-    void run();
-    void emergencyStop();
+    virtual ~CommandExecutor();
+    virtual void addCommand(Command *command, Predicate *exitCondition);
+    virtual void run();
+    virtual void emergencyStop();
 };
 
 #endif

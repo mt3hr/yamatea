@@ -19,6 +19,10 @@ PIDTracer::PIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, f
     dt = dta;
 }
 
+PIDTracer::~PIDTracer()
+{
+}
+
 void PIDTracer::run(RobotAPI *robotAPI)
 {
     // PID制御

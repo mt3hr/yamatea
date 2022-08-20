@@ -11,8 +11,9 @@ class SuperSocialDistanceRunner : public ObstacleDetectRunner
 private:
 public:
     SuperSocialDistanceRunner(ObstacleDetector *obstacleDetector);
-    void run(RobotAPI *robotAPI) override;
-    SuperSocialDistanceRunner *generateReverseCommand() override;
+    virtual ~SuperSocialDistanceRunner();
+    virtual void run(RobotAPI *robotAPI) override;
+    virtual SuperSocialDistanceRunner *generateReverseCommand() override;
 };
 
 #endif

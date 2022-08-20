@@ -5,6 +5,8 @@
 #include "Stopper.h"
 #include "PrintMessage.h"
 #include "RobotAPI.h"
+#include "Setting.h"
+#include "DebugUtil.h"
 
 using namespace ev3api;
 using namespace std;
@@ -52,6 +54,7 @@ void CommandExecutor::run()
     if (predicates[currentIndexForCommand]->test(robotAPI))
     {
         currentIndexForCommand++;
+        beepDebug();
     }
 
     if (((int)commands.size()) > ((int)currentIndexForCommand))
@@ -61,9 +64,12 @@ void CommandExecutor::run()
     }
     else
     {
-        // 現在の要素がなければタスクを終了する。
+        // 現在の要素がなければ停止してタスクを終了する。
         finished = true;
         stp_cyc(RUNNER_CYC);
+        Stopper *stopper = new Stopper();
+        stopper->run(robotAPI);
+        delete stopper;
         return;
     }
 

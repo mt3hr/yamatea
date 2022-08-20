@@ -20,8 +20,9 @@ private:
 
 public:
     RGBRawReader();
-    void run(RobotAPI *robotAPI);
-    RGBRawReader *generateReverseCommand();
+    virtual ~RGBRawReader();
+    virtual void run(RobotAPI *robotAPI);
+    virtual RGBRawReader *generateReverseCommand();
 };
 
 #endif

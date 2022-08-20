@@ -12,9 +12,10 @@ private:
 
 public:
     LeftWheelCountPredicate(int count);
-    bool test(RobotAPI *robotAPI) override;
-    void preparation(RobotAPI *robotAPI) override;
-    Predicate *generateReversePredicate() override;
+    virtual ~LeftWheelCountPredicate();
+    virtual bool test(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
+    virtual Predicate *generateReversePredicate() override;
 };
 
 #endif

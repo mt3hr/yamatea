@@ -19,3 +19,7 @@ RotateRobotUseGyroCommandAndPredicate::RotateRobotUseGyroCommandAndPredicate(int
     setCommand(command);
     setPredicate(predicate);
 }
+
+RotateRobotUseGyroCommandAndPredicate::~RotateRobotUseGyroCommandAndPredicate()
+{
+}

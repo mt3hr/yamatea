@@ -20,8 +20,9 @@ private:
 
 public:
     MotorCountPredicate(Motor *motor, int count);
-    bool test(RobotAPI *robotAPI) override;
-    void preparation(RobotAPI *robotAPI) override;
-    MotorCountPredicate *generateReversePredicate() override;
+    virtual ~MotorCountPredicate();
+    virtual bool test(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
+    virtual MotorCountPredicate *generateReversePredicate() override;
 };
 #endif

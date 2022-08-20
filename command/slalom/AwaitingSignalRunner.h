@@ -9,11 +9,11 @@
 class AwaitingSignalRunner : public ObstacleDetectRunner
 {
 private:
-
 public:
     AwaitingSignalRunner(ObstacleDetector *obstacleDetector);
-    void run(RobotAPI *robotAPI) override;
-    AwaitingSignalRunner *generateReverseCommand() override;
+    ~AwaitingSignalRunner();
+    virtual void run(RobotAPI *robotAPI) override;
+    virtual AwaitingSignalRunner *generateReverseCommand() override;
 };
 
 #endif

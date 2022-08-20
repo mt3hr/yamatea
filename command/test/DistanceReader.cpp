@@ -11,6 +11,10 @@ DistanceReader::DistanceReader()
 {
 }
 
+DistanceReader::~DistanceReader()
+{
+}
+
 void DistanceReader::run(RobotAPI *robotAPI)
 {
     distanceValue = robotAPI->getSonarSensor()->getDistance();

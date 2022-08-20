@@ -15,6 +15,10 @@ StraightBetweenRunner::StraightBetweenRunner(int walkerPow, int rotatePow, float
     this->targetRightDistance = targetRightDistance;
 };
 
+StraightBetweenRunner::~StraightBetweenRunner()
+{
+}
+
 StraightBetweenRunner *StraightBetweenRunner::generateReverseCommand()
 {
     return new StraightBetweenRunner(walkerPow, rotatePow, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);

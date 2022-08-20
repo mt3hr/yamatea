@@ -70,3 +70,11 @@ void flushDebug(DEBUG_LEVEL level, RobotAPI *robotAPI)
     }
     clearDebug();
 }
+
+void beepDebug()
+{
+    if (enableBeepWhenCommandSwitching)
+    {
+        ev3_speaker_play_tone(NOTE_C4, 500);
+    }
+}

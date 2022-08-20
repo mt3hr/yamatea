@@ -79,7 +79,7 @@ private:
     Predicate *rotateRobotDistanceAngleDetectorLeftPredicate;
     Predicate *rotateRobotDistanceAngleDetectorRightPredicate;
 
-    RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicateLeft; // 検知したら向き直るやつ左
+    RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicateLeft;  // 検知したら向き直るやつ左
     RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicateRight; // 検知したら向き直るやつ右
 
     bool initedRotateRobotDistanceAngleDetectorLeft = false;
@@ -97,18 +97,18 @@ private:
 
 public:
     SwingSonarObstacleDetector(SwingOrder swingOrder, int pwm, float swingLeft, float swingRight, int targetLeft, int targetRight);
-    ~SwingSonarObstacleDetector();
-    void run(RobotAPI *robotAPI) override;
-    SwingSonarObstacleDetector *generateReverseCommand() override;
-    bool isFinished() override;
-    int getLeftObstacleDistance() override;
-    int getRightObstacleDistance() override;
-    float getLeftObstacleAngle() override;
-    float getRightObstacleAngle() override;
-    bool isDetectedLeftObstacleDistance() override;
-    bool isDetectedRightObstacleDistance() override;
-    bool isDetectedLeftObstacleAngle() override;
-    bool isDetectedRightObstacleAngle() override;
+    virtual ~SwingSonarObstacleDetector();
+    virtual void run(RobotAPI *robotAPI) override;
+    virtual SwingSonarObstacleDetector *generateReverseCommand() override;
+    virtual bool isFinished() override;
+    virtual int getLeftObstacleDistance() override;
+    virtual int getRightObstacleDistance() override;
+    virtual float getLeftObstacleAngle() override;
+    virtual float getRightObstacleAngle() override;
+    virtual bool isDetectedLeftObstacleDistance() override;
+    virtual bool isDetectedRightObstacleDistance() override;
+    virtual bool isDetectedLeftObstacleAngle() override;
+    virtual bool isDetectedRightObstacleAngle() override;
 };
 
 #endif

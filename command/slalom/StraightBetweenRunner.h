@@ -19,7 +19,8 @@ private:
 
 public:
     StraightBetweenRunner(int walkerPow, int rotatePow, float swingLeftAngle, float swingRightAngle, int targetLeftDistance, int targetRightDistance);
-    StraightBetweenRunner *generateReverseCommand() override;
+    virtual ~StraightBetweenRunner();
+    virtual StraightBetweenRunner *generateReverseCommand() override;
 };
 
 #endif

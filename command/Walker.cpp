@@ -13,6 +13,10 @@ Walker::Walker(int lp, int rp)
     rightPower = rp;
 }
 
+Walker::~Walker()
+{
+}
+
 void Walker::run(RobotAPI *robotAPI)
 {
     robotAPI->getLeftWheel()->setPWM(leftPower);

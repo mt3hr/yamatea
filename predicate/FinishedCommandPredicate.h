@@ -12,9 +12,10 @@ private:
 
 public:
     FinishedCommandPredicate(FinishConfirmable *finishConfirmable);
-    bool test(RobotAPI *robotAPI) override;
-    void preparation(RobotAPI *robotAPI) override;
-    FinishedCommandPredicate *generateReversePredicate() override;
+    virtual ~FinishedCommandPredicate();
+    virtual bool test(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
+    virtual FinishedCommandPredicate *generateReversePredicate() override;
 };
 
 #endif
