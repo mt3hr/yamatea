@@ -28,9 +28,8 @@ using namespace std;
 class PIDTargetBrightnessCalibrator : public Command
 {
 private:
-    bool printedReadBlackMessage = false;  // NOTE モデルに反映しません。
-    bool printedReadWhiteMessage = false;  // NOTE モデルに反映しません。
-    bool printedCalibratedMessage = false; // NOTE モデルに反映しません。
+    bool printedReadBlackMessage = false; // NOTE モデルに反映しません。
+    bool printedReadWhiteMessage = false; // NOTE モデルに反映しません。
     int white = 0;
     int black = 100;
     bool readedWhite = false;
