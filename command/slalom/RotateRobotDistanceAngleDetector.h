@@ -21,6 +21,8 @@ private:
     Predicate *rotateRobotPredicate;
 
     bool inited = false;
+    bool detectedDistance = false;
+    bool detectedAngle = false;
 
     int angleWhenInited;
 

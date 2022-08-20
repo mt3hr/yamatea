@@ -24,8 +24,8 @@ using namespace ev3api;
 // 実方
 enum SwingOrder
 {
-    CENTER_LEFT_RIGHT_CENTER,
-    CENTER_RIGHT_LEFT_CENTER,
+    // CENTER_LEFT_RIGHT_CENTER,
+    // CENTER_RIGHT_LEFT_CENTER,
     CENTER_LEFT_RIGHT,
     CENTER_RIGHT_LEFT,
 };
@@ -39,6 +39,8 @@ enum SwingSonarObstacleDetectorState
     SSD_RETURNING_RIGHT,
     SSD_FINISHED,
 };
+
+float ssodAbs(float f);
 
 // ObstacleDetector
 // 難所スラローム用の2本ペットボトル距離測定インターフェース

@@ -50,22 +50,33 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
     }
 
     rotateRobotCommand->run(robotAPI);
-    distance = robotAPI->getSonarSensor()->getDistance();
-    distance = robotAPI->getSonarSensor()->getDistance(); // 2回読み取ってみるか
+    float rawDistance = robotAPI->getSonarSensor()->getDistance();
     float rawAngle = robotAPI->getGyroSensor()->getAngle();
 
 #ifndef SimulatorMode
-    rawAngle *= -1;
+    rawAngle *= -1; // 分度器で角度をはかる都合で時計回りを+にしたいｔめ、-1をかける
 #endif
 
-    angle = rawAngle - angleWhenInited; // 分度器で角度をはかる都合で時計回りを+にしたいｔめ、-1をかける
+    writeDebug("rawDistance: ");
+    writeDebug(rawDistance);
+    flushDebug(TRACE, robotAPI);
+    writeDebug("rawAngle: ");
+    writeDebug(rawAngle);
+    flushDebug(TRACE, robotAPI);
 
-    writeDebug("distance: ");
-    writeDebug(distance);
-    flushDebug(TRACE, robotAPI);
-    writeDebug("angle: ");
-    writeDebug(angle);
-    flushDebug(TRACE, robotAPI);
+    if (rawDistance <= distanceThreshold)
+    {
+        distance = rawDistance;
+        angle = rawAngle - angleWhenInited;
+        detectedDistance = true;
+        detectedAngle = true;
+        writeDebug("distance: ");
+        writeDebug(distance);
+        flushDebug(TRACE, robotAPI);
+        writeDebug("angle: ");
+        writeDebug(angle);
+        flushDebug(TRACE, robotAPI);
+    }
 
     if (isFinished())
     {
@@ -98,10 +109,10 @@ float RotateRobotDistanceAngleDetector::getAngle()
 
 bool RotateRobotDistanceAngleDetector::isDetectedDistance()
 {
-    return getDistance() <= distanceThreshold;
+    return detectedDistance;
 }
 
 bool RotateRobotDistanceAngleDetector::isDetectedAngle()
 {
-    return getDistance() <= distanceThreshold;
+    return detectedAngle;
 }
