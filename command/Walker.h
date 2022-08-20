@@ -20,8 +20,9 @@ private:
 
 public:
     Walker(int leftPower, int rightPower);
-    void run(RobotAPI *robotAPI) override;
-    Walker *generateReverseCommand() override;
+    virtual ~Walker();
+    virtual void run(RobotAPI *robotAPI) override;
+    virtual Walker *generateReverseCommand() override;
 };
 
 #endif

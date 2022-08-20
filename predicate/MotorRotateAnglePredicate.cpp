@@ -10,6 +10,10 @@ MotorRotateAnglePredicate::MotorRotateAnglePredicate(int a, Motor *m)
     motor = m;
 }
 
+MotorRotateAnglePredicate::~MotorRotateAnglePredicate()
+{
+}
+
 bool MotorRotateAnglePredicate::test(RobotAPI *robotAPI)
 {
     return motor->getCount() > targetAngle;

@@ -17,9 +17,10 @@ private:
 
 public:
   StartButtonPredicate();
-  bool test(RobotAPI *robotAPI) override;
-  void preparation(RobotAPI *robotAPI) override;
-  StartButtonPredicate *generateReversePredicate() override;
+  virtual ~StartButtonPredicate();
+  virtual bool test(RobotAPI *robotAPI) override;
+  virtual void preparation(RobotAPI *robotAPI) override;
+  virtual StartButtonPredicate *generateReversePredicate() override;
 };
 
 #endif

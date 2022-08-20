@@ -13,6 +13,7 @@
 class Predicate
 {
 public:
+    Predicate();
     virtual ~Predicate();
     virtual bool test(RobotAPI *robotAPI);
     virtual void preparation(RobotAPI *robotAPI);

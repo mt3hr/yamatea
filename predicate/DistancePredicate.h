@@ -19,9 +19,10 @@ private:
 
 public:
     DistancePredicate(float targetDistanceCm, RobotAPI *robotAPI);
-    bool test(RobotAPI *robotAPI) override;
-    void preparation(RobotAPI *robotAPI) override;
-    DistancePredicate *generateReversePredicate() override;
+    virtual ~DistancePredicate();
+    virtual bool test(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
+    virtual DistancePredicate *generateReversePredicate() override;
 };
 
 #endif

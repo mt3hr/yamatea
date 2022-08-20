@@ -79,10 +79,10 @@ private:
 
 public:
     UFORunner(float n, int walkerPow, int rotatePow, float swingLeftAngle, float swingRightAngle, int targetLeftDistance, int targetRightDistance);
-    ~UFORunner();
-    void run(RobotAPI *robotAPI) override;
-    UFORunner *generateReverseCommand() override;
-    bool isFinished() override;
+    virtual ~UFORunner();
+    virtual void run(RobotAPI *robotAPI) override;
+    virtual UFORunner *generateReverseCommand() override;
+    virtual bool isFinished() override;
 };
 
 #endif

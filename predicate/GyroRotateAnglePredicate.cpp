@@ -8,7 +8,11 @@ GyroRotateAnglePredicate::GyroRotateAnglePredicate(int angle)
 {
     this->angle = angle;
     clockwise = angle > 0;
-}
+};
+
+GyroRotateAnglePredicate::~GyroRotateAnglePredicate()
+{
+};
 
 bool GyroRotateAnglePredicate::test(RobotAPI *robotAPI)
 {

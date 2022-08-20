@@ -8,6 +8,10 @@ AwaitingSignalRunner::AwaitingSignalRunner(ObstacleDetector *obstacleDetector) :
 {
 }
 
+AwaitingSignalRunner::~AwaitingSignalRunner()
+{
+}
+
 void AwaitingSignalRunner::run(RobotAPI *robotAPI)
 {
     // TODO

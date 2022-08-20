@@ -14,6 +14,10 @@ DistancePredicate::DistancePredicate(float tdc, RobotAPI *robotAPI)
     this->robotAPI = robotAPI;
 }
 
+DistancePredicate::~DistancePredicate()
+{
+}
+
 bool DistancePredicate::test(RobotAPI *robotAPI)
 {
     return wheel->getCount() > targetAngle;

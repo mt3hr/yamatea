@@ -26,8 +26,9 @@ private:
 
 public:
     PrintMessage(vector<string> messageLines, bool forcePrint);
-    void run(RobotAPI *robotAPI) override;
-    PrintMessage *generateReverseCommand() override;
+    virtual ~PrintMessage();
+    virtual void run(RobotAPI *robotAPI) override;
+    virtual PrintMessage *generateReverseCommand() override;
 };
 
 #endif

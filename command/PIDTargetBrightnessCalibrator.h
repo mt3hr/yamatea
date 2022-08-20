@@ -40,15 +40,16 @@ private:
 
 public:
     PIDTargetBrightnessCalibrator(RobotAPI *robotAPI);
-    void run(RobotAPI *robotAPI) override;
-    PIDTargetBrightnessCalibrator *generateReverseCommand() override;
-    int getBlack();
-    int getWhite();
-    bool isReadedBlack();
-    bool isReadedWhite();
-    void readWhiteFromColorSensor();
-    void readBlackFromColorSensor();
-    void addPIDTracer(PIDTracer *pidTracer);
+    virtual ~PIDTargetBrightnessCalibrator();
+    virtual void run(RobotAPI *robotAPI) override;
+    virtual PIDTargetBrightnessCalibrator *generateReverseCommand() override;
+    virtual int getBlack();
+    virtual int getWhite();
+    virtual bool isReadedBlack();
+    virtual bool isReadedWhite();
+    virtual void readWhiteFromColorSensor();
+    virtual void readBlackFromColorSensor();
+    virtual void addPIDTracer(PIDTracer *pidTracer);
 };
 
 #endif

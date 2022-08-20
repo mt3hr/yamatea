@@ -28,14 +28,14 @@ private:
 
 public:
     RotateRobotDistanceAngleDetector(float angle, int distanceThreshold, int pwm, RobotAPI *robotAPI);
-    ~RotateRobotDistanceAngleDetector();
-    void run(RobotAPI *robotAPI) override;
-    RotateRobotDistanceAngleDetector *generateReverseCommand() override;
-    bool isFinished() override;
-    int getDistance();
-    float getAngle();
-    bool isDetectedDistance();
-    bool isDetectedAngle();
+    virtual ~RotateRobotDistanceAngleDetector();
+    virtual void run(RobotAPI *robotAPI) override;
+    virtual RotateRobotDistanceAngleDetector *generateReverseCommand() override;
+    virtual bool isFinished() override;
+    virtual int getDistance();
+    virtual float getAngle();
+    virtual bool isDetectedDistance();
+    virtual bool isDetectedAngle();
 };
 
 #endif

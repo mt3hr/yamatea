@@ -5,7 +5,11 @@ MotorCountPredicate::MotorCountPredicate(Motor *m, int c)
 {
     motor = m;
     count = c;
-}
+};
+
+MotorCountPredicate::~MotorCountPredicate()
+{
+};
 
 bool MotorCountPredicate::test(RobotAPI *robotAPI)
 {

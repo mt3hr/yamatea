@@ -6,6 +6,10 @@ CommandAndPredicate::CommandAndPredicate()
 {
 }
 
+CommandAndPredicate::~CommandAndPredicate()
+{
+}
+
 Command *CommandAndPredicate::getCommand()
 {
     return command;

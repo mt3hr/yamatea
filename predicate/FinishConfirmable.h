@@ -5,6 +5,7 @@ class FinishConfirmable
 {
 public:
     FinishConfirmable();
+    virtual ~FinishConfirmable();
     virtual bool isFinished();
 };
 

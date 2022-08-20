@@ -18,8 +18,9 @@ private:
 
 public:
     ArmController(int pwm);
-    void run(RobotAPI *robotAPI);
-    ArmController *generateReverseCommand() override;
+    virtual ~ArmController();
+    virtual void run(RobotAPI *robotAPI);
+    virtual ArmController *generateReverseCommand() override;
 };
 
 #endif

@@ -6,6 +6,10 @@ FinishedCommandPredicate::FinishedCommandPredicate(FinishConfirmable *fc)
     finishConfirmable = fc;
 }
 
+FinishedCommandPredicate::~FinishedCommandPredicate()
+{
+}
+
 bool FinishedCommandPredicate::test(RobotAPI *robotAPI)
 {
     return finishConfirmable->isFinished();

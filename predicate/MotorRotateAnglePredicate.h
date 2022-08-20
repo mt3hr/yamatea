@@ -20,9 +20,10 @@ private:
 
 public:
     MotorRotateAnglePredicate(int angle, Motor *motor);
-    bool test(RobotAPI *robotAPI) override;
-    void preparation(RobotAPI *robotAPI) override;
-    MotorRotateAnglePredicate *generateReversePredicate() override;
+    virtual ~MotorRotateAnglePredicate();
+    virtual bool test(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
+    virtual MotorRotateAnglePredicate *generateReversePredicate() override;
 };
 
 #endif

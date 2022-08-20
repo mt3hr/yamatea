@@ -25,17 +25,17 @@ private:
 
 public:
     RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSensor *sonarSensor, Motor *leftWheel, Motor *rightWheel, Motor *armMotor, GyroSensor *gyroSensor, Clock *clock, Motor *tailMotor);
-    ~RobotAPI();
-    TouchSensor *getTouchSensor();
-    ColorSensor *getColorSensor();
-    SonarSensor *getSonarSensor();
-    GyroSensor *getGyroSensor();
-    Motor *getLeftWheel();
-    Motor *getRightWheel();
-    Motor *getArmMotor();
-    Clock *getClock();
-    Motor *getTailMotor();
-    void reset();
+    virtual ~RobotAPI();
+    virtual TouchSensor *getTouchSensor();
+    virtual ColorSensor *getColorSensor();
+    virtual SonarSensor *getSonarSensor();
+    virtual GyroSensor *getGyroSensor();
+    virtual Motor *getLeftWheel();
+    virtual Motor *getRightWheel();
+    virtual Motor *getArmMotor();
+    virtual Clock *getClock();
+    virtual Motor *getTailMotor();
+    virtual void reset();
 };
 
 #endif

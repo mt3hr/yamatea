@@ -17,6 +17,10 @@ PIDTargetBrightnessCalibrator::PIDTargetBrightnessCalibrator(RobotAPI *robotAPI)
     this->robotAPI = robotAPI;
 };
 
+PIDTargetBrightnessCalibrator::~PIDTargetBrightnessCalibrator()
+{
+}
+
 void PIDTargetBrightnessCalibrator::readWhiteFromColorSensor()
 {
     readedWhite = true;

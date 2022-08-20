@@ -19,8 +19,9 @@ private:
 
 public:
     DistanceReader();
-    void run(RobotAPI *robotAPI);
-    DistanceReader *generateReverseCommand();
+    virtual ~DistanceReader();
+    virtual void run(RobotAPI *robotAPI);
+    virtual DistanceReader *generateReverseCommand();
 };
 
 #endif

@@ -17,10 +17,11 @@ private:
 
 public:
     CommandAndPredicate();
-    Command *getCommand();
-    Predicate *getPredicate();
-    void setCommand(Command *command);
-    void setPredicate(Predicate *predicate);
+    virtual ~CommandAndPredicate();
+    virtual Command *getCommand();
+    virtual Predicate *getPredicate();
+    virtual void setCommand(Command *command);
+    virtual void setPredicate(Predicate *predicate);
 };
 
 #endif

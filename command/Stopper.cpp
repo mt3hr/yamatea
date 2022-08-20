@@ -9,6 +9,10 @@ Stopper::Stopper()
 {
 }
 
+Stopper::~Stopper()
+{
+}
+
 void Stopper::run(RobotAPI *robotAPI)
 {
     robotAPI->getLeftWheel()->stop();

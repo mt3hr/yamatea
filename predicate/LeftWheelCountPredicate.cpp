@@ -5,7 +5,11 @@
 LeftWheelCountPredicate::LeftWheelCountPredicate(int count)
 {
     this->count = count;
-}
+};
+
+LeftWheelCountPredicate::~LeftWheelCountPredicate()
+{
+};
 
 bool LeftWheelCountPredicate::test(RobotAPI *robotAPI)
 {

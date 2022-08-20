@@ -22,6 +22,10 @@ PrintMessage::PrintMessage(vector<string> ml, bool fp)
     forcePrint = fp;
 }
 
+PrintMessage::~PrintMessage()
+{
+}
+
 void PrintMessage::print()
 {
     int i = 0;
