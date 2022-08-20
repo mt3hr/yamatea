@@ -31,7 +31,7 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, 
     Command *walker = new Walker(leftPWM, rightPWM);
 
     DistancePredicate *predicate = new DistancePredicate(loneL, robotAPI);
-    if (!clock)
+    if (theta < 0)
     {
         predicate = predicate->generateReversePredicate();
     }
