@@ -12,7 +12,7 @@ enum ClockwiseObstacleDetectorState
     CODS_FINISH,
 };
 
-// ClockwiseObstacleDetector 
+// ClockwiseObstacleDetector
 // 2点の障害物間の距離と角度を時計回りに旋回しながら測定するDetector。
 // runが呼び出される時点で、すでに左のオブジェクトを検出している必要がある
 //
@@ -32,10 +32,10 @@ private:
     Walker *turnWalker;
     Stopper *stopper;
 
-    int leftObstacleDistance;
-    int rightObstacleDistance;
-    float leftObstacleAngle;
-    float rightObstacleAngle;
+    int leftObstacleDistance = 256;
+    int rightObstacleDistance = 256;
+    float leftObstacleAngle = 0;
+    float rightObstacleAngle = 0;
 
     bool detectedLeftObstacleDistance = false;
     bool detectedRightObstacleDistance = false;

@@ -34,7 +34,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
     {
         if (targetAngle < currentAngle)
         {
-            // state = CODS_FINISH;
+            state = CODS_FINISH;
             stopper->run(robotAPI);
             return;
         }
@@ -91,7 +91,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
     {
         if (currentAngle > targetAngle)
         {
-            // state = CODS_FINISH;
+            state = CODS_FINISH;
             stopper->run(robotAPI);
             return;
         }
