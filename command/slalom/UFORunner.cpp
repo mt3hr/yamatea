@@ -351,6 +351,11 @@ void UFORunner::run(RobotAPI *robotAPI)
     return;
 }
 
+void UFORunner::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 UFORunner *UFORunner::generateReverseCommand()
 {
     UFORunner *reversed = new UFORunner(n, walkerPow, rotatePow, swingRightAngle, swingLeftAngle, targetRightDistance, targetLeftDistance);

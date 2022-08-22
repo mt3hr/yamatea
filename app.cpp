@@ -1,6 +1,7 @@
 // 設定は2箇所に分散しています。
 // 設定1/2: Setting.h
 // 設定2/2: Setting.cpp
+// 実方
 #include "app.h"
 #include "Setting.h"
 
@@ -280,7 +281,7 @@ void initializeCommandExecutor()
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
   int pwm = 10;
   Walker *walker = new Walker(pwm, -pwm); // 右に向く
-  Predicate *walkerPredicate = new MotorCountPredicate(leftWheel, motorRotateAngle, false);
+  Predicate *walkerPredicate = new MotorCountPredicate(leftWheel, motorRotateAngle);
   commandExecutor->addCommand(walker, walkerPredicate);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
@@ -352,7 +353,7 @@ void initializeCommandExecutor()
   int pwm = 50;
   float distanceCm = 50;
   Walker *walker = new Walker(pwm, pwm);
-  DistancePredicate *walkerPredicate = new DistancePredicate(distanceCm, robotAPI->getLeftWheel());
+  DistancePredicate *walkerPredicate = new DistancePredicate(distanceCm, robotAPI);
   commandExecutor->addCommand(walker, walkerPredicate);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
@@ -376,7 +377,7 @@ void initializeCommandExecutor()
   int pwm = 20; // NOTE pwm上げるとおかしくなる
   float r = 20;
   float theta = 360;
-  CurvatureWalkerCommandAndPredicate *commandAndPredicate = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, false, robotAPI);
+  CurvatureWalkerCommandAndPredicate *commandAndPredicate = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate());
 
   // 停止コマンドの初期化とCommandExecutorへの追加
@@ -436,7 +437,7 @@ void initializeCommandExecutor()
 
   // NCの距離進む
   Walker *walkNCCommand = new Walker(pwm, pwm);
-  DistancePredicate *walkNCPredicate = new DistancePredicate(nc, leftWheel);
+  DistancePredicate *walkNCPredicate = new DistancePredicate(nc, robotAPI);
   commandExecutor->addCommand(walkNCCommand, walkNCPredicate);
 
   // nTurn分旋回する
@@ -445,7 +446,7 @@ void initializeCommandExecutor()
 
   // n分進む
   Walker *walkNCommand = new Walker(pwm, pwm);
-  DistancePredicate *walkNPredicate = new DistancePredicate(n, leftWheel);
+  DistancePredicate *walkNPredicate = new DistancePredicate(n, robotAPI);
   commandExecutor->addCommand(walkNCommand, walkNPredicate);
 
   // 停止コマンドの初期化とCommandExecutorへの追加
@@ -658,7 +659,7 @@ void main_task(intptr_t unused)
   const uint32_t sleepDuration = 100 * 1000;
 
   // robotAPIの初期化。完全停止してapiを初期化する
-  robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, gyroSensor, clock, tailMotor);
+  robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, tailMotor, gyroSensor, clock);
   Stopper *stopper = new Stopper();
   stopper->run(robotAPI);
   delete stopper;

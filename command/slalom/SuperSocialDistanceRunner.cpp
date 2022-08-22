@@ -18,6 +18,11 @@ void SuperSocialDistanceRunner::run(RobotAPI *robotAPI)
     return;
 }
 
+void SuperSocialDistanceRunner::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 SuperSocialDistanceRunner *SuperSocialDistanceRunner::generateReverseCommand()
 {
     return new SuperSocialDistanceRunner(getObstacleDetector()->generateReverseCommand());

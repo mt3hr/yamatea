@@ -77,6 +77,11 @@ void PrintMessage::run(RobotAPI *robotAPI)
     }
 }
 
+void PrintMessage::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 PrintMessage *PrintMessage::generateReverseCommand()
 {
     return new PrintMessage(messageLines, forcePrint);

@@ -14,14 +14,7 @@ using namespace std;
 
 // PIDTargetBrightnessCalibrator
 // PIDTracerのtargetBrightnessの値を求めるために、Black、Whiteの値をセンサから取得するキャリブレータ。
-// setRoadedHandler(SetPIDTargetBrightnessWhenCalibratedHandler)を使ってPIDTracerのTargetBrightnessの値を変更する。
-//
-// pidTargetBrightnessの値をキャリブレーション後に設定する例を下に示す。
-//
-// PIDTracer *commandPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt, targetBrightness, &leftWheel, &rightWheel, &colorSensor);
-// PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator = new PIDTargetBrightnessCalibrator(&colorSensor, &clock);
-// Handler *handler = new SetPIDTargetBrightnessWhenCalibratedHandler(pidTracer, pidTargetBrightnessCalibrator);
-// pidTargetBrightnessCalibrator->setRoadedHandler(handler);
+// pidTargetBrightnessCalibrator.addPIDTracer(pidTracer);すると、キャリブレーションした値がPIDトレーサに適用されます。
 //
 // 実方
 
@@ -42,6 +35,7 @@ public:
     PIDTargetBrightnessCalibrator(RobotAPI *robotAPI);
     virtual ~PIDTargetBrightnessCalibrator();
     virtual void run(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
     virtual PIDTargetBrightnessCalibrator *generateReverseCommand() override;
     virtual int getBlack();
     virtual int getWhite();

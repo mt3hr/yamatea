@@ -105,6 +105,11 @@ void PIDTargetBrightnessCalibrator::run(RobotAPI *robotAPI)
     }
 }
 
+void PIDTargetBrightnessCalibrator::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 PIDTargetBrightnessCalibrator *PIDTargetBrightnessCalibrator::generateReverseCommand()
 {
     return new PIDTargetBrightnessCalibrator(robotAPI);

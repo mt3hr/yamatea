@@ -3,6 +3,10 @@
 
 #include "CommandAndPredicate.h"
 
+// RotateRobotUseGyroCommandAndPredicate
+// ロボットを指定角度旋回させるためのCommandとPredicate。
+// 
+// 実方
 class RotateRobotUseGyroCommandAndPredicate : public CommandAndPredicate
 {
 private:

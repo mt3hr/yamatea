@@ -41,7 +41,7 @@ SwingSonarObstacleDetector::~SwingSonarObstacleDetector()
     delete rotateRobotDistanceAngleDetectorRight;
     delete rotateRobotDistanceAngleDetectorLeftPredicate;
     delete rotateRobotDistanceAngleDetectorRightPredicate;
-    delete rotateRobotCommandAndPredicateLeft; 
+    delete rotateRobotCommandAndPredicateLeft;
     delete rotateRobotCommandAndPredicateRight;
 };
 
@@ -151,134 +151,132 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
     switch (swingOrder)
     {
 
-        /*
-        case CENTER_LEFT_RIGHT_CENTER:
+    case CENTER_LEFT_RIGHT_CENTER:
+    {
+        switch (state)
         {
-            switch (state)
+        case SSD_WAIT_START:
+        {
+            state = SSD_DETECT_OBSTACLE_LEFT;
+        }
+
+        case SSD_DETECT_OBSTACLE_LEFT:
+        {
+            detectLeftObstacle(robotAPI, SSD_RETURNING_LEFT);
+            if (state != SSD_RETURNING_LEFT)
             {
-            case SSD_WAIT_START:
-            {
-                state = SSD_DETECT_OBSTACLE_LEFT;
+                break;
             }
+            stopper->run(robotAPI);
+        }
 
-            case SSD_DETECT_OBSTACLE_LEFT:
+        case SSD_RETURNING_LEFT:
+        {
+            returningLeft(robotAPI, SSD_DETECT_OBSTACLE_RIGHT);
+            if (state != SSD_DETECT_OBSTACLE_RIGHT)
             {
-                detectLeftObstacle(robotAPI, SSD_RETURNING_LEFT);
-                if (state != SSD_RETURNING_LEFT)
-                {
-                    break;
-                }
-                stopper->run(robotAPI);
+                break;
             }
+            stopper->run(robotAPI);
+        }
 
-            case SSD_RETURNING_LEFT:
+        case SSD_DETECT_OBSTACLE_RIGHT:
+        {
+            detectRightObstacle(robotAPI, SSD_RETURNING_RIGHT);
+            if (state != SSD_RETURNING_RIGHT)
             {
-                returningLeft(robotAPI, SSD_DETECT_OBSTACLE_RIGHT);
-                if (state != SSD_DETECT_OBSTACLE_RIGHT)
-                {
-                    break;
-                }
-                stopper->run(robotAPI);
-            }
-
-            case SSD_DETECT_OBSTACLE_RIGHT:
-            {
-                detectRightObstacle(robotAPI, SSD_RETURNING_RIGHT);
-                if (state != SSD_RETURNING_RIGHT)
-                {
-                    break;
-                }
-
-                stopper->run(robotAPI);
-            }
-
-            case SSD_RETURNING_RIGHT:
-            {
-                returningRight(robotAPI, SSD_FINISHED);
-                if (state != SSD_FINISHED)
-                {
-                    break;
-                }
-                stopper->run(robotAPI);
-                printValues(robotAPI);
-            }
-
-            case SSD_FINISHED:
-            {
-                finished = true;
-                stopper->run(robotAPI);
                 break;
             }
 
-            default:
+            stopper->run(robotAPI);
+        }
+
+        case SSD_RETURNING_RIGHT:
+        {
+            returningRight(robotAPI, SSD_FINISHED);
+            if (state != SSD_FINISHED)
+            {
                 break;
             }
+            stopper->run(robotAPI);
+            printValues(robotAPI);
+        }
+
+        case SSD_FINISHED:
+        {
+            finished = true;
+            stopper->run(robotAPI);
             break;
         }
-        case CENTER_RIGHT_LEFT_CENTER:
-        {
-            switch (state)
-            {
-            case SSD_WAIT_START:
-            {
-                state = SSD_DETECT_OBSTACLE_RIGHT;
-            }
 
-            case SSD_DETECT_OBSTACLE_RIGHT:
-            {
-                detectRightObstacle(robotAPI, SSD_RETURNING_RIGHT);
-                if (state != SSD_RETURNING_RIGHT)
-                {
-                    break;
-                }
-
-                stopper->run(robotAPI);
-            }
-
-            case SSD_RETURNING_RIGHT:
-            {
-                returningRight(robotAPI, SSD_DETECT_OBSTACLE_LEFT);
-                if (state != SSD_DETECT_OBSTACLE_LEFT)
-                {
-                    break;
-                }
-                stopper->run(robotAPI);
-            }
-
-            case SSD_DETECT_OBSTACLE_LEFT:
-            {
-                detectLeftObstacle(robotAPI, SSD_RETURNING_LEFT);
-                if (state != SSD_RETURNING_LEFT)
-                {
-                    break;
-                }
-                stopper->run(robotAPI);
-            }
-
-            case SSD_RETURNING_LEFT:
-            {
-                returningLeft(robotAPI, SSD_FINISHED);
-                if (state != SSD_FINISHED)
-                {
-                    break;
-                }
-                stopper->run(robotAPI);
-                printValues(robotAPI);
-            }
-
-            case SSD_FINISHED:
-            {
-                finished = true;
-                stopper->run(robotAPI);
-                break;
-            }
-
-            default:
-                break;
-            }
+        default:
             break;
         }
-        */
+        break;
+    }
+    case CENTER_RIGHT_LEFT_CENTER:
+    {
+        switch (state)
+        {
+        case SSD_WAIT_START:
+        {
+            state = SSD_DETECT_OBSTACLE_RIGHT;
+        }
+
+        case SSD_DETECT_OBSTACLE_RIGHT:
+        {
+            detectRightObstacle(robotAPI, SSD_RETURNING_RIGHT);
+            if (state != SSD_RETURNING_RIGHT)
+            {
+                break;
+            }
+
+            stopper->run(robotAPI);
+        }
+
+        case SSD_RETURNING_RIGHT:
+        {
+            returningRight(robotAPI, SSD_DETECT_OBSTACLE_LEFT);
+            if (state != SSD_DETECT_OBSTACLE_LEFT)
+            {
+                break;
+            }
+            stopper->run(robotAPI);
+        }
+
+        case SSD_DETECT_OBSTACLE_LEFT:
+        {
+            detectLeftObstacle(robotAPI, SSD_RETURNING_LEFT);
+            if (state != SSD_RETURNING_LEFT)
+            {
+                break;
+            }
+            stopper->run(robotAPI);
+        }
+
+        case SSD_RETURNING_LEFT:
+        {
+            returningLeft(robotAPI, SSD_FINISHED);
+            if (state != SSD_FINISHED)
+            {
+                break;
+            }
+            stopper->run(robotAPI);
+            printValues(robotAPI);
+        }
+
+        case SSD_FINISHED:
+        {
+            finished = true;
+            stopper->run(robotAPI);
+            break;
+        }
+
+        default:
+            break;
+        }
+        break;
+    }
 
     case CENTER_LEFT_RIGHT:
     {
@@ -394,14 +392,19 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
     }
 }
 
+void SwingSonarObstacleDetector::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 SwingSonarObstacleDetector *SwingSonarObstacleDetector::generateReverseCommand()
 {
     switch (swingOrder)
     {
-    // case CENTER_LEFT_RIGHT_CENTER:
-    // return new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT_CENTER, pwm, swingLeft, swingRight, targetLeft, targetRight);
-    // case CENTER_RIGHT_LEFT_CENTER:
-    // return new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT_CENTER, pwm, swingLeft, swingRight, targetLeft, targetRight);
+    case CENTER_LEFT_RIGHT_CENTER:
+        return new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT_CENTER, pwm, swingLeft, swingRight, targetLeft, targetRight);
+    case CENTER_RIGHT_LEFT_CENTER:
+        return new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT_CENTER, pwm, swingLeft, swingRight, targetLeft, targetRight);
     case CENTER_LEFT_RIGHT:
         return new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, pwm, swingLeft, swingRight, targetLeft, targetRight);
     case CENTER_RIGHT_LEFT:

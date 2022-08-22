@@ -5,7 +5,7 @@
 #include "RobotAPI.h"
 
 // Stopper
-// ロボットの左右車輪を停止するコマンド
+// ロボットのモータをすべて停止させるコマンド
 // 
 // 実方
 class Stopper : public Command
@@ -16,6 +16,7 @@ public:
     Stopper();
     virtual ~Stopper();
     virtual void run(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
     virtual Stopper *generateReverseCommand() override;
 };
 

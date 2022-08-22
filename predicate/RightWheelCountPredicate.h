@@ -7,6 +7,11 @@
 
 using namespace ev3api;
 
+// RightWheelCountPredicate 
+// 右車輪が指定された回数回転したらtrueを返すpredicate。
+// 概念的にはMotorCountPredicateのサブクラス。
+// 
+// 実方
 class RightWheelCountPredicate : public Predicate
 {
 private:

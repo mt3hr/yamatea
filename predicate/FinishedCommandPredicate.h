@@ -5,6 +5,11 @@
 #include "FinishConfirmable.h"
 #include "RobotAPI.h"
 
+// FinishedCommandPredicate
+// 「終了状態」を持つコマンドからPredicateを生成するためのクラス。
+// 終了状態を持つコマンドは、FinishConfirmableインターフェースを実装している。
+// 
+// 実方
 class FinishedCommandPredicate : public Predicate
 {
 private:

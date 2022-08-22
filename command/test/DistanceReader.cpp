@@ -31,6 +31,11 @@ void DistanceReader::run(RobotAPI *robotAPI)
     printMessage.run(robotAPI);
 }
 
+void DistanceReader::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 DistanceReader *DistanceReader::generateReverseCommand()
 {
     return new DistanceReader();

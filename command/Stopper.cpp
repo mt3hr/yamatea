@@ -26,6 +26,11 @@ void Stopper::run(RobotAPI *robotAPI)
     flushDebug(INFO, robotAPI);
 }
 
+void Stopper::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 Stopper *Stopper::generateReverseCommand()
 {
     return new Stopper();

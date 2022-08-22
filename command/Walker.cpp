@@ -32,6 +32,11 @@ void Walker::run(RobotAPI *robotAPI)
     flushDebug(TRACE, robotAPI);
 }
 
+void Walker::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 Walker *Walker::generateReverseCommand()
 {
     return new Walker(rightPower, leftPower);

@@ -21,8 +21,8 @@ PIDTracer *ifRightThenReverseCommand(PIDTracer *pidTracer);
 Walker *ifRightThenReverseCommand(Walker *walker);
 
 // Predicate生成関数。
-// isRightCourseがtrueならば右コース用の左車輪回転数Predicateを、
-// falseならば左コース用の右車輪回転数Predicateを生成する。
+// 左コースならば左車輪回転数Predicateを、
+// 右コースならば右車輪回転数Predicateを生成する。
 // 
 // 実方
 MotorCountPredicate *generateWheelCountPredicate(int count);

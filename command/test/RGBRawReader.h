@@ -22,6 +22,7 @@ public:
     RGBRawReader();
     virtual ~RGBRawReader();
     virtual void run(RobotAPI *robotAPI);
+    virtual void preparation(RobotAPI *robotAPI) override;
     virtual RGBRawReader *generateReverseCommand();
 };
 

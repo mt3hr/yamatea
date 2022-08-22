@@ -10,7 +10,7 @@ DistancePredicate::DistancePredicate(float tdc, RobotAPI *robotAPI)
 {
     targetDistanceCm = tdc;
     wheel = robotAPI->getLeftWheel();
-    hasLeftMotor = true;
+    hasLeftWheel = true;
     this->robotAPI = robotAPI;
 }
 
@@ -34,13 +34,15 @@ void DistancePredicate::preparation(RobotAPI *robotAPI)
 DistancePredicate *DistancePredicate::generateReversePredicate()
 {
     DistancePredicate *reversed = new DistancePredicate(targetDistanceCm, robotAPI);
-    if (reversed->hasLeftMotor)
+    if (reversed->hasLeftWheel)
     {
         reversed->wheel = robotAPI->getRightWheel();
+        reversed->hasLeftWheel = false;
     }
     else
     {
         reversed->wheel = robotAPI->getLeftWheel();
+        reversed->hasLeftWheel = true;
     }
     return reversed;
 }

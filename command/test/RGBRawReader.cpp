@@ -70,6 +70,11 @@ void RGBRawReader::run(RobotAPI *robotAPI)
     }
 }
 
+void RGBRawReader::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 RGBRawReader *RGBRawReader::generateReverseCommand()
 {
     return new RGBRawReader();

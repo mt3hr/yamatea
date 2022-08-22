@@ -18,6 +18,11 @@ void ArmController::run(RobotAPI *robotAPI)
     robotAPI->getArmMotor()->setPWM(pwm);
 }
 
+void ArmController::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 ArmController *ArmController::generateReverseCommand()
 {
     return new ArmController(pwm);

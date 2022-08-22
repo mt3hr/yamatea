@@ -21,6 +21,7 @@ public:
     DistanceReader();
     virtual ~DistanceReader();
     virtual void run(RobotAPI *robotAPI);
+    virtual void preparation(RobotAPI *robotAPI) override;
     virtual DistanceReader *generateReverseCommand();
 };
 

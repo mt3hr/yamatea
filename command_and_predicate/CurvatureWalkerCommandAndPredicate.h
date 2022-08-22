@@ -4,6 +4,10 @@
 #include "CommandAndPredicate.h"
 #include "RobotAPI.h"
 
+// CurvatureWalkerCommandAndPredicate 
+// 渡した半径と角度からなる孤をなぞるように進むCommandとPredicate。
+// 
+// 実方
 class CurvatureWalkerCommandAndPredicate : public CommandAndPredicate
 {
 private:

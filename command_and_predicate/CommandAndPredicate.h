@@ -6,7 +6,7 @@
 
 // CommandAndPredicate
 // CommandとPredicateの1セット
-// 指定角度旋回コマンドを生成するときにこいつがあると便利
+// 指定角度旋回コマンドや孤をなぞるコマンドを生成するときにこいつがあると便利
 //
 // 実方
 class CommandAndPredicate

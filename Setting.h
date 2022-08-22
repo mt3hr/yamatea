@@ -1,11 +1,10 @@
 #ifndef Setting_H
 #define Setting_H
 
-// 実方
-
 // 設定は2箇所に分散しています。
 // 設定1/2: Setting.h
 // 設定2/2: Setting.cpp
+// 実方
 // ********** 設定1/2ここから **********
 
 // 実機シミュレータ設定。ジャイロセンサから取得できる角度の方向が実機とシミュレータでは異なるので。
@@ -24,7 +23,7 @@
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
-// #define UFORunnerTestMode // UFO走行モード。テスト
+//#define UFORunnerTestMode // UFO走行モード。テスト
 // モード設定ここまで
 
 //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ

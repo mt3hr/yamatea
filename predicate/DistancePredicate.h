@@ -7,14 +7,19 @@
 
 using namespace ev3api;
 
-// 直進するときに使える。
+// DistancePredicate 
+// 左車輪が指定距離（cm）分だけ回転したらtrueを返すPredicate。
+// generateReversePredicate()メソッドから右車輪を対象としたDistancePredicateを生成できる。
+// 主に直進するときに使える。
+// 
+// 実方
 class DistancePredicate : public Predicate
 {
 private:
     float targetDistanceCm;
     float targetAngle = FLOAT32_MAX;
     Motor *wheel;
-    bool hasLeftMotor;
+    bool hasLeftWheel;
     RobotAPI *robotAPI;
 
 public:

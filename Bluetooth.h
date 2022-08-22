@@ -5,7 +5,10 @@
 #include "Setting.h"
 
 #ifdef EnableBluetooth
+
+// Bluetoothファイル
 extern FILE *bt;
+
 #endif
 
 #endif

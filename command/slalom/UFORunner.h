@@ -10,6 +10,10 @@
 #include "Walker.h"
 #include "Command.h"
 
+// UFORunnerState
+// UFORunnerのとり得る状態
+//
+// 実方
 enum UFORunnerState
 {
     UFO_DETECTING_OBSTACLE,
@@ -23,10 +27,18 @@ enum UFORunnerState
     UFO_FINISHED,
 };
 
+// 度をラジアンに変換する関数
 float toRadian(float degree);
+// ラジアンを度に変換する関数
 float toDegree(float radian);
+// 絶対値を取得する関数
 float ufoAbs(float f);
 
+// UFORunner
+// UFO走行をするクラス。
+// UFO走行については要求モデルを参照
+//
+// 実方
 class UFORunner : public ObstacleDetectRunner, public FinishConfirmable
 {
 private:
@@ -81,6 +93,7 @@ public:
     UFORunner(float n, int walkerPow, int rotatePow, float swingLeftAngle, float swingRightAngle, int targetLeftDistance, int targetRightDistance);
     virtual ~UFORunner();
     virtual void run(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
     virtual UFORunner *generateReverseCommand() override;
     virtual bool isFinished() override;
 };

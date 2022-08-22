@@ -47,6 +47,7 @@ void CommandExecutor::run()
     if (!preparated[currentIndexForCommand])
     {
         preparated[currentIndexForCommand] = true;
+        commands[currentIndexForCommand]->preparation(robotAPI);
         predicates[currentIndexForCommand]->preparation(robotAPI);
     }
 

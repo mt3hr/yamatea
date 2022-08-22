@@ -14,16 +14,6 @@ using namespace ev3api;
 // ロボット操作命令を逐次実行していくもの。
 // メインタスクから呼び出される。
 //
-// タッチセンサーが押されるまでpow20で直進するサンプルを下に示す。
-//
-// CommandExecutor *commandExecutor = new CommandExecutor();
-// int leftPow = 20;
-// int rightPow = 20;
-// ScenarioTracer *commandScenarioTracer = new ScenarioTracer(leftPow, rightPow, &leftWheel, &rightWheel);
-// Predicate *startButtonPredicate = new StartButtonPredicate(&touchSensor);
-// commandExecutor->addCommand(commandScenarioTracer, startButtonPredicate);
-// commandExecutor->run();
-//
 // 実方
 class CommandExecutor
 {

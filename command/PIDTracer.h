@@ -48,6 +48,7 @@ public:
     PIDTracer(PIDTracerMode traceMode, int pwm, float kp, float ki, float kd, float dt);
     virtual ~PIDTracer();
     virtual void run(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
     virtual PIDTracer *generateReverseCommand() override;
     virtual void setTargetBrightness(int targetBrightness);
 };

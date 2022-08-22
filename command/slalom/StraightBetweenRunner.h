@@ -5,6 +5,11 @@
 #include "SonarSensor.h"
 #include "RobotAPI.h"
 
+// StraightBetweenRunner 
+// 直進行軍走行するクラス。
+// 要求モデル参照。
+//
+// 実方
 class StraightBetweenRunner : public UFORunner
 {
 private:

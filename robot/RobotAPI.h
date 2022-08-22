@@ -10,6 +10,10 @@
 
 using namespace ev3api;
 
+// RobotAPI
+// ロボットのAPIをまとめたクラス
+//
+// 実方
 class RobotAPI
 {
 private:
@@ -24,7 +28,7 @@ private:
     Motor *tailMotor;
 
 public:
-    RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSensor *sonarSensor, Motor *leftWheel, Motor *rightWheel, Motor *armMotor, GyroSensor *gyroSensor, Clock *clock, Motor *tailMotor);
+    RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSensor *sonarSensor, Motor *leftWheel, Motor *rightWheel, Motor *armMotor, Motor *tailMotor, GyroSensor *gyroSensor, Clock *clock);
     virtual ~RobotAPI();
     virtual TouchSensor *getTouchSensor();
     virtual ColorSensor *getColorSensor();
@@ -33,8 +37,8 @@ public:
     virtual Motor *getLeftWheel();
     virtual Motor *getRightWheel();
     virtual Motor *getArmMotor();
-    virtual Clock *getClock();
     virtual Motor *getTailMotor();
+    virtual Clock *getClock();
     virtual void reset();
 };
 

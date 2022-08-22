@@ -18,6 +18,11 @@ void AwaitingSignalRunner::run(RobotAPI *robotAPI)
     return;
 }
 
+void AwaitingSignalRunner::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 AwaitingSignalRunner *AwaitingSignalRunner::generateReverseCommand()
 {
     return new AwaitingSignalRunner(getObstacleDetector()->generateReverseCommand());

@@ -75,6 +75,11 @@ void PIDTracer::run(RobotAPI *robotAPI)
     flushDebug(TRACE, robotAPI);
 }
 
+void PIDTracer::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 PIDTracer *PIDTracer::generateReverseCommand()
 {
     PIDTracerMode reversedMode = LEFT_TRACE; // とりあえずね

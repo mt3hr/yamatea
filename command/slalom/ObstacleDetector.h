@@ -4,8 +4,8 @@
 #include "Command.h"
 #include "FinishConfirmable.h"
 
-// SwingSonarDetector
-// 距離センサで2つの障害物間の距離を測るクラス
+// ObstalceDetector
+// 距離センサで2つの障害物間の距離を測るものの基底クラス
 //
 // 実方
 class ObstacleDetector : public Command, public FinishConfirmable
@@ -13,6 +13,7 @@ class ObstacleDetector : public Command, public FinishConfirmable
 private:
 public:
     ~ObstacleDetector();
+    virtual ObstacleDetector *generateReverseCommand() override;
     virtual int getLeftObstacleDistance();
     virtual int getRightObstacleDistance();
     virtual float getLeftObstacleAngle();
@@ -21,7 +22,6 @@ public:
     virtual bool isDetectedRightObstacleDistance();
     virtual bool isDetectedLeftObstacleAngle();
     virtual bool isDetectedRightObstacleAngle();
-    virtual ObstacleDetector *generateReverseCommand() override;
 };
 
 #endif

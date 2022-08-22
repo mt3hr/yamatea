@@ -87,6 +87,11 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
     }
 }
 
+void RotateRobotDistanceAngleDetector::preparation(RobotAPI *robotAPI)
+{
+    return;
+}
+
 RotateRobotDistanceAngleDetector *RotateRobotDistanceAngleDetector::generateReverseCommand()
 {
     return new RotateRobotDistanceAngleDetector(-targetAngle, distanceThreshold, pwm, robotAPI);

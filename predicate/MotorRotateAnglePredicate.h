@@ -9,6 +9,8 @@ using namespace ev3api;
 
 // MotorRotateAnglePredicate
 // モータ回転角を判定条件とするPredicate
+// MotorRotateAnglePredicate: 指定された角度分車輪を回転されたかどうかで判定。
+// MotorCountPredicate: モータの累積回転数で判定
 //
 // 実方
 class MotorRotateAnglePredicate : public Predicate
