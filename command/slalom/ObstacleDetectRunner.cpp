@@ -6,6 +6,10 @@ ObstacleDetectRunner::ObstacleDetectRunner(ObstacleDetector *od)
     obstacleDetector = od;
 }
 
+ObstacleDetectRunner::ObstacleDetectRunner()
+{
+}
+
 ObstacleDetectRunner::~ObstacleDetectRunner()
 {
     delete obstacleDetector;

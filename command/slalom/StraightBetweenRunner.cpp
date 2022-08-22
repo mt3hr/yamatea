@@ -5,7 +5,7 @@
 #include "UFORunner.h"
 #include "RobotAPI.h"
 
-StraightBetweenRunner::StraightBetweenRunner(int walkerPow, int rotatePow, float swingLeftAngle, float swingRightAngle, int targetLeftDistance, int targetRightDistance) : UFORunner(0.01, walkerPow, rotatePow, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance)
+StraightBetweenRunner::StraightBetweenRunner(int walkerPow, int rotatePow) : UFORunner(0.01, walkerPow, rotatePow)
 {
     this->walkerPow = walkerPow;
     this->rotatePow = rotatePow;
@@ -21,5 +21,5 @@ StraightBetweenRunner::~StraightBetweenRunner()
 
 StraightBetweenRunner *StraightBetweenRunner::generateReverseCommand()
 {
-    return new StraightBetweenRunner(walkerPow, rotatePow, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
+    return new StraightBetweenRunner(walkerPow, rotatePow);
 }

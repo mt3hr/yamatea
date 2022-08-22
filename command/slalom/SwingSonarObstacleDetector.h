@@ -54,6 +54,7 @@ float ssodAbs(float f);
 // 障害物検知に利用される。
 // （そのとき、CommandExecutor.addCommand()メソッドから追加されない。）
 // （Commandインターフェースを継承している理由は、将来Commandとして使うかもしれないから）
+// swingLeftは+の値を、swingRightは-の値を渡してください。
 //
 // 実方
 class SwingSonarObstacleDetector : public ObstacleDetector

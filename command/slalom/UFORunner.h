@@ -10,6 +10,12 @@
 #include "Walker.h"
 #include "Command.h"
 
+enum UFOBehavior
+{
+    SWING_SONAR, // 障害物間をむいているところからはじめ、右を向き、左を向いて検出したら終わる。
+    CLOCKWISE,   // 左障害物間を向いているところから始め、右に向いて検出したら終わる。
+};
+
 // UFORunnerState
 // UFORunnerのとり得る状態
 //
@@ -37,12 +43,14 @@ float ufoAbs(float f);
 // UFORunner
 // UFO走行をするクラス。
 // UFO走行については要求モデルを参照
+// いずれかのinitializeメソッドを呼び出してください。
 //
 // 実方
 class UFORunner : public ObstacleDetectRunner, public FinishConfirmable
 {
 private:
     UFORunnerState state;
+    UFOBehavior behavior;
     bool reverse = false;
 
     Command *turnToPCommand;
@@ -84,18 +92,15 @@ private:
     int walkerPow;
     int rotatePow;
 
-    float swingLeftAngle;
-    float swingRightAngle;
-    int targetLeftDistance;
-    int targetRightDistance;
-
 public:
-    UFORunner(float n, int walkerPow, int rotatePow, float swingLeftAngle, float swingRightAngle, int targetLeftDistance, int targetRightDistance);
+    UFORunner(float n, int walkerPow, int rotatePow);
     virtual ~UFORunner();
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
     virtual UFORunner *generateReverseCommand() override;
     virtual bool isFinished() override;
+    virtual void initialiseUFOUseSwingSonarObstacleDetector(float swingLeftAngle, float swingRightAngle, int targetLeftDistance, int targetRightDistance);
+    virtual void initialiseUFOUseClockwiseObstacleDetector(float angle, int thresholdDistance, int targetLeft, int targetRight);
 };
 
 #endif

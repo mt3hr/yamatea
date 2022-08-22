@@ -11,6 +11,7 @@
 #include "RobotAPI.h"
 #include "RotateRobotUseGyroCommandAndPredicate.h"
 #include "SwingSonarObstacleDetector.h"
+#include "ClockwiseObstacleDetector.h"
 
 using namespace std;
 using namespace ev3api;
@@ -25,16 +26,12 @@ float toDegree(float radian)
     return radian * 180 / M_PI;
 }
 
-UFORunner::UFORunner(float na, int wp, int rp, float sl, float sr, int tl, int tr) : ObstacleDetectRunner(new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, rp, sl, sr, tl, tr))
+UFORunner::UFORunner(float na, int wp, int rp) : ObstacleDetectRunner()
 {
     state = UFO_DETECTING_OBSTACLE;
     n = na;
     walkerPow = wp;
     rotatePow = rp;
-    this->swingLeftAngle = sl;
-    this->swingRightAngle = sr;
-    this->targetLeftDistance = tl;
-    this->targetRightDistance = tr;
 }
 
 UFORunner::~UFORunner()
@@ -81,17 +78,15 @@ void UFORunner::run(RobotAPI *robotAPI)
 
         ik = float(obstacleDetector->getLeftObstacleDistance()) + distanceFromSonarSensorToAxle;
         dk = float(obstacleDetector->getRightObstacleDistance()) + distanceFromSonarSensorToAxle;
-        float leftAngle = obstacleDetector->getLeftObstacleAngle();
-        float rightAngle = obstacleDetector->getRightObstacleAngle();
-        if (leftAngle < 0)
-        {
-            leftAngle *= -1;
-        }
-        if (rightAngle < 0)
-        {
-            rightAngle *= -1;
-        }
-        p = leftAngle + rightAngle;
+
+        writeDebug("rightObstacleAngle: ");
+        writeDebug(obstacleDetector->getRightObstacleAngle());
+        writeEndLineDebug();
+        writeDebug("leftObstacleAngle: ");
+        writeDebug(obstacleDetector->getLeftObstacleAngle());
+        flushDebug(TRACE, robotAPI);
+
+        p = obstacleDetector->getLeftObstacleAngle() - obstacleDetector->getRightObstacleAngle();
 
         // C++のmathの三角関数系統はラジアンをうけとるしラジアンを返してくる
 
@@ -201,7 +196,12 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnPIPN)
         {
-            CommandAndPredicate *turnPIPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(ipn, rotatePow, robotAPI);
+            float angle = ipn;
+            if (reverse)
+            {
+                angle *= -1;
+            }
+            CommandAndPredicate *turnPIPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(angle, rotatePow, robotAPI);
             turnPIPNCommand = turnPIPNCommandAndPredicate->getCommand();
             turnPIPNPredicate = turnPIPNCommandAndPredicate->getPredicate();
             turnPIPNCommandAndPredicate->getPredicate()->preparation(robotAPI);
@@ -228,12 +228,12 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnPDPN)
         {
-            float turnAngle = dpn;
+            float angle = -dpn;
             if (reverse)
             {
-                turnAngle *= -1;
+                angle *= -1;
             }
-            CommandAndPredicate *turnPDPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(turnAngle, rotatePow, robotAPI);
+            CommandAndPredicate *turnPDPNCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(angle, rotatePow, robotAPI);
             turnPDPNCommand = turnPDPNCommandAndPredicate->getCommand();
             turnPDPNPredicate = turnPDPNCommandAndPredicate->getPredicate();
             turnPDPNCommandAndPredicate->getPredicate()->preparation(robotAPI);
@@ -353,12 +353,12 @@ void UFORunner::run(RobotAPI *robotAPI)
 
 void UFORunner::preparation(RobotAPI *robotAPI)
 {
-    return;
+    getObstacleDetector()->preparation(robotAPI);
 }
 
 UFORunner *UFORunner::generateReverseCommand()
 {
-    UFORunner *reversed = new UFORunner(n, walkerPow, rotatePow, swingRightAngle, swingLeftAngle, targetRightDistance, targetLeftDistance);
+    UFORunner *reversed = new UFORunner(n, walkerPow, rotatePow);
     reversed->reverse = !reverse;
     reversed->setObstacleDetector(getObstacleDetector()->generateReverseCommand());
     return reversed;
@@ -367,4 +367,16 @@ UFORunner *UFORunner::generateReverseCommand()
 bool UFORunner::isFinished()
 {
     return state == UFO_FINISHED;
+}
+
+void UFORunner::initialiseUFOUseSwingSonarObstacleDetector(float swingLeftAngle, float swingRightAngle, int targetLeftDistance, int targetRightDistance)
+{
+    behavior = SWING_SONAR;
+    setObstacleDetector(new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, rotatePow, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance));
+}
+
+void UFORunner::initialiseUFOUseClockwiseObstacleDetector(float angle, int thresholdDistance, int targetLeft, int targetRight)
+{
+    behavior = CLOCKWISE;
+    setObstacleDetector(new ClockwiseObstacleDetector(rotatePow, angle, thresholdDistance, targetLeft, targetRight));
 }

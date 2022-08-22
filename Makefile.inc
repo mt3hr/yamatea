@@ -33,6 +33,7 @@ FinishConfirmable.o \
 FinishedCommandPredicate.o \
 DistancePredicate.o \
 CurvatureWalkerCommandAndPredicate.o \
+ClockwiseObstacleDetector.o \
 UFORunner.o \
 AwaitingSignalRunner.o \
 StraightBetweenRunner.o \

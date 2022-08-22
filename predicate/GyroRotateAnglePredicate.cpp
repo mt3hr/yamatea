@@ -10,9 +10,7 @@ GyroRotateAnglePredicate::GyroRotateAnglePredicate(int angle)
     clockwise = angle > 0;
 };
 
-GyroRotateAnglePredicate::~GyroRotateAnglePredicate()
-{
-};
+GyroRotateAnglePredicate::~GyroRotateAnglePredicate(){};
 
 bool GyroRotateAnglePredicate::test(RobotAPI *robotAPI)
 {
@@ -39,7 +37,6 @@ bool GyroRotateAnglePredicate::test(RobotAPI *robotAPI)
 void GyroRotateAnglePredicate::preparation(RobotAPI *robotAPI)
 {
     float currentAngle = robotAPI->getGyroSensor()->getAngle();
-
 #ifndef SimulatorMode
     currentAngle *= -1;
 #endif

@@ -470,13 +470,31 @@ void initializeCommandExecutor()
   float n = 7;
   int walkerPWM = 20;
   int rotatePWM = 10;
-  float swingLeftAngle = 90.0;
+
+  // SwingSonar
+  float swingLeftAngle = -90.0;
   float swingRightAngle = 90.0;
   int targetLeftDistance = 20;
   int targetRightDistance = 20;
-  bool reverseTest = true;
+  // Clockwise
+  float angle = 90;
+  int thresholdDistance = 50;
+  targetLeftDistance = 40;
+  targetRightDistance = 30;
 
-  UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
+  bool clockwiseTest = true;
+  bool reverseTest = false;
+
+  UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM);
+  if (clockwiseTest)
+  {
+    ufoRunner->initialiseUFOUseClockwiseObstacleDetector(angle, thresholdDistance, targetLeftDistance, targetRightDistance);
+  }
+  else
+  {
+    ufoRunner->initialiseUFOUseSwingSonarObstacleDetector(swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
+    ufoRunner = ufoRunner->generateReverseCommand();
+  }
   if (reverseTest)
   {
     ufoRunner = ufoRunner->generateReverseCommand();

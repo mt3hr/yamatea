@@ -13,6 +13,8 @@ PIDTracer *ifRightThenReverseCommand(PIDTracer *pidTracer)
     PIDTracer *reversed = pidTracer->generateReverseCommand();
     delete pidTracer;
     return reversed;
+#else
+    return pidTracer;
 #endif
 }
 
@@ -25,6 +27,8 @@ Walker *ifRightThenReverseCommand(Walker *walker)
     Walker *reversed = walker->generateReverseCommand();
     delete walker;
     return reversed;
+#else
+    return walker;
 #endif
 }
 
@@ -36,5 +40,7 @@ Predicate *generateWheelCountPredicate(int count)
 #endif
 #ifdef RightCourceMode
     return new RightWheelCountPredicate(count);
+#else
+    return new LeftWheelCountPredicate(count);
 #endif
 }

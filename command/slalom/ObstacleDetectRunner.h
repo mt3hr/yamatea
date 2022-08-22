@@ -19,6 +19,7 @@ protected:
 
 public:
     ObstacleDetectRunner(ObstacleDetector *obstacleDetector);
+    ObstacleDetectRunner();
     virtual ~ObstacleDetectRunner();
     virtual ObstacleDetectRunner *generateReverseCommand() override;
 };

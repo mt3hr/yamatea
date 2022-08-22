@@ -22,7 +22,6 @@ float ssodAbs(float f)
 
 SwingSonarObstacleDetector::SwingSonarObstacleDetector(SwingOrder so, int pwm, float swingLeft, float swingRight, int targetLeft, int targetRight)
 {
-
     this->swingLeft = swingLeft;
     this->swingRight = swingRight;
     this->targetLeft = targetLeft;
@@ -49,7 +48,7 @@ void SwingSonarObstacleDetector::detectLeftObstacle(RobotAPI *robotAPI, SwingSon
 {
     if (!initedRotateRobotDistanceAngleDetectorLeft)
     {
-        rotateRobotDistanceAngleDetectorLeft = new RotateRobotDistanceAngleDetector(-swingLeft, targetLeft, pwm, robotAPI);
+        rotateRobotDistanceAngleDetectorLeft = new RotateRobotDistanceAngleDetector(swingLeft, targetLeft, pwm, robotAPI);
         rotateRobotDistanceAngleDetectorLeftPredicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetectorLeft);
         initedRotateRobotDistanceAngleDetectorLeft = true;
         return;
@@ -72,7 +71,7 @@ void SwingSonarObstacleDetector::returningLeft(RobotAPI *robotAPI, SwingSonarObs
     if (!initedRotateRobotCommandAndPreicateLeft)
     {
         initedRotateRobotCommandAndPreicateLeft = true;
-        rotateRobotCommandAndPredicateLeft = new RotateRobotUseGyroCommandAndPredicate(ssodAbs(leftObstacleAngle), pwm, robotAPI);
+        rotateRobotCommandAndPredicateLeft = new RotateRobotUseGyroCommandAndPredicate(-leftObstacleAngle, pwm, robotAPI);
         rotateRobotCommandAndPredicateLeft->getPredicate()->preparation(robotAPI);
     }
 
@@ -112,7 +111,7 @@ void SwingSonarObstacleDetector::returningRight(RobotAPI *robotAPI, SwingSonarOb
     if (!initedRotateRobotCommandAndPreicateRight)
     {
         initedRotateRobotCommandAndPreicateRight = true;
-        rotateRobotCommandAndPredicateRight = new RotateRobotUseGyroCommandAndPredicate(-ssodAbs(rightObstacleAngle), pwm, robotAPI);
+        rotateRobotCommandAndPredicateRight = new RotateRobotUseGyroCommandAndPredicate(-rightObstacleAngle, pwm, robotAPI);
         rotateRobotCommandAndPredicateRight->getPredicate()->preparation(robotAPI);
     }
 
