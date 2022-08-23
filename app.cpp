@@ -467,7 +467,7 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
-  float n = 10;
+  float n = 8;
   int walkerPWM = 20;
   int rotatePWM = 5; // シミュレータ: 5 実機: 10ぐらい
 
@@ -478,9 +478,9 @@ void initializeCommandExecutor()
   int targetRightDistance = 20;
   // Clockwise
   float angle = 180;
-  targetLeftDistance = 20;    // これを検知した状態からはじめて
-  int thresholdDistance = 30; // センサがこの長さになる直前の距離と角度をLeftに保存して
-  targetRightDistance = 20;   // あとはSwingSonarと同じ
+  targetLeftDistance = 30;    // これを検知した状態からはじめて
+  int thresholdDistance = 30; // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
+  targetRightDistance = 30;   // あとはSwingSonarと同じ
 
   bool clockwiseTest = true;
   bool reverseTest = false;
