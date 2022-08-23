@@ -53,6 +53,8 @@ private:
     UFOBehavior behavior;
     bool reverse = false;
 
+    bool initedObstacleDetector = false;
+
     Command *turnToPCommand;
     Command *turnPIPNCommand;
     Command *turnPDPNCommand;

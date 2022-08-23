@@ -51,6 +51,12 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
     case UFO_DETECTING_OBSTACLE: // 障害物検出状態
     {
+        if (!initedObstacleDetector)
+        {
+            initedObstacleDetector = true;
+            obstacleDetector->preparation(robotAPI);
+        }
+
         obstacleDetector->run(robotAPI);
 
         if (obstacleDetector->isFinished())
@@ -379,4 +385,5 @@ void UFORunner::initialiseUFOUseClockwiseObstacleDetector(float angle, int thres
 {
     behavior = CLOCKWISE;
     setObstacleDetector(new ClockwiseObstacleDetector(rotatePow, angle, thresholdDistance, targetLeft, targetRight));
+    reverse = true;
 }

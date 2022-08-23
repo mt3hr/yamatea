@@ -44,6 +44,8 @@ private:
 
     float targetAngle;
 
+    void printValues(RobotAPI *robotAPI);
+
 public:
     ClockwiseObstacleDetector(int pwm, float angle, int thresholdDistance, int targetLeft, int targetRight);
     virtual ~ClockwiseObstacleDetector();

@@ -30,12 +30,26 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
     currentAngle *= -1;
 #endif
 
+    writeDebug("currentDistance: ");
+    writeDebug(currentDistance);
+    writeEndLineDebug();
+    writeDebug("currentAngle: ");
+    writeDebug(currentAngle);
+    flushDebug(TRACE, robotAPI);
+
     if (!reverse)
     {
         if (targetAngle < currentAngle)
         {
             state = CODS_FINISH;
             stopper->run(robotAPI);
+            detectedLeftObstacleAngle = true;
+            detectedRightObstacleAngle = true;
+            detectedLeftObstacleDistance = true;
+            detectedRightObstacleDistance = true;
+
+            writeDebug("finishClockwiseObstacleDetector");
+            flushDebug(TRACE, robotAPI);
             return;
         }
         switch (state)
@@ -44,22 +58,25 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
         {
             turnWalker->run(robotAPI);
 
-            if (thresholdDistance >= currentDistance)
-            {
-                leftObstacleDistance = currentDistance;
-                leftObstacleAngle = float(currentAngle);
-            }
-            else
+            if (thresholdDistance <= currentDistance)
             {
                 detectedLeftObstacleDistance = true;
                 detectedLeftObstacleAngle = true;
                 state = CODS_DETECTING_RIGHT_OBSTACLE;
+            }
+            else
+            {
+                leftObstacleDistance = currentDistance;
+                leftObstacleAngle = float(currentAngle);
             }
 
             if (state != CODS_DETECTING_RIGHT_OBSTACLE)
             {
                 break;
             }
+
+            writeDebug("CODS_DETECTING_LEFT_OBSTACLE");
+            flushDebug(TRACE, robotAPI);
         }
         case CODS_DETECTING_RIGHT_OBSTACLE:
         {
@@ -78,6 +95,10 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
                 break;
             }
             stopper->run(robotAPI);
+
+            writeDebug("CODS_DETECTING_RIGHT_OBSTACLE");
+            flushDebug(TRACE, robotAPI);
+            printValues(robotAPI);
         }
         case CODS_FINISH:
         {
@@ -93,7 +114,15 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
         {
             state = CODS_FINISH;
             stopper->run(robotAPI);
+
+            detectedLeftObstacleAngle = true;
+            detectedRightObstacleAngle = true;
+            detectedLeftObstacleDistance = true;
+            detectedRightObstacleDistance = true;
             return;
+
+            writeDebug("ClockwiseObstacleDetector finished");
+            flushDebug(TRACE, robotAPI);
         }
         switch (state)
         {
@@ -101,22 +130,25 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
         {
             turnWalker->run(robotAPI);
 
-            if (thresholdDistance >= currentDistance)
+            if (thresholdDistance <= currentDistance)
             {
-                rightObstacleDistance = currentDistance;
-                rightObstacleAngle = float(currentAngle);
+                detectedRightObstacleDistance = true;
+                detectedRightObstacleAngle = true;
+                state = CODS_DETECTING_LEFT_OBSTACLE;
             }
             else
             {
-                state = CODS_DETECTING_LEFT_OBSTACLE;
-                detectedRightObstacleDistance = true;
-                detectedRightObstacleAngle = true;
+                rightObstacleDistance = currentDistance;
+                rightObstacleAngle = float(currentAngle);
             }
 
             if (state != CODS_DETECTING_LEFT_OBSTACLE)
             {
                 break;
             }
+
+            writeDebug("CODS_DETECTING_RIGHT_OBSTACLE");
+            flushDebug(TRACE, robotAPI);
         }
         case CODS_DETECTING_LEFT_OBSTACLE:
         {
@@ -135,6 +167,10 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
                 break;
             }
             stopper->run(robotAPI);
+
+            writeDebug("CODS_DETECTING_LEFT_OBSTACLE");
+            flushDebug(TRACE, robotAPI);
+            printValues(robotAPI);
         }
         case CODS_FINISH:
         {
@@ -143,8 +179,12 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
         default:
             break;
         }
+        return;
     }
+}
 
+void ClockwiseObstacleDetector::printValues(RobotAPI *robotAPI)
+{
     writeDebug("leftAngle:");
     writeDebug(isDetectedLeftObstacleAngle());
     writeEndLineDebug();
@@ -157,7 +197,6 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
     writeDebug("rightDistance: ");
     writeDebug(isDetectedRightObstacleDistance());
     flushDebug(TRACE, robotAPI);
-    return;
 }
 
 ClockwiseObstacleDetector *ClockwiseObstacleDetector::generateReverseCommand()
