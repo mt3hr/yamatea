@@ -39,6 +39,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
 
     if (!reverse)
     {
+        /* //TODO これ実機で動かない
         if (targetAngle < currentAngle)
         {
             state = CODS_FINISH;
@@ -52,22 +53,20 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
             flushDebug(TRACE, robotAPI);
             return;
         }
+        */
         switch (state)
         {
         case CODS_DETECTING_LEFT_OBSTACLE:
         {
             turnWalker->run(robotAPI);
 
+            leftObstacleDistance = currentDistance;
+            leftObstacleAngle = float(currentAngle);
             if (thresholdDistance <= currentDistance)
             {
                 detectedLeftObstacleDistance = true;
                 detectedLeftObstacleAngle = true;
                 state = CODS_DETECTING_RIGHT_OBSTACLE;
-            }
-            else
-            {
-                leftObstacleDistance = currentDistance;
-                leftObstacleAngle = float(currentAngle);
             }
 
             if (state != CODS_DETECTING_RIGHT_OBSTACLE)
@@ -77,6 +76,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
 
             writeDebug("CODS_DETECTING_LEFT_OBSTACLE");
             flushDebug(TRACE, robotAPI);
+            break;
         }
         case CODS_DETECTING_RIGHT_OBSTACLE:
         {
@@ -99,6 +99,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
             writeDebug("CODS_DETECTING_RIGHT_OBSTACLE");
             flushDebug(TRACE, robotAPI);
             printValues(robotAPI);
+            break;
         }
         case CODS_FINISH:
         {
@@ -110,6 +111,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
     }
     else
     {
+        /* //TODO これ実機で動かない
         if (currentAngle > targetAngle)
         {
             state = CODS_FINISH;
@@ -124,22 +126,20 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
             writeDebug("ClockwiseObstacleDetector finished");
             flushDebug(TRACE, robotAPI);
         }
+        */
         switch (state)
         {
         case CODS_DETECTING_RIGHT_OBSTACLE:
         {
             turnWalker->run(robotAPI);
 
+            rightObstacleDistance = currentDistance;
+            rightObstacleAngle = float(currentAngle);
             if (thresholdDistance <= currentDistance)
             {
                 detectedRightObstacleDistance = true;
                 detectedRightObstacleAngle = true;
                 state = CODS_DETECTING_LEFT_OBSTACLE;
-            }
-            else
-            {
-                rightObstacleDistance = currentDistance;
-                rightObstacleAngle = float(currentAngle);
             }
 
             if (state != CODS_DETECTING_LEFT_OBSTACLE)
@@ -149,6 +149,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
 
             writeDebug("CODS_DETECTING_RIGHT_OBSTACLE");
             flushDebug(TRACE, robotAPI);
+            break;
         }
         case CODS_DETECTING_LEFT_OBSTACLE:
         {
@@ -171,6 +172,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
             writeDebug("CODS_DETECTING_LEFT_OBSTACLE");
             flushDebug(TRACE, robotAPI);
             printValues(robotAPI);
+            break;
         }
         case CODS_FINISH:
         {

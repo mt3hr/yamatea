@@ -32,6 +32,7 @@ UFORunner::UFORunner(float na, int wp, int rp) : ObstacleDetectRunner()
     n = na;
     walkerPow = wp;
     rotatePow = rp;
+    stopper = new Stopper();
 }
 
 UFORunner::~UFORunner()
@@ -42,6 +43,7 @@ UFORunner::~UFORunner()
     delete p_nDistancePredicate;
     delete n_xdivide2DistancePreicate;
     delete turnNPredicate;
+    delete stopper;
 }
 
 void UFORunner::run(RobotAPI *robotAPI)
@@ -68,6 +70,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         {
             break;
         }
+        stopper->run(robotAPI);
 
         writeDebug("UFO_DETECTING_OBSTACLE finished");
         flushDebug(INFO, robotAPI);
@@ -81,6 +84,7 @@ void UFORunner::run(RobotAPI *robotAPI)
             break;
         }
         startedCalcrate = true;
+        stopper->run(robotAPI);
 
         ik = float(obstacleDetector->getLeftObstacleDistance()) + distanceFromSonarSensorToAxle;
         dk = float(obstacleDetector->getRightObstacleDistance()) + distanceFromSonarSensorToAxle;
@@ -169,6 +173,7 @@ void UFORunner::run(RobotAPI *robotAPI)
 
         writeDebug("UFO_CALCRATING finished");
         flushDebug(INFO, robotAPI);
+        stopper->run(robotAPI);
     }
 
     case UFO_TURNNIN_TO_P: // I方向を向くように旋回
@@ -193,6 +198,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         {
             break;
         }
+        stopper->run(robotAPI);
 
         writeDebug("UFO_TURNNIN_TO_P finished");
         flushDebug(INFO, robotAPI);
@@ -225,6 +231,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         {
             break;
         }
+        stopper->run(robotAPI);
 
         writeDebug("UFO_TURNNING_P_IPN finished");
         flushDebug(INFO, robotAPI);
@@ -257,6 +264,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         {
             break;
         }
+        stopper->run(robotAPI);
 
         writeDebug("UFO_TURNNING_P_DPN finished");
         flushDebug(INFO, robotAPI);
@@ -283,6 +291,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         {
             break;
         }
+        stopper->run(robotAPI);
 
         writeDebug("UFO_RUNNING_P_N finished");
         flushDebug(INFO, robotAPI);
@@ -310,6 +319,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         {
             break;
         }
+        stopper->run(robotAPI);
 
         writeDebug("UFO_TURNNING_N finished");
         flushDebug(INFO, robotAPI);
@@ -336,6 +346,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         {
             break;
         }
+        stopper->run(robotAPI);
 
         writeDebug("UFO_RUNNING_N_XDIVIDE2 finished");
         flushDebug(INFO, robotAPI);

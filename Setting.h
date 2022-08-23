@@ -8,7 +8,7 @@
 // ********** 設定1/2ここから **********
 
 // 実機シミュレータ設定。ジャイロセンサから取得できる角度の方向が実機とシミュレータでは異なるので。
-#define SimulatorMode // 実機で動かすときにはコメントアウトして
+//#define SimulatorMode // 実機で動かすときにはコメントアウトして
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
@@ -26,7 +26,7 @@
 #define UFORunnerTestMode // UFO走行モード。テスト
 // モード設定ここまで
 
-//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 
 // ********** 設定1/2ここまで **********
 

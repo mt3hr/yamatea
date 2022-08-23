@@ -9,6 +9,7 @@
 #include "Predicate.h"
 #include "Walker.h"
 #include "Command.h"
+#include "Stopper.h"
 
 enum UFOBehavior
 {
@@ -93,6 +94,7 @@ private:
 
     int walkerPow;
     int rotatePow;
+    Stopper *stopper;
 
 public:
     UFORunner(float n, int walkerPow, int rotatePow);

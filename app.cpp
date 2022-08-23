@@ -469,7 +469,7 @@ void initializeCommandExecutor()
   // UFO走行コマンドの初期化とCommandExecutorへの追加
   float n = 8;
   int walkerPWM = 20;
-  int rotatePWM = 5; // シミュレータ: 5 実機: 10ぐらい
+  int rotatePWM = 7.5;
 
   // SwingSonar
   float swingLeftAngle = -90.0;
@@ -478,9 +478,9 @@ void initializeCommandExecutor()
   int targetRightDistance = 20;
   // Clockwise
   float angle = 180;
-  targetLeftDistance = 30;    // これを検知した状態からはじめて
+  targetLeftDistance = 40;    // これを検知した状態からはじめて
   int thresholdDistance = 30; // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
-  targetRightDistance = 30;   // あとはSwingSonarと同じ
+  targetRightDistance = 40;   // あとはSwingSonarと同じ
 
   bool clockwiseTest = true;
   bool reverseTest = false;
@@ -615,6 +615,7 @@ enum BTCommand
   BTC_RETURN_TO_START_POINT = 2,
 };
 
+// TODO Bluetoothは周期ハンドラで取得するべき
 void listen_bluetooth_command_task(intptr_t exinf)
 {
 #ifdef BluetoothMode
