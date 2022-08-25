@@ -22,12 +22,15 @@ ClockwiseObstacleDetector::~ClockwiseObstacleDetector()
     delete stopper;
 };
 
-void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
+void ClockwiseObstacleDetector::measure(RobotAPI *robotAPI)
 {
-    int currentDistance = robotAPI->getSonarSensor()->getDistance();
-    int currentAngle = robotAPI->getGyroSensor()->getAngle();
+    preDistance = currentDistance;
+    preAngle = currentAngle;
+    currentDistance = robotAPI->getSonarSensor()->getDistance();
 #ifndef SimulatorMode
-    currentAngle *= -1;
+    currentAngle = robotAPI->getGyroSensor()->getAngle() * -1 - angleOffset;
+#else
+    currentAngle = robotAPI->getGyroSensor()->getAngle() - angleOffset;
 #endif
 
     writeDebug("currentDistance: ");
@@ -36,34 +39,36 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
     writeDebug("currentAngle: ");
     writeDebug(currentAngle);
     flushDebug(TRACE, robotAPI);
+}
 
+void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
+{
+    measure(robotAPI);
     if (!reverse)
     {
-        /* //TODO これ実機で動かない
         if (targetAngle < currentAngle)
         {
-            state = CODS_FINISH;
             stopper->run(robotAPI);
             detectedLeftObstacleAngle = true;
             detectedRightObstacleAngle = true;
             detectedLeftObstacleDistance = true;
             detectedRightObstacleDistance = true;
+            state = CODS_FINISH;
 
             writeDebug("finishClockwiseObstacleDetector");
             flushDebug(TRACE, robotAPI);
             return;
         }
-        */
         switch (state)
         {
         case CODS_DETECTING_LEFT_OBSTACLE:
         {
             turnWalker->run(robotAPI);
 
-            leftObstacleDistance = currentDistance;
-            leftObstacleAngle = float(currentAngle);
             if (thresholdDistance <= currentDistance)
             {
+                leftObstacleDistance = preDistance;
+                leftObstacleAngle = preAngle;
                 detectedLeftObstacleDistance = true;
                 detectedLeftObstacleAngle = true;
                 state = CODS_DETECTING_RIGHT_OBSTACLE;
@@ -84,11 +89,11 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
 
             if (targetLeft >= currentDistance)
             {
-                state = CODS_FINISH;
                 rightObstacleDistance = currentDistance;
-                rightObstacleAngle = float(currentAngle);
+                rightObstacleAngle = currentAngle;
                 detectedRightObstacleDistance = true;
                 detectedRightObstacleAngle = true;
+                state = CODS_FINISH;
             }
             if (state != CODS_FINISH)
             {
@@ -111,7 +116,6 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
     }
     else
     {
-        /* //TODO これ実機で動かない
         if (currentAngle > targetAngle)
         {
             state = CODS_FINISH;
@@ -126,17 +130,16 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
             writeDebug("ClockwiseObstacleDetector finished");
             flushDebug(TRACE, robotAPI);
         }
-        */
         switch (state)
         {
         case CODS_DETECTING_RIGHT_OBSTACLE:
         {
             turnWalker->run(robotAPI);
 
-            rightObstacleDistance = currentDistance;
-            rightObstacleAngle = float(currentAngle);
             if (thresholdDistance <= currentDistance)
             {
+                rightObstacleDistance = preDistance;
+                rightObstacleAngle = preAngle;
                 detectedRightObstacleDistance = true;
                 detectedRightObstacleAngle = true;
                 state = CODS_DETECTING_LEFT_OBSTACLE;
@@ -157,11 +160,11 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
 
             if (targetRight <= currentDistance)
             {
-                state = CODS_FINISH;
                 leftObstacleDistance = currentDistance;
-                leftObstacleAngle = float(currentAngle);
+                leftObstacleAngle = currentAngle;
                 detectedLeftObstacleDistance = true;
                 detectedLeftObstacleAngle = true;
+                state = CODS_FINISH;
             }
             if (state != CODS_FINISH)
             {
@@ -218,10 +221,12 @@ ClockwiseObstacleDetector *ClockwiseObstacleDetector::generateReverseCommand()
 
 void ClockwiseObstacleDetector::preparation(RobotAPI *robotAPI)
 {
-    float currentAngle = robotAPI->getGyroSensor()->getAngle();
 #ifndef SimulatorMode
-    currentAngle *= -1;
+    float currentAngle = robotAPI->getGyroSensor()->getAngle() * -1;
+#else
+    float currentAngle = robotAPI->getGyroSensor()->getAngle();
 #endif
+    angleOffset = currentAngle;
     targetAngle = currentAngle + angle;
 }
 

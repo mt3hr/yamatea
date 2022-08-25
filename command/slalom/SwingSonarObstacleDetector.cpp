@@ -9,6 +9,8 @@
 #include "RobotAPI.h"
 #include "Setting.h"
 
+// TODO NumberOf(ryで数周期計測を無視する奴が必要かもしれない。左向きながら検知して、検知したら右向きながら数周期無視して、右向きながら検知して、終わる。
+
 using namespace ev3api;
 
 float ssodAbs(float f)
@@ -166,7 +168,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             {
                 break;
             }
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
         }
 
         case SSD_RETURNING_LEFT:
@@ -176,7 +178,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             {
                 break;
             }
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
         }
 
         case SSD_DETECT_OBSTACLE_RIGHT:
@@ -187,7 +189,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
                 break;
             }
 
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
         }
 
         case SSD_RETURNING_RIGHT:
@@ -197,7 +199,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             {
                 break;
             }
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
             printValues(robotAPI);
         }
 
@@ -230,7 +232,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
                 break;
             }
 
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
         }
 
         case SSD_RETURNING_RIGHT:
@@ -240,7 +242,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             {
                 break;
             }
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
         }
 
         case SSD_DETECT_OBSTACLE_LEFT:
@@ -250,7 +252,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             {
                 break;
             }
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
         }
 
         case SSD_RETURNING_LEFT:
@@ -260,7 +262,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             {
                 break;
             }
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
             printValues(robotAPI);
         }
 
@@ -293,7 +295,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             {
                 break;
             }
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
         }
 
         case SSD_RETURNING_LEFT:
@@ -303,7 +305,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             {
                 break;
             }
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
         }
 
         case SSD_DETECT_OBSTACLE_RIGHT:
@@ -314,7 +316,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
                 break;
             }
 
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
 
             printValues(robotAPI);
         }
@@ -348,7 +350,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
                 break;
             }
 
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
         }
 
         case SSD_RETURNING_RIGHT:
@@ -358,7 +360,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             {
                 break;
             }
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
         }
 
         case SSD_DETECT_OBSTACLE_LEFT:
@@ -368,7 +370,7 @@ void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
             {
                 break;
             }
-            stopper->run(robotAPI);
+            // stopper->run(robotAPI);
 
             printValues(robotAPI);
         }

@@ -474,21 +474,20 @@ void initializeCommandExecutor()
   // SwingSonar
   float swingLeftAngle = -90.0;
   float swingRightAngle = 90.0;
-  int targetLeftDistance = 20;
-  int targetRightDistance = 20;
   // Clockwise
   float angle = 180;
-  targetLeftDistance = 40;    // これを検知した状態からはじめて
-  int thresholdDistance = 30; // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
-  targetRightDistance = 40;   // あとはSwingSonarと同じ
+  int targetLeftDistance = 35;  // これを検知した状態からはじめて
+  int thresholdDistance = 35;   // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
+  int targetRightDistance = 35; // あとはSwingSonarと同じ
 
-  bool clockwiseTest = true;
+  bool clockwiseTest = false;
   bool reverseTest = false;
 
   UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM);
   if (clockwiseTest)
   {
     ufoRunner->initialiseUFOUseClockwiseObstacleDetector(angle, thresholdDistance, targetLeftDistance, targetRightDistance);
+    ufoRunner = ufoRunner->generateReverseCommand();
   }
   else
   {
@@ -538,7 +537,11 @@ void return_to_start_point_task(intptr_t exinf)
   case RTSP_TURNNING_UP:
   {
     int targetAngle = 180;
+#ifdef SimulatorMode
+    int angle = gyroSensor->getAngle() * -1;
+#else
     int angle = gyroSensor->getAngle();
+#endif
 
     if (angle < targetAngle)
     {
@@ -571,7 +574,11 @@ void return_to_start_point_task(intptr_t exinf)
   case RTSP_TURNNING_RIGHT:
   {
     int targetAngle = 270;
+#ifdef SimulatorMode
+    int angle = gyroSensor->getAngle() * -1;
+#else
     int angle = gyroSensor->getAngle();
+#endif
 
     if (angle < targetAngle)
     {

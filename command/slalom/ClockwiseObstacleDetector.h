@@ -43,8 +43,15 @@ private:
     bool detectedRightObstacleAngle = false;
 
     float targetAngle;
+    int angleOffset;
+
+    int currentAngle;
+    int currentDistance;
+    int preAngle;
+    int preDistance;
 
     void printValues(RobotAPI *robotAPI);
+    void measure(RobotAPI *robotAPI);
 
 public:
     ClockwiseObstacleDetector(int pwm, float angle, int thresholdDistance, int targetLeft, int targetRight);

@@ -395,6 +395,5 @@ void UFORunner::initialiseUFOUseSwingSonarObstacleDetector(float swingLeftAngle,
 void UFORunner::initialiseUFOUseClockwiseObstacleDetector(float angle, int thresholdDistance, int targetLeft, int targetRight)
 {
     behavior = CLOCKWISE;
-    setObstacleDetector(new ClockwiseObstacleDetector(rotatePow, angle, thresholdDistance, targetLeft, targetRight));
-    reverse = true;
+    setObstacleDetector((new ClockwiseObstacleDetector(rotatePow, angle, thresholdDistance, targetLeft, targetRight))->generateReverseCommand());
 }

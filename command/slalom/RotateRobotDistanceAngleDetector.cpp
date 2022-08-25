@@ -37,10 +37,10 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
         stopper->run(robotAPI);
         delete stopper;
         rotateRobotPredicate->preparation(robotAPI);
-        angleWhenInited = robotAPI->getGyroSensor()->getAngle();
-
 #ifndef SimulatorMode
-        angleWhenInited *= -1;
+        angleWhenInited = robotAPI->getGyroSensor()->getAngle() * -1;
+#else
+        angleWhenInited = robotAPI->getGyroSensor()->getAngle();
 #endif
 
         writeDebug("RotateRobotDistanceAngleDetector.angleWhenInited: ");
@@ -51,10 +51,11 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
 
     rotateRobotCommand->run(robotAPI);
     float rawDistance = robotAPI->getSonarSensor()->getDistance();
-    float rawAngle = robotAPI->getGyroSensor()->getAngle();
 
 #ifndef SimulatorMode
-    rawAngle *= -1; // 分度器で角度をはかる都合で時計回りを+にしたいｔめ、-1をかける
+    float rawAngle = robotAPI->getGyroSensor()->getAngle() * -1;
+#else
+    float rawAngle = robotAPI->getGyroSensor()->getAngle();
 #endif
 
     writeDebug("rawDistance: ");
