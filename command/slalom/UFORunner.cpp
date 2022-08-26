@@ -26,6 +26,18 @@ float toDegree(float radian)
     return radian * 180 / M_PI;
 }
 
+float ufoAbs(float f)
+{
+    if (0 < f)
+    {
+        return f;
+    }
+    else
+    {
+        return -f;
+    }
+}
+
 UFORunner::UFORunner(float na, int wp, int rp) : ObstacleDetectRunner()
 {
     state = UFO_DETECTING_OBSTACLE;
@@ -86,8 +98,8 @@ void UFORunner::run(RobotAPI *robotAPI)
         startedCalcrate = true;
         stopper->run(robotAPI);
 
-        ik = float(obstacleDetector->getLeftObstacleDistance()) + distanceFromSonarSensorToAxle;
-        dk = float(obstacleDetector->getRightObstacleDistance()) + distanceFromSonarSensorToAxle;
+        ik = float(obstacleDetector->getRightObstacleDistance()) + distanceFromSonarSensorToAxle;
+        dk = float(obstacleDetector->getLeftObstacleDistance()) + distanceFromSonarSensorToAxle;
 
         writeDebug("rightObstacleAngle: ");
         writeDebug(obstacleDetector->getRightObstacleAngle());
@@ -117,17 +129,18 @@ void UFORunner::run(RobotAPI *robotAPI)
 
         // 4,cos∠IPNをもとめ、逆関数で角度求める。
         // ∠IPN=arcsin(∠IPN)
-        ipn = toDegree(acos((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik)));
-        dpn = p - ipn;
+        ipn = toDegree(acos((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik))) * -1;
 
-        if (pin < 0)
+        if (0 < ipn)
         {
-            nTurnAngle = 180 - (180 - (-pin) - ipn) - (180 - 90 - din) * -1;
+            dpn = p - ufoAbs(ipn);
         }
         else
         {
-            nTurnAngle = 180 - (180 - pin - ipn) - (180 - 90 - din);
+            dpn = (p - ufoAbs(ipn)) * -1;
         }
+
+        nTurnAngle = toDegree(acos((pow(n, 2) + pow(ni, 2) - pow(x / 2, 2)) / (2 * n * ni)));
 
         if (reverse)
         {

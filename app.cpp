@@ -480,7 +480,7 @@ void initializeCommandExecutor()
   int thresholdDistance = 30;   // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
   int targetRightDistance = 30; // あとはSwingSonarと同じ
 
-  bool clockwiseTest = false;
+  bool clockwiseTest = true;
   bool reverseTest = false;
 
   UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM);
