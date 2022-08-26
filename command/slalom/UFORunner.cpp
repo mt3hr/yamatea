@@ -120,7 +120,14 @@ void UFORunner::run(RobotAPI *robotAPI)
         ipn = toDegree(acos((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik)));
         dpn = p - ipn;
 
-        nTurnAngle = 180 - (180 - pin - ipn) - (180 - 90 - din);
+        if (pin < 0)
+        {
+            nTurnAngle = 180 - (180 - (-pin) - ipn) - (180 - 90 - din) * -1;
+        }
+        else
+        {
+            nTurnAngle = 180 - (180 - pin - ipn) - (180 - 90 - din);
+        }
 
         if (reverse)
         {
@@ -209,7 +216,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         if (!initedTurnPIPN)
         {
             float angle = ipn;
-            if (reverse)
+            if (!reverse)
             {
                 angle *= -1;
             }
@@ -242,7 +249,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         if (!initedTurnPDPN)
         {
             float angle = -dpn;
-            if (reverse)
+            if (!reverse)
             {
                 angle *= -1;
             }
@@ -301,7 +308,7 @@ void UFORunner::run(RobotAPI *robotAPI)
     {
         if (!initedTurnN)
         {
-            CommandAndPredicate *commandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(-nTurnAngle, rotatePow, robotAPI);
+            CommandAndPredicate *commandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(nTurnAngle, rotatePow, robotAPI);
             turnNCommand = commandAndPredicate->getCommand();
             turnNPredicate = commandAndPredicate->getPredicate();
             commandAndPredicate->getPredicate()->preparation(robotAPI);

@@ -10,6 +10,7 @@
 #include "Stopper.h"
 #include "RobotAPI.h"
 #include "RotateRobotUseGyroCommandAndPredicate.h"
+#include "NumberOfTimesPredicate.h"
 
 using namespace ev3api;
 
@@ -88,6 +89,9 @@ private:
 
     RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicateLeft;  // 検知したら向き直るやつ左
     RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicateRight; // 検知したら向き直るやつ右
+
+    NumberOfTimesPredicate *ignoreFrameWhenReturningLeft;
+    NumberOfTimesPredicate *ignoreFrameWhenReturningRight;
 
     bool initedRotateRobotDistanceAngleDetectorLeft = false;
     bool initedRotateRobotDistanceAngleDetectorRight = false;

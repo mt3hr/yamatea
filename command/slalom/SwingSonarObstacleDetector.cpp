@@ -33,6 +33,10 @@ SwingSonarObstacleDetector::SwingSonarObstacleDetector(SwingOrder so, int pwm, f
     this->pwm = pwm;
     state = SSD_WAIT_START;
     stopper = new Stopper();
+
+    // TODO
+    ignoreFrameWhenReturningLeft = new NumberOfTimesPredicate(4);
+    ignoreFrameWhenReturningRight = new NumberOfTimesPredicate(4);
 };
 
 SwingSonarObstacleDetector::~SwingSonarObstacleDetector()
@@ -79,6 +83,11 @@ void SwingSonarObstacleDetector::returningLeft(RobotAPI *robotAPI, SwingSonarObs
 
     rotateRobotCommandAndPredicateLeft->getCommand()->run(robotAPI);
 
+    if (!ignoreFrameWhenReturningLeft->test(robotAPI))
+    {
+        return;
+    }
+
     if (rotateRobotCommandAndPredicateLeft->getPredicate()->test(robotAPI))
     {
         writeDebug("SwingSonarObstacleDetector returningLeft finished");
@@ -118,6 +127,11 @@ void SwingSonarObstacleDetector::returningRight(RobotAPI *robotAPI, SwingSonarOb
     }
 
     rotateRobotCommandAndPredicateRight->getCommand()->run(robotAPI);
+
+    if (!ignoreFrameWhenReturningRight->test(robotAPI))
+    {
+        return;
+    }
 
     if (rotateRobotCommandAndPredicateRight->getPredicate()->test(robotAPI))
     {
