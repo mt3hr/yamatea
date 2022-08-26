@@ -28,7 +28,7 @@
 #define UFORunnerClockwiseTestMode // UFO走行モード。左障害物を向いている状態から始める。テスト用
 // モード設定ここまで
 
-#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+// #define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 
 // ********** 設定1/2ここまで **********
 

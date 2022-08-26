@@ -610,12 +610,12 @@ void initializeCommandExecutor()
   // UFO走行コマンドの初期化とCommandExecutorへの追加
   float n = 10;
   int walkerPWM = 20;
-  int rotatePWM = 7.5;
+  int rotatePWM = 5;
 
   float swingLeftAngle = -90.0;
   float swingRightAngle = 90.0;
-  int targetLeftDistance = 30;
-  int targetRightDistance = 15;
+  int targetLeftDistance = 50;
+  int targetRightDistance = 40;
 
   bool reverseTest = false;
 
