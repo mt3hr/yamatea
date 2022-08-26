@@ -251,6 +251,147 @@ void initializeCommandExecutor()
 }
 #endif
 
+#ifdef FlatLineMode
+void initializeCommandExecutor()
+{
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(robotAPI);
+
+  // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
+  // そのシーンが終了する距離の定義。
+  // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
+  int sceneBananaMotorCountPredicateArg = 1200;      // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+  int sceneOrangeMotorCountPredicateArg = 2450;      // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
+  int sceneStarFruitsMotorCountPredicateArg = 2550;  // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
+  int sceneCherryMotorCountPredicateArg = 2750;      // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneWaterMelonMotorCountPredicateArg = 5150;  // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+  int sceneBokChoyMotorCountPredicateArg = 5400;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+  int sceneDorianMotorCountPredicateArg = 5700;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneMelonMotorCountPredicateArg = 8000;       // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+  int sceneCucumberMotorCountPredicateArg = 9700;    // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+  int sceneStrawberryMotorCountPredicateArg = 11200; // ゴールまで。いちご好き。ライントレースする。
+
+  // Commandの定義とCommandExecutorへの追加ここから
+
+  // PIDTargetCalibratorの初期化とCommandExecutorへの追加
+  PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator = new PIDTargetBrightnessCalibrator(robotAPI);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(pidTargetBrightnessCalibrator, startButtonPredicate);
+
+  int pwm = 20;
+  float kp = 0.7;
+  float ki = 0.2;
+  float kd=0.7;
+  int dt 1;
+
+  int leftPow;
+  int rightPow;
+
+  // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
+  vector<string> messageLines;
+  messageLines.push_back("Started!!");
+  messageLines.push_back("GOGOGO!!");
+  PrintMessage *printMessage = new PrintMessage(messageLines, true);
+  Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(printMessage, printMessagePredicate);
+
+  // BananaPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 20;
+  PIDTracer *bananaPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+  bananaPIDTracer = ifRightThenReverseCommand(bananaPIDTracer);
+  MotorCountPredicate *predicateBanana = generateWheelCountPredicate(sceneBananaMotorCountPredicateArg);
+  commandExecutor->addCommand(bananaPIDTracer, predicateBanana);
+  pidTargetBrightnessCalibrator->addPIDTracer(bananaPIDTracer);
+
+  // OrangePIDTracerの初期化とCommandExecutorへの追加
+  pwm = 15;
+  PIDTracer *orangePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+  orangePIDTracer = ifRightThenReverseCommand(orangePIDTracer);
+  MotorCountPredicate *predicateOrange = generateWheelCountPredicate(sceneOrangeMotorCountPredicateArg);
+  pidTargetBrightnessCalibrator->addPIDTracer(orangePIDTracer);
+  commandExecutor->addCommand(orangePIDTracer, predicateOrange);
+
+  // StarFruitsWalkerの初期化とCommandExecutorへの追加
+  leftPow = 16;
+  rightPow = 20;
+  Walker *starFruitsWalker = new Walker(leftPow, rightPow);
+  starFruitsWalker = ifRightThenReverseCommand(starFruitsWalker);
+  MotorCountPredicate *predicateStarFruits = generateWheelCountPredicate(sceneStarFruitsMotorCountPredicateArg);
+  commandExecutor->addCommand(starFruitsWalker, predicateStarFruits);
+
+  // CherryPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 10;
+  PIDTracer *cherryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+  cherryPIDTracer = ifRightThenReverseCommand(cherryPIDTracer);
+  MotorCountPredicate *predicateCherry = generateWheelCountPredicate(sceneCherryMotorCountPredicateArg);
+  pidTargetBrightnessCalibrator->addPIDTracer(cherryPIDTracer);
+  commandExecutor->addCommand(cherryPIDTracer, predicateCherry);
+
+  // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 18;
+  PIDTracer *waterMelonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+  waterMelonPIDTracer = ifRightThenReverseCommand(waterMelonPIDTracer);
+  MotorCountPredicate *predicateWaterMelon = generateWheelCountPredicate(sceneWaterMelonMotorCountPredicateArg);
+  pidTargetBrightnessCalibrator->addPIDTracer(waterMelonPIDTracer);
+  commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon);
+
+  // BokChoyWalkerの初期化とCommandExecutorへの追加
+  leftPow = 20;
+  rightPow = 18;
+  Walker *bokChoyWalker = new Walker(leftPow, rightPow);
+  bokChoyWalker = ifRightThenReverseCommand(bokChoyWalker);
+  MotorCountPredicate *predicateBokChoy = generateWheelCountPredicate(sceneBokChoyMotorCountPredicateArg);
+  commandExecutor->addCommand(bokChoyWalker, predicateBokChoy);
+
+  // DorianPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 10;
+  PIDTracer *dorianPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+  dorianPIDTracer = ifRightThenReverseCommand(dorianPIDTracer);
+  MotorCountPredicate *predicateDorian = generateWheelCountPredicate(sceneDorianMotorCountPredicateArg);
+  pidTargetBrightnessCalibrator->addPIDTracer(dorianPIDTracer);
+  commandExecutor->addCommand(dorianPIDTracer, predicateDorian);
+
+  // MelonPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 20;
+  PIDTracer *melonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+  melonPIDTracer = ifRightThenReverseCommand(melonPIDTracer);
+  MotorCountPredicate *predicateMelon = generateWheelCountPredicate(sceneMelonMotorCountPredicateArg);
+  pidTargetBrightnessCalibrator->addPIDTracer(melonPIDTracer);
+  commandExecutor->addCommand(melonPIDTracer, predicateMelon);
+
+  // CucumberPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 28;
+  PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+  cucumberPIDTracer = ifRightThenReverseCommand(cucumberPIDTracer);
+  MotorCountPredicate *predicateCucumber = generateWheelCountPredicate(sceneCucumberMotorCountPredicateArg);
+  pidTargetBrightnessCalibrator->addPIDTracer(cucumberPIDTracer);
+  commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber);
+
+  // StrawberryPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 20;
+  PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+  strawberryPIDTracer = ifRightThenReverseCommand(strawberryPIDTracer);
+  MotorCountPredicate *predicateStrawberry = generateWheelCountPredicate(sceneStrawberryMotorCountPredicateArg);
+  pidTargetBrightnessCalibrator->addPIDTracer(strawberryPIDTracer);
+  commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry);
+
+  // Commandの定義とCommandExecutorへの追加ここまで
+
+#ifdef SimulatorMode
+  // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
+  int targetBrightness = 20;
+  bananaPIDTracer->setTargetBrightness(targetBrightness);
+  orangePIDTracer->setTargetBrightness(targetBrightness);
+  cherryPIDTracer->setTargetBrightness(targetBrightness);
+  waterMelonPIDTracer->setTargetBrightness(targetBrightness);
+  dorianPIDTracer->setTargetBrightness(targetBrightness);
+  melonPIDTracer->setTargetBrightness(targetBrightness);
+  cucumberPIDTracer->setTargetBrightness(targetBrightness);
+  strawberryPIDTracer->setTargetBrightness(targetBrightness);
+#endif
+}
+#endif
+
 // RGBRawReaderModeの場合のcommandExecutor初期化処理
 #ifdef RGBRawReaderMode
 void initializeCommandExecutor()
@@ -456,7 +597,7 @@ void initializeCommandExecutor()
 }
 #endif
 
-#if defined(UFORunnerTestMode)
+#if defined(UFORunnerSwingTestMode)
 void initializeCommandExecutor()
 {
   // CommandExecutorの初期化
@@ -471,28 +612,54 @@ void initializeCommandExecutor()
   int walkerPWM = 20;
   int rotatePWM = 7.5;
 
-  // SwingSonar
   float swingLeftAngle = -90.0;
   float swingRightAngle = 90.0;
-  // Clockwise
+  int targetLeftDistance = 30;
+  int targetRightDistance = 15;
+
+  bool reverseTest = false;
+
+  UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM);
+  ufoRunner->initialiseUFOUseSwingSonarObstacleDetector(swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
+  ufoRunner = ufoRunner->generateReverseCommand();
+  if (reverseTest)
+  {
+    ufoRunner = ufoRunner->generateReverseCommand();
+  }
+  commandExecutor->addCommand(ufoRunner, new FinishedCommandPredicate(ufoRunner));
+
+  // 停止コマンドの初期化とCommandExecutorへの追加
+  Stopper *stopper = new Stopper();
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(stopper, stopperPredicate);
+}
+#endif
+
+#if defined(UFORunnerClockwiseTestMode)
+void initializeCommandExecutor()
+{
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(robotAPI);
+
+  // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
+
+  // UFO走行コマンドの初期化とCommandExecutorへの追加
+  float n = 10;
+  int walkerPWM = 20;
+  int rotatePWM = 7.5;
+
   float angle = 180;
   int targetLeftDistance = 30;  // これを検知した状態からはじめて
   int thresholdDistance = 30;   // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
   int targetRightDistance = 30; // あとはSwingSonarと同じ
 
-  bool clockwiseTest = true;
   bool reverseTest = false;
 
   UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM);
-  if (clockwiseTest)
-  {
-    ufoRunner->initialiseUFOUseClockwiseObstacleDetector(angle, thresholdDistance, targetLeftDistance, targetRightDistance);
-    ufoRunner = ufoRunner->generateReverseCommand();
-  }
-  else
-  {
-    ufoRunner->initialiseUFOUseSwingSonarObstacleDetector(swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
-  }
+  ufoRunner->initialiseUFOUseClockwiseObstacleDetector(angle, thresholdDistance, targetLeftDistance, targetRightDistance);
+  ufoRunner = ufoRunner->generateReverseCommand(); // Lコーススラロームテストのために反転する
   if (reverseTest)
   {
     ufoRunner = ufoRunner->generateReverseCommand();

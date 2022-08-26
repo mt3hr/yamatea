@@ -90,9 +90,6 @@ private:
     RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicateLeft;  // 検知したら向き直るやつ左
     RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicateRight; // 検知したら向き直るやつ右
 
-    NumberOfTimesPredicate *ignoreFrameWhenReturningLeft;
-    NumberOfTimesPredicate *ignoreFrameWhenReturningRight;
-
     bool initedRotateRobotDistanceAngleDetectorLeft = false;
     bool initedRotateRobotDistanceAngleDetectorRight = false;
     bool initedRotateRobotCommandAndPreicateLeft = false;

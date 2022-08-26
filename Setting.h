@@ -14,6 +14,7 @@
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 //#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
+#define FlatLineMode // すべて同じPIDで倉庫する左コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
@@ -23,7 +24,8 @@
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
-#define UFORunnerTestMode // UFO走行モード。テスト
+//#define UFORunnerSwingTestMode     // UFO走行モード。障害物間を向いている状態から始める。テスト用
+//#define UFORunnerClockwiseTestMode // UFO走行モード。左障害物を向いている状態から始める。テスト用
 // モード設定ここまで
 
 #define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ

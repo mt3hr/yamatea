@@ -31,24 +31,6 @@ RotateRobotDistanceAngleDetector::~RotateRobotDistanceAngleDetector()
 
 void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
 {
-    if (!inited)
-    {
-        Stopper *stopper = new Stopper();
-        stopper->run(robotAPI);
-        delete stopper;
-        rotateRobotPredicate->preparation(robotAPI);
-#ifndef SimulatorMode
-        angleWhenInited = robotAPI->getGyroSensor()->getAngle() * -1;
-#else
-        angleWhenInited = robotAPI->getGyroSensor()->getAngle();
-#endif
-
-        writeDebug("RotateRobotDistanceAngleDetector.angleWhenInited: ");
-        writeDebug(angleWhenInited);
-        flushDebug(DEBUG, robotAPI);
-        inited = true;
-    }
-
     rotateRobotCommand->run(robotAPI);
     float rawDistance = robotAPI->getSonarSensor()->getDistance();
 
@@ -60,7 +42,6 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
 
     writeDebug("rawDistance: ");
     writeDebug(rawDistance);
-    flushDebug(TRACE, robotAPI);
     writeDebug("rawAngle: ");
     writeDebug(rawAngle);
     flushDebug(TRACE, robotAPI);
@@ -90,7 +71,19 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
 
 void RotateRobotDistanceAngleDetector::preparation(RobotAPI *robotAPI)
 {
-    return;
+    Stopper *stopper = new Stopper();
+    stopper->run(robotAPI);
+    delete stopper;
+    rotateRobotPredicate->preparation(robotAPI);
+#ifndef SimulatorMode
+    angleWhenInited = robotAPI->getGyroSensor()->getAngle() * -1;
+#else
+    angleWhenInited = robotAPI->getGyroSensor()->getAngle();
+#endif
+
+    writeDebug("RotateRobotDistanceAngleDetector.angleWhenInited: ");
+    writeDebug(angleWhenInited);
+    flushDebug(DEBUG, robotAPI);
 }
 
 RotateRobotDistanceAngleDetector *RotateRobotDistanceAngleDetector::generateReverseCommand()

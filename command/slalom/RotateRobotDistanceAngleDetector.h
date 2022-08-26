@@ -26,7 +26,6 @@ private:
     Command *rotateRobotCommand;
     Predicate *rotateRobotPredicate;
 
-    bool inited = false;
     bool detectedDistance = false;
     bool detectedAngle = false;
 
