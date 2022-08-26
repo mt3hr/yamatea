@@ -14,7 +14,11 @@ ClockwiseObstacleDetector::ClockwiseObstacleDetector(int pwm, float angle, int t
     this->targetLeft = targetLeft;
     this->targetRight = targetRight;
     this->reverse = false;
-    this->ignoreFrameWhenFirstDetected = new NumberOfTimesPredicate(20); // TODO モデルとコメント
+#ifdef SimulatorMode
+    this->ignoreFrameWhenFirstDetected = new NumberOfTimesPredicate(0); // TODO モデルとコメント、引数化
+#else
+    this->ignoreFrameWhenFirstDetected = new NumberOfTimesPredicate(20); // TODO モデルとコメント、引数化
+#endif
 };
 
 ClockwiseObstacleDetector::~ClockwiseObstacleDetector()
@@ -31,7 +35,7 @@ void ClockwiseObstacleDetector::measure(RobotAPI *robotAPI)
 #ifndef SimulatorMode
     currentAngle = robotAPI->getGyroSensor()->getAngle() * -1; // TODO - angleOffset;
 #else
-    currentAngle = robotAPI->getGyroSensor()->getAngle(); // TODO - angleOffset;
+    currentAngle = robotAPI->getGyroSensor()->getAngle();                // TODO - angleOffset;
 #endif
 
     writeDebug("currentDistance: ");

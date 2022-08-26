@@ -130,23 +130,9 @@ void UFORunner::run(RobotAPI *robotAPI)
 
         // 4,cos∠IPNをもとめ、逆関数で角度求める。
         // ∠IPN=arcsin(∠IPN)
-        // if (leftAngle < rightAngle)
-        // {
         ipn = toDegree(acos((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik))) * -1;
-        // }
-        // else
-        // {
-        // ipn = toDegree(acos((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik)));
-        // }
 
-        if (0 < ipn)
-        {
-            dpn = p - ufoAbs(ipn);
-        }
-        else
-        {
-            dpn = (p - ufoAbs(ipn)) * -1;
-        }
+        dpn = p - ipn;
 
         // if (leftAngle < rightAngle)
         // {

@@ -281,7 +281,7 @@ void initializeCommandExecutor()
   int pwm = 20;
   float kp = 0.7;
   float ki = 0.2;
-  float kd=0.7;
+  float kd = 0.7;
   int dt = 1;
 
   int leftPow;
@@ -646,9 +646,15 @@ void initializeCommandExecutor()
   commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
-  float n = 10;
+#ifdef SimulatorMode
+  float n = 7.5;
   int walkerPWM = 15;
   int rotatePWM = 6.5;
+#else
+  float n = 10;
+  int walkerPWM = 20;
+  int rotatePWM = 8;
+#endif
 
   float angle = 180;
   int targetLeftDistance = 35;  // これを検知した状態からはじめて
