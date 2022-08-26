@@ -96,7 +96,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         writeDebug(obstacleDetector->getLeftObstacleAngle());
         flushDebug(TRACE, robotAPI);
 
-        p = obstacleDetector->getLeftObstacleAngle() - obstacleDetector->getRightObstacleAngle();
+        p = obstacleDetector->getRightObstacleAngle() - obstacleDetector->getLeftObstacleAngle();
 
         // C++のmathの三角関数系統はラジアンをうけとるしラジアンを返してくる
 

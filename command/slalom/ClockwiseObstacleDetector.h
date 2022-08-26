@@ -4,6 +4,7 @@
 #include "ObstacleDetector.h"
 #include "Walker.h"
 #include "Stopper.h"
+#include "NumberOfTimesPredicate.h"
 
 enum ClockwiseObstacleDetectorState
 {
@@ -31,6 +32,8 @@ private:
 
     Walker *turnWalker;
     Stopper *stopper;
+
+    NumberOfTimesPredicate *ignoreFrameWhenFirstDetected;
 
     int leftObstacleDistance = 256;
     int rightObstacleDistance = 256;
