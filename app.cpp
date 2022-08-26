@@ -282,7 +282,7 @@ void initializeCommandExecutor()
   float kp = 0.7;
   float ki = 0.2;
   float kd=0.7;
-  int dt 1;
+  int dt = 1;
 
   int leftPow;
   int rightPow;
@@ -647,13 +647,13 @@ void initializeCommandExecutor()
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
   float n = 10;
-  int walkerPWM = 20;
-  int rotatePWM = 7.5;
+  int walkerPWM = 15;
+  int rotatePWM = 6.5;
 
   float angle = 180;
-  int targetLeftDistance = 30;  // これを検知した状態からはじめて
+  int targetLeftDistance = 35;  // これを検知した状態からはじめて
   int thresholdDistance = 30;   // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
-  int targetRightDistance = 30; // あとはSwingSonarと同じ
+  int targetRightDistance = 35; // あとはSwingSonarと同じ
 
   bool reverseTest = false;
 

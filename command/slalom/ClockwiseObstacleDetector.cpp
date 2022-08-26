@@ -14,7 +14,7 @@ ClockwiseObstacleDetector::ClockwiseObstacleDetector(int pwm, float angle, int t
     this->targetLeft = targetLeft;
     this->targetRight = targetRight;
     this->reverse = false;
-    this->ignoreFrameWhenFirstDetected = new NumberOfTimesPredicate(5); // TODO モデルとコメント
+    this->ignoreFrameWhenFirstDetected = new NumberOfTimesPredicate(20); // TODO モデルとコメント
 };
 
 ClockwiseObstacleDetector::~ClockwiseObstacleDetector()

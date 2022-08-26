@@ -107,8 +107,9 @@ void UFORunner::run(RobotAPI *robotAPI)
         writeDebug("leftObstacleAngle: ");
         writeDebug(obstacleDetector->getLeftObstacleAngle());
         flushDebug(TRACE, robotAPI);
-
-        p = obstacleDetector->getRightObstacleAngle() - obstacleDetector->getLeftObstacleAngle();
+        float leftAngle = obstacleDetector->getLeftObstacleAngle();
+        float rightAngle = obstacleDetector->getRightObstacleAngle();
+        p = rightAngle - leftAngle;
 
         // C++のmathの三角関数系統はラジアンをうけとるしラジアンを返してくる
 
@@ -129,7 +130,14 @@ void UFORunner::run(RobotAPI *robotAPI)
 
         // 4,cos∠IPNをもとめ、逆関数で角度求める。
         // ∠IPN=arcsin(∠IPN)
+        // if (leftAngle < rightAngle)
+        // {
         ipn = toDegree(acos((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik))) * -1;
+        // }
+        // else
+        // {
+        // ipn = toDegree(acos((pow(pn, 2) + pow(ik, 2) - pow(ni, 2)) / (2 * pn * ik)));
+        // }
 
         if (0 < ipn)
         {
@@ -140,7 +148,14 @@ void UFORunner::run(RobotAPI *robotAPI)
             dpn = (p - ufoAbs(ipn)) * -1;
         }
 
+        // if (leftAngle < rightAngle)
+        // {
         nTurnAngle = toDegree(acos((pow(n, 2) + pow(ni, 2) - pow(x / 2, 2)) / (2 * n * ni)));
+        // }
+        // else
+        // {
+        // nTurnAngle = toDegree(acos((pow(n, 2) + pow(ni, 2) - pow(x / 2, 2)) / (2 * n * ni))) * -1;
+        // }
 
         if (reverse)
         {

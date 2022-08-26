@@ -9,7 +9,7 @@
 
 // 車体情報設定ここから
 float wheelDiameter = 10.4;                 // 車輪直径。センチメートル。
-float distanceFromSonarSensorToAxle = 10.5; // ソナーセンサから車軸までの距離
+float distanceFromSonarSensorToAxle = 12; // ソナーセンサから車軸までの距離
 float wheelSpace = 14.5;                    // 左車輪と右車輪の間隔
 int angleFor360TurnLeftRotateRobot = 520;   // 左に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnRightRotateRobot = 510;  // 右に360度旋回するのに必要な左右車輪回転角度数
