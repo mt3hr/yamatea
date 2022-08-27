@@ -492,7 +492,7 @@ void initializeCommandExecutor()
 
   // 直進コマンドの初期化とCommandExecutorへの追加
   int pwm = 50;
-  float distanceCm = 50;
+  float distanceCm = 10000;
   Walker *walker = new Walker(pwm, pwm);
   DistancePredicate *walkerPredicate = new DistancePredicate(distanceCm, robotAPI);
   commandExecutor->addCommand(walker, walkerPredicate);
