@@ -94,17 +94,23 @@ private:
 
     int walkerPow;
     int rotatePow;
+
     Stopper *stopper;
 
-public:
+protected://TODO privateにして
+    // generateReverseCommandやコンストラクタで使われる
     UFORunner(float n, int walkerPow, int rotatePow);
+
+public:
+    // 障害物間からから距離角度計測を始めるもの
+    UFORunner(float na, int wp, int rp, float swingLeftAngle, float swingRightAngle, int targetLeftDistance, int targetRightDistance);
+    // 左障害物を向いている状態から距離角度計測を始めるもの
+    UFORunner(float na, int wp, int rp, float angle, int thresholdDistance, int targetLeft, int targetRight, int skipFrameAfterDetectFirstObstacle);
     virtual ~UFORunner();
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
     virtual UFORunner *generateReverseCommand() override;
     virtual bool isFinished() override;
-    virtual void initialiseUFOUseSwingSonarObstacleDetector(float swingLeftAngle, float swingRightAngle, int targetLeftDistance, int targetRightDistance);
-    virtual void initialiseUFOUseClockwiseObstacleDetector(float angle, int thresholdDistance, int targetLeft, int targetRight);
 };
 
 #endif

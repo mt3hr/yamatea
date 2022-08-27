@@ -9,8 +9,6 @@
 #include "RobotAPI.h"
 #include "Setting.h"
 
-// TODO NumberOf(ryで数周期計測を無視する奴が必要かもしれない。左向きながら検知して、検知したら右向きながら数周期無視して、右向きながら検知して、終わる。
-
 using namespace ev3api;
 
 float ssodAbs(float f)
@@ -29,10 +27,10 @@ SwingSonarObstacleDetector::SwingSonarObstacleDetector(SwingOrder so, int pwm, f
     this->targetLeft = targetLeft;
     this->targetRight = targetRight;
 
-    swingOrder = so;
+    this->swingOrder = so;
     this->pwm = pwm;
-    stopper = new Stopper();
-    state = SSD_WAIT_START;
+    this->stopper = new Stopper();
+    this->state = SSD_WAIT_START;
 };
 
 SwingSonarObstacleDetector::~SwingSonarObstacleDetector()

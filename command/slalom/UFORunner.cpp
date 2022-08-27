@@ -19,12 +19,12 @@ using namespace ev3api;
 float toRadian(float degree)
 {
     return degree * M_PI / 180;
-}
+};
 
 float toDegree(float radian)
 {
     return radian * 180 / M_PI;
-}
+};
 
 float ufoAbs(float f)
 {
@@ -36,16 +36,28 @@ float ufoAbs(float f)
     {
         return -f;
     }
-}
+};
 
 UFORunner::UFORunner(float na, int wp, int rp) : ObstacleDetectRunner()
 {
-    state = UFO_DETECTING_OBSTACLE;
     n = na;
     walkerPow = wp;
     rotatePow = rp;
+    state = UFO_DETECTING_OBSTACLE;
     stopper = new Stopper();
-}
+};
+
+UFORunner::UFORunner(float na, int wp, int rp, float swingLeftAngle, float swingRightAngle, int targetLeftDistance, int targetRightDistance) : UFORunner(na, wp, rp)
+{
+    behavior = SWING_SONAR;
+    setObstacleDetector(new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, rotatePow, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance));
+};
+
+UFORunner::UFORunner(float na, int wp, int rp, float angle, int thresholdDistance, int targetLeft, int targetRight, int skipFrameAfterDetectFirstObstacle) : UFORunner(na, wp, rp)
+{
+    behavior = CLOCKWISE;
+    setObstacleDetector((new ClockwiseObstacleDetector(rotatePow, angle, thresholdDistance, targetLeft, targetRight, skipFrameAfterDetectFirstObstacle))->generateReverseCommand());
+};
 
 UFORunner::~UFORunner()
 {
@@ -405,16 +417,4 @@ UFORunner *UFORunner::generateReverseCommand()
 bool UFORunner::isFinished()
 {
     return state == UFO_FINISHED;
-}
-
-void UFORunner::initialiseUFOUseSwingSonarObstacleDetector(float swingLeftAngle, float swingRightAngle, int targetLeftDistance, int targetRightDistance)
-{
-    behavior = SWING_SONAR;
-    setObstacleDetector(new SwingSonarObstacleDetector(CENTER_RIGHT_LEFT, rotatePow, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance));
-}
-
-void UFORunner::initialiseUFOUseClockwiseObstacleDetector(float angle, int thresholdDistance, int targetLeft, int targetRight)
-{
-    behavior = CLOCKWISE;
-    setObstacleDetector((new ClockwiseObstacleDetector(rotatePow, angle, thresholdDistance, targetLeft, targetRight))->generateReverseCommand());
 }

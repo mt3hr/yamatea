@@ -3,7 +3,7 @@
 #include "DebugUtil.h"
 
 // 距離センサから取得できる値がthresholdDistance以上になったタイミングで、最初のオブジェクトの距離を確定します。
-ClockwiseObstacleDetector::ClockwiseObstacleDetector(int pwm, float angle, int thresholdDistance, int targetLeft, int targetRight)
+ClockwiseObstacleDetector::ClockwiseObstacleDetector(int pwm, float angle, int thresholdDistance, int targetLeft, int targetRight, int skipFrameAfterDetectFirstObstacle)
 {
     this->state = CODS_DETECTING_LEFT_OBSTACLE;
     this->turnWalker = new Walker(pwm, -pwm);
@@ -13,12 +13,9 @@ ClockwiseObstacleDetector::ClockwiseObstacleDetector(int pwm, float angle, int t
     this->thresholdDistance = thresholdDistance;
     this->targetLeft = targetLeft;
     this->targetRight = targetRight;
+    this->skipFrameAfterDetectFirstObstacle = skipFrameAfterDetectFirstObstacle;
     this->reverse = false;
-#ifdef SimulatorMode
-    this->ignoreFrameWhenFirstDetected = new NumberOfTimesPredicate(0); // TODO モデルとコメント、引数化
-#else
-    this->ignoreFrameWhenFirstDetected = new NumberOfTimesPredicate(20); // TODO モデルとコメント、引数化
-#endif
+    this->ignoreFrameWhenFirstDetected = new NumberOfTimesPredicate(skipFrameAfterDetectFirstObstacle); // TODO モデルとコメント、引数化
 };
 
 ClockwiseObstacleDetector::~ClockwiseObstacleDetector()
@@ -35,7 +32,7 @@ void ClockwiseObstacleDetector::measure(RobotAPI *robotAPI)
 #ifndef SimulatorMode
     currentAngle = robotAPI->getGyroSensor()->getAngle() * -1; // TODO - angleOffset;
 #else
-    currentAngle = robotAPI->getGyroSensor()->getAngle();                // TODO - angleOffset;
+    currentAngle = robotAPI->getGyroSensor()->getAngle(); // TODO - angleOffset;
 #endif
 
     writeDebug("currentDistance: ");
@@ -207,7 +204,7 @@ void ClockwiseObstacleDetector::printValues(RobotAPI *robotAPI)
 
 ClockwiseObstacleDetector *ClockwiseObstacleDetector::generateReverseCommand()
 {
-    ClockwiseObstacleDetector *reversed = new ClockwiseObstacleDetector(-pwm, -angle, thresholdDistance, targetRight, targetLeft);
+    ClockwiseObstacleDetector *reversed = new ClockwiseObstacleDetector(-pwm, -angle, thresholdDistance, targetRight, targetLeft, skipFrameAfterDetectFirstObstacle);
     reversed->reverse = !reverse;
     if (reversed->reverse)
     {

@@ -47,6 +47,7 @@ private:
 
     float targetAngle;
     int angleOffset;
+    int skipFrameAfterDetectFirstObstacle;
 
     int currentAngle;
     int currentDistance;
@@ -57,7 +58,7 @@ private:
     void measure(RobotAPI *robotAPI);
 
 public:
-    ClockwiseObstacleDetector(int pwm, float angle, int thresholdDistance, int targetLeft, int targetRight);
+    ClockwiseObstacleDetector(int pwm, float angle, int thresholdDistance, int targetLeft, int targetRight, int skipFrameAfterDetectFirstObstacle);
     virtual ~ClockwiseObstacleDetector();
     virtual void run(RobotAPI *robotAPI) override;
     virtual ClockwiseObstacleDetector *generateReverseCommand() override;
