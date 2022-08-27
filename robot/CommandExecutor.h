@@ -4,6 +4,7 @@
 #include "Predicate.h"
 #include "Command.h"
 #include <vector>
+#include "string"
 #include "RobotAPI.h"
 
 using namespace std;
@@ -22,13 +23,14 @@ private:
     bool finished = false;
     vector<Command *> commands;
     vector<Predicate *> predicates;
+    vector<string> commandNames;
     vector<bool> preparated;
     RobotAPI *robotAPI;
 
 public:
     CommandExecutor(RobotAPI *robotAPI);
     virtual ~CommandExecutor();
-    virtual void addCommand(Command *command, Predicate *exitCondition);
+    virtual void addCommand(Command *command, Predicate *exitCondition, string commandName);
     virtual void run();
     virtual void emergencyStop();
     virtual void reverseCommandAndPredicate();

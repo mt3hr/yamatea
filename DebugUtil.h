@@ -20,4 +20,7 @@ void writeEndLineDebug();
 void flushDebug(DEBUG_LEVEL level, RobotAPI *robotAPI);
 void beepDebug();
 
+// 変数名取得
+#define GET_VARIABLE_NAME(Variable) (#Variable)
+
 #endif

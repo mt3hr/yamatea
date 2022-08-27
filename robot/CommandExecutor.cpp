@@ -7,6 +7,9 @@
 #include "RobotAPI.h"
 #include "Setting.h"
 #include "DebugUtil.h"
+#include "string"
+#include "sstream"
+#include "vector"
 
 using namespace ev3api;
 using namespace std;
@@ -28,10 +31,11 @@ CommandExecutor::~CommandExecutor()
     }
 }
 
-void CommandExecutor::addCommand(Command *command, Predicate *exitCondition)
+void CommandExecutor::addCommand(Command *command, Predicate *exitCondition, string commandName)
 {
     commands.push_back(command);
     predicates.push_back(exitCondition);
+    commandNames.push_back(commandName);
     preparated.push_back(false);
 }
 
@@ -49,6 +53,14 @@ void CommandExecutor::run()
         preparated[currentIndexForCommand] = true;
         commands[currentIndexForCommand]->preparation(robotAPI);
         predicates[currentIndexForCommand]->preparation(robotAPI);
+
+        vector<string> messageLines;
+        messageLines.push_back("running ");
+        messageLines.push_back(commandNames[currentIndexForCommand]);
+
+        PrintMessage *printMessage = new PrintMessage(messageLines, true);
+        printMessage->run(robotAPI);
+        delete printMessage;
     }
 
     // 終了条件が満たされたらindexを変更して次のコマンドに移動する
