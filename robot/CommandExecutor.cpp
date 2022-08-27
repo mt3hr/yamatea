@@ -90,3 +90,20 @@ void CommandExecutor::emergencyStop()
     printStopMessage.run(robotAPI);
     stp_cyc(RUNNER_CYC);
 }
+
+void CommandExecutor::reverseCommandAndPredicate()
+{
+    for (int i = 0; i < ((int)sizeof(commands)); i++)
+    {
+        Command *reversed = commands[i]->generateReverseCommand();
+        delete commands[i];
+        commands[i] = reversed;
+    }
+
+    for (int i = 0; i < ((int)sizeof(predicates)); i++)
+    {
+        Predicate *reversed = predicates[i]->generateReversePredicate();
+        delete predicates[i];
+        predicates[i] = reversed;
+    }
+}

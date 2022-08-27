@@ -17,7 +17,6 @@ StartButtonPredicate.o \
 CommandExecutor.o \
 RotateRobotCommandAndPredicate.o \
 GyroRotateAnglePredicate.o \
-SuitableForRightCourse.o \
 PIDTargetBrightnessCalibrator.o \
 PIDTracer.o \
 Walker.o \

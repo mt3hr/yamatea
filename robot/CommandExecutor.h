@@ -31,6 +31,7 @@ public:
     virtual void addCommand(Command *command, Predicate *exitCondition);
     virtual void run();
     virtual void emergencyStop();
+    virtual void reverseCommandAndPredicate();
 };
 
 #endif
