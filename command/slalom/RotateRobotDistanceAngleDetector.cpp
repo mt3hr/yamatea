@@ -15,7 +15,7 @@ RotateRobotDistanceAngleDetector::RotateRobotDistanceAngleDetector(float targetA
 
     writeDebug("RotateRobotDistanceAngleDetector.targetAngle: ");
     writeDebug(targetAngle);
-    flushDebug(TRACE, robotAPI);
+    flushDebug(DEBUG, robotAPI);
 
     CommandAndPredicate *commandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(targetAngle, pwm, robotAPI);
     this->rotateRobotCommand = commandAndPredicate->getCommand();
@@ -55,7 +55,7 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
         detectedAngle = true;
         writeDebug("distance: ");
         writeDebug(distance);
-        flushDebug(TRACE, robotAPI);
+        writeEndLineDebug();
         writeDebug("angle: ");
         writeDebug(angle);
         flushDebug(TRACE, robotAPI);

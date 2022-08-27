@@ -995,7 +995,7 @@ void main_task(intptr_t unused)
   delete stopper;
   robotAPI->reset();
   writeDebug("reseted api");
-  flushDebug(DEBUG, robotAPI);
+  flushDebug(INFO, robotAPI);
 
   // commandExecutorを初期化する
   initializeCommandExecutor();

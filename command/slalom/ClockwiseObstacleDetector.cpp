@@ -54,7 +54,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
             state = CODS_FINISH;
 
             writeDebug("finishClockwiseObstacleDetector");
-            flushDebug(TRACE, robotAPI);
+            flushDebug(DEBUG, robotAPI);
             return;
         }
         switch (state)
@@ -78,7 +78,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
             }
 
             writeDebug("CODS_DETECTING_LEFT_OBSTACLE");
-            flushDebug(TRACE, robotAPI);
+            flushDebug(DEBUG, robotAPI);
         }
         case CODS_DETECTING_RIGHT_OBSTACLE:
         {
@@ -104,7 +104,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
             stopper->run(robotAPI);
 
             writeDebug("CODS_DETECTING_RIGHT_OBSTACLE");
-            flushDebug(TRACE, robotAPI);
+            flushDebug(DEBUG, robotAPI);
             printValues(robotAPI);
         }
         case CODS_FINISH:
@@ -124,7 +124,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
             stopper->run(robotAPI);
 
             writeDebug("ClockwiseObstacleDetector finished");
-            flushDebug(TRACE, robotAPI);
+            flushDebug(DEBUG, robotAPI);
             return;
         }
         switch (state)
@@ -148,7 +148,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
             }
 
             writeDebug("CODS_DETECTING_RIGHT_OBSTACLE");
-            flushDebug(TRACE, robotAPI);
+            flushDebug(DEBUG, robotAPI);
         }
         case CODS_DETECTING_LEFT_OBSTACLE:
         {
@@ -174,7 +174,7 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
             stopper->run(robotAPI);
 
             writeDebug("CODS_DETECTING_LEFT_OBSTACLE");
-            flushDebug(TRACE, robotAPI);
+            flushDebug(DEBUG, robotAPI);
             printValues(robotAPI);
         }
         case CODS_FINISH:
@@ -199,7 +199,7 @@ void ClockwiseObstacleDetector::printValues(RobotAPI *robotAPI)
     writeEndLineDebug();
     writeDebug("rightDistance: ");
     writeDebug(isDetectedRightObstacleDistance());
-    flushDebug(TRACE, robotAPI);
+    flushDebug(DEBUG, robotAPI);
 }
 
 ClockwiseObstacleDetector *ClockwiseObstacleDetector::generateReverseCommand()

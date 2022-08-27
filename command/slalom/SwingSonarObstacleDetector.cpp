@@ -64,7 +64,7 @@ void SwingSonarObstacleDetector::detectLeftObstacle(RobotAPI *robotAPI, SwingSon
         leftObstacleAngle = rotateRobotDistanceAngleDetectorLeft->getAngle();
         state = next;
         writeDebug("SwingSonarObstacleDetector detectLeftObstacle finished");
-        flushDebug(INFO, robotAPI);
+        flushDebug(DEBUG, robotAPI);
     }
 }
 
@@ -84,7 +84,7 @@ void SwingSonarObstacleDetector::returningLeft(RobotAPI *robotAPI, SwingSonarObs
     {
         state = next;
         writeDebug("SwingSonarObstacleDetector returningLeft finished");
-        flushDebug(INFO, robotAPI);
+        flushDebug(DEBUG, robotAPI);
     }
 }
 
@@ -108,7 +108,7 @@ void SwingSonarObstacleDetector::detectRightObstacle(RobotAPI *robotAPI, SwingSo
         rightObstacleAngle = rotateRobotDistanceAngleDetectorRight->getAngle();
         state = next;
         writeDebug("SwingSonarObstacleDetector detectRightObstacle finished");
-        flushDebug(INFO, robotAPI);
+        flushDebug(DEBUG, robotAPI);
     }
 }
 
@@ -128,7 +128,7 @@ void SwingSonarObstacleDetector::returningRight(RobotAPI *robotAPI, SwingSonarOb
     {
         state = next;
         writeDebug("SwingSonarObstacleDetector returningRight finished");
-        flushDebug(INFO, robotAPI);
+        flushDebug(DEBUG, robotAPI);
     }
 }
 
@@ -148,7 +148,7 @@ void SwingSonarObstacleDetector::printValues(RobotAPI *robotAPI)
     writeDebug("rightAngle: ");
     writeDebug(getRightObstacleAngle());
     writeEndLineDebug();
-    flushDebug(TRACE, robotAPI);
+    flushDebug(DEBUG, robotAPI);
 }
 
 void SwingSonarObstacleDetector::run(RobotAPI *robotAPI)
