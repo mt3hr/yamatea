@@ -460,9 +460,9 @@ void initializeCommandExecutor()
   walkerPWM = 15;
   rotatePWM = 3;
   angle = 180;
-  targetLeftDistance = 20;  // これを検知した状態からはじめて
-  thresholdDistance = 20;   // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
-  targetRightDistance = 20; // あとはSwingSonarと同じ
+  targetLeftDistance = 25;  // これを検知した状態からはじめて
+  thresholdDistance = 25;   // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
+  targetRightDistance = 25; // あとはSwingSonarと同じ
   skipFrameAfterDetectFirstObstacle = 0;
   UFORunner *ufoRunner1 = (new UFORunner(n, walkerPWM, rotatePWM, angle, thresholdDistance, targetLeftDistance, targetRightDistance, skipFrameAfterDetectFirstObstacle))->generateReverseCommand();
   commandExecutor->addCommand(ufoRunner1, new FinishedCommandPredicate(ufoRunner1));
@@ -470,15 +470,15 @@ void initializeCommandExecutor()
   // 直進
   leftPWM = 15;
   rightPWM = 15;
-  distance = 5; // TODO
+  distance = 5;
   Walker *walker3 = new Walker(leftPWM, rightPWM);
   DistancePredicate *walker3Predicate = new DistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker3, walker3Predicate);
 
   // カーブ
-  pwm = 5;
-  r = 16;
-  theta = -180;
+  pwm = 10;
+  r = 14;
+  theta = -205;
   CurvatureWalkerCommandAndPredicate *curvatureWalkerCommandAndPredicate1 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curvatureWalkerCommandAndPredicate1->getCommand(), curvatureWalkerCommandAndPredicate1->getPredicate());
 
@@ -492,6 +492,31 @@ void initializeCommandExecutor()
   targetRightDistance = 10;
   UFORunner *ufoRunner2 = new UFORunner(n, walkerPWM, rotatePWM, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
   commandExecutor->addCommand(ufoRunner2, new FinishedCommandPredicate(ufoRunner2));
+
+  // 直進
+  leftPWM = 15;
+  rightPWM = 15;
+  distance = 20;
+  Walker *walker4 = new Walker(leftPWM, rightPWM);
+  DistancePredicate *walker4Predicate = new DistancePredicate(distance, robotAPI);
+  commandExecutor->addCommand(walker4, walker4Predicate);
+
+  // 旋回 -90度
+  pwm = 10;
+  angle = -90;
+  RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicate3 = new RotateRobotUseGyroCommandAndPredicate(angle, pwm, robotAPI);
+  commandExecutor->addCommand(rotateRobotCommandAndPredicate3->getCommand(), rotateRobotCommandAndPredicate3->getPredicate());
+
+  // ufo
+  n = 8;
+  walkerPWM = 20;
+  rotatePWM = 5;
+  swingLeftAngle = -90.0;
+  swingRightAngle = 90.0;
+  targetLeftDistance = 10;
+  targetRightDistance = 10;
+  UFORunner *ufoRunner3 = new UFORunner(n, walkerPWM, rotatePWM, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
+  commandExecutor->addCommand(ufoRunner3, new FinishedCommandPredicate(ufoRunner3));
 
   // 停止コマンドの初期化とCommandExecutorへの追加
   numberOfTimes = 1;
