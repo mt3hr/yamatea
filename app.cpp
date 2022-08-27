@@ -607,17 +607,30 @@ void initializeCommandExecutor()
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
-  // UFO走行コマンドの初期化とCommandExecutorへの追加
-  float n = 10;
+// UFO走行コマンドの初期化とCommandExecutorへの追加
+#ifdef SimulatorMode
+  float n = 8;
   int walkerPWM = 20;
   int rotatePWM = 5;
 
   float swingLeftAngle = -90.0;
   float swingRightAngle = 90.0;
-  int targetLeftDistance = 50;
-  int targetRightDistance = 40;
 
+  int targetLeftDistance = 30;
+  int targetRightDistance = 10;
   bool reverseTest = false;
+#else
+  float n = 10;
+  int walkerPWM = 20;
+  int rotatePWM = 3;
+
+  float swingLeftAngle = -90.0;
+  float swingRightAngle = 90.0;
+
+  int targetLeftDistance = 30;
+  int targetRightDistance = 30;
+  bool reverseTest = false;
+#endif
 
   UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
   if (reverseTest)
@@ -645,16 +658,17 @@ void initializeCommandExecutor()
 
   // UFO走行コマンドの初期化とCommandExecutorへの追加
 #ifdef SimulatorMode
-  float n = 6;
+  float n = 5;
   int walkerPWM = 15;
   int rotatePWM = 3;
 
   float angle = 180;
-  int targetLeftDistance = 35;  // これを検知した状態からはじめて
-  int thresholdDistance = 30;   // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
-  int targetRightDistance = 35; // あとはSwingSonarと同じ
+  int targetLeftDistance = 20;  // これを検知した状態からはじめて
+  int thresholdDistance = 20;   // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
+  int targetRightDistance = 20; // あとはSwingSonarと同じ
 
   int skipFrameAfterDetectFirstObstacle = 0;
+  bool reverseTest = true;
 #else
   float n = 10;
   int walkerPWM = 20;
@@ -666,11 +680,10 @@ void initializeCommandExecutor()
   int targetRightDistance = 35; // あとはSwingSonarと同じ
 
   int skipFrameAfterDetectFirstObstacle = 20;
+  bool reverseTest = true;
 #endif
-  bool reverseTest = false;
 
   UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM, angle, thresholdDistance, targetLeftDistance, targetRightDistance, skipFrameAfterDetectFirstObstacle);
-  ufoRunner = ufoRunner->generateReverseCommand(); // Lコーススラロームテストのために反転する
   if (reverseTest)
   {
     ufoRunner = ufoRunner->generateReverseCommand();

@@ -38,8 +38,6 @@ enum UFORunnerState
 float toRadian(float degree);
 // ラジアンを度に変換する関数
 float toDegree(float radian);
-// 絶対値を取得する関数
-float ufoAbs(float f);
 
 // UFORunner
 // UFO走行をするクラス。
@@ -97,7 +95,7 @@ private:
 
     Stopper *stopper;
 
-protected://TODO privateにして
+protected: // TODO privateにして
     // generateReverseCommandやコンストラクタで使われる
     UFORunner(float n, int walkerPow, int rotatePow);
 

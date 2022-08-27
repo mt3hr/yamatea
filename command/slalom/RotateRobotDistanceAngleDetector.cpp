@@ -42,6 +42,7 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
 
     writeDebug("rawDistance: ");
     writeDebug(rawDistance);
+    writeEndLineDebug();
     writeDebug("rawAngle: ");
     writeDebug(rawAngle);
     flushDebug(TRACE, robotAPI);

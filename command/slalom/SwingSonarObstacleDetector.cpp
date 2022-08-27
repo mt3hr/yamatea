@@ -74,6 +74,7 @@ void SwingSonarObstacleDetector::returningLeft(RobotAPI *robotAPI, SwingSonarObs
     {
         initedRotateRobotCommandAndPreicateLeft = true;
         rotateRobotCommandAndPredicateLeft = new RotateRobotUseGyroCommandAndPredicate(-leftObstacleAngle, pwm, robotAPI);
+        rotateRobotCommandAndPredicateLeft->getCommand()->preparation(robotAPI);
         rotateRobotCommandAndPredicateLeft->getPredicate()->preparation(robotAPI);
     }
 
@@ -93,8 +94,8 @@ void SwingSonarObstacleDetector::detectRightObstacle(RobotAPI *robotAPI, SwingSo
     {
         rotateRobotDistanceAngleDetectorRight = new RotateRobotDistanceAngleDetector(swingRight, targetRight, pwm, robotAPI);
         rotateRobotDistanceAngleDetectorRightPredicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetectorRight);
-        rotateRobotDistanceAngleDetectorLeft->preparation(robotAPI);
-        rotateRobotDistanceAngleDetectorLeftPredicate->preparation(robotAPI);
+        rotateRobotDistanceAngleDetectorRight->preparation(robotAPI);
+        rotateRobotDistanceAngleDetectorRightPredicate->preparation(robotAPI);
         initedRotateRobotDistanceAngleDetectorRight = true;
         return;
     }
@@ -117,6 +118,7 @@ void SwingSonarObstacleDetector::returningRight(RobotAPI *robotAPI, SwingSonarOb
     {
         initedRotateRobotCommandAndPreicateRight = true;
         rotateRobotCommandAndPredicateRight = new RotateRobotUseGyroCommandAndPredicate(-rightObstacleAngle, pwm, robotAPI);
+        rotateRobotCommandAndPredicateRight->getCommand()->preparation(robotAPI);
         rotateRobotCommandAndPredicateRight->getPredicate()->preparation(robotAPI);
     }
 
