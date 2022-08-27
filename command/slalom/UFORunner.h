@@ -95,7 +95,7 @@ private:
 
     Stopper *stopper;
 
-protected: // TODO privateにして
+protected:
     // generateReverseCommandやコンストラクタで使われる
     UFORunner(float n, int walkerPow, int rotatePow);
 
