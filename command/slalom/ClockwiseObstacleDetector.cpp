@@ -225,7 +225,14 @@ void ClockwiseObstacleDetector::preparation(RobotAPI *robotAPI)
     float currentAngle = robotAPI->getGyroSensor()->getAngle();
 #endif
     angleOffset = currentAngle;
-    targetAngle = currentAngle + angle;
+    if (angle > 0)
+    {
+        targetAngle = currentAngle + angle;
+    }
+    else
+    {
+        targetAngle = currentAngle - angle;
+    }
 }
 
 bool ClockwiseObstacleDetector::isFinished()

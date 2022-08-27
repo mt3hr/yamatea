@@ -45,6 +45,7 @@ UFORunner::UFORunner(float na, int wp, int rp, float angle, int thresholdDistanc
 {
     behavior = CLOCKWISE;
     setObstacleDetector((new ClockwiseObstacleDetector(rotatePow, angle, thresholdDistance, targetLeft, targetRight, skipFrameAfterDetectFirstObstacle))->generateReverseCommand());
+    reverse = true;
 };
 
 UFORunner::~UFORunner()

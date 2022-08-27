@@ -21,7 +21,10 @@ void Walker::run(RobotAPI *robotAPI)
 {
     robotAPI->getLeftWheel()->setPWM(leftPower);
     robotAPI->getRightWheel()->setPWM(rightPower);
+}
 
+void Walker::preparation(RobotAPI *robotAPI)
+{
     writeDebug("Walker");
     writeEndLineDebug();
     writeDebug("leftPow: ");
@@ -29,11 +32,7 @@ void Walker::run(RobotAPI *robotAPI)
     writeEndLineDebug();
     writeDebug("rightPow: ");
     writeDebug(rightPower);
-    flushDebug(TRACE, robotAPI);
-}
-
-void Walker::preparation(RobotAPI *robotAPI)
-{
+    flushDebug(DEBUG, robotAPI);
     return;
 }
 

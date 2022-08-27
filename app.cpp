@@ -392,6 +392,114 @@ void initializeCommandExecutor()
 }
 #endif
 
+#ifdef SlalomTestMode
+void initializeCommandExecutor()
+{
+  // CommandExecutorの初期化
+  commandExecutor = new CommandExecutor(robotAPI);
+  Stopper *stopper = new Stopper();
+
+  int pwm;
+  int leftPWM;
+  int rightPWM;
+
+  float distance;
+
+  float n;
+  int walkerPWM;
+  int rotatePWM;
+  float angle;
+  int targetLeftDistance;
+  int thresholdDistance;
+  int targetRightDistance;
+
+  float swingLeftAngle;
+  float swingRightAngle;
+
+  int skipFrameAfterDetectFirstObstacle;
+
+  int numberOfTimes;
+
+  float r;
+  float theta;
+
+  // タッチセンサ待機
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(new Command(), startButtonPredicate);
+
+  // 旋回 -45度
+  pwm = 10;
+  angle = -45;
+  RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicate1 = new RotateRobotUseGyroCommandAndPredicate(angle, pwm, robotAPI);
+  commandExecutor->addCommand(rotateRobotCommandAndPredicate1->getCommand(), rotateRobotCommandAndPredicate1->getPredicate());
+
+  //  直進
+  leftPWM = 15;
+  rightPWM = 15;
+  distance = 10;
+  Walker *walker1 = new Walker(leftPWM, rightPWM);
+  DistancePredicate *walker1Predicate = new DistancePredicate(distance, robotAPI);
+  commandExecutor->addCommand(walker1, walker1Predicate);
+
+  // 旋回 45度
+  pwm = 10;
+  angle = 45;
+  RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicate2 = new RotateRobotUseGyroCommandAndPredicate(angle, pwm, robotAPI);
+  commandExecutor->addCommand(rotateRobotCommandAndPredicate2->getCommand(), rotateRobotCommandAndPredicate2->getPredicate());
+
+  //  直進
+  leftPWM = 15;
+  rightPWM = 15;
+  distance = 18;
+  Walker *walker2 = new Walker(leftPWM, rightPWM);
+  DistancePredicate *walker2Predicate = new DistancePredicate(distance, robotAPI);
+  commandExecutor->addCommand(walker2, walker2Predicate);
+
+  // UFO
+  n = 8;
+  walkerPWM = 15;
+  rotatePWM = 3;
+  angle = 180;
+  targetLeftDistance = 20;  // これを検知した状態からはじめて
+  thresholdDistance = 20;   // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
+  targetRightDistance = 20; // あとはSwingSonarと同じ
+  skipFrameAfterDetectFirstObstacle = 0;
+  UFORunner *ufoRunner1 = (new UFORunner(n, walkerPWM, rotatePWM, angle, thresholdDistance, targetLeftDistance, targetRightDistance, skipFrameAfterDetectFirstObstacle))->generateReverseCommand();
+  commandExecutor->addCommand(ufoRunner1, new FinishedCommandPredicate(ufoRunner1));
+
+  // 直進
+  leftPWM = 15;
+  rightPWM = 15;
+  distance = 5; // TODO
+  Walker *walker3 = new Walker(leftPWM, rightPWM);
+  DistancePredicate *walker3Predicate = new DistancePredicate(distance, robotAPI);
+  commandExecutor->addCommand(walker3, walker3Predicate);
+
+  // カーブ
+  pwm = 5;
+  r = 16;
+  theta = -180;
+  CurvatureWalkerCommandAndPredicate *curvatureWalkerCommandAndPredicate1 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  commandExecutor->addCommand(curvatureWalkerCommandAndPredicate1->getCommand(), curvatureWalkerCommandAndPredicate1->getPredicate());
+
+  // ufo
+  n = 8;
+  walkerPWM = 20;
+  rotatePWM = 5;
+  swingLeftAngle = -90.0;
+  swingRightAngle = 90.0;
+  targetLeftDistance = 30;
+  targetRightDistance = 10;
+  UFORunner *ufoRunner2 = new UFORunner(n, walkerPWM, rotatePWM, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
+  commandExecutor->addCommand(ufoRunner2, new FinishedCommandPredicate(ufoRunner2));
+
+  // 停止コマンドの初期化とCommandExecutorへの追加
+  numberOfTimes = 1;
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(numberOfTimes);
+  commandExecutor->addCommand(stopper, stopperPredicate);
+}
+#endif
+
 // RGBRawReaderModeの場合のcommandExecutor初期化処理
 #ifdef RGBRawReaderMode
 void initializeCommandExecutor()
@@ -516,8 +624,8 @@ void initializeCommandExecutor()
 
   // 曲率進行コマンドの初期化とCommandExecutorへの追加
   int pwm = 20; // NOTE pwm上げるとおかしくなる
-  float r = 20;
-  float theta = 360;
+  float r = 30;
+  float theta = 45;
   CurvatureWalkerCommandAndPredicate *commandAndPredicate = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate());
 

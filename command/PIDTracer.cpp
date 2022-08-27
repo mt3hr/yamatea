@@ -77,6 +77,20 @@ void PIDTracer::run(RobotAPI *robotAPI)
 
 void PIDTracer::preparation(RobotAPI *robotAPI)
 {
+    writeDebug("PIDTracer");
+    writeEndLineDebug();
+    writeDebug("kp: ");
+    writeDebug(kp);
+    writeEndLineDebug();
+    writeDebug("ki: ");
+    writeDebug(ki);
+    writeEndLineDebug();
+    writeDebug("kd: ");
+    writeDebug(kd);
+    writeEndLineDebug();
+    writeDebug("dt: ");
+    writeDebug(dt);
+    flushDebug(DEBUG, robotAPI);
     return;
 }
 
