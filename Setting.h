@@ -12,7 +12,7 @@
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define LeftCourceMode // 左コース用プログラム
+//#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define SlalomTestMode // スラロームだけ走行するプログラム。テスト用。
 //#define FlatLineMode // すべて同じPIDで倉庫する左コース用プログラム
@@ -26,7 +26,7 @@
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
 //#define UFORunnerSwingTestMode // UFO走行モード。障害物間を向いている状態から始める。テスト用
-//#define UFORunnerClockwiseTestMode // UFO走行モード。左障害物を向いている状態から始める。テスト用
+#define UFORunnerClockwiseTestMode // UFO走行モード。左障害物を向いている状態から始める。テスト用
 // モード設定ここまで
 
 // #define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ

@@ -116,7 +116,7 @@ void initializeCommandExecutor()
   kd = 0.7;
   dt = 1;
   PIDTracer *bananaPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
-  Predicate *predicateBanana = new LeftWheelCountPredicate(sceneBananaMotorCountPredicateArg, robotAPI);
+  Predicate *predicateBanana = new LeftWheelCountPredicate(sceneBananaMotorCountPredicateArg);
   commandExecutor->addCommand(bananaPIDTracer, predicateBanana, GET_VARIABLE_NAME(bananaPIDTracer));
   pidTargetBrightnessCalibrator->addPIDTracer(bananaPIDTracer);
 
@@ -127,7 +127,7 @@ void initializeCommandExecutor()
   kd = 0.65;
   dt = 1;
   PIDTracer *orangePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
-  Predicate *predicateOrange = new LeftWheelCountPredicate(sceneOrangeMotorCountPredicateArg, robotAPI);
+  Predicate *predicateOrange = new LeftWheelCountPredicate(sceneOrangeMotorCountPredicateArg);
   pidTargetBrightnessCalibrator->addPIDTracer(orangePIDTracer);
   commandExecutor->addCommand(orangePIDTracer, predicateOrange, GET_VARIABLE_NAME(orangePIDTracer));
 
@@ -135,8 +135,8 @@ void initializeCommandExecutor()
   leftPow = 16;
   rightPow = 20;
   Walker *starFruitsWalker = new Walker(leftPow, rightPow);
-  Predicate *predicateStarFruits = new LeftWheelCountPredicate(sceneStarFruitsMotorCountPredicateArg, robotAPI);
-  commandExecutor->addCommand(starFruitsWalker, predicateStarFruits, , GET_VARIABLE_NAME(starFruitsWalker));
+  Predicate *predicateStarFruits = new LeftWheelCountPredicate(sceneStarFruitsMotorCountPredicateArg);
+  commandExecutor->addCommand(starFruitsWalker, predicateStarFruits, GET_VARIABLE_NAME(starFruitsWalker));
 
   // CherryPIDTracerの初期化とCommandExecutorへの追加
   pwm = 10;
@@ -176,7 +176,7 @@ void initializeCommandExecutor()
   PIDTracer *dorianPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateDorian = new LeftWheelCountPredicate(sceneDorianMotorCountPredicateArg);
   pidTargetBrightnessCalibrator->addPIDTracer(dorianPIDTracer);
-  commandExecutor->addCommand(dorianPIDTracer, predicateDorian, , GET_VARIABLE_NAME(dorianPIDTracer));
+  commandExecutor->addCommand(dorianPIDTracer, predicateDorian, GET_VARIABLE_NAME(dorianPIDTracer));
 
   // MelonPIDTracerの初期化とCommandExecutorへの追加
   pwm = 20;
@@ -187,7 +187,7 @@ void initializeCommandExecutor()
   PIDTracer *melonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateMelon = new LeftWheelCountPredicate(sceneMelonMotorCountPredicateArg);
   pidTargetBrightnessCalibrator->addPIDTracer(melonPIDTracer);
-  commandExecutor->addCommand(melonPIDTracer, predicateMelon, , GET_VARIABLE_NAME(melonPIDTracer));
+  commandExecutor->addCommand(melonPIDTracer, predicateMelon, GET_VARIABLE_NAME(melonPIDTracer));
 
   // CucumberPIDTracerの初期化とCommandExecutorへの追加
   pwm = 28;
@@ -196,7 +196,7 @@ void initializeCommandExecutor()
   kd = 0.6;
   dt = 1;
   PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
-  MotorCountPredicate *predicateCucumber = Predicate(sceneCucumberMotorCountPredicateArg);
+  Predicate *predicateCucumber = new LeftWheelCountPredicate(sceneCucumberMotorCountPredicateArg);
   pidTargetBrightnessCalibrator->addPIDTracer(cucumberPIDTracer);
   commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber, GET_VARIABLE_NAME(cucumberPIDTracer));
 
@@ -242,7 +242,7 @@ void initializeCommandExecutor()
   // distanceReaderの初期化とCommandExecutorへの追加
   DistanceReader *distanceReader = new DistanceReader();
   Predicate *startButtonPredicate = new StartButtonPredicate();
-  commandExecutor->addCommand(distanceReader, startButtonPredicate, , GET_VARIABLE_NAME(distanceReader));
+  commandExecutor->addCommand(distanceReader, startButtonPredicate, GET_VARIABLE_NAME(distanceReader));
 }
 #endif
 
@@ -516,7 +516,7 @@ void initializeCommandExecutor()
   // rgbRawReaderの初期化とCommandExecutorへの追加
   RGBRawReader *rgbRawReader = new RGBRawReader();
   Predicate *startButtonPredicate = new StartButtonPredicate();
-  commandExecutor->addCommand(rgbRawReader, startButtonPredicate, , GET_VARIABLE_NAME(rgbRawReader));
+  commandExecutor->addCommand(rgbRawReader, startButtonPredicate, GET_VARIABLE_NAME(rgbRawReader));
 }
 #endif
 
@@ -751,7 +751,7 @@ void initializeCommandExecutor()
   {
     ufoRunner = ufoRunner->generateReverseCommand();
   }
-  commandExecutor->addCommand(ufoRunner, new FinishedCommandPredicate(ufoRunner), , GET_VARIABLE_NAME(ufoRunner));
+  commandExecutor->addCommand(ufoRunner, new FinishedCommandPredicate(ufoRunner), GET_VARIABLE_NAME(ufoRunner));
 
   // 停止コマンドの初期化とCommandExecutorへの追加
   Stopper *stopper = new Stopper();
