@@ -49,28 +49,13 @@
 using namespace std;
 using namespace ev3api;
 
-// EV3APIオブジェクトの初期化
-TouchSensor *touchSensor = new TouchSensor(PORT_1);
-ColorSensor *colorSensor = new ColorSensor(PORT_2);
-SonarSensor *sonarSensor = new SonarSensor(PORT_3);
-GyroSensor *gyroSensor = new GyroSensor(PORT_4);
-Motor *armMotor = new Motor(PORT_A);
-Motor *rightWheel = new Motor(PORT_B);
-Motor *leftWheel = new Motor(PORT_C);
-Motor *tailMotor = new Motor(PORT_D);
-Clock *clock = new Clock();
-
-// CommandExecutorとRobotAPIの宣言
 CommandExecutor *commandExecutor;
 RobotAPI *robotAPI;
 
 // LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
 #if defined(LeftCourceMode) | defined(RightCourceMode)
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
-
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
@@ -234,11 +219,8 @@ void initializeCommandExecutor()
 
 // DistanceReaderModeの場合のcommandExecutor初期化処理
 #ifdef DistanceReaderMode
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
-
   // distanceReaderの初期化とCommandExecutorへの追加
   DistanceReader *distanceReader = new DistanceReader();
   Predicate *startButtonPredicate = new StartButtonPredicate();
@@ -247,11 +229,8 @@ void initializeCommandExecutor()
 #endif
 
 #ifdef FlatLineMode
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
-
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
@@ -374,10 +353,8 @@ void initializeCommandExecutor()
 #endif
 
 #ifdef SlalomTestMode
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
   Stopper *stopper = new Stopper();
 
   int pwm;
@@ -508,11 +485,8 @@ void initializeCommandExecutor()
 
 // RGBRawReaderModeの場合のcommandExecutor初期化処理
 #ifdef RGBRawReaderMode
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
-
   // rgbRawReaderの初期化とCommandExecutorへの追加
   RGBRawReader *rgbRawReader = new RGBRawReader();
   Predicate *startButtonPredicate = new StartButtonPredicate();
@@ -522,12 +496,9 @@ void initializeCommandExecutor()
 
 // Rotate360TestModeの場合のcommandExecutor初期化処理
 #if defined(Rotate360TestMode)
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   int motorRotateAngle = 540; // ここの値をいじってはかって
-
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate();
@@ -548,11 +519,8 @@ void initializeCommandExecutor()
 
 // RotateTestModeの場合のcommandExecutor初期化処理
 #if defined(RotateTestMode)
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
-
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
@@ -572,11 +540,8 @@ void initializeCommandExecutor()
 
 // NOTE ジャイロ、 実機とシミュレータで左右判定が逆になる？
 #if defined(RotateGyroTestMode)
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
-
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
@@ -595,11 +560,8 @@ void initializeCommandExecutor()
 #endif
 
 #ifdef StraightTestMode
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
-
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, GET_VARIABLE_NAME(stopper)); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
@@ -619,11 +581,8 @@ void initializeCommandExecutor()
 #endif
 
 #if defined(CurvatureWalkerTestMode)
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
-
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
@@ -643,11 +602,8 @@ void initializeCommandExecutor()
 #endif
 
 #if defined(SwingSonarDetectorTestMode)
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
-
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
@@ -670,7 +626,7 @@ void initializeCommandExecutor()
 #endif
 
 #if defined(ShigekiTestMode)
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   int pwm = 10;
   float acn = -30.91474484;
@@ -678,9 +634,6 @@ void initializeCommandExecutor()
   // float bcn = 1.022709978;
   float nTurn = 69.07498194;
   float n = 1.0;
-
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate();
@@ -712,11 +665,8 @@ void initializeCommandExecutor()
 #endif
 
 #if defined(UFORunnerSwingTestMode)
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
-
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
@@ -761,11 +711,8 @@ void initializeCommandExecutor()
 #endif
 
 #if defined(UFORunnerClockwiseTestMode)
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // CommandExecutorの初期化
-  commandExecutor = new CommandExecutor(robotAPI);
-
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
@@ -843,9 +790,9 @@ void return_to_start_point_task(intptr_t exinf)
   {
     int targetAngle = 180;
 #ifdef SimulatorMode
-    int angle = gyroSensor->getAngle() * -1;
+    int angle = robotAPI->getGyroSensor()->getAngle() * -1;
 #else
-    int angle = gyroSensor->getAngle();
+    int angle = robotAPI->getGyroSensor()->getAngle();
 #endif
 
     if (angle < targetAngle)
@@ -868,7 +815,7 @@ void return_to_start_point_task(intptr_t exinf)
   case RTSP_WALKING_UP:
   {
     returnToStartPointStraightWalker->run(robotAPI);
-    colorid_t colorID = colorSensor->getColorNumber();
+    colorid_t colorID = robotAPI->getColorSensor()->getColorNumber();
     if (colorID == returnToStartPointEdgeLineColor)
     {
       returnToStartPointState = RTSP_TURNNING_RIGHT;
@@ -880,9 +827,9 @@ void return_to_start_point_task(intptr_t exinf)
   {
     int targetAngle = 270;
 #ifdef SimulatorMode
-    int angle = gyroSensor->getAngle() * -1;
+    int angle = robotAPI->getGyroSensor()->getAngle() * -1;
 #else
-    int angle = gyroSensor->getAngle();
+    int angle = robotAPI->getGyroSensor()->gyroSensor->getAngle();
 #endif
 
     if (angle < targetAngle)
@@ -983,25 +930,44 @@ BTCLOOP:
 
 void main_task(intptr_t unused)
 {
+  const uint32_t sleepDuration = 100 * 1000;
+
+  // EV3APIオブジェクトの初期化
+  TouchSensor *touchSensor = new TouchSensor(PORT_1);
+  ColorSensor *colorSensor = new ColorSensor(PORT_2);
+  SonarSensor *sonarSensor = new SonarSensor(PORT_3);
+  GyroSensor *gyroSensor = new GyroSensor(PORT_4);
+  Motor *armMotor = new Motor(PORT_A);
+  Motor *rightWheel = new Motor(PORT_B);
+  Motor *leftWheel = new Motor(PORT_C);
+  Motor *tailMotor = new Motor(PORT_D);
+  Clock *clock = new Clock();
+
+  // RobotAPIとCommandExecutorの初期化
+  robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, tailMotor, gyroSensor, clock);
+  commandExecutor = new CommandExecutor(robotAPI);
+
   ev3_lcd_set_font(EV3_FONT_MEDIUM);              // フォントの設定
   ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
 
-  const uint32_t sleepDuration = 100 * 1000;
-
   // robotAPIの初期化。完全停止してapiを初期化する
-  robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, tailMotor, gyroSensor, clock);
   Stopper *stopper = new Stopper();
   stopper->run(robotAPI);
   delete stopper;
   robotAPI->reset();
-  writeDebug("reseted api");
-  flushDebug(INFO, robotAPI);
+  vector<string> resetedMessageLines;
+  resetedMessageLines.push_back("reseted api");
+  PrintMessage *printResetedMessage = new PrintMessage(resetedMessageLines, true);
+  printResetedMessage->run(robotAPI);
+  delete printResetedMessage;
 
   // commandExecutorを初期化する
-  initializeCommandExecutor();
-
-  writeDebug("ready");
-  flushDebug(INFO, robotAPI);
+  initializeCommandExecutor(commandExecutor, robotAPI);
+  vector<string> readyMessageLines;
+  readyMessageLines.push_back("ready");
+  PrintMessage *printReadyMessage = new PrintMessage(resetedMessageLines, true);
+  printReadyMessage->run(robotAPI);
+  delete printReadyMessage;
 
   // commandExecutor->run()の周期ハンドラを起動する
   sta_cyc(RUNNER_CYC);
