@@ -92,7 +92,7 @@ void PIDTargetBrightnessCalibrator::run(RobotAPI *robotAPI)
 
         bs << "black bright :" << getBlack();
         ws << "white bright :" << getWhite();
-        ts << "target bright:" << (getWhite() + getBlack()) / 2;
+        ts << "target bright:" << float((getWhite() + getBlack()) / 2);
         brightnessStream << "brightness: " << float(robotAPI->getColorSensor()->getBrightness());
 
         vector<string> messageLines;
