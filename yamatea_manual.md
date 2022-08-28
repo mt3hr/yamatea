@@ -193,7 +193,7 @@ Setting.hに追加したいモードを定義します。
 ```c++:app.cpp
 // ↑省略
 #if defined(LeftCourceMode) | defined(RightCourceMode)
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
     // 省略
 }
@@ -205,7 +205,7 @@ void initializeCommandExecutor()
 ```c++:app.cpp
 // ↑省略
 #if defined(LeftCourceMode) | defined(RightCourceMode)
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
     // 省略
 }
@@ -213,7 +213,7 @@ void initializeCommandExecutor()
 
 // ここから追加
 #if defined(StraightMode)
-void initializeCommandExecutor()
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   commandExecutor = new CommandExecutor(robotAPI);
 
@@ -256,8 +256,13 @@ void initializeCommandExecutor()
 #### 4. ビルドする
 ビルドして通ればOK
 
-## 動かない、期待通りの動きをしない
+#### モード管理でこのやりかたをする理由
+これがいいとは思っていないけれど、  
+コメントアウトで切り替えができるので一番マシな気がして。  
+app.cppのファイル分割はしない予定です。（includeが面倒くさすぎるため、また、ファイルが増えすぎるからです。C++、ヘッダファイルも書かないといけないから。）  
+ファイル内検索を使って頑張りましょう。  
 
+## 動かない、期待通りの動きをしない
 設定ミスの可能性が高いです。  
 原因別に説明します。  
 
