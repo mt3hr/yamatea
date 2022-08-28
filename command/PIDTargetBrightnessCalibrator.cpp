@@ -87,16 +87,19 @@ void PIDTargetBrightnessCalibrator::run(RobotAPI *robotAPI)
 
         stringstream bs;
         stringstream ws;
+        stringstream ts;
         stringstream brightnessStream;
 
-        bs << "black bright:" << getBlack();
-        ws << "white bright:" << getWhite();
+        bs << "black bright :" << getBlack();
+        ws << "white bright :" << getWhite();
+        ts << "target bright:" << (getWhite() + getBlack()) / 2;
         brightnessStream << "brightness: " << float(robotAPI->getColorSensor()->getBrightness());
 
         vector<string> messageLines;
         messageLines.push_back("calibrated!");
         messageLines.push_back(bs.str());
         messageLines.push_back(ws.str());
+        messageLines.push_back(ts.str());
         messageLines.push_back(brightnessStream.str());
         messageLines.push_back("press touch sensor");
         messageLines.push_back("      to START!");
