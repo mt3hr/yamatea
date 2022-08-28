@@ -160,6 +160,102 @@ make app=yamatea sim up
 ```
 1. 待つ（動き出すまでに結構時間がかかる）  
 
+### 新しい挙動の記述方法（モード追加方法）
+流れは次のとおりです。下で具体的な記述方法を説明します。  
+1. Setting.hにモードを定義する  
+1. app.cppに追加したモードのinitializeCommandExecutor()関数を定義する  
+1. Setting.hの他のモードをコメントアウトする  
+1. ビルドする  
+
+#### 1. Setting.hにモードを定義する
+Setting.hに追加したいモードを定義します。
+例えば、直進し続けるモード「StraightMode」を追加するには次のようにします。
+
+変更前  
+```c:Setting.h
+// モード設定ここから
+#define LeftCourceMode 
+//#define RightCourceMode
+// モード設定ここまで
+```
+
+変更後
+```c:Setting.h
+// モード設定ここから
+#define LeftCourceMode
+//#define RightCourceMode
+#define StraightMode
+// モード設定ここまで
+```
+
+#### 2. app.cppに追加したモードのinitializeCommandExecutor()関数を定義する
+変更前
+```c++:app.cpp
+// ↑省略
+#if defined(LeftCourceMode) | defined(RightCourceMode)
+void initializeCommandExecutor()
+{
+    // 省略
+}
+#endif
+// ↓省略
+```
+
+変更後
+```c++:app.cpp
+// ↑省略
+#if defined(LeftCourceMode) | defined(RightCourceMode)
+void initializeCommandExecutor()
+{
+    // 省略
+}
+#endif
+
+// ここから追加
+#if defined(StraightMode)
+void initializeCommandExecutor()
+{
+  commandExecutor = new CommandExecutor(robotAPI);
+
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(new Command(), startButtonPredicate, GET_VARIABLE_NAME(stopper));
+
+  int pwm = 50;
+  float distanceCm = 10000;
+  Walker *walker = new Walker(pwm, pwm);
+  DistancePredicate *walkerPredicate = new DistancePredicate(distanceCm, robotAPI);
+  commandExecutor->addCommand(walker, walkerPredicate, GET_VARIABLE_NAME(walker));
+
+  Stopper *stopper = new Stopper();
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+}
+#endif
+// ここまで追加
+// ↓省略
+```
+
+#### 3. Setting.hの他のモードをコメントアウトする
+モード設定で、起動するモード以外の行をコメントアウトします。
+変更前
+```c:Setting.h
+// モード設定ここから
+#define LeftCourceMode
+//#define RightCourceMode
+#define StraightMode
+// モード設定ここまで
+```
+変更後
+```c:Setting.h
+// モード設定ここから
+//#define LeftCourceMode   // ←コメントアウト
+//#define RightCourceMode
+#define StraightMode
+// モード設定ここまで
+```
+#### 4. ビルドする
+ビルドして通ればOK
+
 ## 動かない、期待通りの動きをしない
 
 設定ミスの可能性が高いです。  
