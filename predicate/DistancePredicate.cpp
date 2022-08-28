@@ -6,17 +6,23 @@
 
 using namespace ev3api;
 
+float distanceToMotorRotateAngle(float distanceCm)
+{
+    float circumference = wheelDiameter * M_PI; // 円周
+    float distanceOf360 = circumference;        // 360度回転したときに進む距離
+    float cm1Angle = 360 / distanceOf360;       // 1cm進むときのモータ回転角
+    return cm1Angle * distanceCm;
+};
+
 DistancePredicate::DistancePredicate(float tdc, RobotAPI *robotAPI)
 {
     targetDistanceCm = tdc;
     wheel = robotAPI->getLeftWheel();
     hasLeftWheel = true;
     this->robotAPI = robotAPI;
-}
+};
 
-DistancePredicate::~DistancePredicate()
-{
-}
+DistancePredicate::~DistancePredicate(){};
 
 bool DistancePredicate::test(RobotAPI *robotAPI)
 {
@@ -25,10 +31,7 @@ bool DistancePredicate::test(RobotAPI *robotAPI)
 
 void DistancePredicate::preparation(RobotAPI *robotAPI)
 {
-    float circumference = wheelDiameter * M_PI; // 円周
-    float distanceOf360 = circumference;        // 360度回転したときに進む距離
-    float cm1Angle = 360 / distanceOf360;       // 1cm進むときのモータ回転角
-    targetAngle = (cm1Angle * targetDistanceCm) + float(wheel->getCount());
+    targetAngle = distanceToMotorRotateAngle(targetDistanceCm) + float(wheel->getCount());
 }
 
 DistancePredicate *DistancePredicate::generateReversePredicate()

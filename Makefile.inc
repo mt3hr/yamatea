@@ -8,8 +8,6 @@ PrintMessage.o \
 DebugUtil.o \
 Command.o \
 Predicate.o \
-RightWheelCountPredicate.o \
-LeftWheelCountPredicate.o \
 CommandAndPredicate.o \
 NumberOfTimesPredicate.o \
 MotorCountPredicate.o \
