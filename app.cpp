@@ -961,7 +961,7 @@ void main_task(intptr_t unused)
   printResetedMessage->run(robotAPI);
   delete printResetedMessage;
 
-  // commandExecutorを初期化する
+  // commandExecutorを初期化する（挙動） // nihongo de ok
   initializeCommandExecutor(commandExecutor, robotAPI);
   vector<string> readyMessageLines;
   readyMessageLines.push_back("ready");

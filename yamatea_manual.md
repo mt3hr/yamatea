@@ -215,8 +215,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #if defined(StraightMode)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  commandExecutor = new CommandExecutor(robotAPI);
-
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, GET_VARIABLE_NAME(stopper));
 
