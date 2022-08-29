@@ -55,9 +55,7 @@ void CommandExecutor::run()
         predicates[currentIndexForCommand]->preparation(robotAPI);
 
         vector<string> messageLines;
-        messageLines.push_back("running ");
-        messageLines.push_back(commandNames[currentIndexForCommand]);
-
+        messageLines.push_back("STARTED " + commandNames[currentIndexForCommand]);
         PrintMessage *printMessage = new PrintMessage(messageLines, true);
         printMessage->run(robotAPI);
         delete printMessage;

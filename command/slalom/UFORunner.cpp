@@ -44,7 +44,8 @@ UFORunner::UFORunner(float na, int wp, int rp, float swingLeftAngle, float swing
 UFORunner::UFORunner(float na, int wp, int rp, float angle, int thresholdDistance, int targetLeft, int targetRight, int skipFrameAfterDetectFirstObstacle) : UFORunner(na, wp, rp)
 {
     behavior = CLOCKWISE;
-    setObstacleDetector((new ClockwiseObstacleDetector(rotatePow, angle, thresholdDistance, targetLeft, targetRight, skipFrameAfterDetectFirstObstacle))->generateReverseCommand());
+    // reverseするのでleftRight入れ替える
+    setObstacleDetector((new ClockwiseObstacleDetector(rotatePow, angle, thresholdDistance, targetRight, targetLeft, skipFrameAfterDetectFirstObstacle))->generateReverseCommand());
     reverse = true;
 };
 

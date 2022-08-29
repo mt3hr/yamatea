@@ -485,7 +485,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   //  直進
   leftPWM = 15;
   rightPWM = 15;
-  distance = 10;
+  distance = 8;
   Walker *walker1 = new Walker(leftPWM, rightPWM);
   DistancePredicate *walker1Predicate = new DistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker1, walker1Predicate, GET_VARIABLE_NAME(walker1));
@@ -499,56 +499,66 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   //  直進
   leftPWM = 15;
   rightPWM = 15;
-  distance = 18;
+  distance = 14;
   Walker *walker2 = new Walker(leftPWM, rightPWM);
   DistancePredicate *walker2Predicate = new DistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker2, walker2Predicate, GET_VARIABLE_NAME(walker2));
 
   // UFO
   n = 8;
-  walkerPWM = 15;
+  walkerPWM = 20;
   rotatePWM = 3;
   angle = 180;
   targetLeftDistance = 25;  // これを検知した状態からはじめて
   thresholdDistance = 25;   // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
   targetRightDistance = 25; // あとはSwingSonarと同じ
   skipFrameAfterDetectFirstObstacle = 0;
-  UFORunner *ufoRunner1 = (new UFORunner(n, walkerPWM, rotatePWM, angle, thresholdDistance, targetLeftDistance, targetRightDistance, skipFrameAfterDetectFirstObstacle))->generateReverseCommand();
+  UFORunner *ufoRunner1 = (new UFORunner(n, walkerPWM, rotatePWM, angle, thresholdDistance, targetRightDistance, targetLeftDistance, skipFrameAfterDetectFirstObstacle))->generateReverseCommand();
   commandExecutor->addCommand(ufoRunner1, new FinishedCommandPredicate(ufoRunner1), GET_VARIABLE_NAME(ufoRunner1));
 
   // 直進
   leftPWM = 15;
   rightPWM = 15;
-  distance = 5;
+  distance = 2.5;
   Walker *walker3 = new Walker(leftPWM, rightPWM);
   DistancePredicate *walker3Predicate = new DistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker3, walker3Predicate, GET_VARIABLE_NAME(walker3));
 
   // カーブ
-  pwm = 10;
-  r = 14;
-  theta = -205;
+  pwm = 15;
+  r = 13.5;
+  theta = -95;
   CurvatureWalkerCommandAndPredicate *curvatureWalkerCommandAndPredicate1 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curvatureWalkerCommandAndPredicate1->getCommand(), curvatureWalkerCommandAndPredicate1->getPredicate(), "curvatureWalker1");
+
+  /*
+  // 直進
+  leftPWM = 15;
+  rightPWM = 15;
+  distance = 4;
+  Walker *walker4 = new Walker(leftPWM, rightPWM);
+  DistancePredicate *walker4Predicate = new DistancePredicate(distance, robotAPI);
+  commandExecutor->addCommand(walker4, walker4Predicate, GET_VARIABLE_NAME(walker4));
+  */
 
   // ufo
   n = 8;
   walkerPWM = 20;
-  rotatePWM = 5;
+  rotatePWM = 3;
   swingLeftAngle = -90.0;
   swingRightAngle = 90.0;
   targetLeftDistance = 30;
-  targetRightDistance = 10;
+  targetRightDistance = 30;
   UFORunner *ufoRunner2 = new UFORunner(n, walkerPWM, rotatePWM, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
   commandExecutor->addCommand(ufoRunner2, new FinishedCommandPredicate(ufoRunner2), GET_VARIABLE_NAME(ufoRunner2));
 
   // 直進
   leftPWM = 15;
   rightPWM = 15;
-  distance = 20;
-  Walker *walker4 = new Walker(leftPWM, rightPWM);
-  DistancePredicate *walker4Predicate = new DistancePredicate(distance, robotAPI);
-  commandExecutor->addCommand(walker4, walker4Predicate, GET_VARIABLE_NAME(walker4));
+  distance = 30;
+  Walker *walker5 = new Walker(leftPWM, rightPWM);
+  DistancePredicate *walker5Predicate = new DistancePredicate(distance, robotAPI);
+  commandExecutor->addCommand(walker5, walker5Predicate, GET_VARIABLE_NAME(walker5));
 
   // 旋回 -90度
   pwm = 10;
@@ -559,11 +569,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // ufo
   n = 8;
   walkerPWM = 20;
-  rotatePWM = 5;
+  rotatePWM = 3;
   swingLeftAngle = -90.0;
   swingRightAngle = 90.0;
   targetLeftDistance = 10;
-  targetRightDistance = 10;
+  targetRightDistance = 20;
   UFORunner *ufoRunner3 = new UFORunner(n, walkerPWM, rotatePWM, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance);
   commandExecutor->addCommand(ufoRunner3, new FinishedCommandPredicate(ufoRunner3), GET_VARIABLE_NAME(ufoRunner3));
 
@@ -573,6 +583,17 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 }
 #endif
+
+#ifdef BlockTestMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  // TODO 実装して
+
+  // 停止コマンドの初期化とCommandExecutorへの追加
+  numberOfTimes = 1;
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(numberOfTimes);
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+}
 
 // RGBRawReaderModeの場合のcommandExecutor初期化処理
 #ifdef RGBRawReaderMode
@@ -681,7 +702,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 曲率進行コマンドの初期化とCommandExecutorへの追加
   int pwm = 20; // NOTE pwm上げるとおかしくなる
   float r = 30;
-  float theta = 45;
+  float theta = -90;
   CurvatureWalkerCommandAndPredicate *commandAndPredicate = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate(), "curvatureWalker");
 
@@ -1038,7 +1059,7 @@ void main_task(intptr_t unused)
   robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, tailMotor, gyroSensor, clock);
   commandExecutor = new CommandExecutor(robotAPI);
 
-  ev3_lcd_set_font(EV3_FONT_MEDIUM);              // フォントの設定
+  // ev3_lcd_set_font(EV3_FONT_MEDIUM);           // フォントの設定
   ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
 
   // robotAPIの初期化。完全停止してapiを初期化する
@@ -1052,7 +1073,7 @@ void main_task(intptr_t unused)
   printResetedMessage->run(robotAPI);
   delete printResetedMessage;
 
-  // commandExecutorを初期化する（挙動） // nihongo de ok
+  // commandExecutorを初期化する（挙動定義）
   initializeCommandExecutor(commandExecutor, robotAPI);
   vector<string> readyMessageLines;
   readyMessageLines.push_back("ready");

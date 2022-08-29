@@ -28,6 +28,13 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, 
         loneR = (r + wheelSpaceDivide2) * (-theta * M_PI / 180);
     }
 
+//TODO 実機ではどうなの？
+#ifdef SimulatorMode
+    lone *= 2;
+    loneL *= 2;
+    loneR *= 2;
+#endif
+
     float ratioL = loneL / lone;
     float ratioR = loneR / lone;
     int leftPWM = pwm * ratioL;
