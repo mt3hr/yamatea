@@ -28,7 +28,7 @@ ObstacleDetectRunner.o \
 SwingSonarObstacleDetector.o \
 FinishConfirmable.o \
 FinishedCommandPredicate.o \
-DistancePredicate.o \
+WheelDistancePredicate.o \
 CurvatureWalkerCommandAndPredicate.o \
 ClockwiseObstacleDetector.o \
 UFORunner.o \

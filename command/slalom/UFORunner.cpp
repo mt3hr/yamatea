@@ -3,7 +3,7 @@
 #include "ObstacleDetector.h"
 #include "SonarSensor.h"
 #include "math.h"
-#include "DistancePredicate.h"
+#include "WheelDistancePredicate.h"
 #include "CommandAndPredicate.h"
 #include "Setting.h"
 #include "string"
@@ -294,7 +294,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         if (!initedP_N)
         {
             p_nWalker = new Walker(walkerPow, walkerPow);
-            p_nDistancePredicate = new DistancePredicate(pn, robotAPI);
+            p_nDistancePredicate = new WheelDistancePredicate(pn, robotAPI);
             p_nWalker->preparation(robotAPI);
             p_nDistancePredicate->preparation(robotAPI);
             initedP_N = true;
@@ -351,7 +351,7 @@ void UFORunner::run(RobotAPI *robotAPI)
         if (!initedN_XDivide2)
         {
             n_xdivide2Walker = new Walker(walkerPow, walkerPow);
-            n_xdivide2DistancePreicate = new DistancePredicate(n, robotAPI);
+            n_xdivide2DistancePreicate = new WheelDistancePredicate(n, robotAPI);
             n_xdivide2Walker->preparation(robotAPI);
             n_xdivide2DistancePreicate->preparation(robotAPI);
             initedN_XDivide2 = true;

@@ -5,7 +5,7 @@
 #include "ObstacleDetector.h"
 #include "SonarSensor.h"
 #include "FinishConfirmable.h"
-#include "DistancePredicate.h"
+#include "WheelDistancePredicate.h"
 #include "Predicate.h"
 #include "Walker.h"
 #include "Command.h"
@@ -64,8 +64,8 @@ private:
     Predicate *turnToPPredicate;
     Predicate *turnPIPNPredicate;
     Predicate *turnPDPNPredicate;
-    DistancePredicate *p_nDistancePredicate;
-    DistancePredicate *n_xdivide2DistancePreicate;
+    WheelDistancePredicate *p_nDistancePredicate;
+    WheelDistancePredicate *n_xdivide2DistancePreicate;
     Predicate *turnNPredicate;
 
     bool initedTurnToP = false;

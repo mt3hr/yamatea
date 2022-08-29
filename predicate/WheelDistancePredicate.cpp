@@ -1,4 +1,4 @@
-#include "DistancePredicate.h"
+#include "WheelDistancePredicate.h"
 #include "Setting.h"
 #include "math.h"
 #include "Motor.h"
@@ -14,7 +14,7 @@ float distanceToMotorRotateAngle(float distanceCm)
     return cm1Angle * distanceCm;
 };
 
-DistancePredicate::DistancePredicate(float tdc, RobotAPI *robotAPI)
+WheelDistancePredicate::WheelDistancePredicate(float tdc, RobotAPI *robotAPI)
 {
     targetDistanceCm = tdc;
     wheel = robotAPI->getLeftWheel();
@@ -22,21 +22,21 @@ DistancePredicate::DistancePredicate(float tdc, RobotAPI *robotAPI)
     this->robotAPI = robotAPI;
 };
 
-DistancePredicate::~DistancePredicate(){};
+WheelDistancePredicate::~WheelDistancePredicate(){};
 
-bool DistancePredicate::test(RobotAPI *robotAPI)
+bool WheelDistancePredicate::test(RobotAPI *robotAPI)
 {
     return wheel->getCount() > targetAngle;
 }
 
-void DistancePredicate::preparation(RobotAPI *robotAPI)
+void WheelDistancePredicate::preparation(RobotAPI *robotAPI)
 {
     targetAngle = distanceToMotorRotateAngle(targetDistanceCm) + float(wheel->getCount());
 }
 
-DistancePredicate *DistancePredicate::generateReversePredicate()
+WheelDistancePredicate *WheelDistancePredicate::generateReversePredicate()
 {
-    DistancePredicate *reversed = new DistancePredicate(targetDistanceCm, robotAPI);
+    WheelDistancePredicate *reversed = new WheelDistancePredicate(targetDistanceCm, robotAPI);
     if (reversed->hasLeftWheel)
     {
         reversed->wheel = robotAPI->getRightWheel();

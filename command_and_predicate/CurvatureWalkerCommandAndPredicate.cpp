@@ -2,7 +2,7 @@
 #include "math.h"
 #include "Setting.h"
 #include "Walker.h"
-#include "DistancePredicate.h"
+#include "WheelDistancePredicate.h"
 #include "DebugUtil.h"
 
 CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, float r, float theta, RobotAPI *robotAPI)
@@ -50,7 +50,7 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, 
 
     Command *walker = new Walker(leftPWM, rightPWM);
 
-    DistancePredicate *predicate = new DistancePredicate(loneL, robotAPI);
+    WheelDistancePredicate *predicate = new WheelDistancePredicate(loneL, robotAPI);
     if (theta < 0)
     {
         predicate = predicate->generateReversePredicate();

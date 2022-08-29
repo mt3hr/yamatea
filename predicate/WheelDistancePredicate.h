@@ -10,13 +10,13 @@ using namespace ev3api;
 // 距離からモータ回転角を算出する関数。単位はセンチメートル
 float distanceToMotorRotateAngle(float distanceCm);
 
-// DistancePredicate
+// WheelDistancePredicate
 // 左車輪が指定距離（cm）分だけ回転したらtrueを返すPredicate。
 // generateReversePredicate()メソッドから右車輪を対象としたDistancePredicateを生成できる。
 // 主に直進するときに使える。
 //
 // 実方
-class DistancePredicate : public Predicate
+class WheelDistancePredicate : public Predicate
 {
 private:
     float targetDistanceCm;
@@ -26,11 +26,11 @@ private:
     RobotAPI *robotAPI;
 
 public:
-    DistancePredicate(float targetDistanceCm, RobotAPI *robotAPI);
-    virtual ~DistancePredicate();
+    WheelDistancePredicate(float targetDistanceCm, RobotAPI *robotAPI);
+    virtual ~WheelDistancePredicate();
     virtual bool test(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
-    virtual DistancePredicate *generateReversePredicate() override;
+    virtual WheelDistancePredicate *generateReversePredicate() override;
 };
 
 #endif
