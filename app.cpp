@@ -594,6 +594,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *stopperPredicate = new NumberOfTimesPredicate(numberOfTimes);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 }
+#endif
 
 // RGBRawReaderModeの場合のcommandExecutor初期化処理
 #ifdef RGBRawReaderMode
