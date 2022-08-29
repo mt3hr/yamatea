@@ -3,9 +3,10 @@
 #include "DebugUtil.h"
 
 // 距離センサから取得できる値がthresholdDistance以上になったタイミングで、最初のオブジェクトの距離を確定します。
-ClockwiseObstacleDetector::ClockwiseObstacleDetector(int pwm, float angle, int thresholdDistance, int targetLeft, int targetRight, int skipFrameAfterDetectFirstObstacle)
+ClockwiseObstacleDetector::ClockwiseObstacleDetector(int pwm, float angle, int targetLeft, int targetRight, int skipFrameAfterDetectFirstObstacle, bool facingObstacle)
 {
     this->state = CODS_DETECTING_LEFT_OBSTACLE;
+    this->thresholdDistance = targetLeft;
     this->turnWalker = new Walker(pwm, -pwm);
     this->stopper = new Stopper();
     this->pwm = pwm;
@@ -204,15 +205,17 @@ void ClockwiseObstacleDetector::printValues(RobotAPI *robotAPI)
 
 ClockwiseObstacleDetector *ClockwiseObstacleDetector::generateReverseCommand()
 {
-    ClockwiseObstacleDetector *reversed = new ClockwiseObstacleDetector(-pwm, -angle, thresholdDistance, targetRight, targetLeft, skipFrameAfterDetectFirstObstacle);
+    ClockwiseObstacleDetector *reversed = new ClockwiseObstacleDetector(-pwm, -angle, targetRight, targetLeft, skipFrameAfterDetectFirstObstacle, facingObstacle);
     reversed->reverse = !reverse;
     if (reversed->reverse)
     {
         reversed->state = CODS_DETECTING_RIGHT_OBSTACLE;
+        reversed->thresholdDistance = targetRight;
     }
     else
     {
         reversed->state = CODS_DETECTING_LEFT_OBSTACLE;
+        reversed->thresholdDistance = targetLeft;
     }
     return reversed;
 }

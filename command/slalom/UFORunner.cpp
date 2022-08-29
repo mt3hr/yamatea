@@ -41,11 +41,11 @@ UFORunner::UFORunner(float na, int wp, int rp, float swingLeftAngle, float swing
     setObstacleDetector(new SwingSonarObstacleDetector(CENTER_LEFT_RIGHT, rotatePow, swingLeftAngle, swingRightAngle, targetLeftDistance, targetRightDistance));
 };
 
-UFORunner::UFORunner(float na, int wp, int rp, float angle, int thresholdDistance, int targetLeft, int targetRight, int skipFrameAfterDetectFirstObstacle) : UFORunner(na, wp, rp)
+UFORunner::UFORunner(float na, int wp, int rp, float angle, int targetLeft, int targetRight, int skipFrameAfterDetectFirstObstacle, bool facingObstacle) : UFORunner(na, wp, rp)
 {
     behavior = CLOCKWISE;
     // reverseするのでleftRight入れ替える
-    setObstacleDetector((new ClockwiseObstacleDetector(rotatePow, angle, thresholdDistance, targetRight, targetLeft, skipFrameAfterDetectFirstObstacle))->generateReverseCommand());
+    setObstacleDetector((new ClockwiseObstacleDetector(rotatePow, angle, targetRight, targetLeft, skipFrameAfterDetectFirstObstacle, facingObstacle))->generateReverseCommand());
     reverse = true;
 };
 
