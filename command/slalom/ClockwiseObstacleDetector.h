@@ -24,7 +24,6 @@ private:
     ClockwiseObstacleDetectorState state;
     int pwm;
     float angle;
-    int thresholdDistance;
     int targetLeft;
     int targetRight;
 
@@ -34,6 +33,7 @@ private:
     Stopper *stopper;
 
     NumberOfTimesPredicate *ignoreFrameWhenFirstDetected;
+    NumberOfTimesPredicate *ignoreFrameWhenFirstBeforeDetected;
 
     int leftObstacleDistance = 256;
     int rightObstacleDistance = 256;

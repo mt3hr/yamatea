@@ -1,7 +1,15 @@
 #include "SpiderManRunner.h"
+#include "DebugUtil.h"
+#include "Walker.h"
 
-SpiderManRunner::SpiderManRunner(){
-    // TODO not implements
+SpiderManRunner::SpiderManRunner(int pwm, float angleLeftCenter, float angleCenterRight, int targetLeft, int targetCenter, int targetRight)
+{
+    this->pwm = pwm;
+    this->angleLeftCenter = angleLeftCenter;
+    this->angleCenterRight = angleCenterRight;
+    this->targetLeft = targetLeft;
+    this->targetCenter = targetCenter;
+    this->targetRight = targetRight;
 };
 
 SpiderManRunner::~SpiderManRunner(){
@@ -10,24 +18,22 @@ SpiderManRunner::~SpiderManRunner(){
 
 void SpiderManRunner::run(RobotAPI *robotAPI)
 {
-    // TODO not implements
     return;
 }
 
 void SpiderManRunner::preparation(RobotAPI *robotAPI)
 {
-    // TODO not implements
     return;
 }
 
 SpiderManRunner *SpiderManRunner::generateReverseCommand()
 {
     // TODO not implements
-    return new SpiderManRunner();
+    // return new SpiderManRunner();
+    return nullptr;
 }
 
 bool SpiderManRunner::isFinished()
 {
-    // TODO not implements
-    return false;
+    return state == SPDM_FINISH;
 }

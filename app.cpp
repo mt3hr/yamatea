@@ -62,13 +62,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float orangeDistance = 113;     // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
   float starFruitsDistance = 9;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
   float cherryDistance = 18;      // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
-  float waterMelonDistance = 218; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
-  float bokChoyDistance = 23;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
-  float dorianDistance = 27;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+  float waterMelonDistance = 300; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+  float bokChoyDistance = 35;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+  float dorianDistance = 25;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
   float melonDistance = 209;      // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
-  float cucumberDistance = 154;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
-  float strawberryDistance = 136; // ゴールまで。いちご好き。ライントレースする。
+  float cucumberDistance = 140;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+  float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
 
+  /*
   // TODO ここから消そう
   int sceneBananaMotorCountPredicateArg = 1200;      // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
   int sceneOrangeMotorCountPredicateArg = 2450;      // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
@@ -116,6 +117,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   printf("%sDistance: %10.f\n", "Strawberry", strawberryDistance);
   printf("以上");
   // TODO ここまで消そう
+  */
 
   int pwm;
   float kp;
@@ -220,10 +222,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(melonPIDTracer, predicateMelon, GET_VARIABLE_NAME(melonPIDTracer));
 
   // CucumberPIDTracerの初期化とCommandExecutorへの追加
-  pwm = 28;
-  kp = 0.6;
+  pwm = 24;
+  kp = 0.4;
   ki = 0.2;
-  kd = 0.6;
+  kd = 0.4;
   dt = 1;
   PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateCucumber = new WheelDistancePredicate(cucumberDistance, robotAPI);
@@ -285,7 +287,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float cherryDistance = 18;      // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
   float waterMelonDistance = 218; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
   float bokChoyDistance = 23;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
-  float dorianDistance = 27;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+  float dorianDistance = 25;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
   float melonDistance = 209;      // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
   float cucumberDistance = 154;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
   float strawberryDistance = 136; // ゴールまで。いちご好き。ライントレースする。
@@ -798,9 +800,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int targetRightDistance = 10;
   bool reverseTest = false;
 #else
-  float n = 10;
-  int walkerPWM = 20;
-  int rotatePWM = 3;
+  float n = 5;
+  int walkerPWM = 10;
+  int rotatePWM = 4;
 
   float swingLeftAngle = -90.0;
   float swingRightAngle = 90.0;
@@ -839,26 +841,26 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   float angle = 180;
   int targetLeftDistance = 20;  // これを検知した状態からはじめて
-  int thresholdDistance = 20;   // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
   int targetRightDistance = 20; // あとはSwingSonarと同じ
 
   int skipFrameAfterDetectFirstObstacle = 0;
+  bool facingObstacle = true;
   bool reverseTest = true;
 #else
-  float n = 10;
-  int walkerPWM = 20;
-  int rotatePWM = 8;
+  float n = 4;
+  int walkerPWM = 15;
+  int rotatePWM = 5;
 
   float angle = 180;
-  int targetLeftDistance = 35;  // これを検知した状態からはじめて
-  int thresholdDistance = 30;   // センサがこの長さ以上になる直前の距離と角度をLeftに保存して
-  int targetRightDistance = 35; // あとはSwingSonarと同じ
+  int targetLeftDistance = 40;  // これを検知した状態からはじめて
+  int targetRightDistance = 40; // あとはSwingSonarと同じ
 
-  int skipFrameAfterDetectFirstObstacle = 20;
+  int skipFrameAfterDetectFirstObstacle = 10;
+  bool facingObstacle = false;
   bool reverseTest = true;
 #endif
 
-  UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM, angle, thresholdDistance, targetLeftDistance, targetRightDistance, skipFrameAfterDetectFirstObstacle);
+  UFORunner *ufoRunner = new UFORunner(n, walkerPWM, rotatePWM, angle, targetLeftDistance, targetRightDistance, skipFrameAfterDetectFirstObstacle, facingObstacle);
   if (reverseTest)
   {
     ufoRunner = ufoRunner->generateReverseCommand();
