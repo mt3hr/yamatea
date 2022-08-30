@@ -25,6 +25,8 @@
 #include "Predicate.h"
 #include "PIDTracer.h"
 #include "Walker.h"
+#include "ArmController.h"
+#include "ColorPredicate.h"
 #include "DistanceReader.h"
 #include "StartButtonPredicate.h"
 #include "MotorCountPredicate.h"
@@ -239,7 +241,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   kd = 0.7;
   dt = 1;
   PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
-  Predicate *predicateStrawberry = new WheelDistancePredicate(strawberryDistance, robotAPI);
+  Predicate *predicateStrawberry = new ColorPredicate(COLOR_BLUE);
   pidTargetBrightnessCalibrator->addPIDTracer(strawberryPIDTracer);
   commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry, GET_VARIABLE_NAME(strawberryPIDTracer));
 
@@ -582,6 +584,62 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 停止コマンドの初期化とCommandExecutorへの追加
   numberOfTimes = 1;
   Predicate *stopperPredicate = new NumberOfTimesPredicate(numberOfTimes);
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+}
+#endif
+
+#ifdef SlalomAwaitingSignalMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  Stopper *stopper = new Stopper();
+  Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
+
+  // スタート待機
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(new Command(), startButtonPredicate, "");
+
+  // pidTracerの初期化とCommandExecutorへの追加
+  int pwm = 20;
+  float kp = 0.7;
+  float ki = 0.2;
+  float kd = 0.7;
+  float dt = 1;
+  float targetBrightness = 20;
+  PIDTracer *pidTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+  Predicate *pidTracerPredicate = new ColorPredicate(COLOR_BLUE);
+  commandExecutor->addCommand(pidTracer, pidTracerPredicate, GET_VARIABLE_NAME(pidTracer));
+  pidTracer->setTargetBrightness(targetBrightness);
+
+  // スラローム直前までPIDトレース
+  float distance = 140;
+  commandExecutor->addCommand(pidTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // アームを下げる
+  // TODO なんかうまくいかねえ
+  int armAngle = 30;
+  pwm = -10;
+  Command *armDown = new ArmController(pwm);
+  Predicate *armDownPredicate = new MotorRotateAnglePredicate(-armAngle, robotAPI->getArmMotor());
+  commandExecutor->addCommand(armDown, armDownPredicate, GET_VARIABLE_NAME(armDown));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // スラローム位置補正。アームを下げたままPIDトレース。
+  distance = 20;
+  commandExecutor->addCommand(pidTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // アームを戻す
+  pwm = 10;
+  Command *armUp = new ArmController(pwm);
+  Predicate *armUpPredicate = new MotorRotateAnglePredicate(armAngle, robotAPI->getArmMotor());
+  commandExecutor->addCommand(armUp, armUpPredicate, GET_VARIABLE_NAME(armUp));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // PIDトレースで少し進んでスラロームに進入する
+  distance = 20;
+  commandExecutor->addCommand(pidTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
+
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 }
 #endif

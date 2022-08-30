@@ -8,6 +8,7 @@ PrintMessage.o \
 DebugUtil.o \
 Command.o \
 Predicate.o \
+ColorPredicate.o \
 CommandAndPredicate.o \
 NumberOfTimesPredicate.o \
 MotorCountPredicate.o \
@@ -32,7 +33,6 @@ WheelDistancePredicate.o \
 CurvatureWalkerCommandAndPredicate.o \
 ClockwiseObstacleDetector.o \
 UFORunner.o \
-AwaitingSignalRunner.o \
 SuperSocialDistanceRunner.o \
 SpiderManRunner.o \
 RotateRobotDistanceAngleDetector.o \

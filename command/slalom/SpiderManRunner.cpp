@@ -30,7 +30,7 @@ SpiderManRunner *SpiderManRunner::generateReverseCommand()
 {
     // TODO not implements
     // return new SpiderManRunner();
-    return nullptr;
+    return new SpiderManRunner(pwm, angleLeftCenter, angleCenterRight, targetLeft, targetCenter, targetRight);
 }
 
 bool SpiderManRunner::isFinished()
