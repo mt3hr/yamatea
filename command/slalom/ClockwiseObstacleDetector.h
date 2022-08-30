@@ -55,6 +55,7 @@ private:
     int preDistance;
 
     bool facingObstacle = false;
+    bool detectedFirstObstacle = false;
 
     void printValues(RobotAPI *robotAPI);
     void measure(RobotAPI *robotAPI);

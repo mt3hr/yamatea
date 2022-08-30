@@ -17,6 +17,7 @@ ClockwiseObstacleDetector::ClockwiseObstacleDetector(int pwm, float angle, int t
     this->skipFrameAfterDetectFirstObstacle = skipFrameAfterDetectFirstObstacle;
     this->reverse = false;
     this->ignoreFrameWhenFirstDetected = new NumberOfTimesPredicate(skipFrameAfterDetectFirstObstacle); // TODO モデルとコメント、引数化
+    this->detectedFirstObstacle = facingObstacle;
 };
 
 ClockwiseObstacleDetector::~ClockwiseObstacleDetector()
@@ -64,22 +65,32 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
         {
             turnWalker->run(robotAPI);
 
-            if (thresholdDistance <= currentDistance)
+            if (!detectedFirstObstacle)
             {
-                leftObstacleDistance = preDistance;
-                leftObstacleAngle = preAngle;
-                detectedLeftObstacleDistance = true;
-                detectedLeftObstacleAngle = true;
-                state = CODS_DETECTING_RIGHT_OBSTACLE;
+                if (thresholdDistance >= currentDistance)
+                {
+                    detectedFirstObstacle = true;
+                }
             }
-
-            if (state != CODS_DETECTING_RIGHT_OBSTACLE)
+            else
             {
-                break;
-            }
+                if (thresholdDistance <= currentDistance)
+                {
+                    leftObstacleDistance = preDistance;
+                    leftObstacleAngle = preAngle;
+                    detectedLeftObstacleDistance = true;
+                    detectedLeftObstacleAngle = true;
+                    state = CODS_DETECTING_RIGHT_OBSTACLE;
+                }
 
-            writeDebug("CODS_DETECTING_LEFT_OBSTACLE");
-            flushDebug(DEBUG, robotAPI);
+                if (state != CODS_DETECTING_RIGHT_OBSTACLE)
+                {
+                    break;
+                }
+
+                writeDebug("CODS_DETECTING_LEFT_OBSTACLE");
+                flushDebug(DEBUG, robotAPI);
+            }
         }
         case CODS_DETECTING_RIGHT_OBSTACLE:
         {
@@ -134,22 +145,32 @@ void ClockwiseObstacleDetector::run(RobotAPI *robotAPI)
         {
             turnWalker->run(robotAPI);
 
-            if (thresholdDistance <= currentDistance)
+            if (!detectedFirstObstacle)
             {
-                rightObstacleDistance = preDistance;
-                rightObstacleAngle = preAngle;
-                detectedRightObstacleDistance = true;
-                detectedRightObstacleAngle = true;
-                state = CODS_DETECTING_LEFT_OBSTACLE;
+                if (thresholdDistance >= currentDistance)
+                {
+                    detectedFirstObstacle = true;
+                }
             }
-
-            if (state != CODS_DETECTING_LEFT_OBSTACLE)
+            else
             {
-                break;
-            }
+                if (thresholdDistance <= currentDistance)
+                {
+                    rightObstacleDistance = preDistance;
+                    rightObstacleAngle = preAngle;
+                    detectedRightObstacleDistance = true;
+                    detectedRightObstacleAngle = true;
+                    state = CODS_DETECTING_LEFT_OBSTACLE;
+                }
 
-            writeDebug("CODS_DETECTING_RIGHT_OBSTACLE");
-            flushDebug(DEBUG, robotAPI);
+                if (state != CODS_DETECTING_LEFT_OBSTACLE)
+                {
+                    break;
+                }
+
+                writeDebug("CODS_DETECTING_RIGHT_OBSTACLE");
+                flushDebug(DEBUG, robotAPI);
+            }
         }
         case CODS_DETECTING_LEFT_OBSTACLE:
         {
