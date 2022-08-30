@@ -590,7 +590,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // TODO 実装して
 
   // 停止コマンドの初期化とCommandExecutorへの追加
-  numberOfTimes = 1;
+  int numberOfTimes = 1;
+  Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(numberOfTimes);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 }
@@ -620,7 +621,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
   int pwm = 10;
   Walker *walker = new Walker(pwm, -pwm); // 右に向く
-  Predicate *walkerPredicate = new MotorCountPredicate(leftWheel, motorRotateAngle);
+  Predicate *walkerPredicate = new MotorCountPredicate(robotAPI->getLeftWheel(), motorRotateAngle);
   commandExecutor->addCommand(walker, walkerPredicate, GET_VARIABLE_NAME(walker));
 
   // 停止コマンドの初期化とCommandExecutorへの追加
