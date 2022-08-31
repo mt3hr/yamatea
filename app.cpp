@@ -400,7 +400,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#ifdef SlalomTestMode
+#ifdef SlalomUFOTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   Stopper *stopper = new Stopper();

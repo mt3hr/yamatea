@@ -14,7 +14,7 @@
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 #define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
-//#define SlalomTestMode // スラロームだけ走行するプログラム。
+//#define SlalomUFOTestMode // スラロームをUFO走行するプログラム。
 //#define SlalomAwaitingSignalModePattern1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1
 //#define SlalomAwaitingSignalModePattern2 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2
 //#define BlockTestMode  // ブロック搬入だけを走行するプログラム。
