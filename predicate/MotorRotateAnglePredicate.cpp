@@ -19,11 +19,11 @@ bool MotorRotateAnglePredicate::test(RobotAPI *robotAPI)
 {
     if (up)
     {
-        return motor->getCount() > targetAngle;
+        return motor->getCount() >= targetAngle;
     }
     else
     {
-        return motor->getCount() < targetAngle;
+        return motor->getCount() <= targetAngle;
     }
 }
 

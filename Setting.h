@@ -12,10 +12,11 @@
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define LeftCourceMode // 左コース用プログラム
+#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define SlalomTestMode // スラロームだけ走行するプログラム。
-#define SlalomAwaitingSignalMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。
+//#define SlalomAwaitingSignalModePattern1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1
+//#define SlalomAwaitingSignalModePattern2 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2
 //#define BlockTestMode  // ブロック搬入だけを走行するプログラム。
 //#define FlatLineMode // すべて同じPIDで倉庫する左コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
