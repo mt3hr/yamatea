@@ -44,6 +44,7 @@
 #include "RobotAPI.h"
 #include "GyroRotateAnglePredicate.h"
 #include "RotateRobotUseGyroCommandAndPredicate.h"
+#include "ColorReader.h"
 #include "DebugUtil.h"
 #include "Bluetooth.h"
 
@@ -543,6 +544,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #if defined(SlalomAwaitingSignalModePattern1) | defined(SlalomAwaitingSignalModePattern2)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+  // ガレージカードの色取得用ColorReader
+  ColorReader *colorReader = new ColorReader();
+
   int pwm;
   float kp;
   float ki;
@@ -725,7 +729,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   WheelDistancePredicate *walker7Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker7, walker7Predicate, GET_VARIABLE_NAME(walker7));
 
-  // TODO getColor
+  // ガレージカード色取得
+  commandExecutor->addCommand(colorReader, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(colorReader));
 
 #ifdef SlalomAwaitingSignalModePattern1
   // 85度左旋回
