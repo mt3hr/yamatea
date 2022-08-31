@@ -4,6 +4,7 @@
 #include "Walker.h"
 #include "WheelDistancePredicate.h"
 #include "DebugUtil.h"
+#include "GyroRotateAnglePredicate.h"
 
 CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, float r, float theta, RobotAPI *robotAPI)
 {
@@ -15,30 +16,25 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, 
     float lone;
     float loneL;
     float loneR;
+
+    float thetaMPi180 = theta * M_PI / 180;
     if (theta > 0)
     {
-        lone = r * (theta * M_PI / 180);
-        loneL = (r + wheelSpaceDivide2) * (theta * M_PI / 180);
-        loneR = (r - wheelSpaceDivide2) * (theta * M_PI / 180);
+        lone = r * thetaMPi180;
+        loneL = (r + wheelSpaceDivide2) * thetaMPi180;
+        loneR = (r - wheelSpaceDivide2) * thetaMPi180;
     }
     else
     {
         lone = r * (-theta * M_PI / 180);
-        loneL = (r - wheelSpaceDivide2) * (-theta * M_PI / 180);
-        loneR = (r + wheelSpaceDivide2) * (-theta * M_PI / 180);
+        loneL = (r - wheelSpaceDivide2) * -thetaMPi180;
+        loneR = (r + wheelSpaceDivide2) * -thetaMPi180;
     }
-
-//TODO 実機ではどうなの？
-#ifdef SimulatorMode
-    lone *= 2;
-    loneL *= 2;
-    loneR *= 2;
-#endif
 
     float ratioL = loneL / lone;
     float ratioR = loneR / lone;
-    int leftPWM = pwm * ratioL;
-    int rightPWM = pwm * ratioR;
+    int leftPWM = round(pwm * ratioL);
+    int rightPWM = round(pwm * ratioR);
 
     writeDebug("leftPWM");
     writeDebug(leftPWM);
@@ -50,11 +46,14 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, 
 
     Command *walker = new Walker(leftPWM, rightPWM);
 
+    /* 精度が悪い
     WheelDistancePredicate *predicate = new WheelDistancePredicate(loneL, robotAPI);
     if (theta < 0)
     {
         predicate = predicate->generateReversePredicate();
     }
+    */
+    Predicate *predicate = new GyroRotateAnglePredicate(theta);
 
     setCommand(walker);
     setPredicate(predicate);
