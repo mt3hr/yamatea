@@ -37,6 +37,7 @@ SuperSocialDistanceRunner.o \
 SpiderManRunner.o \
 RotateRobotDistanceAngleDetector.o \
 RotateRobotUseGyroCommandAndPredicate.o \
+SonarDistancePredicate.o \
 
 SRCLANG := c++
 
