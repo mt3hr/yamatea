@@ -34,6 +34,7 @@ CurvatureWalkerCommandAndPredicate.o \
 ClockwiseObstacleDetector.o \
 UFORunner.o \
 SuperSocialDistanceRunner.o \
+ColorReader.o \
 SpiderManRunner.o \
 RotateRobotDistanceAngleDetector.o \
 RotateRobotUseGyroCommandAndPredicate.o \
