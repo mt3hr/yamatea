@@ -24,6 +24,7 @@ private:
     Motor *wheel;
     bool hasLeftWheel;
     RobotAPI *robotAPI;
+    bool up = false;
 
 public:
     WheelDistancePredicate(float targetDistanceCm, RobotAPI *robotAPI);

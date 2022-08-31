@@ -20,13 +20,21 @@ WheelDistancePredicate::WheelDistancePredicate(float tdc, RobotAPI *robotAPI)
     wheel = robotAPI->getLeftWheel();
     hasLeftWheel = true;
     this->robotAPI = robotAPI;
+    up = tdc > 0;
 };
 
 WheelDistancePredicate::~WheelDistancePredicate(){};
 
 bool WheelDistancePredicate::test(RobotAPI *robotAPI)
 {
-    return wheel->getCount() > targetAngle;
+    if (up)
+    {
+        return wheel->getCount() >= targetAngle;
+    }
+    else
+    {
+        return wheel->getCount() <= targetAngle;
+    }
 }
 
 void WheelDistancePredicate::preparation(RobotAPI *robotAPI)
