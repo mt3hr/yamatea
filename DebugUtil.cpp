@@ -4,6 +4,7 @@
 #include "vector"
 #include "sstream"
 #include "Setting.h"
+#include "MusicalScore.h"
 
 using namespace std;
 
@@ -71,10 +72,23 @@ void flushDebug(DEBUG_LEVEL level, RobotAPI *robotAPI)
     clearDebug();
 }
 
+vector<Note *> froggySong = generateFroggySong();
+int froggySongIndex = 0;
+
 void beepDebug()
 {
     if (enableBeepWhenCommandSwitching)
     {
-        ev3_speaker_play_tone(NOTE_C4, 500);
+#ifdef FroggySongBeep
+        if (int(sizeof(froggySong)) <= froggySongIndex)
+        {
+            ev3_speaker_set_volume(froggySong[froggySongIndex]->getVolume());
+            ev3_speaker_play_tone(froggySong[froggySongIndex]->getFrequency(), froggySong[froggySongIndex]->getVolume());
+            froggySongIndex++;
+        }
+#else
+        ev3_speaker_set_volume(beepNoteWhenCommandSwitching->getVolume());
+        ev3_speaker_play_tone(beepNoteWhenCommandSwitching->getFrequency(), beepNoteWhenCommandSwitching->getVolume());
+#endif
     }
 }

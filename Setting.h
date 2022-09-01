@@ -1,5 +1,7 @@
 #ifndef Setting_H
 #define Setting_H
+#include "Note.h"
+#include "ev3api.h"
 
 // 設定は2箇所に分散しています。
 // 設定1/2: Setting.h
@@ -33,6 +35,7 @@
 // モード設定ここまで
 
 //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+//#define FroggySongBeep // かえるの歌
 
 // ********** 設定1/2ここまで **********
 
@@ -54,6 +57,6 @@ extern bool enablePrintMessageMode;
 extern bool enablePrintMessageForConsole;
 extern bool enablePrintMessageForBluetooth;
 extern bool enableBeepWhenCommandSwitching;
-extern void setting();
+extern Note *beepNoteWhenCommandSwitching;
 
 #endif

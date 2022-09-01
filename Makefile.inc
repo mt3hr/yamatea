@@ -5,9 +5,13 @@ Setting.o \
 Bluetooth.o \
 RobotAPI.o \
 PrintMessage.o \
-DebugUtil.o \
+Note.o \
 Command.o \
 Predicate.o \
+FinishConfirmable.o \
+FinishedCommandPredicate.o \
+MusicalScore.o \
+DebugUtil.o \
 ColorPredicate.o \
 CommandAndPredicate.o \
 NumberOfTimesPredicate.o \
@@ -27,8 +31,6 @@ Stopper.o \
 ObstacleDetector.o \
 ObstacleDetectRunner.o \
 SwingSonarObstacleDetector.o \
-FinishConfirmable.o \
-FinishedCommandPredicate.o \
 WheelDistancePredicate.o \
 CurvatureWalkerCommandAndPredicate.o \
 ClockwiseObstacleDetector.o \
@@ -54,7 +56,8 @@ APPL_DIRS += \
 	$(mkfile_path)command/test \
 	$(mkfile_path)command_and_predicate \
 	$(mkfile_path)predicate \
-	$(mkfile_path)robot
+	$(mkfile_path)robot \
+	$(mkfile_path)music \
 
 INCLUDES += \
 	-I$(mkfile_path)command \
@@ -62,7 +65,8 @@ INCLUDES += \
 	-I$(mkfile_path)command/test \
 	-I$(mkfile_path)command_and_predicate \
 	-I$(mkfile_path)predicate \
-	-I$(mkfile_path)robot
+	-I$(mkfile_path)robot \
+	-I$(mkfile_path)music \
 
 #COPTS += -fno-use-cxa-atexit
 
