@@ -80,7 +80,7 @@ void beepDebug()
     if (enableBeepWhenCommandSwitching)
     {
 #ifdef FroggySongBeep
-        if (int(sizeof(froggySong)) <= froggySongIndex)
+        if (int(sizeof(froggySong)) >= froggySongIndex)
         {
             ev3_speaker_set_volume(froggySong[froggySongIndex]->getVolume());
             ev3_speaker_play_tone(froggySong[froggySongIndex]->getFrequency(), froggySong[froggySongIndex]->getVolume());
