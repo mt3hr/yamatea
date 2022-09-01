@@ -10,8 +10,6 @@
 using namespace ev3api;
 using namespace std;
 
-int sleepDuration = 1000 * 500;
-
 PIDTargetBrightnessCalibrator::PIDTargetBrightnessCalibrator(RobotAPI *robotAPI)
 {
     this->robotAPI = robotAPI;
@@ -35,6 +33,7 @@ void PIDTargetBrightnessCalibrator::readBlackFromColorSensor()
 
 void PIDTargetBrightnessCalibrator::run(RobotAPI *robotAPI)
 {
+    int sleepDuration = 1000 * 500;
     if (!isReadedBlack())
     {
         if (!printedReadBlackMessage)

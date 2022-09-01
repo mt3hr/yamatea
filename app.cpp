@@ -47,6 +47,8 @@
 #include "ColorReader.h"
 #include "DebugUtil.h"
 #include "Bluetooth.h"
+#include "ColorPIDTracer.h"
+#include "PIDTargetColorBrightnessCalibrator.h"
 
 using namespace std;
 using namespace ev3api;
@@ -1119,6 +1121,23 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+}
+#endif
+
+#ifdef ColorPIDTracerTestMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+  int pwm = 20;
+  float kp = 0.7;
+  float ki = 0.2;
+  float kd = 0.7;
+  float dt = 1;
+  ColorPIDTracer *colorPIDTracer = new ColorPIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+  commandExecutor->addCommand(colorPIDTracer, new Predicate(), GET_VARIABLE_NAME(colorPIDTracer));
 }
 #endif
 

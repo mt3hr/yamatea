@@ -20,8 +20,10 @@ StartButtonPredicate.o \
 CommandExecutor.o \
 RotateRobotCommandAndPredicate.o \
 GyroRotateAnglePredicate.o \
-PIDTargetBrightnessCalibrator.o \
 PIDTracer.o \
+ColorPIDTracer.o \
+PIDTargetBrightnessCalibrator.o \
+PIDTargetColorBrightnessCalibrator.o \
 Walker.o \
 RGBRawReader.o \
 DistanceReader.o \
@@ -69,5 +71,7 @@ INCLUDES += \
 	-I$(mkfile_path)music \
 
 #COPTS += -fno-use-cxa-atexit
+
+COPTS += -DMAKE_EV3
 
 COPTS += -DMAKE_EV3

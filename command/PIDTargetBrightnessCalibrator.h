@@ -1,5 +1,5 @@
-#ifndef ColorSensor_H
-#define ColorSensor_H
+#ifndef PIDTargetBrightnessCalibrator_H
+#define PIDTargetBrightnessCalibrator_H
 
 #include <vector>
 #include "ColorSensor.h"
