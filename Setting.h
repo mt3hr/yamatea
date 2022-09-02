@@ -32,6 +32,7 @@
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
 //#define UFORunnerSwingTestMode // UFO走行モード。障害物間を向いている状態から始める。テスト用
 //#define UFORunnerClockwiseTestMode // UFO走行モード。左障害物を向いている状態から始める。テスト用
+//#define ColorPIDTracerTestMode // TODO コメント
 // モード設定ここまで
 
 //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
