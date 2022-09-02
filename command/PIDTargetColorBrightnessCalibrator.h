@@ -17,8 +17,8 @@ using namespace std;
 class PIDTargetColorBrightnessCalibrator : public Command
 {
 private:
-    bool printedReadBlackMessage = false; // NOTE モデルに反映しません。
-    bool printedReadWhiteMessage = false; // NOTE モデルに反映しません。
+    bool printedReadBlackMessage = false;      // NOTE モデルに反映しません。
+    bool printedReadWhiteMessage = false;      // NOTE モデルに反映しません。
     bool printedReadBlackColorMessage = false; // NOTE モデルに反映しません。
     bool printedReadWhiteColorMessage = false; // NOTE モデルに反映しません。
     int whiteBrightness = 0;
@@ -42,16 +42,16 @@ public:
     virtual PIDTargetColorBrightnessCalibrator *generateReverseCommand() override;
     virtual int getBlackBrightness();
     virtual int getWhiteBrightness();
-    virtual int getBlackColorRedValue();
-    virtual int getWhiteColorRedValue();
+    virtual rgb_raw_t getBlackColor();
+    virtual rgb_raw_t getWhiteColor();
     virtual bool isReadedBlackBrightness();
     virtual bool isReadedWhiteBrightness();
-    virtual bool isReadedBlackColorRedValue();
-    virtual bool isReadedWhiteColorRedValue();
+    virtual bool isReadedBlackColor();
+    virtual bool isReadedWhiteColor();
     virtual void readWhiteBrightnessFromColorSensor();
     virtual void readBlackBrightnessFromColorSensor();
-    virtual void readWhiteColorRedValueFromColorSensor();
-    virtual void readBlackColorRedValueFromColorSensor();
+    virtual void readWhiteColorFromColorSensor();
+    virtual void readBlackColorFromColorSensor();
     virtual void addPIDTracer(PIDTracer *pidTracer);
     virtual void addColorPIDTracer(ColorPIDTracer *pidTracer);
 };

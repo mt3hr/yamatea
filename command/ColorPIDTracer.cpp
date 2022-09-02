@@ -10,9 +10,10 @@
 using namespace ev3api;
 using namespace std;
 
-ColorPIDTracer::ColorPIDTracer(PIDTracerMode traceModea, int pwma, float kpa, float kia, float kda, float dta)
+ColorPIDTracer::ColorPIDTracer(PIDTracerMode traceModea, TraceColor traceColor, int pwma, float kpa, float kia, float kda, float dta)
 {
     traceMode = traceModea;
+    this->traceColor = traceColor;
     pwm = pwma;
     kp = kpa;
     ki = kia;
@@ -29,10 +30,30 @@ void ColorPIDTracer::run(RobotAPI *robotAPI)
     // PID制御
     rgb_raw_t rgbRaw;
     robotAPI->getColorSensor()->getRawColor(rgbRaw);
-    int red = rgbRaw.r;
+    rgb = rgbRaw;
 
     // PID値の算出ここから
-    p = red - targetRed;
+    switch (traceColor)
+    {
+    case Trace_R:
+    {
+        p = rgb.r - targetRGB.r;
+        break;
+    }
+    case Trace_G:
+    {
+        p = rgb.g - targetRGB.g;
+        break;
+    }
+    case Trace_B:
+    {
+        p = rgb.b - targetRGB.b;
+        break;
+    }
+    default:
+        p = rgb.r - targetRGB.r;
+        break;
+    }
     i = p * dt;
     d = (p - beforeP) / dt;
     pid = kp * p + ki * i + kd * d;
@@ -72,8 +93,14 @@ void ColorPIDTracer::run(RobotAPI *robotAPI)
     writeDebug("rightPow: ");
     writeDebug(rightPower);
     writeEndLineDebug();
-    writeDebug("red: ");
-    writeDebug(red);
+    writeDebug("r: ");
+    writeDebug(rgb.r);
+    writeEndLineDebug();
+    writeDebug("g: ");
+    writeDebug(rgb.g);
+    writeEndLineDebug();
+    writeDebug("b: ");
+    writeDebug(rgb.b);
     writeEndLineDebug();
     flushDebug(TRACE, robotAPI);
 }
@@ -108,10 +135,10 @@ ColorPIDTracer *ColorPIDTracer::generateReverseCommand()
     {
         reversedMode = LEFT_TRACE;
     }
-    return new ColorPIDTracer(reversedMode, pwm, kp, ki, kd, dt);
+    return new ColorPIDTracer(reversedMode, traceColor, pwm, kp, ki, kd, dt);
 }
 
-void ColorPIDTracer::setTargetRed(int t)
+void ColorPIDTracer::setTargetColor(rgb_raw_t targetRGB)
 {
-    targetRed = t;
+    this->targetRGB = targetRGB;
 }

@@ -1136,7 +1136,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float ki = 0.2;
   float kd = 0.7;
   float dt = 1;
-  ColorPIDTracer *colorPIDTracer = new ColorPIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+  ColorPIDTracer *colorPIDTracer = new ColorPIDTracer(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt);
   commandExecutor->addCommand(colorPIDTracer, new Predicate(), GET_VARIABLE_NAME(colorPIDTracer));
 }
 #endif

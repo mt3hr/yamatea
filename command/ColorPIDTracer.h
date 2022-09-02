@@ -10,6 +10,13 @@
 using namespace ev3api;
 using namespace std;
 
+enum TraceColor
+{
+    Trace_R,
+    Trace_G,
+    Trace_B,
+};
+
 // PIDTracer
 // PIDの値をもとにラインに沿って走行するトレーサ。
 //
@@ -22,11 +29,12 @@ private:
     float ki = 0;
     float kd = 0;
     float dt = 0;
-    int targetRed = 0;
+    rgb_raw_t targetRGB;
     float beforeP = 0;
     PIDTracerMode traceMode;
+    TraceColor traceColor;
 
-    int red;
+    rgb_raw_t rgb;
     float p;
     float i;
     float d;
@@ -35,12 +43,12 @@ private:
     int rightPower;
 
 public:
-    ColorPIDTracer(PIDTracerMode traceMode, int pwm, float kp, float ki, float kd, float dt);
+    ColorPIDTracer(PIDTracerMode traceMode, TraceColor traceColor, int pwm, float kp, float ki, float kd, float dt);
     virtual ~ColorPIDTracer();
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
     virtual ColorPIDTracer *generateReverseCommand() override;
-    virtual void setTargetRed(int targetRed);
+    virtual void setTargetColor(rgb_raw_t targetRGB);
 };
 
 #endif
