@@ -1137,8 +1137,16 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float kd = 0.7;
   float dt = 1;
   ColorPIDTracer *colorPIDTracer = new ColorPIDTracer(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt);
-  calibrator->addColorPIDTracer(colorPIDTracer);
   commandExecutor->addCommand(colorPIDTracer, new Predicate(), GET_VARIABLE_NAME(colorPIDTracer));
+  calibrator->addColorPIDTracer(colorPIDTracer);
+
+#ifdef SimulatorMode
+  rgb_raw_t targetRGB;
+  targetRGB.r = 110;
+  targetRGB.g = 100;
+  targetRGB.b = 150;
+  colorPIDTracer->setTargetColor(targetRGB);
+#endif
 }
 #endif
 

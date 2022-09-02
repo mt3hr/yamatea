@@ -45,6 +45,6 @@ vector<Note *> generateFroggySong()
         new Note(NOTE_C4, beepNoteWhenCommandSwitching->getDuration(), beepNoteWhenCommandSwitching->getVolume()),
     };
 
-    vector<Note *> result(begin(froggySongNotes), end(froggySongNotes));
+    vector<Note *> result(froggySongNotes, froggySongNotes + sizeof(froggySongNotes) / sizeof(Note *));
     return result;
 };

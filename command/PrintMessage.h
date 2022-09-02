@@ -17,7 +17,7 @@ using namespace std;
 class PrintMessage : public Command
 {
 private:
-    const string EOL_STR = string("\r\n");
+    string EOL_STR = string("\r\n");
     vector<string> messageLines;
     bool forcePrint;
     void print();
