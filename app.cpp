@@ -1222,6 +1222,24 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
+#ifdef BrightnessPIDTracerTestMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator = new PIDTargetBrightnessCalibrator(robotAPI);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(pidTargetBrightnessCalibrator, startButtonPredicate, GET_VARIABLE_NAME(PIDTargetBrightnessCalibrator));
+
+  int pwm = 20;
+  float kp = 0.7;
+  float ki = 0.2;
+  float kd = 0.7;
+  float dt = 1;
+  PIDTracer *pidTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+  commandExecutor->addCommand(pidTracer, new Predicate(), GET_VARIABLE_NAME(pidTracer));
+  pidTargetBrightnessCalibrator->addPIDTracer(pidTracer);
+}
+#endif
+
 #ifdef ColorPIDTracerTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
