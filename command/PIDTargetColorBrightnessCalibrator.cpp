@@ -98,7 +98,6 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
                 colorPIDTracers[i]->setTargetColor(targetRGB);
             }
         }
-
         stringstream bs;
         stringstream ws;
         stringstream bcs;
@@ -107,10 +106,10 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         stringstream trs;
         // stringstream brightnessStream;
 
-        bs << "black bright :" << getBlackBrightness();
-        ws << "white bright :" << getWhiteBrightness();
-        bcs << "black r:" << getBlackColor().r << " g:" << getBlackColor().g << " b:" << getBlackColor().b;
-        bcs << "white r:" << getWhiteColor().r << " g:" << getWhiteColor().g << " b:" << getWhiteColor().b;
+        bs << "black bright :" << float(getBlackBrightness());
+        ws << "white bright :" << float(getWhiteBrightness());
+        bcs << "black r:" << float(getBlackColor().r) << " g:" << float(getBlackColor().g) << " b:" << float(getBlackColor().b);
+        wcs << "white r:" << float(getWhiteColor().r) << " g:" << float(getWhiteColor().g) << " b:" << float(getWhiteColor().b);
         ts << "target bright:" << float((getWhiteBrightness() + getBlackBrightness()) / 2);
         trs << "target r:" << float((getWhiteColor().r + getBlackColor().r) / 2) << " g:" << float((getWhiteColor().g + getBlackColor().g) / 2) << " b:" << float((getWhiteColor().b + getBlackColor().b) / 2);
         // brightnessStream << "brightness: " << float(robotAPI->getColorSensor()->getBrightness());

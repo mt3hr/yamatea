@@ -43,6 +43,7 @@ SpiderManRunner.o \
 RotateRobotDistanceAngleDetector.o \
 RotateRobotUseGyroCommandAndPredicate.o \
 SonarDistancePredicate.o \
+TailController.o \
 
 SRCLANG := c++
 
