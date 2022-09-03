@@ -1286,14 +1286,14 @@ enum ReturnToStartPointState
 // TODO コードの場所移動して
 ReturnToStartPointState returnToStartPointState = RTSP_TURNNING_UP;
 Walker *returnToStartPointStraightWalker = new Walker(20, 20);
-Walker *returnToStartPointTurnRightWalker = new Walker(20, -20);
-Walker *returnToStartPointTurnLeftWalker = new Walker(-20, 20);
+Walker *returnToStartPointTurnRightWalker = new Walker(10, -10);
+Walker *returnToStartPointTurnLeftWalker = new Walker(-10, 10);
 colorid_t returnToStartPointEdgeLineColor = COLOR_RED;
 
 void return_to_start_point_task(intptr_t exinf)
 {
   vector<string> messageLines;
-  messageLines.push_back("Back to the future");
+  messageLines.push_back("STARTED Back to the future");
   PrintMessage *printMessage = new PrintMessage(messageLines, true);
   printMessage->run(robotAPI);
   delete printMessage;
@@ -1319,7 +1319,7 @@ void return_to_start_point_task(intptr_t exinf)
     }
 
     // これのためだけにPredicate定義するのは嫌なので筋肉コーディングします
-    if (angle > targetAngle - 10 && angle < targetAngle + 10)
+    if (angle > targetAngle - 5 && angle < targetAngle + 5)
     {
       returnToStartPointState = RTSP_WALKING_UP;
     }
@@ -1339,7 +1339,7 @@ void return_to_start_point_task(intptr_t exinf)
 
   case RTSP_TURNNING_RIGHT:
   {
-    int targetAngle = 270;
+    int targetAngle = 90;
 #ifdef SimulatorMode
     int angle = robotAPI->getGyroSensor()->getAngle() * -1;
 #else
@@ -1356,7 +1356,7 @@ void return_to_start_point_task(intptr_t exinf)
     }
 
     // これのためだけにPredicate定義するのは嫌なので筋肉コーディングします
-    if (angle > targetAngle - 10 && angle < targetAngle + 10)
+    if (angle > targetAngle - 5 && angle < targetAngle + 5)
     {
       returnToStartPointState = RTSP_WALKING_RIGHT;
     }
