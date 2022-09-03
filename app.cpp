@@ -1287,11 +1287,17 @@ enum ReturnToStartPointState
 ReturnToStartPointState returnToStartPointState = RTSP_TURNNING_UP;
 Walker *returnToStartPointStraightWalker = new Walker(20, 20);
 Walker *returnToStartPointTurnRightWalker = new Walker(20, -20);
-Walker *returnToStartPointTurnLeftWalker = new Walker(20, -20);
+Walker *returnToStartPointTurnLeftWalker = new Walker(-20, 20);
 colorid_t returnToStartPointEdgeLineColor = COLOR_RED;
 
 void return_to_start_point_task(intptr_t exinf)
 {
+  vector<string> messageLines;
+  messageLines.push_back("Back to the future");
+  PrintMessage *printMessage = new PrintMessage(messageLines, true);
+  printMessage->run(robotAPI);
+  delete printMessage;
+
   switch (returnToStartPointState)
   {
   case RTSP_TURNNING_UP:
@@ -1303,7 +1309,7 @@ void return_to_start_point_task(intptr_t exinf)
     int angle = robotAPI->getGyroSensor()->getAngle();
 #endif
 
-    if (angle < targetAngle)
+    if (angle > targetAngle)
     {
       returnToStartPointTurnRightWalker->run(robotAPI);
     }
@@ -1313,7 +1319,7 @@ void return_to_start_point_task(intptr_t exinf)
     }
 
     // これのためだけにPredicate定義するのは嫌なので筋肉コーディングします
-    if (angle > targetAngle - 2 && angle < targetAngle + 2)
+    if (angle > targetAngle - 10 && angle < targetAngle + 10)
     {
       returnToStartPointState = RTSP_WALKING_UP;
     }
@@ -1340,7 +1346,7 @@ void return_to_start_point_task(intptr_t exinf)
     int angle = robotAPI->getGyroSensor()->getAngle();
 #endif
 
-    if (angle < targetAngle)
+    if (angle > targetAngle)
     {
       returnToStartPointTurnRightWalker->run(robotAPI);
     }
@@ -1350,7 +1356,7 @@ void return_to_start_point_task(intptr_t exinf)
     }
 
     // これのためだけにPredicate定義するのは嫌なので筋肉コーディングします
-    if (angle > targetAngle - 2 && angle < targetAngle + 2)
+    if (angle > targetAngle - 10 && angle < targetAngle + 10)
     {
       returnToStartPointState = RTSP_WALKING_RIGHT;
     }
@@ -1378,61 +1384,50 @@ void return_to_start_point_task(intptr_t exinf)
 // TODO コードの場所移動して
 enum BTCommand
 {
-  BTC_EMERGENCY_STOP = 1,
-  BTC_RETURN_TO_START_POINT = 2,
+  BTC_EMERGENCY_STOP = 's',
+  BTC_RETURN_TO_START_POINT = 'r',
 };
 
-// TODO Bluetoothは周期ハンドラで取得するべき
 void listen_bluetooth_command_task(intptr_t exinf)
 {
-#ifdef BluetoothMode
-  const uint32_t sleepDuration = 1000 * 1000;
+#ifdef EnableBluetooth
+  const uint32_t sleepDuration = 100 * 1000;
 
-  char btCommand[20];
-BTCLOOP:
-  while (true)
+  unsigned char bluetoothCommand = fgetc(bt);
+  switch (bluetoothCommand)
   {
-    fread(btCommand, sizeof(char), 20, bt);
+  case BTC_EMERGENCY_STOP:
+  {
+    stp_cyc(RETURN_TO_START_POINT_CYC);
+    commandExecutor->emergencyStop();
+    break;
+  }
+  case BTC_RETURN_TO_START_POINT:
+  {
+    commandExecutor->emergencyStop();
 
-    string btCommandStr = string(btCommand);
-    switch (BTC_RETURN_TO_START_POINT)
+    // runnerTaskが終了するのを待機する
+    for (; true; robotAPI->getClock()->sleep(sleepDuration))
     {
-
-    case BTC_EMERGENCY_STOP:
-    {
-      commandExecutor->emergencyStop();
-      break BTCLOOP;
-    }
-    case BTC_RETURN_TO_START_POINT:
-    {
-      commandExecutor->emergencyStop();
-
-      // runnerTaskが終了するのを待機する
-      while (true)
+      T_RCYC pk_rcyc;
+      ref_cyc(RUNNER_CYC, &pk_rcyc);
+      if (pk_rcyc.cycstat == TCYC_STP)
       {
-        T_RCYC pk_rcyc;
-        ref_cyc(RUNNER_CYC, &pk_rcyc);
-        if (pk_rcyc.cycstat == TCYC_STP)
-        {
-          break;
-        }
+        break;
       }
-      sta_cyc(RETURN_TO_START_POINT_CYC);
-      break;
     }
-    default:
-      break;
-    }
+    sta_cyc(RETURN_TO_START_POINT_CYC);
+    break;
+  }
+  default:
+    break;
+  }
 
-    if (ev3_button_is_pressed(LEFT_BUTTON))
-    {
-      break;
-    }
-    // ちょっと待つ
-    clock->sleep(sleepDuration);
+  if (ev3_button_is_pressed(LEFT_BUTTON))
+  {
+    stp_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
   }
 #endif
-
   ext_tsk();
 }
 
@@ -1480,8 +1475,11 @@ void main_task(intptr_t unused)
   // commandExecutor->run()の周期ハンドラを起動する
   sta_cyc(RUNNER_CYC);
 
+  // bluetoothCommandを受け取る周期ハンドラを起動する
+  sta_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
+
   // 終了判定処理
-  while (true)
+  for (; true; clock->sleep(sleepDuration))
   {
     // 左ボタンが押されたら緊急停止のためにループを抜ける
     if (ev3_button_is_pressed(LEFT_BUTTON))
@@ -1492,9 +1490,11 @@ void main_task(intptr_t unused)
     }
 
     // RUNNER_CYCが終了していたら走行完了なのでループを抜ける
-    T_RCYC pk_rcyc;
-    ref_cyc(RUNNER_CYC, &pk_rcyc);
-    if (pk_rcyc.cycstat == TCYC_STP)
+    T_RCYC runnerCycState;
+    T_RCYC btcCycState;
+    ref_cyc(RUNNER_CYC, &runnerCycState);
+    ref_cyc(LISTEN_BLUETOOTH_COMMAND_CYC, &btcCycState);
+    if (runnerCycState.cycstat == TCYC_STP && btcCycState.cycstat == TCYC_STP)
     {
       Stopper *stopper = new Stopper();
       stopper->run(robotAPI);
@@ -1506,9 +1506,6 @@ void main_task(intptr_t unused)
       printFinishMessage.run(robotAPI);
       break;
     }
-
-    // ちょっと待つ
-    clock->sleep(sleepDuration);
   }
 
 #ifdef EnableBluetooth
