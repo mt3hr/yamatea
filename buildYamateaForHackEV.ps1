@@ -29,7 +29,9 @@ Param([string]$projectName="yamatea", [switch]$clean, [int]$bluetoothPort=-1);
 # TeraTermのPath
 $teraTermPath = "C:\Program Files (x86)\teraterm5\ttermpro.exe";
 
-if ($bluetoothPort -eq -1) {
+$bluetoothMode = $bluetoothPort -ne -1;
+
+if (!$bluetoothMode) {
     # EV3RTドライブを取得する
     # 激遅なので決め打ちします
     # 決め打ちしない場合は↓これ↓を有効化して
@@ -46,34 +48,36 @@ if ($bluetoothPort -eq -1) {
         echo "終了します。";
         exit;
     }
-
-    # cleanがtrueならEV3のappsディレクトリの中身を消す
-    if ($clean -eq $true) {
-        Join-Path $ev3rtDrive "\ev3rt\apps\" | %{ Get-ChildItem $_ } | %{ rm $_.FullName };
-    }
 }
 
 # ビルドする。
 echo "build";
-ssh localhost "ETROBO_ROOT=~/etrobo; cd ~/etrobo; . ~/etrobo/scripts/etroboenv.sh silent; make app=$projectName;"# > $null;
 
-# EV3に転送するときのファイル名を決定する。（yamatea + コメントアウトされていないモードの名前）
-$filename = ssh localhost "ETROBO_ROOT=~/etrobo; cd ~/etrobo/workspace/$projectName; . ~/etrobo/scripts/etroboenv.sh silent; grep -v '^//#' Setting.h | grep -v 'Bluetooth' | grep 'define' | grep -o '\s.*Mode' | xargs echo yamatea | sed 's/ //g' | sed 's/Mode//g'";
+ssh localhost "ETROBO_ROOT=~/etrobo; cd ~/etrobo; . ~/etrobo/scripts/etroboenv.sh silent; make app=$projectName;" > $null;
 
 echo "transfer";
 
-if ($bluetoothPort -ne -1) {
+# EV3に転送するときのファイル名を決定する。
+if ($projectName -eq "yamatea") {
+    # yamateaの場合は「yamatea + 現在有効なモードの名前」
+    $filename = ssh localhost "ETROBO_ROOT=~/etrobo; cd ~/etrobo/workspace/$projectName; . ~/etrobo/scripts/etroboenv.sh silent; grep -v '^//#' Setting.h | grep -v 'Bluetooth' | grep 'define' | grep -o '\s.*Mode' | xargs echo yamatea | sed 's/ //g' | sed 's/Mode//g'";
+} else {
+    # それ以外の場合はプロジェクト名
+    $filename = $projectName;
+}
+
+if ($bluetoothMode) {
     $applicationFileTemp = Join-Path $env:TEMP $filename;
     $macroPath = Join-Path $env:TEMP "transferEV3Macro.ttl";
     
     # アプリケーションファイルを転送する
     scp "localhost:~/etrobo/workspace/app" $applicationFileTemp;
-
+    
     # 転送マクロを一時ファイルに書き込む
     Set-Content $macroPath @"
-        connect "/C=$bluetoothPort"
-        messagebox "load=>Bluetooth SPPにしてください" "転送"
-        zmodemsend "$applicationFileTemp" 1
+connect "/C=$bluetoothPort"
+messagebox "load=>Bluetooth SPPにしてください" "転送"
+zmodemsend "$applicationFileTemp" 1
 "@;
 
     # teraTermを起動して転送する
@@ -83,6 +87,11 @@ if ($bluetoothPort -ne -1) {
     rm $applicationFileTemp;
     rm $macroPath;
 } else {
+    # cleanがtrueならEV3のappsディレクトリの中身を消す
+    if ($clean -eq $true) {
+        Join-Path $ev3rtDrive "\ev3rt\apps\" | %{ Get-ChildItem $_ } | %{ rm $_.FullName };
+    }
+
     # 転送する（make upは遅いのでscpを使う）
     scp "localhost:~/etrobo/workspace/app" (Join-Path $ev3rtDrive "ev3rt\apps\$filename");
 }
