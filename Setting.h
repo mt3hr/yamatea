@@ -34,10 +34,12 @@
 //#define UFORunnerClockwiseTestMode // UFO走行モード。左障害物を向いている状態から始める。テスト用
 //#define ColorPIDTracerTestMode // ColorPIDTraceを試すモード。テスト用
 //#define BrightnessPIDTracerTestMode // TargetBrightnessPIDTraceを試すモード。テスト用
+//#define FroggySongTestMode // かえるの歌を歌わせるモード。テスト用。
+
 // モード設定ここまで
 
 //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
-//#define FroggySongBeep // かえるの歌
+//#define SingASong       // 走行時に歌う
 
 // ********** 設定1/2ここまで **********
 
@@ -60,5 +62,6 @@ extern bool enablePrintMessageForConsole;
 extern bool enablePrintMessageForBluetooth;
 extern bool enableBeepWhenCommandSwitching;
 extern Note *beepNoteWhenCommandSwitching;
+extern int loopSong;
 
 #endif

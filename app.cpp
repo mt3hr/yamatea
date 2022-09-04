@@ -50,6 +50,8 @@
 #include "ColorPIDTracer.h"
 #include "PIDTargetColorBrightnessCalibrator.h"
 #include "TailController.h"
+#include "MusicalScore.h"
+#include "StartCyc.h"
 
 using namespace std;
 using namespace ev3api;
@@ -138,6 +140,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator = new PIDTargetBrightnessCalibrator(robotAPI);
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(pidTargetBrightnessCalibrator, startButtonPredicate, GET_VARIABLE_NAME(PIDTargetBrightnessCalibrator));
+
+// 歌い始める
+#ifdef SingASong
+  commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
+#endif
 
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
   vector<string> messageLines;
@@ -311,6 +318,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator = new PIDTargetBrightnessCalibrator(robotAPI);
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(pidTargetBrightnessCalibrator, startButtonPredicate, GET_VARIABLE_NAME(PIDTargetBrightnessCalibrator));
+
+// 歌い始める
+#ifdef SingASong
+  commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
+#endif
 
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
   vector<string> messageLines;
@@ -573,6 +585,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI);
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+// 歌い始める
+#ifdef SingASong
+  commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
+#endif
 
   // スラローム進入ここから
   // コース上2つ目の青線前から開始。
@@ -1030,6 +1047,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, GET_VARIABLE_NAME(stopper)); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
+// 歌い始める
+#ifdef SingASong
+  commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
+#endif
+
   // 直進コマンドの初期化とCommandExecutorへの追加
   int pwm = 50;
   float distanceCm = 10000;
@@ -1266,6 +1288,19 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
+#ifdef FroggySongTestMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  vector<Note *> froggySong = generateFroggySong();
+  for (int i = 0; i < ((int)froggySong.size()); i++)
+  {
+    commandExecutor->addCommand(froggySong[i], new FinishedCommandPredicate(froggySong[i]), "");
+  }
+  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
+}
+
+#endif
+
 void runner_task(intptr_t exinf)
 {
   ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
@@ -1398,6 +1433,7 @@ void listen_bluetooth_command_task(intptr_t exinf)
   {
   case BTC_EMERGENCY_STOP:
   {
+    stp_cyc(SING_A_SONG_CYC);
     stp_cyc(RETURN_TO_START_POINT_CYC);
     commandExecutor->emergencyStop();
     break;
@@ -1431,6 +1467,25 @@ void listen_bluetooth_command_task(intptr_t exinf)
   ext_tsk();
 }
 
+CommandExecutor *singASongCommandExecutor;
+void sing_a_song_task(intptr_t exinf)
+{
+  singASongCommandExecutor->run();
+  ext_tsk();
+}
+
+void initSong(int loop)
+{
+  for (int j = 0; j < loop; j++)
+  {
+    vector<Note *> song = generateFroggySong();
+    for (int i = 0; i < ((int)song.size()); i++)
+    {
+      singASongCommandExecutor->addCommand(song[i], new FinishedCommandPredicate(song[i]), "");
+    }
+  }
+}
+
 void main_task(intptr_t unused)
 {
   const uint32_t sleepDuration = 100 * 1000;
@@ -1448,7 +1503,7 @@ void main_task(intptr_t unused)
 
   // RobotAPIとCommandExecutorの初期化
   robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, tailMotor, gyroSensor, clock);
-  commandExecutor = new CommandExecutor(robotAPI);
+  commandExecutor = new CommandExecutor(robotAPI, true);
 
   // ev3_lcd_set_font(EV3_FONT_MEDIUM);           // フォントの設定
   ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
@@ -1472,6 +1527,12 @@ void main_task(intptr_t unused)
   printReadyMessage->run(robotAPI);
   delete printReadyMessage;
 
+// FroggySongを歌うCommandExecutorを初期化する
+#ifdef SingASong
+  singASongCommandExecutor = new CommandExecutor(robotAPI, false);
+  initSong(loopSong);
+#endif
+
   // commandExecutor->run()の周期ハンドラを起動する
   sta_cyc(RUNNER_CYC);
 
@@ -1486,6 +1547,9 @@ void main_task(intptr_t unused)
     {
       // 停止処理
       commandExecutor->emergencyStop();
+#ifdef SingASong
+      singASongCommandExecutor->emergencyStop();
+#endif
       break;
     }
 
@@ -1516,6 +1580,11 @@ void main_task(intptr_t unused)
   {
     stp_cyc(RETURN_TO_START_POINT_CYC);
   }
+#endif
+
+#ifdef SingASong
+  // 歌ってたら止める
+  stp_cyc(SING_A_SONG_CYC);
 #endif
 
   // メインタスクの終了

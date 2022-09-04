@@ -26,9 +26,10 @@ private:
     vector<string> commandNames;
     vector<bool> preparated;
     RobotAPI *robotAPI;
+    bool runner;
 
 public:
-    CommandExecutor(RobotAPI *robotAPI);
+    CommandExecutor(RobotAPI *robotAPI, bool runner);
     virtual ~CommandExecutor();
     virtual void addCommand(Command *command, Predicate *exitCondition, string commandName);
     virtual void run();

@@ -16,6 +16,7 @@ void clearDebug();
 void writeDebug(string str);
 void writeDebug(int i);
 void writeDebug(float f);
+void writeDebug(uint64_t f);
 void writeEndLineDebug();
 void flushDebug(DEBUG_LEVEL level, RobotAPI *robotAPI);
 void beepDebug();

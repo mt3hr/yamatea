@@ -29,7 +29,7 @@ int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必�
 // 情報出力の有効無効設定ここから
 
 DEBUG_LEVEL debugMessageLevel = NONE;       // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+bool enablePrintMessageMode = false;          // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
 bool enablePrintMessageForConsole = false;    // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
 bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、ヘッダファイルの#define EnableBluetoothのコメントアウトも外して。
 
@@ -38,7 +38,8 @@ bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接�
 // コマンド切り替え時ビープ音設定ここから
 
 bool enableBeepWhenCommandSwitching = false; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
-Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 500, 50);
+Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 500, 30);
+int loopSong = 10;
 
 // コマンド切り替え時ビープ音設定ここまで
 

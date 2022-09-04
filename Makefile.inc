@@ -44,6 +44,7 @@ RotateRobotDistanceAngleDetector.o \
 RotateRobotUseGyroCommandAndPredicate.o \
 SonarDistancePredicate.o \
 TailController.o \
+StartCyc.o \
 
 SRCLANG := c++
 

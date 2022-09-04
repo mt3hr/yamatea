@@ -16,7 +16,7 @@ private:
     uint64_t duration64t;
     uint8_t volume;
 
-    uint64_t startTime;
+    uint64_t targetTime = 0;
     bool beeped = false;
     bool finished = false;
 

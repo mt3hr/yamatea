@@ -20,6 +20,9 @@ void Stopper::run(RobotAPI *robotAPI)
     robotAPI->getArmMotor()->stop();
     robotAPI->getTailMotor()->stop();
 
+    ev3_speaker_set_volume(0);
+    ev3_speaker_play_tone(beepNoteWhenCommandSwitching->getFrequency(), beepNoteWhenCommandSwitching->getDuration());
+
     writeDebug("Stopper");
     writeEndLineDebug();
     writeDebug("stopped.");

@@ -14,8 +14,9 @@
 using namespace ev3api;
 using namespace std;
 
-CommandExecutor::CommandExecutor(RobotAPI *robotAPI)
+CommandExecutor::CommandExecutor(RobotAPI *robotAPI, bool runner)
 {
+    this->runner = runner;
     this->robotAPI = robotAPI;
 }
 
@@ -77,10 +78,13 @@ void CommandExecutor::run()
     {
         // 現在の要素がなければ停止してタスクを終了する。
         finished = true;
-        stp_cyc(RUNNER_CYC);
-        Stopper *stopper = new Stopper();
-        stopper->run(robotAPI);
-        delete stopper;
+        if (runner)
+        {
+            stp_cyc(RUNNER_CYC);
+            Stopper *stopper = new Stopper();
+            stopper->run(robotAPI);
+            delete stopper;
+        }
         return;
     }
 

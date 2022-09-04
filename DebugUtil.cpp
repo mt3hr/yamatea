@@ -5,8 +5,10 @@
 #include "sstream"
 #include "Setting.h"
 #include "MusicalScore.h"
+#include "ev3api.h"
 
 using namespace std;
+using namespace ev3api;
 
 vector<string> messageLinesForDebugPrint;
 
@@ -55,6 +57,20 @@ void writeDebug(float f)
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
+void writeDebug(uint64_t f)
+{
+    if (messageLinesForDebugPrint.size() == 0)
+    {
+        messageLinesForDebugPrint.push_back("");
+    }
+
+    stringstream ss;
+    ss.clear();
+    ss.str("");
+    ss << f;
+    messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
+}
+
 // 改行する
 void writeEndLineDebug()
 {
@@ -72,23 +88,11 @@ void flushDebug(DEBUG_LEVEL level, RobotAPI *robotAPI)
     clearDebug();
 }
 
-vector<Note *> froggySong = generateFroggySong();
-int froggySongIndex = 0;
-
 void beepDebug()
 {
     if (enableBeepWhenCommandSwitching)
     {
-#ifdef FroggySongBeep
-        if (int(sizeof(froggySong)) >= froggySongIndex)
-        {
-            ev3_speaker_set_volume(froggySong[froggySongIndex]->getVolume());
-            ev3_speaker_play_tone(froggySong[froggySongIndex]->getFrequency(), froggySong[froggySongIndex]->getVolume());
-            froggySongIndex++;
-        }
-#else
         ev3_speaker_set_volume(beepNoteWhenCommandSwitching->getVolume());
-        ev3_speaker_play_tone(beepNoteWhenCommandSwitching->getFrequency(), beepNoteWhenCommandSwitching->getVolume());
-#endif
+        ev3_speaker_play_tone(beepNoteWhenCommandSwitching->getFrequency(), beepNoteWhenCommandSwitching->getDuration());
     }
 }

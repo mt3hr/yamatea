@@ -1,11 +1,14 @@
 #include "Note.h"
 #include "RobotAPI.h"
+#include "DebugUtil.h"
+#include "ev3api.h"
+
+using namespace ev3api;
 
 Note::Note(uint16_t frequency, int32_t duration, uint8_t volume)
 {
     this->frequency = frequency;
     this->duration = duration;
-    this->duration64t = uint64_t(duration) * 1000;
     this->volume = volume;
 };
 
@@ -15,18 +18,30 @@ void Note::run(RobotAPI *robotAPI)
 {
     if (!beeped)
     {
+        targetTime = robotAPI->getClock()->now() + uint64_t(duration * 1000);
         beeped = true;
         ev3_speaker_set_volume(getVolume());
-        ev3_speaker_play_tone(getFrequency(), getVolume());
+        ev3_speaker_play_tone(getFrequency(), getDuration());
     }
 
-    finished = startTime - robotAPI->getClock()->now() >= duration64t;
+    finished = targetTime <= robotAPI->getClock()->now();
+
+    writeDebug("Note");
+    writeEndLineDebug();
+    writeDebug("targetTime: ");
+    writeDebug(targetTime);
+    writeEndLineDebug();
+    writeDebug("now: ");
+    writeDebug(robotAPI->getClock()->now());
+    writeEndLineDebug();
+    writeEndLineDebug();
+    flushDebug(TRACE, robotAPI);
     return;
 }
 
 void Note::preparation(RobotAPI *robotAPI)
 {
-    startTime = robotAPI->getClock()->now();
+    targetTime = robotAPI->getClock()->now() + uint64_t(duration * 1000);
 }
 
 bool Note::isFinished()
