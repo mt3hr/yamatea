@@ -613,11 +613,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // PIDトレースで青線まで進む
   Predicate *pidTracerPredicate = new ColorPredicate(COLOR_BLUE);
-  commandExecutor->addCommand(pidTracer, pidTracerPredicate, GET_VARIABLE_NAME(pidTracer));
+  //TODO commandExecutor->addCommand(pidTracer, pidTracerPredicate, GET_VARIABLE_NAME(pidTracer));
 
   // スラローム直前までPIDトレース
   float distance = 30;
-  commandExecutor->addCommand(pidTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
+  //TODO commandExecutor->addCommand(pidTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // アームを下げる
@@ -637,7 +637,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(tailMotorDrive, tailMotorDrivePreicate, GET_VARIABLE_NAME(tailMotorDrive));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
-// スラローム位置補正。アームを下げたまま直進PIDトレース。
+// スラローム位置補正。アームを下げたまま直進。
 #ifdef SimulatorMode
   numberOfTime = 50;
 #else
@@ -672,7 +672,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // Walkerで少し進んでスラロームに進入する（PIDTracerだとベニヤ板の暗さで行けねえ）
-  distance = 30;
+  distance = 27;
   Walker *walker1 = new Walker(20, 20);
   commandExecutor->addCommand(walker1, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(walker1));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
@@ -690,7 +690,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 直進
   leftPWM = 16;
   rightPWM = 16;
-  distance = 10.5;
+  distance = 13.5;
   Walker *walker2 = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walker2Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker2, walker2Predicate, GET_VARIABLE_NAME(walker2));
@@ -1075,8 +1075,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 曲率進行コマンドの初期化とCommandExecutorへの追加
   int pwm = 20; // NOTE pwm上げるとおかしくなる
-  float r = 15;
-  float theta = -90;
+  float r = 30;
+  float theta = 90;
   CurvatureWalkerCommandAndPredicate *commandAndPredicate = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate(), "curvatureWalker");
 
