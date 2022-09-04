@@ -52,6 +52,7 @@
 #include "TailController.h"
 #include "MusicalScore.h"
 #include "StartCyc.h"
+#include "RawColorPredicate.h"
 
 using namespace std;
 using namespace ev3api;
@@ -75,7 +76,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float dorianDistance = 25;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
   float melonDistance = 209;      // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
   float cucumberDistance = 140;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
-  // float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
+  float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
 
   /*
   // TODO ここから消そう
@@ -1005,9 +1006,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef SimulatorMode
   float targetBrightness = 20;
   rgb_raw_t targetRGB;
-  targetRGB.r = 100;
-  targetRGB.g = 100;
-  targetRGB.b = 100;
+  targetRGB.r = 60;
+  targetRGB.g = 60;
+  targetRGB.b = 60;
   pidTracer->setTargetColor(targetRGB);
   lowPWMTracer->setTargetColor(targetRGB);
 #endif

@@ -2,6 +2,7 @@
 #include "ev3api.h"
 #include "Note.h"
 #include "ev3api.h"
+#include "RawColorPredicate.h"
 
 // 設定は2箇所に分散しています。
 // 設定1/2: Setting.h
@@ -28,10 +29,10 @@ int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必�
 
 // 情報出力の有効無効設定ここから
 
-DEBUG_LEVEL debugMessageLevel = NONE;       // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-bool enablePrintMessageMode = false;          // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-bool enablePrintMessageForConsole = false;    // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、ヘッダファイルの#define EnableBluetoothのコメントアウトも外して。
+DEBUG_LEVEL debugMessageLevel = DEBUG;      // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+bool enablePrintMessageMode = false;        // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+bool enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
+bool enablePrintMessageForBluetooth = true; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、ヘッダファイルの#define EnableBluetoothのコメントアウトも外して。
 
 // 情報出力の有効無効設定ここまで
 
@@ -41,6 +42,42 @@ bool enableBeepWhenCommandSwitching = false; // trueにすると、コマンド�
 Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 500, 30);
 int loopSong = 10;
 
+// 色設定ここから
+
 // コマンド切り替え時ビープ音設定ここまで
+
+// 赤
+int r_r = 0;
+int r_g = 0;
+int r_b = 0;
+RawColorPredicateCondition r_rCondition = IGNORE;
+RawColorPredicateCondition r_gCondition = IGNORE;
+RawColorPredicateCondition r_bCondition = IGNORE;
+
+// 緑
+int g_r = 0;
+int g_g = 0;
+int g_b = 0;
+RawColorPredicateCondition g_rCondition = IGNORE;
+RawColorPredicateCondition g_gCondition = IGNORE;
+RawColorPredicateCondition g_bCondition = IGNORE;
+
+// 青
+int b_r = 0;
+int b_g = 0;
+int b_b = 0;
+RawColorPredicateCondition b_rCondition = IGNORE;
+RawColorPredicateCondition b_gCondition = IGNORE;
+RawColorPredicateCondition b_bCondition = IGNORE;
+
+// 黄
+int y_r = 0;
+int y_g = 0;
+int y_b = 0;
+RawColorPredicateCondition y_rCondition = IGNORE;
+RawColorPredicateCondition y_gCondition = IGNORE;
+RawColorPredicateCondition y_bCondition = IGNORE;
+
+// 色設定ここまで
 
 // ********** 設定2/2ここまで **********

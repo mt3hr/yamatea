@@ -17,4 +17,5 @@ public:
     virtual void preparation(RobotAPI *robotAPI);
     virtual Predicate *generateReversePredicate();
 };
+
 #endif

@@ -1,6 +1,7 @@
 #ifndef Setting_H
 #define Setting_H
 #include "Note.h"
+#include "RawColorPredicate.h"
 #include "ev3api.h"
 
 // 設定は2箇所に分散しています。
@@ -10,7 +11,7 @@
 // ********** 設定1/2ここから **********
 
 // 実機シミュレータ設定。ジャイロセンサから取得できる角度の方向が実機とシミュレータでは異なるので。
-//#define SimulatorMode // 実機で動かすときにはコメントアウトして
+#define SimulatorMode // 実機で動かすときにはコメントアウトして
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
@@ -40,7 +41,7 @@
 
 // モード設定ここまで
 
-//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 
 // ********** 設定1/2ここまで **********
@@ -65,5 +66,33 @@ extern bool enablePrintMessageForBluetooth;
 extern bool enableBeepWhenCommandSwitching;
 extern Note *beepNoteWhenCommandSwitching;
 extern int loopSong;
+
+extern int r_r;
+extern int r_g;
+extern int r_b;
+extern RawColorPredicateCondition r_rCondition;
+extern RawColorPredicateCondition r_gCondition;
+extern RawColorPredicateCondition r_bCondition;
+
+extern int g_r;
+extern int g_g;
+extern int g_b;
+extern RawColorPredicateCondition g_rCondition;
+extern RawColorPredicateCondition g_gCondition;
+extern RawColorPredicateCondition g_bCondition;
+
+extern int b_r;
+extern int b_g;
+extern int b_b;
+extern RawColorPredicateCondition b_rCondition;
+extern RawColorPredicateCondition b_gCondition;
+extern RawColorPredicateCondition b_bCondition;
+
+extern int y_r;
+extern int y_g;
+extern int y_b;
+extern RawColorPredicateCondition y_rCondition;
+extern RawColorPredicateCondition y_gCondition;
+extern RawColorPredicateCondition y_bCondition;
 
 #endif
