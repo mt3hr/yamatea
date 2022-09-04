@@ -9,6 +9,8 @@ enum RawColorPredicateCondition
     IGNORE,
     GREATER_THAN,
     LESS_THAN,
+    BETWEEN5,
+    BETWEEN10,
 };
 
 class RawColorPredicate : public Predicate
