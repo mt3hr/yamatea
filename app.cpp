@@ -1014,7 +1014,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
 
   // PIDトレースで青線まで進む
-  Predicate *pidTracerPredicate = new ColorPredicate(COLOR_BLUE);
+  Predicate *pidTracerPredicate = new BluePredicate();
   commandExecutor->addCommand(pidTracer, pidTracerPredicate, GET_VARIABLE_NAME(pidTracer));
 
   // スラローム直前までPIDトレース
