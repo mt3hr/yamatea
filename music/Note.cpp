@@ -25,17 +25,6 @@ void Note::run(RobotAPI *robotAPI)
     }
 
     finished = targetTime <= robotAPI->getClock()->now();
-
-    writeDebug("Note");
-    writeEndLineDebug();
-    writeDebug("targetTime: ");
-    writeDebug(targetTime);
-    writeEndLineDebug();
-    writeDebug("now: ");
-    writeDebug(robotAPI->getClock()->now());
-    writeEndLineDebug();
-    writeEndLineDebug();
-    flushDebug(TRACE, robotAPI);
     return;
 }
 
