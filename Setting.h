@@ -11,7 +11,7 @@
 // ********** 設定1/2ここから **********
 
 // 実機シミュレータ設定。ジャイロセンサから取得できる角度の方向が実機とシミュレータでは異なるので。
-#define SimulatorMode // 実機で動かすときにはコメントアウトして
+//#define SimulatorMode // 実機で動かすときにはコメントアウトして
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
@@ -25,7 +25,7 @@
 //#define BlockTestMode  // ブロック搬入だけを走行するプログラム。
 //#define FlatLineMode // すべて同じPIDで倉庫する左コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
-//#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
+//#define RGBRawReaderMode // RGBRawの値をはかるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
 //#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
@@ -67,6 +67,7 @@ extern bool enableBeepWhenCommandSwitching;
 extern Note *beepNoteWhenCommandSwitching;
 extern int loopSong;
 
+extern bool calibrateBlue;
 extern int r_r;
 extern int r_g;
 extern int r_b;
@@ -94,5 +95,26 @@ extern int y_b;
 extern RawColorPredicateCondition y_rCondition;
 extern RawColorPredicateCondition y_gCondition;
 extern RawColorPredicateCondition y_bCondition;
+
+extern int bw_r;
+extern int bw_g;
+extern int bw_b;
+extern RawColorPredicateCondition bw_rCondition;
+extern RawColorPredicateCondition bw_gCondition;
+extern RawColorPredicateCondition bw_bCondition;
+
+extern int d_r;
+extern int d_g;
+extern int d_b;
+extern RawColorPredicateCondition d_rCondition;
+extern RawColorPredicateCondition d_gCondition;
+extern RawColorPredicateCondition d_bCondition;
+
+extern int w_r;
+extern int w_g;
+extern int w_b;
+extern RawColorPredicateCondition bw_rCondition;
+extern RawColorPredicateCondition w_gCondition;
+extern RawColorPredicateCondition w_bCondition;
 
 #endif

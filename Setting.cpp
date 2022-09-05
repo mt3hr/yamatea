@@ -30,53 +30,79 @@ int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必�
 // 情報出力の有効無効設定ここから
 
 DEBUG_LEVEL debugMessageLevel = DEBUG;      // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-bool enablePrintMessageMode = false;        // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
 bool enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-bool enablePrintMessageForBluetooth = true; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、ヘッダファイルの#define EnableBluetoothのコメントアウトも外して。
+bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、ヘッダファイルの#define EnableBluetoothのコメントアウトも外して。
 
 // 情報出力の有効無効設定ここまで
 
 // コマンド切り替え時ビープ音設定ここから
 
-bool enableBeepWhenCommandSwitching = false; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
-Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 500, 30);
+bool enableBeepWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
+Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 30);
 int loopSong = 10;
+
+// コマンド切り替え時ビープ音設定ここまで
 
 // 色設定ここから
 
-// コマンド切り替え時ビープ音設定ここまで
+bool calibrateBlue = true; // 青色をキャリブレーションするかどうか
+
+// 白（キャリブレータから上書きされるので設定しなくて良い）
+int w_r = 70;
+int w_g = 76;
+int w_b = 55;
+RawColorPredicateCondition w_rCondition = BETWEEN5;
+RawColorPredicateCondition w_gCondition = BETWEEN5;
+RawColorPredicateCondition w_bCondition = BETWEEN5;
+
+// 黒（キャリブレータから上書きされるので設定しなくて良い）
+int d_r = 6;
+int d_g = 6;
+int d_b = 5;
+RawColorPredicateCondition d_rCondition = BETWEEN5;
+RawColorPredicateCondition d_gCondition = BETWEEN5;
+RawColorPredicateCondition d_bCondition = BETWEEN5;
 
 // 赤
 int r_r = 0;
 int r_g = 0;
 int r_b = 0;
-RawColorPredicateCondition r_rCondition = IGNORE;
-RawColorPredicateCondition r_gCondition = IGNORE;
-RawColorPredicateCondition r_bCondition = IGNORE;
+RawColorPredicateCondition r_rCondition = BETWEEN5;
+RawColorPredicateCondition r_gCondition = BETWEEN5;
+RawColorPredicateCondition r_bCondition = BETWEEN5;
 
 // 緑
 int g_r = 0;
 int g_g = 0;
 int g_b = 0;
-RawColorPredicateCondition g_rCondition = IGNORE;
-RawColorPredicateCondition g_gCondition = IGNORE;
-RawColorPredicateCondition g_bCondition = IGNORE;
+RawColorPredicateCondition g_rCondition = BETWEEN5;
+RawColorPredicateCondition g_gCondition = BETWEEN5;
+RawColorPredicateCondition g_bCondition = BETWEEN5;
 
-// 青
-int b_r = 0;
-int b_g = 0;
-int b_b = 0;
-RawColorPredicateCondition b_rCondition = IGNORE;
-RawColorPredicateCondition b_gCondition = IGNORE;
-RawColorPredicateCondition b_bCondition = IGNORE;
+// 青（キャリブレータから上書きされるので設定しなくて良い）
+int b_r = 29;
+int b_g = 47;
+int b_b = 42;
+RawColorPredicateCondition b_rCondition = BETWEEN5;
+RawColorPredicateCondition b_gCondition = BETWEEN5;
+RawColorPredicateCondition b_bCondition = BETWEEN5;
 
 // 黄
 int y_r = 0;
 int y_g = 0;
 int y_b = 0;
-RawColorPredicateCondition y_rCondition = IGNORE;
-RawColorPredicateCondition y_gCondition = IGNORE;
-RawColorPredicateCondition y_bCondition = IGNORE;
+RawColorPredicateCondition y_rCondition = BETWEEN5;
+RawColorPredicateCondition y_gCondition = BETWEEN5;
+RawColorPredicateCondition y_bCondition = BETWEEN5;
+
+// 青白境界（キャリブレータから上書きされるので設定しなくて良い）
+int bw_r = (w_r + b_r) / 2;
+int bw_g = (w_g + b_g) / 2;
+int bw_b = (w_b + b_b) / 2;
+RawColorPredicateCondition bw_rCondition = LESS_THAN;
+RawColorPredicateCondition bw_gCondition = BETWEEN5;
+RawColorPredicateCondition bw_bCondition = BETWEEN5;
 
 // 色設定ここまで
 
