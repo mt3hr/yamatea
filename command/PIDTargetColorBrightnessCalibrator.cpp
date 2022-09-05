@@ -77,6 +77,13 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         }
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            d_r = rawColor.r;
+            d_g = rawColor.g;
+            d_b = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+
             readBlackBrightnessFromColorSensor();
             robotAPI->getClock()->sleep(sleepDuration);
             readBlackColorFromColorSensor();
@@ -99,6 +106,13 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         }
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            w_r = rawColor.r;
+            w_g = rawColor.g;
+            w_b = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+
             readWhiteBrightnessFromColorSensor();
             robotAPI->getClock()->sleep(sleepDuration);
             readWhiteColorFromColorSensor();
@@ -110,6 +124,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         if (!calibratedPIDTracers)
         {
             calibratedPIDTracers = true;
+
             for (int i = 0; i < ((int)pidTracers.size()); i++)
             {
                 pidTracers[i]->setTargetBrightness((getWhiteBrightness() + getBlackBrightness()) / 2);
@@ -122,6 +137,10 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
                 targetRGB.b = (getWhiteColor().b + getBlackColor().b) / 2;
                 colorPIDTracers[i]->setTargetColor(targetRGB);
             }
+
+            bw_r = (b_r + w_r) / 2;
+            bw_g = (b_g + w_g) / 2;
+            bw_b = (b_b + w_b) / 2;
         }
         stringstream bs;
         stringstream ws;
@@ -129,7 +148,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         stringstream wcs;
         stringstream ts;
         stringstream trs;
-        // stringstream brightnessStream;
+        stringstream brightnessStream;
 
         bs << "black bright :" << float(getBlackBrightness());
         ws << "white bright :" << float(getWhiteBrightness());
@@ -137,7 +156,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         wcs << "white r:" << float(getWhiteColor().r) << " g:" << float(getWhiteColor().g) << " b:" << float(getWhiteColor().b);
         ts << "target bright:" << float((getWhiteBrightness() + getBlackBrightness()) / 2);
         trs << "target r:" << float((getWhiteColor().r + getBlackColor().r) / 2) << " g:" << float((getWhiteColor().g + getBlackColor().g) / 2) << " b:" << float((getWhiteColor().b + getBlackColor().b) / 2);
-        // brightnessStream << "brightness: " << float(robotAPI->getColorSensor()->getBrightness());
+        brightnessStream << "brightness: " << float(robotAPI->getColorSensor()->getBrightness());
 
         vector<string> messageLines;
         messageLines.push_back("calibrated!");
@@ -147,7 +166,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         messageLines.push_back(wcs.str());
         messageLines.push_back(ts.str());
         messageLines.push_back(trs.str());
-        // messageLines.push_back(brightnessStream.str());
+        messageLines.push_back(brightnessStream.str());
         messageLines.push_back("press touch sensor");
         messageLines.push_back("      to START!");
         PrintMessage printMessage(messageLines, true);

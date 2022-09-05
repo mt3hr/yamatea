@@ -147,8 +147,10 @@ BluePredicate::BluePredicate() : RawColorPredicate(&b_r, b_rCondition, &b_g, b_g
 RedPredicate::RedPredicate() : RawColorPredicate(&r_r, r_rCondition, &r_g, r_gCondition, &r_b, r_bCondition){};
 GreenPredicate::GreenPredicate() : RawColorPredicate(&b_r, b_rCondition, &b_g, b_gCondition, &b_b, b_bCondition){};
 YellowPredicate::YellowPredicate() : RawColorPredicate(&y_r, y_rCondition, &y_g, y_gCondition, &y_b, y_bCondition){};
+BlueEdgePredicate::BlueEdgePredicate() : RawColorPredicate(&bw_r, bw_rCondition, &bw_g, bw_gCondition, &bw_b, bw_bCondition){};
 
 BluePredicate::~BluePredicate(){};
 RedPredicate::~RedPredicate(){};
 GreenPredicate::~GreenPredicate(){};
 YellowPredicate::~YellowPredicate(){};
+BlueEdgePredicate::~BlueEdgePredicate(){};

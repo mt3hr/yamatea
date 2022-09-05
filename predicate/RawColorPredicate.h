@@ -64,4 +64,13 @@ public:
     virtual ~GreenPredicate();
 };
 
+
+class BlueEdgePredicate : public RawColorPredicate
+{
+private:
+public:
+    BlueEdgePredicate();
+    virtual ~BlueEdgePredicate();
+};
+
 #endif

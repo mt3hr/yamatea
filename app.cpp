@@ -1011,10 +1011,12 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pidTracer->setTargetColor(targetRGB);
   lowPWMTracer->setTargetColor(targetRGB);
 #endif
+  // PIDトレースから入る
+  commandExecutor->addCommand(lowPWMTracer, new WheelDistancePredicate(5, robotAPI), GET_VARIABLE_NAME(pidTracer));
 
   // PIDトレースで青線まで進む
-  Predicate *pidTracerPredicate = new BluePredicate();
-  commandExecutor->addCommand(pidTracer, pidTracerPredicate, GET_VARIABLE_NAME(pidTracer));
+  Predicate *pidTracerPredicate = new BlueEdgePredicate();
+  commandExecutor->addCommand(lowPWMTracer, pidTracerPredicate, GET_VARIABLE_NAME(pidTracer));
 
   // スラローム直前までPIDトレース
   float distance = 30;
@@ -1571,7 +1573,7 @@ void return_to_start_point_task(intptr_t exinf)
     }
 
     // これのためだけにPredicate定義するのは嫌なので筋肉コーディングします
-    if (angle > targetAngle - 5 && angle < targetAngle + 5)
+    if (angle == targetAngle)
     {
       returnToStartPointState = RTSP_WALKING_UP;
     }
@@ -1608,7 +1610,7 @@ void return_to_start_point_task(intptr_t exinf)
     }
 
     // これのためだけにPredicate定義するのは嫌なので筋肉コーディングします
-    if (angle > targetAngle - 5 && angle < targetAngle + 5)
+    if (angle == targetAngle)
     {
       returnToStartPointState = RTSP_WALKING_RIGHT;
     }
