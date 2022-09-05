@@ -9,6 +9,7 @@
 #include "ColorPIDTracer.h"
 #include "ColorPIDTracer.h"
 #include "Sensor.h"
+#include "Setting.h"
 
 using namespace ev3api;
 using namespace std;
@@ -37,7 +38,31 @@ void PIDTargetColorBrightnessCalibrator::readBlackBrightnessFromColorSensor()
 void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
 {
     int sleepDuration = 1000 * 500;
-    if (!isReadedBlackBrightness())
+    if (!readedBlueColor && calibrateBlue)
+    {
+        if (!printedReadBlueMessage)
+        {
+            printedReadBlueMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read blue");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            b_r = rawColor.r;
+            b_g = rawColor.g;
+            b_b = rawColor.b;
+            readedBlueColor = true;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!isReadedBlackBrightness())
     {
         if (!printedReadBlackMessage)
         {

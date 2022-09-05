@@ -19,6 +19,7 @@ class PIDTargetColorBrightnessCalibrator : public Command
 private:
     bool printedReadBlackMessage = false;      // NOTE モデルに反映しません。
     bool printedReadWhiteMessage = false;      // NOTE モデルに反映しません。
+    bool printedReadBlueMessage = false;      // NOTE モデルに反映しません。
     bool printedReadBlackColorMessage = false; // NOTE モデルに反映しません。
     bool printedReadWhiteColorMessage = false; // NOTE モデルに反映しません。
     int whiteBrightness = 0;
@@ -29,6 +30,7 @@ private:
     bool readedBlackBrightness = false;
     bool readedWhiteColor = false;
     bool readedBlackColor = false;
+    bool readedBlueColor = false;
     vector<PIDTracer *> pidTracers;
     vector<ColorPIDTracer *> colorPIDTracers;
     bool calibratedPIDTracers = false;

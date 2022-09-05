@@ -9,6 +9,7 @@ enum RawColorPredicateCondition
     IGNORE,
     GREATER_THAN,
     LESS_THAN,
+    BETWEEN3,
     BETWEEN5,
     BETWEEN10,
 };

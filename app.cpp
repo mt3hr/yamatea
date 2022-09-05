@@ -21,7 +21,6 @@
 #include "PrintMessage.h"
 #include "Command.h"
 #include "CommandExecutor.h"
-#include "PIDTargetBrightnessCalibrator.h"
 #include "Predicate.h"
 #include "PIDTracer.h"
 #include "Walker.h"
@@ -138,9 +137,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int rightPow;
 
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
-  PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator = new PIDTargetBrightnessCalibrator(robotAPI);
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI);
   Predicate *startButtonPredicate = new StartButtonPredicate();
-  commandExecutor->addCommand(pidTargetBrightnessCalibrator, startButtonPredicate, GET_VARIABLE_NAME(PIDTargetBrightnessCalibrator));
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
 // 歌い始める
 #ifdef SingASong
@@ -164,7 +163,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTracer *bananaPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateBanana = new WheelDistancePredicate(bananaDistance, robotAPI);
   commandExecutor->addCommand(bananaPIDTracer, predicateBanana, GET_VARIABLE_NAME(bananaPIDTracer));
-  pidTargetBrightnessCalibrator->addPIDTracer(bananaPIDTracer);
+  calibrator->addPIDTracer(bananaPIDTracer);
 
   // OrangePIDTracerの初期化とCommandExecutorへの追加
   pwm = 15;
@@ -174,7 +173,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   PIDTracer *orangePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateOrange = new WheelDistancePredicate(orangeDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(orangePIDTracer);
+  calibrator->addPIDTracer(orangePIDTracer);
   commandExecutor->addCommand(orangePIDTracer, predicateOrange, GET_VARIABLE_NAME(orangePIDTracer));
 
   // StarFruitsWalkerの初期化とCommandExecutorへの追加
@@ -192,7 +191,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   PIDTracer *cherryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateCherry = new WheelDistancePredicate(cherryDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(cherryPIDTracer);
+  calibrator->addPIDTracer(cherryPIDTracer);
   commandExecutor->addCommand(cherryPIDTracer, predicateCherry, GET_VARIABLE_NAME(cherryPIDTracer));
 
   // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
@@ -203,7 +202,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   PIDTracer *waterMelonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateWaterMelon = new WheelDistancePredicate(waterMelonDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(waterMelonPIDTracer);
+  calibrator->addPIDTracer(waterMelonPIDTracer);
   commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon, GET_VARIABLE_NAME(waterMelonPIDTracer));
 
   // BokChoyWalkerの初期化とCommandExecutorへの追加
@@ -221,7 +220,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   PIDTracer *dorianPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateDorian = new WheelDistancePredicate(dorianDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(dorianPIDTracer);
+  calibrator->addPIDTracer(dorianPIDTracer);
   commandExecutor->addCommand(dorianPIDTracer, predicateDorian, GET_VARIABLE_NAME(dorianPIDTracer));
 
   // MelonPIDTracerの初期化とCommandExecutorへの追加
@@ -232,7 +231,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   PIDTracer *melonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateMelon = new WheelDistancePredicate(melonDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(melonPIDTracer);
+  calibrator->addPIDTracer(melonPIDTracer);
   commandExecutor->addCommand(melonPIDTracer, predicateMelon, GET_VARIABLE_NAME(melonPIDTracer));
 
   // CucumberPIDTracerの初期化とCommandExecutorへの追加
@@ -243,7 +242,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateCucumber = new WheelDistancePredicate(cucumberDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(cucumberPIDTracer);
+  calibrator->addPIDTracer(cucumberPIDTracer);
   commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber, GET_VARIABLE_NAME(cucumberPIDTracer));
 
   // StrawberryPIDTracerの初期化とCommandExecutorへの追加
@@ -254,7 +253,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateStrawberry = new ColorPredicate(COLOR_BLUE);
-  pidTargetBrightnessCalibrator->addPIDTracer(strawberryPIDTracer);
+  calibrator->addPIDTracer(strawberryPIDTracer);
   commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry, GET_VARIABLE_NAME(strawberryPIDTracer));
 
   // Commandの定義とCommandExecutorへの追加ここまで
@@ -316,9 +315,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int rightPow;
 
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
-  PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator = new PIDTargetBrightnessCalibrator(robotAPI);
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI);
   Predicate *startButtonPredicate = new StartButtonPredicate();
-  commandExecutor->addCommand(pidTargetBrightnessCalibrator, startButtonPredicate, GET_VARIABLE_NAME(PIDTargetBrightnessCalibrator));
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
 // 歌い始める
 #ifdef SingASong
@@ -337,12 +336,12 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTracer *bananaPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateBanana = new WheelDistancePredicate(bananaDistance, robotAPI);
   commandExecutor->addCommand(bananaPIDTracer, predicateBanana, GET_VARIABLE_NAME(bananaPIDTracer));
-  pidTargetBrightnessCalibrator->addPIDTracer(bananaPIDTracer);
+  calibrator->addPIDTracer(bananaPIDTracer);
 
   // OrangePIDTracerの初期化とCommandExecutorへの追加
   PIDTracer *orangePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateOrange = new WheelDistancePredicate(orangeDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(orangePIDTracer);
+  calibrator->addPIDTracer(orangePIDTracer);
   commandExecutor->addCommand(orangePIDTracer, predicateOrange, GET_VARIABLE_NAME(orangePIDTracer));
 
   // StarFruitsWalkerの初期化とCommandExecutorへの追加
@@ -355,13 +354,13 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // CherryPIDTracerの初期化とCommandExecutorへの追加
   PIDTracer *cherryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateCherry = new WheelDistancePredicate(cherryDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(cherryPIDTracer);
+  calibrator->addPIDTracer(cherryPIDTracer);
   commandExecutor->addCommand(cherryPIDTracer, predicateCherry, GET_VARIABLE_NAME(cherryPIDTracer));
 
   // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
   PIDTracer *waterMelonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateWaterMelon = new WheelDistancePredicate(waterMelonDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(waterMelonPIDTracer);
+  calibrator->addPIDTracer(waterMelonPIDTracer);
   commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon, GET_VARIABLE_NAME(waterMelonPIDTracer));
 
   // BokChoyWalkerの初期化とCommandExecutorへの追加
@@ -374,25 +373,25 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // DorianPIDTracerの初期化とCommandExecutorへの追加
   PIDTracer *dorianPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateDorian = new WheelDistancePredicate(dorianDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(dorianPIDTracer);
+  calibrator->addPIDTracer(dorianPIDTracer);
   commandExecutor->addCommand(dorianPIDTracer, predicateDorian, GET_VARIABLE_NAME(dorianPIDTracer));
 
   // MelonPIDTracerの初期化とCommandExecutorへの追加
   PIDTracer *melonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateMelon = new WheelDistancePredicate(melonDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(melonPIDTracer);
+  calibrator->addPIDTracer(melonPIDTracer);
   commandExecutor->addCommand(melonPIDTracer, predicateMelon, GET_VARIABLE_NAME(melonPIDTracer));
 
   // CucumberPIDTracerの初期化とCommandExecutorへの追加
   PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateCucumber = new WheelDistancePredicate(cucumberDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(cucumberPIDTracer);
+  calibrator->addPIDTracer(cucumberPIDTracer);
   commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber, GET_VARIABLE_NAME(cucumberPIDTracer));
 
   // StrawberryPIDTracerの初期化とCommandExecutorへの追加
   PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateStrawberry = new WheelDistancePredicate(strawberryDistance, robotAPI);
-  pidTargetBrightnessCalibrator->addPIDTracer(strawberryPIDTracer);
+  calibrator->addPIDTracer(strawberryPIDTracer);
   commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry, GET_VARIABLE_NAME(strawberryPIDTracer));
 
   // Commandの定義とCommandExecutorへの追加ここまで
@@ -1465,9 +1464,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef BrightnessPIDTracerTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  PIDTargetBrightnessCalibrator *pidTargetBrightnessCalibrator = new PIDTargetBrightnessCalibrator(robotAPI);
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI);
   Predicate *startButtonPredicate = new StartButtonPredicate();
-  commandExecutor->addCommand(pidTargetBrightnessCalibrator, startButtonPredicate, GET_VARIABLE_NAME(PIDTargetBrightnessCalibrator));
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
   int pwm = 20;
   float kp = 0.7;
@@ -1476,7 +1475,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float dt = 1;
   PIDTracer *pidTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   commandExecutor->addCommand(pidTracer, new Predicate(), GET_VARIABLE_NAME(pidTracer));
-  pidTargetBrightnessCalibrator->addPIDTracer(pidTracer);
+  calibrator->addPIDTracer(pidTracer);
 }
 #endif
 

@@ -45,6 +45,11 @@ bool RawColorPredicate::test(RobotAPI *robotAPI)
         rOK = r >= rawColor.r;
         break;
     }
+    case BETWEEN3:
+    {
+        rOK = r + 3 >= rawColor.r && r - 3 >= rawColor.r;
+        break;
+    }
     case BETWEEN5:
     {
         rOK = r + 5 >= rawColor.r && r - 5 >= rawColor.r;
@@ -72,6 +77,11 @@ bool RawColorPredicate::test(RobotAPI *robotAPI)
     case LESS_THAN:
     {
         gOK = g >= rawColor.g;
+        break;
+    }
+    case BETWEEN3:
+    {
+        gOK = g + 3 >= rawColor.g && g - 3 >= rawColor.g;
         break;
     }
     case BETWEEN5:
@@ -103,9 +113,13 @@ bool RawColorPredicate::test(RobotAPI *robotAPI)
         bOK = b >= rawColor.b;
         break;
     }
+    case BETWEEN3:
+    {
+        bOK = b + 3 >= rawColor.b && b - 3 >= rawColor.b;
+        break;
+    }
     case BETWEEN5:
     {
-
         bOK = b + 5 >= rawColor.b && b - 5 >= rawColor.b;
         break;
     }
