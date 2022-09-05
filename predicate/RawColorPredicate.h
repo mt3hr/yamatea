@@ -17,15 +17,15 @@ enum RawColorPredicateCondition
 class RawColorPredicate : public Predicate
 {
 private:
-    int r;
-    int g;
-    int b;
+    int *r;
+    int *g;
+    int *b;
     RawColorPredicateCondition rCondition;
     RawColorPredicateCondition gCondition;
     RawColorPredicateCondition bCondition;
 
 public:
-    RawColorPredicate(int r, RawColorPredicateCondition rCondition, int g, RawColorPredicateCondition gCondition, int b, RawColorPredicateCondition bCondition);
+    RawColorPredicate(int *r, RawColorPredicateCondition rCondition, int *g, RawColorPredicateCondition gCondition, int *b, RawColorPredicateCondition bCondition);
     virtual ~RawColorPredicate();
     virtual bool test(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;

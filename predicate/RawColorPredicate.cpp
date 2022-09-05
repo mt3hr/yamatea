@@ -5,7 +5,7 @@
 
 using namespace ev3api;
 
-RawColorPredicate::RawColorPredicate(int r, RawColorPredicateCondition rCondition, int g, RawColorPredicateCondition gCondition, int b, RawColorPredicateCondition bCondition)
+RawColorPredicate::RawColorPredicate(int *r, RawColorPredicateCondition rCondition, int *g, RawColorPredicateCondition gCondition, int *b, RawColorPredicateCondition bCondition)
 {
     this->r = r;
     this->rCondition = rCondition;
@@ -37,27 +37,27 @@ bool RawColorPredicate::test(RobotAPI *robotAPI)
     }
     case GREATER_THAN:
     {
-        rOK = r <= rawColor.r;
+        rOK = *r <= rawColor.r;
         break;
     }
     case LESS_THAN:
     {
-        rOK = r >= rawColor.r;
+        rOK = *r >= rawColor.r;
         break;
     }
     case BETWEEN3:
     {
-        rOK = r + 3 >= rawColor.r && r - 3 >= rawColor.r;
+        rOK = *r + 3 >= rawColor.r && *r - 3 >= rawColor.r;
         break;
     }
     case BETWEEN5:
     {
-        rOK = r + 5 >= rawColor.r && r - 5 >= rawColor.r;
+        rOK = *r + 5 >= rawColor.r && *r - 5 >= rawColor.r;
         break;
     }
     case BETWEEN10:
     {
-        rOK = r + 10 >= rawColor.r && r - 10 >= rawColor.r;
+        rOK = *r + 10 >= rawColor.r && *r - 10 >= rawColor.r;
         break;
     }
     }
@@ -71,27 +71,27 @@ bool RawColorPredicate::test(RobotAPI *robotAPI)
     }
     case GREATER_THAN:
     {
-        gOK = g <= rawColor.g;
+        gOK = *g <= rawColor.g;
         break;
     }
     case LESS_THAN:
     {
-        gOK = g >= rawColor.g;
+        gOK = *g >= rawColor.g;
         break;
     }
     case BETWEEN3:
     {
-        gOK = g + 3 >= rawColor.g && g - 3 >= rawColor.g;
+        gOK = *g + 3 >= rawColor.g && *g - 3 >= rawColor.g;
         break;
     }
     case BETWEEN5:
     {
-        gOK = g + 5 >= rawColor.g && g - 5 >= rawColor.g;
+        gOK = *g + 5 >= rawColor.g && *g - 5 >= rawColor.g;
         break;
     }
     case BETWEEN10:
     {
-        gOK = g + 10 >= rawColor.g && g - 10 >= rawColor.g;
+        gOK = *g + 10 >= rawColor.g && *g - 10 >= rawColor.g;
         break;
     }
     }
@@ -105,27 +105,27 @@ bool RawColorPredicate::test(RobotAPI *robotAPI)
     }
     case GREATER_THAN:
     {
-        bOK = b <= rawColor.b;
+        bOK = *b <= rawColor.b;
         break;
     }
     case LESS_THAN:
     {
-        bOK = b >= rawColor.b;
+        bOK = *b >= rawColor.b;
         break;
     }
     case BETWEEN3:
     {
-        bOK = b + 3 >= rawColor.b && b - 3 >= rawColor.b;
+        bOK = *b + 3 >= rawColor.b && *b - 3 >= rawColor.b;
         break;
     }
     case BETWEEN5:
     {
-        bOK = b + 5 >= rawColor.b && b - 5 >= rawColor.b;
+        bOK = *b + 5 >= rawColor.b && *b - 5 >= rawColor.b;
         break;
     }
     case BETWEEN10:
     {
-        bOK = b + 10 >= rawColor.b && b - 10 >= rawColor.b;
+        bOK = *b + 10 >= rawColor.b && *b - 10 >= rawColor.b;
         break;
     }
     }
@@ -143,10 +143,10 @@ Predicate *RawColorPredicate::generateReversePredicate()
     return new RawColorPredicate(r, rCondition, g, gCondition, b, bCondition);
 }
 
-BluePredicate::BluePredicate() : RawColorPredicate(b_r, b_rCondition, b_g, b_gCondition, b_b, b_bCondition){};
-RedPredicate::RedPredicate() : RawColorPredicate(r_r, r_rCondition, r_g, r_gCondition, r_b, r_bCondition){};
-GreenPredicate::GreenPredicate() : RawColorPredicate(b_r, b_rCondition, b_g, b_gCondition, b_b, b_bCondition){};
-YellowPredicate::YellowPredicate() : RawColorPredicate(y_r, y_rCondition, y_g, y_gCondition, y_b, y_bCondition){};
+BluePredicate::BluePredicate() : RawColorPredicate(&b_r, b_rCondition, &b_g, b_gCondition, &b_b, b_bCondition){};
+RedPredicate::RedPredicate() : RawColorPredicate(&r_r, r_rCondition, &r_g, r_gCondition, &r_b, r_bCondition){};
+GreenPredicate::GreenPredicate() : RawColorPredicate(&b_r, b_rCondition, &b_g, b_gCondition, &b_b, b_bCondition){};
+YellowPredicate::YellowPredicate() : RawColorPredicate(&y_r, y_rCondition, &y_g, y_gCondition, &y_b, y_bCondition){};
 
 BluePredicate::~BluePredicate(){};
 RedPredicate::~RedPredicate(){};
