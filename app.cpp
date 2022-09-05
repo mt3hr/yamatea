@@ -635,7 +635,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // テールモータで角度をつける
   pwm = 100;
-  numberOfTime = 25;
+  numberOfTime = 20;
   Command *tailMotorDrive = new TailController(pwm);
   Predicate *tailMotorDrivePreicate = new NumberOfTimesPredicate(numberOfTime);
   commandExecutor->addCommand(tailMotorDrive, tailMotorDrivePreicate, GET_VARIABLE_NAME(tailMotorDrive));
@@ -669,42 +669,55 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // テールモータを戻す
   pwm = 100;
-  numberOfTime = 25;
+  numberOfTime = 10;
   tailMotorDrive = new TailController(-pwm);
   tailMotorDrivePreicate = new NumberOfTimesPredicate(numberOfTime);
   commandExecutor->addCommand(tailMotorDrive, tailMotorDrivePreicate, GET_VARIABLE_NAME(tailMotorDrive));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // Walkerで少し進んでスラロームに進入する（PIDTracerだとベニヤ板の暗さで行けねえ）
-  distance = 27;
-  pwm = 17.5;
-  Walker *walker1 = new Walker(pwm, pwm);
-  commandExecutor->addCommand(walker1, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(walker1));
+  leftPWM = 10;
+  rightPWM = 10;
+  distance = 25;
+  Walker *walkerC = new Walker(leftPWM, rightPWM);
+  WheelDistancePredicate *walkerCPredicate = new WheelDistancePredicate(distance, robotAPI);
+  commandExecutor->addCommand(walkerC, walkerCPredicate, GET_VARIABLE_NAME(walkerC));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+
+  // テールモータを戻す
+  pwm = 100;
+  numberOfTime = 10;
+  tailMotorDrive = new TailController(-pwm);
+  tailMotorDrivePreicate = new NumberOfTimesPredicate(numberOfTime);
+  commandExecutor->addCommand(tailMotorDrive, tailMotorDrivePreicate, GET_VARIABLE_NAME(tailMotorDrive));
+  commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+
 
   // スラローム進入ここまで
 
   // 指示待ち走行ここから
 
   // 45度左旋回
-  pwm = 10;
+  pwm = 5;
   angle = -45;
   RotateRobotUseGyroCommandAndPredicate *rotate1 = new RotateRobotUseGyroCommandAndPredicate(angle, pwm, robotAPI);
   commandExecutor->addCommand(rotate1->getCommand(), rotate1->getPredicate(), GET_VARIABLE_NAME(rotate1));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // 直進
-  leftPWM = 16;
-  rightPWM = 16;
-  distance = 12.5;
+  leftPWM = 10;
+  rightPWM = 10;
+  distance = 9.5;
   Walker *walker2 = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walker2Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker2, walker2Predicate, GET_VARIABLE_NAME(walker2));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
+
+
   // 45度右旋回
-  pwm = 10;
-  angle = 40;
+  pwm = 5;
+  angle = 45;
   RotateRobotUseGyroCommandAndPredicate *rotate2 = new RotateRobotUseGyroCommandAndPredicate(angle, pwm, robotAPI);
   commandExecutor->addCommand(rotate2->getCommand(), rotate2->getPredicate(), GET_VARIABLE_NAME(rotate2));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
@@ -717,7 +730,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   leftPWM = 10;
   rightPWM = 10;
 #endif
-  distance = 15;
+  distance = 20;
   Walker *walker3 = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walker3Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker3, walker3Predicate, GET_VARIABLE_NAME(walker3));
@@ -729,7 +742,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #else
   pwm = 7;
 #endif
-  r = 22;
+  r = 18;
   theta = 30;
   CurvatureWalkerCommandAndPredicate *curve1 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curve1->getCommand(), curve1->getPredicate(), GET_VARIABLE_NAME(curve1));
@@ -740,8 +753,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   leftPWM = 15;
   rightPWM = 15;
 #else
-  leftPWM = 7;
-  rightPWM = 7;
+  leftPWM = 11;
+  rightPWM = 11;
 #endif
   distance = 12;
   Walker *walker4 = new Walker(leftPWM, rightPWM);
@@ -767,7 +780,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   leftPWM = 7;
   rightPWM = 7;
 #endif
-  distance = 3;
+  distance = 14;
   Walker *walkerB = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walkerBPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walkerB, walkerBPredicate, GET_VARIABLE_NAME(walkerB));
