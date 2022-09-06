@@ -33,6 +33,7 @@ public:
     virtual ~CommandExecutor();
     virtual void addCommand(Command *command, Predicate *exitCondition, string commandName);
     virtual void run();
+    virtual void nextCommand();
     virtual void emergencyStop();
     virtual void reverseCommandAndPredicate();
 };

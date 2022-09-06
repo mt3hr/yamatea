@@ -2082,6 +2082,7 @@ enum BTCommand
 {
   BTC_EMERGENCY_STOP = 's',
   BTC_RETURN_TO_START_POINT = 'r',
+  BTC_NEXT_COMMAND = 'n',
 };
 
 void listen_bluetooth_command_task(intptr_t exinf)
@@ -2114,6 +2115,11 @@ void listen_bluetooth_command_task(intptr_t exinf)
       }
     }
     sta_cyc(RETURN_TO_START_POINT_CYC);
+    break;
+  }
+  case BTC_NEXT_COMMAND:
+  {
+    commandExecutor->nextCommand();
     break;
   }
   default:

@@ -65,8 +65,11 @@ void CommandExecutor::run()
     // 終了条件が満たされたらindexを変更して次のコマンドに移動する
     if (predicates[currentIndexForCommand]->test(robotAPI))
     {
-        currentIndexForCommand++;
-        beepDebug();
+        nextCommand();
+        if (enableBeepWhenCommandSwitching)
+        {
+            beepDebug();
+        }
     }
 
     if (((int)commands.size()) > ((int)currentIndexForCommand))
@@ -89,6 +92,11 @@ void CommandExecutor::run()
     }
 
     return;
+}
+
+void CommandExecutor::nextCommand()
+{
+    currentIndexForCommand++;
 }
 
 void CommandExecutor::emergencyStop()

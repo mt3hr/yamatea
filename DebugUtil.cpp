@@ -96,9 +96,6 @@ void writeAndFlushDebug(string str, DEBUG_LEVEL level, RobotAPI *robotAPI)
 
 void beepDebug()
 {
-    if (enableBeepWhenCommandSwitching)
-    {
-        ev3_speaker_set_volume(beepNoteWhenCommandSwitching->getVolume());
-        ev3_speaker_play_tone(beepNoteWhenCommandSwitching->getFrequency(), beepNoteWhenCommandSwitching->getDuration());
-    }
+    ev3_speaker_set_volume(beepNoteWhenCommandSwitching->getVolume());
+    ev3_speaker_play_tone(beepNoteWhenCommandSwitching->getFrequency(), beepNoteWhenCommandSwitching->getDuration());
 }
