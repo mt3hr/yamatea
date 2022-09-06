@@ -65,6 +65,8 @@ RobotAPI *robotAPI;
 #if defined(LeftCourceMode) | defined(RightCourceMode)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+  int targetBrightness = 20;
+
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
@@ -260,7 +262,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // Commandの定義とCommandExecutorへの追加ここまで
 
-#ifdef SimulatorMode
   // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
   int targetBrightness = 20;
   bananaPIDTracer->setTargetBrightness(targetBrightness);
@@ -271,7 +272,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   melonPIDTracer->setTargetBrightness(targetBrightness);
   cucumberPIDTracer->setTargetBrightness(targetBrightness);
   strawberryPIDTracer->setTargetBrightness(targetBrightness);
-#endif
 
 #ifdef RightCourceMode
   commandExecutor->reverseCommandAndPredicate();
@@ -400,7 +400,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
 #ifdef SimulatorMode
   // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
-  int targetBrightness = 20;
   bananaPIDTracer->setTargetBrightness(targetBrightness);
   orangePIDTracer->setTargetBrightness(targetBrightness);
   cherryPIDTracer->setTargetBrightness(targetBrightness);
