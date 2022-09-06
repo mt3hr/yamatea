@@ -42,12 +42,16 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
     {
         if (!printedReadBlueMessage)
         {
+            stringstream vs;
+            vs << "voltage: " << float(ev3_battery_voltage_mV());
+
             printedReadBlueMessage = true;
             vector<string> messageLines;
             messageLines.push_back("calibrating");
             messageLines.push_back("press right key");
             messageLines.push_back(" read blue");
             messageLines.push_back(" from color sensor");
+            messageLines.push_back(vs.str());
             PrintMessage printMessage(messageLines, true);
             printMessage.run(robotAPI);
         }
