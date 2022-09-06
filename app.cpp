@@ -1165,6 +1165,45 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // スラローム進入ここまで
 
+  // スラローム位置補正ここから
+  // TODO ここから
+
+  // 向き調節
+  pwm = 7;
+  angle = -90;
+  FacingAngle *facingAngleB = new FacingAngle(pwm, slalomAngleOffset + angle);
+  commandExecutor->addCommand(facingAngleB, new FinishedCommandPredicate(facingAngleB), GET_VARIABLE_NAME(FacingAngleB));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // 白を拾うまで直進
+  leftPWM = 8;
+  rightPWM = 8;
+  distance = 10.5;
+  Walker *walkerW = new Walker(leftPWM, rightPWM);
+
+  RawColorPredicate *whitePredicate = new RawColorPredicate(63, LESS_THAN, 0, IGNORE, 72, GREATER_THAN);
+  ColorPredicate *whitePredicate = new ColorPredicate(COLOR_WHITE);
+  commandExecutor->addCommand(walkerW, whitePredicate, GET_VARIABLE_NAME(walkerW));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // バック
+  leftPWM = 10;
+  rightPWM = 10;
+  distance = -5;
+  Walker *walkerB = new Walker(leftPWM, rightPWM);
+  WheelDistancePredicate *walkerBPredicate = new WheelDistancePredicate(distance, robotAPI);
+  commandExecutor->addCommand(walkerB, walkerBPredicate, GET_VARIABLE_NAME(walkerB));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // 向き調節
+  pwm = 7;
+  FacingAngle *facingAngleC = new FacingAngle(pwm, slalomAngleOffset);
+  commandExecutor->addCommand(facingAngleC, new FinishedCommandPredicate(facingAngleC), GET_VARIABLE_NAME(FacingAngleC));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // TODO ここまで
+  // スラローム位置補正ここまで
+
   // 指示待ち走行ここから
 
   // 向き調節
@@ -1261,7 +1300,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 向き調節
   pwm = 7;
-  angle = 45;
+  angle = -45;
   FacingAngle *facingAngle4 = new FacingAngle(pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngle4, new FinishedCommandPredicate(facingAngle4), GET_VARIABLE_NAME(FacingAngle4));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
