@@ -46,6 +46,8 @@ RotateRobotUseGyroCommandAndPredicate.o \
 SonarDistancePredicate.o \
 TailController.o \
 StartCyc.o \
+ColorIDReader.o \
+FacingAngle.o \
 
 SRCLANG := c++
 
