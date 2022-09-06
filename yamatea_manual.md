@@ -21,8 +21,18 @@
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 #define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
+//#define SlalomUFOTestMode // スラロームをUFO走行するプログラム。
+//#define SlalomAwaitingSignalModePattern1_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1
+//#define SlalomAwaitingSignalModePattern2_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2
+//#define SlalomAwaitingSignalModePattern1_2 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1
+//#define SlalomAwaitingSignalModePattern2_2 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2
+//#define SlalomAwaitingSignalModePattern1_3 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1
+//#define SlalomAwaitingSignalModePattern2_3 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2
+//#define BlockTestMode  // ブロック搬入だけを走行するプログラム。
+//#define FlatLineMode // すべて同じPIDで倉庫する左コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
-//#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
+//#define RGBRawReaderMode // RGBRawの値をはかるプログラム
+//#define ColorIDReaderMode // ColorIDを取得し続けるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
 //#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
@@ -30,10 +40,16 @@
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
-// #define UFORunnerTestMode // UFO走行モード。テスト
+//#define UFORunnerSwingTestMode // UFO走行モード。障害物間を向いている状態から始める。テスト用
+//#define UFORunnerClockwiseTestMode // UFO走行モード。左障害物を向いている状態から始める。テスト用
+//#define ColorPIDTracerTestMode // ColorPIDTraceを試すモード。テスト用
+//#define BrightnessPIDTracerTestMode // TargetBrightnessPIDTraceを試すモード。テスト用
+//#define FroggySongTestMode // かえるの歌を歌わせるモード。テスト用。
+
 // モード設定ここまで
 
 //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+//#define SingASong       // 走行時に歌う
 
 // ********** 設定1/2ここまで **********
 ```
@@ -44,19 +60,113 @@
 // ********** 設定2/2ここから **********
 
 // 車体情報設定ここから
-float wheelDiameter = 10.4;// 車輪直径。センチメートル。
-float distanceFromSonarSensorToAxle = 10.5; // ソナーセンサから車軸までの距離
-float wheelSpace = 14.5; // 左車輪と右車輪の間隔
-int angleFor360TurnLeftRotateRobot = 520; // 左に360度旋回するのに必要な左右車輪回転角度数
+#ifdef SimulatorMode
+
+// シミュレータの車体情報設定ここから
+
+float wheelSpace = 12;                                                // 左車輪と右車輪の間隔。シミュレータ用
+float distanceFromSonarSensorToAxle = 10.5;                           // ソナーセンサから車軸までの距離。シミュレータ用
+float wheelDiameter = 10.4;                                           // 車輪直径。センチメートル。
+int angleFor360TurnLeftRotateRobot = 520;                             // 左に360度旋回するのに必要な左右車輪回転角度数
+int angleFor360TurnRightRotateRobot = angleFor360TurnLeftRotateRobot; // 右に360度旋回するのに必要な左右車輪回転角度数
+
+// シミュレータの車体情報設定ここまで
+
+#else
+
+// 実機の車体情報設定ここから
+
+float wheelSpace = 14.5;                   // 左車輪と右車輪の間隔。実機用
+float distanceFromSonarSensorToAxle = 11;  // ソナーセンサから車軸までの距離。実機用
+float wheelDiameter = 10.4;                // 車輪直径。センチメートル。
+int angleFor360TurnLeftRotateRobot = 520;  // 左に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必要な左右車輪回転角度数
+
+// 実機の車体情報設定ここまで
+
+#endif
+
 // 車体情報設定ここまで
 
 // 情報出力の有効無効設定ここから
-DEBUG_LEVEL debugMessageLevel = NONE;   // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-bool enablePrintMessageMode = false; // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-bool enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、ヘッダファイルの#define EnableBluetoothのコメントアウトも外して。
+
+DEBUG_LEVEL debugMessageLevel = NONE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+bool enablePrintMessageForLCD = false;       // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
+
 // 情報出力の有効無効設定ここまで
+
+// コマンド切り替え時ビープ音設定ここから
+
+bool enableBeepWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
+Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 30);
+int loopSong = 10;
+
+// コマンド切り替え時ビープ音設定ここまで
+
+// 色設定ここから
+
+bool calibrateBlue = true; // 青色をキャリブレーションするかどうか
+
+// 白（キャリブレータから上書きされるので設定しなくて良い）
+int w_r = 70;
+int w_g = 76;
+int w_b = 55;
+RawColorPredicateCondition w_rCondition = BETWEEN5;
+RawColorPredicateCondition w_gCondition = BETWEEN5;
+RawColorPredicateCondition w_bCondition = BETWEEN5;
+
+// 黒（キャリブレータから上書きされるので設定しなくて良い）
+int d_r = 6;
+int d_g = 6;
+int d_b = 5;
+RawColorPredicateCondition d_rCondition = BETWEEN5;
+RawColorPredicateCondition d_gCondition = BETWEEN5;
+RawColorPredicateCondition d_bCondition = BETWEEN5;
+
+// 赤
+int r_r = 0;
+int r_g = 0;
+int r_b = 0;
+RawColorPredicateCondition r_rCondition = BETWEEN5;
+RawColorPredicateCondition r_gCondition = BETWEEN5;
+RawColorPredicateCondition r_bCondition = BETWEEN5;
+
+// 緑
+int g_r = 0;
+int g_g = 0;
+int g_b = 0;
+RawColorPredicateCondition g_rCondition = BETWEEN5;
+RawColorPredicateCondition g_gCondition = BETWEEN5;
+RawColorPredicateCondition g_bCondition = BETWEEN5;
+
+// 青（キャリブレータから上書きされるので設定しなくて良い）
+int b_r = 29;
+int b_g = 47;
+int b_b = 42;
+RawColorPredicateCondition b_rCondition = BETWEEN5;
+RawColorPredicateCondition b_gCondition = BETWEEN5;
+RawColorPredicateCondition b_bCondition = BETWEEN5;
+
+// 黄
+int y_r = 0;
+int y_g = 0;
+int y_b = 0;
+RawColorPredicateCondition y_rCondition = BETWEEN5;
+RawColorPredicateCondition y_gCondition = BETWEEN5;
+RawColorPredicateCondition y_bCondition = BETWEEN5;
+
+// 青白境界（キャリブレータから上書きされるので設定しなくて良い）//TODO エッジを実測して。（平均を取るのではダメらしい）
+int bw_r = (w_r + b_r) / 2;
+int bw_g = (w_g + b_g) / 2;
+int bw_b = (w_b + b_b) / 2;
+RawColorPredicateCondition bw_rCondition = LESS_THAN;
+RawColorPredicateCondition bw_gCondition = BETWEEN5;
+RawColorPredicateCondition bw_bCondition = BETWEEN5;
+
+// 色設定ここまで
 
 // ********** 設定2/2ここまで **********
 ```
@@ -78,8 +188,18 @@ bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接�
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 //#define LeftCourceMode // 左コース用プログラム
 #define RightCourceMode // 右コース用プログラム
+//#define SlalomUFOTestMode // スラロームをUFO走行するプログラム。
+//#define SlalomAwaitingSignalModePattern1_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1
+//#define SlalomAwaitingSignalModePattern2_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2
+//#define SlalomAwaitingSignalModePattern1_2 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1
+//#define SlalomAwaitingSignalModePattern2_2 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2
+//#define SlalomAwaitingSignalModePattern1_3 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1
+//#define SlalomAwaitingSignalModePattern2_3 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2
+//#define BlockTestMode  // ブロック搬入だけを走行するプログラム。
+//#define FlatLineMode // すべて同じPIDで倉庫する左コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
-//#define RGBRawReaderMode    // RGBRawの値をはかるプログラム
+//#define RGBRawReaderMode // RGBRawの値をはかるプログラム
+//#define ColorIDReaderMode // ColorIDを取得し続けるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
 //#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
@@ -87,10 +207,16 @@ bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接�
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
-// #define UFORunnerTestMode // UFO走行モード。テスト
+//#define UFORunnerSwingTestMode // UFO走行モード。障害物間を向いている状態から始める。テスト用
+//#define UFORunnerClockwiseTestMode // UFO走行モード。左障害物を向いている状態から始める。テスト用
+//#define ColorPIDTracerTestMode // ColorPIDTraceを試すモード。テスト用
+//#define BrightnessPIDTracerTestMode // TargetBrightnessPIDTraceを試すモード。テスト用
+//#define FroggySongTestMode // かえるの歌を歌わせるモード。テスト用。
+
 // モード設定ここまで
 
 //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+//#define SingASong       // 走行時に歌う
 
 // ********** 設定1/2ここまで **********
 ```
@@ -101,19 +227,113 @@ bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接�
 // ********** 設定2/2ここから **********
 
 // 車体情報設定ここから
-float wheelDiameter = 10.4;// 車輪直径。センチメートル。
-float distanceFromSonarSensorToAxle = 10.5; // ソナーセンサから車軸までの距離
-float wheelSpace = 14.5; // 左車輪と右車輪の間隔
-int angleFor360TurnLeftRotateRobot = 520; // 左に360度旋回するのに必要な左右車輪回転角度数
+#ifdef SimulatorMode
+
+// シミュレータの車体情報設定ここから
+
+float wheelSpace = 12;                                                // 左車輪と右車輪の間隔。シミュレータ用
+float distanceFromSonarSensorToAxle = 10.5;                           // ソナーセンサから車軸までの距離。シミュレータ用
+float wheelDiameter = 10.4;                                           // 車輪直径。センチメートル。
+int angleFor360TurnLeftRotateRobot = 520;                             // 左に360度旋回するのに必要な左右車輪回転角度数
+int angleFor360TurnRightRotateRobot = angleFor360TurnLeftRotateRobot; // 右に360度旋回するのに必要な左右車輪回転角度数
+
+// シミュレータの車体情報設定ここまで
+
+#else
+
+// 実機の車体情報設定ここから
+
+float wheelSpace = 14.5;                   // 左車輪と右車輪の間隔。実機用
+float distanceFromSonarSensorToAxle = 11;  // ソナーセンサから車軸までの距離。実機用
+float wheelDiameter = 10.4;                // 車輪直径。センチメートル。
+int angleFor360TurnLeftRotateRobot = 520;  // 左に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必要な左右車輪回転角度数
+
+// 実機の車体情報設定ここまで
+
+#endif
+
 // 車体情報設定ここまで
 
 // 情報出力の有効無効設定ここから
-DEBUG_LEVEL debugMessageLevel = NONE;   // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-bool enablePrintMessageMode = false; // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-bool enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、ヘッダファイルの#define EnableBluetoothのコメントアウトも外して。
+
+DEBUG_LEVEL debugMessageLevel = NONE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+bool enablePrintMessageForLCD = false;       // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
+
 // 情報出力の有効無効設定ここまで
+
+// コマンド切り替え時ビープ音設定ここから
+
+bool enableBeepWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
+Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 30);
+int loopSong = 10;
+
+// コマンド切り替え時ビープ音設定ここまで
+
+// 色設定ここから
+
+bool calibrateBlue = true; // 青色をキャリブレーションするかどうか
+
+// 白（キャリブレータから上書きされるので設定しなくて良い）
+int w_r = 70;
+int w_g = 76;
+int w_b = 55;
+RawColorPredicateCondition w_rCondition = BETWEEN5;
+RawColorPredicateCondition w_gCondition = BETWEEN5;
+RawColorPredicateCondition w_bCondition = BETWEEN5;
+
+// 黒（キャリブレータから上書きされるので設定しなくて良い）
+int d_r = 6;
+int d_g = 6;
+int d_b = 5;
+RawColorPredicateCondition d_rCondition = BETWEEN5;
+RawColorPredicateCondition d_gCondition = BETWEEN5;
+RawColorPredicateCondition d_bCondition = BETWEEN5;
+
+// 赤
+int r_r = 0;
+int r_g = 0;
+int r_b = 0;
+RawColorPredicateCondition r_rCondition = BETWEEN5;
+RawColorPredicateCondition r_gCondition = BETWEEN5;
+RawColorPredicateCondition r_bCondition = BETWEEN5;
+
+// 緑
+int g_r = 0;
+int g_g = 0;
+int g_b = 0;
+RawColorPredicateCondition g_rCondition = BETWEEN5;
+RawColorPredicateCondition g_gCondition = BETWEEN5;
+RawColorPredicateCondition g_bCondition = BETWEEN5;
+
+// 青（キャリブレータから上書きされるので設定しなくて良い）
+int b_r = 29;
+int b_g = 47;
+int b_b = 42;
+RawColorPredicateCondition b_rCondition = BETWEEN5;
+RawColorPredicateCondition b_gCondition = BETWEEN5;
+RawColorPredicateCondition b_bCondition = BETWEEN5;
+
+// 黄
+int y_r = 0;
+int y_g = 0;
+int y_b = 0;
+RawColorPredicateCondition y_rCondition = BETWEEN5;
+RawColorPredicateCondition y_gCondition = BETWEEN5;
+RawColorPredicateCondition y_bCondition = BETWEEN5;
+
+// 青白境界（キャリブレータから上書きされるので設定しなくて良い）//TODO エッジを実測して。（平均を取るのではダメらしい）
+int bw_r = (w_r + b_r) / 2;
+int bw_g = (w_g + b_g) / 2;
+int bw_b = (w_b + b_b) / 2;
+RawColorPredicateCondition bw_rCondition = LESS_THAN;
+RawColorPredicateCondition bw_gCondition = BETWEEN5;
+RawColorPredicateCondition bw_bCondition = BETWEEN5;
+
+// 色設定ここまで
 
 // ********** 設定2/2ここまで **********
 ```
@@ -333,6 +553,11 @@ Command のサブクラスは EV3API オブジェクトを所有しなくなり�
 設定ミスの可能性が高いです。  
 原因別に説明します。
 
+### ケーブルがささりきっていない
+
+アプリケーション読み込みまで進んで、キャリブレータが起動しない場合。
+各種センサのケーブルが刺さりきっていない可能性があります。
+
 ### モード設定が誤っている
 
 設定 1/2（Setting.h）にモード設定があります。  
@@ -350,3 +575,4 @@ Command のサブクラスは EV3API オブジェクトを所有しなくなり�
 
 Bluetooth 接続しない場合はコメントアウトしてください。
 期待どおりの走行をしなくなります。
+なんかよくわからない場合は、この文書の上の方にある本番用左コース設定で動かしてみてください
