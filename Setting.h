@@ -64,6 +64,7 @@ extern int angleFor360TurnLeftRotateRobot;
 extern int angleFor360TurnRightRotateRobot;
 extern DEBUG_LEVEL debugMessageLevel;
 extern bool enablePrintMessageMode;
+extern bool enablePrintMessageForLCD;
 extern bool enablePrintMessageForConsole;
 extern bool enablePrintMessageForBluetooth;
 extern bool enableBeepWhenCommandSwitching;

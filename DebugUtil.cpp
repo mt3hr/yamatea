@@ -88,6 +88,12 @@ void flushDebug(DEBUG_LEVEL level, RobotAPI *robotAPI)
     clearDebug();
 }
 
+void writeAndFlushDebug(string str, DEBUG_LEVEL level, RobotAPI *robotAPI)
+{
+    writeDebug(str);
+    flushDebug(level, robotAPI);
+}
+
 void beepDebug()
 {
     if (enableBeepWhenCommandSwitching)

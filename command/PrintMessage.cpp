@@ -34,24 +34,26 @@ void PrintMessage::print()
         string messageLine = messageLines[i];
         string messageLineEOLAppended = "";
 
-        if (enablePrintMessageForConsole || enablePrintMessageForBluetooth)
-        {
-            messageLineEOLAppended.append(messageLines[i]);
-            messageLineEOLAppended.append(EOL_STR);
-        }
+        messageLineEOLAppended.append(messageLines[i]);
+        messageLineEOLAppended.append(EOL_STR);
 
         // 出力処理
-        msg_f(messageLine, i + 1);
+        if (enablePrintMessageForLCD)
+        {
+            msg_f(messageLine, i + 1);
+        }
 
         if (enablePrintMessageForConsole)
         {
             printf("%s", messageLineEOLAppended.c_str());
         }
 
+#ifdef EnableBluetooth
         if (enablePrintMessageForBluetooth)
         {
             msg_bt(messageLineEOLAppended);
         }
+#endif
     }
 
     // 下の行の上書き処理。
@@ -66,7 +68,10 @@ void PrintMessage::run(RobotAPI *robotAPI)
 {
     if (forcePrint)
     {
+        bool enableLCDTemp = enablePrintMessageForLCD;
+        enablePrintMessageForLCD = true;
         print();
+        enablePrintMessageForLCD = enableLCDTemp;
     }
     else
     {
@@ -99,13 +104,9 @@ void PrintMessage::msg_f(string str, int32_t line)
     ev3_lcd_draw_string(str.c_str(), 0, line * line_height);
 }
 
+void PrintMessage::msg_bt(string str)
+{
 #if defined(EnableBluetooth)
-void PrintMessage::msg_bt(string str)
-{
     fprintf(bt, str.c_str());
-}
-#else
-void PrintMessage::msg_bt(string str)
-{
-}
 #endif
+}
