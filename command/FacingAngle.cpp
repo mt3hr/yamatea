@@ -16,7 +16,7 @@ FacingAngle::~FacingAngle(){};
 
 void FacingAngle::run(RobotAPI *robotAPI)
 {
-#ifdef SimulatorMode
+#ifndef SimulatorMode
     int angle = robotAPI->getGyroSensor()->getAngle() * -1;
 #else
     int angle = robotAPI->getGyroSensor()->getAngle();
