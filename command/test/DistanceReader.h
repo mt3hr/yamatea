@@ -20,9 +20,9 @@ private:
 public:
     DistanceReader();
     virtual ~DistanceReader();
-    virtual void run(RobotAPI *robotAPI);
+    virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
-    virtual DistanceReader *generateReverseCommand();
+    virtual DistanceReader *generateReverseCommand() override;
 };
 
 #endif

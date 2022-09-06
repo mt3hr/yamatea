@@ -21,9 +21,9 @@ private:
 public:
     RGBRawReader();
     virtual ~RGBRawReader();
-    virtual void run(RobotAPI *robotAPI);
+    virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
-    virtual RGBRawReader *generateReverseCommand();
+    virtual RGBRawReader *generateReverseCommand() override;
 };
 
 #endif
