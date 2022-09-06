@@ -28,7 +28,7 @@ void FacingAngle::run(RobotAPI *robotAPI)
         stopper->run(robotAPI);
         delete stopper;
     }
-    else if (angle > targetAngle)
+    else if (angle < targetAngle)
     {
         turnRight->run(robotAPI);
     }
