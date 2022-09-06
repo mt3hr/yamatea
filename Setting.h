@@ -15,17 +15,20 @@
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define LeftCourceMode // 左コース用プログラム
+//#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define SlalomUFOTestMode // スラロームをUFO走行するプログラム。
 //#define SlalomAwaitingSignalModePattern1_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1
 //#define SlalomAwaitingSignalModePattern2_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2
 //#define SlalomAwaitingSignalModePattern1_2 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1
 //#define SlalomAwaitingSignalModePattern2_2 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2
+#define SlalomAwaitingSignalModePattern1_3 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1
+//#define SlalomAwaitingSignalModePattern2_3 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2
 //#define BlockTestMode  // ブロック搬入だけを走行するプログラム。
 //#define FlatLineMode // すべて同じPIDで倉庫する左コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode // RGBRawの値をはかるプログラム
+//#define ColorIDReaderMode // ColorIDを取得し続けるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
 //#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
