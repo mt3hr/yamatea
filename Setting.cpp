@@ -12,27 +12,39 @@
 
 // 車体情報設定ここから
 #ifdef SimulatorMode
+
+// シミュレータの車体情報設定ここから
+
 float wheelSpace = 12;                                                // 左車輪と右車輪の間隔。シミュレータ用
 float distanceFromSonarSensorToAxle = 10.5;                           // ソナーセンサから車軸までの距離。シミュレータ用
 float wheelDiameter = 10.4;                                           // 車輪直径。センチメートル。
 int angleFor360TurnLeftRotateRobot = 520;                             // 左に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnRightRotateRobot = angleFor360TurnLeftRotateRobot; // 右に360度旋回するのに必要な左右車輪回転角度数
+
+// シミュレータの車体情報設定ここまで
+
 #else
+
+// 実機の車体情報設定ここから
+
 float wheelSpace = 14.5;                   // 左車輪と右車輪の間隔。実機用
 float distanceFromSonarSensorToAxle = 11;  // ソナーセンサから車軸までの距離。実機用
 float wheelDiameter = 10.4;                // 車輪直径。センチメートル。
 int angleFor360TurnLeftRotateRobot = 520;  // 左に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必要な左右車輪回転角度数
+
+// 実機の車体情報設定ここまで
+
 #endif
 
 // 車体情報設定ここまで
 
 // 情報出力の有効無効設定ここから
 
-DEBUG_LEVEL debugMessageLevel = DEBUG;      // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-bool enablePrintMessageMode = false;        // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-bool enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
-bool enablePrintMessageForBluetooth = true; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、ヘッダファイルの#define EnableBluetoothのコメントアウトも外して。
+DEBUG_LEVEL debugMessageLevel = NONE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+bool enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）
+bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（PrintMessageModeのコメントアウトを外す必要がある）trueにする場合、ヘッダファイルの#define EnableBluetoothのコメントアウトも外して。
 
 // 情報出力の有効無効設定ここまで
 
@@ -96,7 +108,7 @@ RawColorPredicateCondition y_rCondition = BETWEEN5;
 RawColorPredicateCondition y_gCondition = BETWEEN5;
 RawColorPredicateCondition y_bCondition = BETWEEN5;
 
-// 青白境界（キャリブレータから上書きされるので設定しなくて良い）
+// 青白境界（キャリブレータから上書きされるので設定しなくて良い）//TODO エッジを実測して。（平均を取るのではダメらしい）
 int bw_r = (w_r + b_r) / 2;
 int bw_g = (w_g + b_g) / 2;
 int bw_b = (w_b + b_b) / 2;
