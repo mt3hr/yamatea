@@ -48,6 +48,7 @@ TailController.o \
 StartCyc.o \
 ColorIDReader.o \
 FacingAngle.o \
+ResetGyroSensor.o \
 
 SRCLANG := c++
 
