@@ -41,10 +41,10 @@ int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必�
 
 // 情報出力の有効無効設定ここから
 
-DEBUG_LEVEL debugMessageLevel = NONE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+DEBUG_LEVEL debugMessageLevel = NONE;      // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
 bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-bool enablePrintMessageForLCD = false;       // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
-bool enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForLCD = false;      // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
 bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
 
 // 情報出力の有効無効設定ここまで
@@ -52,14 +52,15 @@ bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接�
 // コマンド切り替え時ビープ音設定ここから
 
 bool enableBeepWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
-Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 30);
+Note *beepNoteWhenCommandSwitching = new Note(NOTE_C6, 50, 30);
 int loopSong = 10;
 
 // コマンド切り替え時ビープ音設定ここまで
 
 // 色設定ここから
 
-bool calibrateBlue = true; // 青色をキャリブレーションするかどうか
+bool calibrateBlue = false;     // 青色をキャリブレーションするかどうか
+bool calibrateBlueEdge = false; // 青白エッジをキャリブレーションするかどうか
 
 // 白（キャリブレータから上書きされるので設定しなくて良い）
 int w_r = 70;
@@ -97,9 +98,9 @@ RawColorPredicateCondition g_bCondition = BETWEEN5;
 int b_r = 29;
 int b_g = 47;
 int b_b = 42;
-RawColorPredicateCondition b_rCondition = BETWEEN5;
-RawColorPredicateCondition b_gCondition = BETWEEN5;
-RawColorPredicateCondition b_bCondition = BETWEEN5;
+RawColorPredicateCondition b_rCondition = BETWEEN3;
+RawColorPredicateCondition b_gCondition = BETWEEN3;
+RawColorPredicateCondition b_bCondition = BETWEEN3;
 
 // 黄
 int y_r = 0;
@@ -110,10 +111,10 @@ RawColorPredicateCondition y_gCondition = BETWEEN5;
 RawColorPredicateCondition y_bCondition = BETWEEN5;
 
 // 青白境界（キャリブレータから上書きされるので設定しなくて良い）//TODO エッジを実測して。（平均を取るのではダメらしい）
-int bw_r = (w_r + b_r) / 2;
-int bw_g = (w_g + b_g) / 2;
-int bw_b = (w_b + b_b) / 2;
-RawColorPredicateCondition bw_rCondition = LESS_THAN;
+int bw_r;
+int bw_g;
+int bw_b;
+RawColorPredicateCondition bw_rCondition = BETWEEN5;
 RawColorPredicateCondition bw_gCondition = BETWEEN5;
 RawColorPredicateCondition bw_bCondition = BETWEEN5;
 

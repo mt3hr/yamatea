@@ -38,7 +38,35 @@ void PIDTargetColorBrightnessCalibrator::readBlackBrightnessFromColorSensor()
 void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
 {
     int sleepDuration = 1000 * 500;
-    if (!readedBlueColor && calibrateBlue)
+    if (!readedBlueEdgeColor && calibrateBlueEdge)
+    {
+        if (!printedReadBlueEdgeMessage)
+        {
+            stringstream vs;
+            vs << "voltage: " << float(ev3_battery_voltage_mV());
+
+            printedReadBlueEdgeMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read blue white edge");
+            messageLines.push_back(" from color sensor");
+            messageLines.push_back(vs.str());
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            bw_r = rawColor.r;
+            bw_g = rawColor.g;
+            bw_b = rawColor.b;
+            readedBlueEdgeColor = true;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedBlueColor && calibrateBlue)
     {
         if (!printedReadBlueMessage)
         {
@@ -123,15 +151,15 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
-    else if (!isResetedGyro())
+    else if (!isResetedAPI())
     {
-        if (!printedResetGyroMessage)
+        if (!printedResetAPIMessage)
         {
-            printedResetGyroMessage = true;
+            printedResetAPIMessage = true;
             vector<string> messageLines;
             messageLines.push_back("calibrating");
             messageLines.push_back("press right key");
-            messageLines.push_back(" reset gyro sensor");
+            messageLines.push_back(" reset api");
 
             PrintMessage printMessage(messageLines, true);
             printMessage.run(robotAPI);
@@ -139,7 +167,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
             robotAPI->getClock()->sleep(sleepDuration);
-            resetGyro();
+            resetAPI();
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
@@ -161,10 +189,6 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
                 targetRGB.b = (getWhiteColor().b + getBlackColor().b) / 2;
                 colorPIDTracers[i]->setTargetColor(targetRGB);
             }
-
-            bw_r = (b_r + w_r) / 2;
-            bw_g = (b_g + w_g) / 2;
-            bw_b = (b_b + w_b) / 2;
         }
         stringstream bs;
         stringstream ws;
@@ -253,9 +277,9 @@ bool PIDTargetColorBrightnessCalibrator::isReadedWhiteColor()
     return readedWhiteColor;
 }
 
-bool PIDTargetColorBrightnessCalibrator::isResetedGyro()
+bool PIDTargetColorBrightnessCalibrator::isResetedAPI()
 {
-    return resetedGyro;
+    return resetedAPI;
 }
 
 void PIDTargetColorBrightnessCalibrator::readWhiteColorFromColorSensor()
@@ -274,10 +298,10 @@ void PIDTargetColorBrightnessCalibrator::readBlackColorFromColorSensor()
     readedBlackColor = true;
 }
 
-void PIDTargetColorBrightnessCalibrator::resetGyro()
+void PIDTargetColorBrightnessCalibrator::resetAPI()
 {
-    robotAPI->getGyroSensor()->reset();
-    resetedGyro = true;
+    robotAPI->reset();
+    resetedAPI = true;
 }
 
 void PIDTargetColorBrightnessCalibrator::addColorPIDTracer(ColorPIDTracer *pidTracer)

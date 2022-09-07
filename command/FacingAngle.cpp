@@ -2,6 +2,7 @@
 #include "RobotAPI.h"
 #include "Walker.h"
 #include "Stopper.h"
+#include "DebugUtil.h"
 
 FacingAngle::FacingAngle(int pwm, int targetAngle)
 {
@@ -21,6 +22,13 @@ void FacingAngle::run(RobotAPI *robotAPI)
 #else
     int angle = robotAPI->getGyroSensor()->getAngle();
 #endif
+
+    writeDebug("FacingAngle");
+    writeEndLineDebug();
+    writeDebug("angle: ");
+    writeDebug(angle);
+    flushDebug(TRACE, robotAPI);
+
     if (angle == targetAngle)
     {
         finish = true;
