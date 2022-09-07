@@ -1182,7 +1182,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Walker *walkerW = new Walker(leftPWM, rightPWM);
 
   // TODO SlalomWhitePredicate作って
-  RawColorPredicate *whitePredicate = new RawColorPredicate(&w_r, BETWEEN5, &w_g, BETWEEN5, &w_b, BETWEEN5);
+  RawColorPredicate *whitePredicate = new RawColorPredicate(&sw_r, BETWEEN5, &sw_g, BETWEEN5, &sw_b, BETWEEN5);
   commandExecutor->addCommand(walkerW, whitePredicate, GET_VARIABLE_NAME(walkerW));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
@@ -1918,6 +1918,23 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   targetRGB.b = 150;
   colorPIDTracer->setTargetColor(targetRGB);
 #endif
+}
+#endif
+
+#ifdef GrayPredicateTestMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  // PIDTargetCalibratorの初期化とCommandExecutorへの追加
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+  Command *walker = new Walker(10, 10);
+  int *r = new int(25);
+  int *g = new int(30);
+  int *b = new int(40);
+  Predicate *grayPredicate = new RawColorPredicate(r, BETWEEN15, g, BETWEEN15, b, BETWEEN15);
+  commandExecutor->addCommand(walker, grayPredicate, GET_VARIABLE_NAME(walker));
 }
 #endif
 
