@@ -12,6 +12,8 @@ enum RawColorPredicateCondition
     BETWEEN3,
     BETWEEN5,
     BETWEEN10,
+    BETWEEN15,
+    BETWEEN20,
 };
 
 class RawColorPredicate : public Predicate

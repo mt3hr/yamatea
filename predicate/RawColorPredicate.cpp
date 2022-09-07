@@ -61,6 +61,16 @@ bool RawColorPredicate::test(RobotAPI *robotAPI)
         rOK = *r + 10 >= rawColor.r && *r - 10 <= rawColor.r;
         break;
     }
+    case BETWEEN15:
+    {
+        rOK = *r + 15 >= rawColor.r && *r - 15 <= rawColor.r;
+        break;
+    }
+    case BETWEEN20:
+    {
+        rOK = *r + 20 >= rawColor.r && *r - 20 <= rawColor.r;
+        break;
+    }
     }
 
     switch (gCondition)
@@ -95,6 +105,16 @@ bool RawColorPredicate::test(RobotAPI *robotAPI)
         gOK = *g + 10 >= rawColor.g && *g - 10 <= rawColor.g;
         break;
     }
+    case BETWEEN15:
+    {
+        gOK = *g + 15 >= rawColor.g && *g - 15 <= rawColor.g;
+        break;
+    }
+    case BETWEEN20:
+    {
+        gOK = *g + 20 >= rawColor.g && *g - 20 <= rawColor.g;
+        break;
+    }
     }
 
     switch (bCondition)
@@ -127,6 +147,16 @@ bool RawColorPredicate::test(RobotAPI *robotAPI)
     case BETWEEN10:
     {
         bOK = *b + 10 >= rawColor.b && *b - 10 <= rawColor.b;
+        break;
+    }
+    case BETWEEN15:
+    {
+        bOK = *b + 15 >= rawColor.b && *b - 15 <= rawColor.b;
+        break;
+    }
+    case BETWEEN20:
+    {
+        bOK = *b + 20 >= rawColor.b && *b - 20 <= rawColor.b;
         break;
     }
     }
