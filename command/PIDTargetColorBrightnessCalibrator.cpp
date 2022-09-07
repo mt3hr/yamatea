@@ -38,20 +38,44 @@ void PIDTargetColorBrightnessCalibrator::readBlackBrightnessFromColorSensor()
 void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
 {
     int sleepDuration = 1000 * 500;
-    if (!readedBlueEdgeColor && calibrateBlueEdge)
+    if (!readedSlalomWhiteColor && calibrateSlalomWhite)
     {
-        if (!printedReadBlueEdgeMessage)
+        if (!printedReadSlalomWhiteColorMessage)
         {
             stringstream vs;
             vs << "voltage: " << float(ev3_battery_voltage_mV());
 
+            printedReadSlalomWhiteColorMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read white at slalom");
+            messageLines.push_back(" from color sensor");
+            messageLines.push_back(vs.str());
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            sw_r = rawColor.r;
+            sw_g = rawColor.g;
+            sw_b = rawColor.b;
+            readedSlalomWhiteColor = true;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedBlueEdgeColor && calibrateBlueEdge)
+    {
+        if (!printedReadBlueEdgeMessage)
+        {
             printedReadBlueEdgeMessage = true;
             vector<string> messageLines;
             messageLines.push_back("calibrating");
             messageLines.push_back("press right key");
             messageLines.push_back(" read blue white edge");
             messageLines.push_back(" from color sensor");
-            messageLines.push_back(vs.str());
             PrintMessage printMessage(messageLines, true);
             printMessage.run(robotAPI);
         }

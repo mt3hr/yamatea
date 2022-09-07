@@ -76,6 +76,10 @@ void CommandExecutor::run()
     {
         // コマンドを実行する
         commands[currentIndexForCommand]->run(robotAPI);
+#ifdef EnablePrintGyroValue
+        writeDebug(robotAPI->getGyroSensor()->getAngle());
+        flushDebug(INFO, robotAPI);
+#endif
     }
     else
     {

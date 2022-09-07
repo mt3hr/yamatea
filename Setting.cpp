@@ -11,7 +11,7 @@
 // ********** 設定2/2ここから **********
 
 // 車体情報設定ここから
-#ifdef SimulatorMode
+#ifdef SimulatorMode // コメントアウトしないで
 
 // シミュレータの車体情報設定ここから
 
@@ -41,8 +41,8 @@ int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必�
 
 // 情報出力の有効無効設定ここから
 
-DEBUG_LEVEL debugMessageLevel = NONE;      // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+DEBUG_LEVEL debugMessageLevel = NONE;       // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+bool enablePrintMessageMode = false;        // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
 bool enablePrintMessageForLCD = false;      // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
 bool enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
 bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
@@ -59,8 +59,9 @@ int loopSong = 10;
 
 // 色設定ここから
 
-bool calibrateBlue = false;    // 青色をキャリブレーションするかどうか
-bool calibrateBlueEdge = false; // 青白エッジをキャリブレーションするかどうか
+bool calibrateBlue = false;       // 青色をキャリブレーションするかどうか
+bool calibrateBlueEdge = true;    // 青白エッジをキャリブレーションするかどうか
+bool calibrateSlalomWhite = true; // スラローム上からみた白をキャリブレーションするかどうか
 
 // 白（キャリブレータから上書きされるので設定しなくて良い）
 int w_r = 70;
@@ -69,6 +70,14 @@ int w_b = 55;
 RawColorPredicateCondition w_rCondition = BETWEEN5;
 RawColorPredicateCondition w_gCondition = BETWEEN5;
 RawColorPredicateCondition w_bCondition = BETWEEN5;
+
+// スラローム上からみた白（キャリブレータから上書きされるので設定しなくて良い）
+int sw_r = 70;
+int sw_g = 76;
+int sw_b = 55;
+RawColorPredicateCondition sw_rCondition = BETWEEN5;
+RawColorPredicateCondition sw_gCondition = BETWEEN5;
+RawColorPredicateCondition sw_bCondition = BETWEEN5;
 
 // 黒（キャリブレータから上書きされるので設定しなくて良い）
 int d_r = 6;
@@ -114,9 +123,9 @@ RawColorPredicateCondition y_bCondition = BETWEEN5;
 int bw_r;
 int bw_g;
 int bw_b;
-RawColorPredicateCondition bw_rCondition = BETWEEN10;
-RawColorPredicateCondition bw_gCondition = BETWEEN10;
-RawColorPredicateCondition bw_bCondition = BETWEEN10;
+RawColorPredicateCondition bw_rCondition = BETWEEN5;
+RawColorPredicateCondition bw_gCondition = BETWEEN5;
+RawColorPredicateCondition bw_bCondition = BETWEEN5;
 
 // 色設定ここまで
 

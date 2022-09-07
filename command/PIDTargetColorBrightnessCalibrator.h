@@ -23,6 +23,7 @@ private:
     bool printedReadBlackColorMessage = false; // NOTE モデルに反映しません。
     bool printedReadWhiteColorMessage = false; // NOTE モデルに反映しません。
     bool printedReadBlueEdgeMessage = false;   // NOTE モデルに反映しません。
+    bool printedReadSlalomWhiteColorMessage = false;   // NOTE モデルに反映しません。
     bool printedResetAPIMessage = false;      // NOTE モデルに反映しません。
     int whiteBrightness = 0;
     int blackBrightness = 100;
@@ -34,6 +35,7 @@ private:
     bool readedBlackColor = false;
     bool readedBlueColor = false;
     bool readedBlueEdgeColor = false;
+    bool readedSlalomWhiteColor = false;
     bool resetedAPI = false;
     vector<PIDTracer *> pidTracers;
     vector<ColorPIDTracer *> colorPIDTracers;

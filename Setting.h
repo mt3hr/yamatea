@@ -17,6 +17,8 @@
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 #define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
+//#define LeftCourceOkiharaMode // 左コース用プログラム沖原コード
+//#define RightCourceOkiharaMode // 右コース用プログラム沖原コード
 //#define SlalomUFOTestMode // スラロームをUFO走行するプログラム。
 //#define SlalomAwaitingSignalModePattern1_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案1
 //#define SlalomAwaitingSignalModePattern2_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2。案1
@@ -41,11 +43,13 @@
 //#define ColorPIDTracerTestMode // ColorPIDTraceを試すモード。テスト用
 //#define BrightnessPIDTracerTestMode // TargetBrightnessPIDTraceを試すモード。テスト用
 //#define FroggySongTestMode // かえるの歌を歌わせるモード。テスト用。
+//#define GrayPredicateTestMode // グレーでとまる直進モード。テスト用。
 
 // モード設定ここまで
 
 //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
+//#define EnablePrintGyroValue
 
 // ********** 設定1/2ここまで **********
 
@@ -73,6 +77,8 @@ extern int loopSong;
 
 extern bool calibrateBlue;
 extern bool calibrateBlueEdge;
+extern bool calibrateSlalomWhite;
+
 extern int r_r;
 extern int r_g;
 extern int r_b;
@@ -121,5 +127,12 @@ extern int w_b;
 extern RawColorPredicateCondition bw_rCondition;
 extern RawColorPredicateCondition w_gCondition;
 extern RawColorPredicateCondition w_bCondition;
+
+extern int sw_r;
+extern int sw_g;
+extern int sw_b;
+extern RawColorPredicateCondition sw_rCondition;
+extern RawColorPredicateCondition sw_gCondition;
+extern RawColorPredicateCondition sw_bCondition;
 
 #endif
