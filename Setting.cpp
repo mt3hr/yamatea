@@ -59,7 +59,7 @@ int loopSong = 10;
 
 // 色設定ここから
 
-bool calibrateBlue = false;     // 青色をキャリブレーションするかどうか
+bool calibrateBlue = false;    // 青色をキャリブレーションするかどうか
 bool calibrateBlueEdge = false; // 青白エッジをキャリブレーションするかどうか
 
 // 白（キャリブレータから上書きされるので設定しなくて良い）
@@ -114,9 +114,9 @@ RawColorPredicateCondition y_bCondition = BETWEEN5;
 int bw_r;
 int bw_g;
 int bw_b;
-RawColorPredicateCondition bw_rCondition = BETWEEN5;
-RawColorPredicateCondition bw_gCondition = BETWEEN5;
-RawColorPredicateCondition bw_bCondition = BETWEEN5;
+RawColorPredicateCondition bw_rCondition = BETWEEN10;
+RawColorPredicateCondition bw_gCondition = BETWEEN10;
+RawColorPredicateCondition bw_bCondition = BETWEEN10;
 
 // 色設定ここまで
 
