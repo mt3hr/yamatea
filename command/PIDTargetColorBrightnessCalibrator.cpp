@@ -123,6 +123,26 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
+    else if (!isResetedGyro())
+    {
+        if (!printedResetGyroMessage)
+        {
+            printedResetGyroMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" reset gyro sensor");
+
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            robotAPI->getClock()->sleep(sleepDuration);
+            resetGyro();
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
     else
     {
         if (!calibratedPIDTracers)
@@ -233,6 +253,11 @@ bool PIDTargetColorBrightnessCalibrator::isReadedWhiteColor()
     return readedWhiteColor;
 }
 
+bool PIDTargetColorBrightnessCalibrator::isResetedGyro()
+{
+    return resetedGyro;
+}
+
 void PIDTargetColorBrightnessCalibrator::readWhiteColorFromColorSensor()
 {
     rgb_raw_t whiteTemp;
@@ -247,6 +272,12 @@ void PIDTargetColorBrightnessCalibrator::readBlackColorFromColorSensor()
     robotAPI->getColorSensor()->getRawColor(blackTemp);
     blackColor = blackTemp;
     readedBlackColor = true;
+}
+
+void PIDTargetColorBrightnessCalibrator::resetGyro()
+{
+    robotAPI->getGyroSensor()->reset();
+    resetedGyro = true;
 }
 
 void PIDTargetColorBrightnessCalibrator::addColorPIDTracer(ColorPIDTracer *pidTracer)

@@ -19,9 +19,10 @@ class PIDTargetColorBrightnessCalibrator : public Command
 private:
     bool printedReadBlackMessage = false;      // NOTE モデルに反映しません。
     bool printedReadWhiteMessage = false;      // NOTE モデルに反映しません。
-    bool printedReadBlueMessage = false;      // NOTE モデルに反映しません。
+    bool printedReadBlueMessage = false;       // NOTE モデルに反映しません。
     bool printedReadBlackColorMessage = false; // NOTE モデルに反映しません。
     bool printedReadWhiteColorMessage = false; // NOTE モデルに反映しません。
+    bool printedResetGyroMessage = false;      // NOTE モデルに反映しません。
     int whiteBrightness = 0;
     int blackBrightness = 100;
     rgb_raw_t whiteColor;
@@ -31,6 +32,7 @@ private:
     bool readedWhiteColor = false;
     bool readedBlackColor = false;
     bool readedBlueColor = false;
+    bool resetedGyro = false;
     vector<PIDTracer *> pidTracers;
     vector<ColorPIDTracer *> colorPIDTracers;
     bool calibratedPIDTracers = false;
@@ -50,10 +52,12 @@ public:
     virtual bool isReadedWhiteBrightness();
     virtual bool isReadedBlackColor();
     virtual bool isReadedWhiteColor();
+    virtual bool isResetedGyro();
     virtual void readWhiteBrightnessFromColorSensor();
     virtual void readBlackBrightnessFromColorSensor();
     virtual void readWhiteColorFromColorSensor();
     virtual void readBlackColorFromColorSensor();
+    virtual void resetGyro();
     virtual void addPIDTracer(PIDTracer *pidTracer);
     virtual void addColorPIDTracer(ColorPIDTracer *pidTracer);
 };
