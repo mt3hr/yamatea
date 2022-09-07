@@ -2,6 +2,7 @@
 #include "Sensor.h"
 #include "RobotAPI.h"
 #include "Setting.h"
+#include "DebugUtil.h"
 
 using namespace ev3api;
 
@@ -47,17 +48,17 @@ bool RawColorPredicate::test(RobotAPI *robotAPI)
     }
     case BETWEEN3:
     {
-        rOK = *r + 3 >= rawColor.r && *r - 3 >= rawColor.r;
+        rOK = *r + 3 >= rawColor.r && *r - 3 <= rawColor.r;
         break;
     }
     case BETWEEN5:
     {
-        rOK = *r + 5 >= rawColor.r && *r - 5 >= rawColor.r;
+        rOK = *r + 5 >= rawColor.r && *r - 5 <= rawColor.r;
         break;
     }
     case BETWEEN10:
     {
-        rOK = *r + 10 >= rawColor.r && *r - 10 >= rawColor.r;
+        rOK = *r + 10 >= rawColor.r && *r - 10 <= rawColor.r;
         break;
     }
     }
@@ -81,17 +82,17 @@ bool RawColorPredicate::test(RobotAPI *robotAPI)
     }
     case BETWEEN3:
     {
-        gOK = *g + 3 >= rawColor.g && *g - 3 >= rawColor.g;
+        gOK = *g + 3 >= rawColor.g && *g - 3 <= rawColor.g;
         break;
     }
     case BETWEEN5:
     {
-        gOK = *g + 5 >= rawColor.g && *g - 5 >= rawColor.g;
+        gOK = *g + 5 >= rawColor.g && *g - 5 <= rawColor.g;
         break;
     }
     case BETWEEN10:
     {
-        gOK = *g + 10 >= rawColor.g && *g - 10 >= rawColor.g;
+        gOK = *g + 10 >= rawColor.g && *g - 10 <= rawColor.g;
         break;
     }
     }
@@ -115,20 +116,33 @@ bool RawColorPredicate::test(RobotAPI *robotAPI)
     }
     case BETWEEN3:
     {
-        bOK = *b + 3 >= rawColor.b && *b - 3 >= rawColor.b;
+        bOK = *b + 3 >= rawColor.b && *b - 3 <= rawColor.b;
         break;
     }
     case BETWEEN5:
     {
-        bOK = *b + 5 >= rawColor.b && *b - 5 >= rawColor.b;
+        bOK = *b + 5 >= rawColor.b && *b - 5 <= rawColor.b;
         break;
     }
     case BETWEEN10:
     {
-        bOK = *b + 10 >= rawColor.b && *b - 10 >= rawColor.b;
+        bOK = *b + 10 >= rawColor.b && *b - 10 <= rawColor.b;
         break;
     }
     }
+
+    writeDebug("RawColorPredicate");
+    writeEndLineDebug();
+    writeDebug("r: ");
+    writeDebug(rawColor.r);
+    writeEndLineDebug();
+    writeDebug("g: ");
+    writeDebug(rawColor.g);
+    writeEndLineDebug();
+    writeDebug("b: ");
+    writeDebug(rawColor.b);
+    writeEndLineDebug();
+    flushDebug(TRACE, robotAPI);
 
     return rOK && gOK && bOK;
 }
