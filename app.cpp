@@ -1087,16 +1087,19 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pidTracer->setTargetColor(targetRGB);
   lowPWMTracer->setTargetColor(targetRGB);
 #endif
-  // PIDトレースから入る
-  // TODO commandExecutor->addCommand(lowPWMTracer, new WheelDistancePredicate(5, robotAPI), GET_VARIABLE_NAME(pidTracer));
-
   // PIDトレースで青線まで進む
   Predicate *pidTracerPredicate = new BlueEdgePredicate();
-  // TODO commandExecutor->addCommand(lowPWMTracer, pidTracerPredicate, GET_VARIABLE_NAME(pidTracer));
+  commandExecutor->addCommand(lowPWMTracer, pidTracerPredicate, GET_VARIABLE_NAME(pidTracer));
 
   // スラローム直前までPIDトレース
   float distance = 30;
-  // TODO  commandExecutor->addCommand(pidTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
+  commandExecutor->addCommand(lowPWMTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // 向き調節
+  pwm = 4;
+  FacingAngle *facingAngleB = new FacingAngle(pwm, slalomAngleOffset);
+  commandExecutor->addCommand(facingAngleB, new FinishedCommandPredicate(facingAngleB), GET_VARIABLE_NAME(FacingAngleB));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // アームを下げる
@@ -1110,16 +1113,16 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // テールモータで角度をつける
   pwm = 100;
-  numberOfTime = 60;
+  numberOfTime = 40;
   Command *tailMotorDrive = new TailController(pwm);
   Predicate *tailMotorDrivePreicate = new NumberOfTimesPredicate(numberOfTime);
   commandExecutor->addCommand(tailMotorDrive, tailMotorDrivePreicate, GET_VARIABLE_NAME(tailMotorDrive));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // スラローム位置補正。アームを下げたまま直進。
-  numberOfTime = 60;
-  leftPWM = 10;
-  rightPWM = 10;
+  numberOfTime = 40;
+  leftPWM = 7;
+  rightPWM = 7;
   Command *lowWalker = new Walker(leftPWM, rightPWM);
   commandExecutor->addCommand(lowWalker, new NumberOfTimesPredicate(numberOfTime), GET_VARIABLE_NAME(lowWalker));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
@@ -1140,7 +1143,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // テールモータを戻す
   pwm = 100;
-  numberOfTime = 30;
+  numberOfTime = 20;
   tailMotorDrive = new TailController(-pwm);
   tailMotorDrivePreicate = new NumberOfTimesPredicate(numberOfTime);
   commandExecutor->addCommand(tailMotorDrive, tailMotorDrivePreicate, GET_VARIABLE_NAME(tailMotorDrive));
@@ -1148,15 +1151,15 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // Walkerで少し進んでスラロームに進入する（PIDTracerだとベニヤ板の暗さで行けねえ）
   distance = 27;
-  leftPWM = 15;
-  rightPWM = 15;
+  leftPWM = 12;
+  rightPWM = 12;
   Walker *walker1 = new Walker(leftPWM, rightPWM);
   commandExecutor->addCommand(walker1, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(walker1));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // テールモータを戻す
   pwm = 100;
-  numberOfTime = 30;
+  numberOfTime = 20;
   tailMotorDrive = new TailController(-pwm);
   tailMotorDrivePreicate = new NumberOfTimesPredicate(numberOfTime);
   commandExecutor->addCommand(tailMotorDrive, tailMotorDrivePreicate, GET_VARIABLE_NAME(tailMotorDrive));
@@ -1165,29 +1168,27 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // スラローム進入ここまで
 
   // スラローム位置補正ここから
-  // TODO ここから
 
   // 向き調節
-  pwm = 7;
+  pwm = 4;
   angle = -90;
-  FacingAngle *facingAngleB = new FacingAngle(pwm, slalomAngleOffset + angle);
-  commandExecutor->addCommand(facingAngleB, new FinishedCommandPredicate(facingAngleB), GET_VARIABLE_NAME(FacingAngleB));
+  FacingAngle *facingAngleX = new FacingAngle(pwm, slalomAngleOffset + angle);
+  commandExecutor->addCommand(facingAngleX, new FinishedCommandPredicate(facingAngleX), GET_VARIABLE_NAME(FacingAngleX));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // 白を拾うまで直進
-  leftPWM = 8;
-  rightPWM = 8;
-  distance = 10.5;
+  leftPWM = 7;
+  rightPWM = 7;
   Walker *walkerW = new Walker(leftPWM, rightPWM);
 
-  RawColorPredicate *whitePredicate = new RawColorPredicate(63, LESS_THAN, 0, IGNORE, 72, GREATER_THAN);
-  ColorPredicate *whitePredicate = new ColorPredicate(COLOR_WHITE);
+  // TODO SlalomWhitePredicate作って
+  RawColorPredicate *whitePredicate = new RawColorPredicate(&w_r, BETWEEN5, &w_g, BETWEEN5, &w_b, BETWEEN5);
   commandExecutor->addCommand(walkerW, whitePredicate, GET_VARIABLE_NAME(walkerW));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // バック
-  leftPWM = 10;
-  rightPWM = 10;
+  leftPWM = -10;
+  rightPWM = -10;
   distance = -5;
   Walker *walkerB = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walkerBPredicate = new WheelDistancePredicate(distance, robotAPI);
@@ -1195,12 +1196,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // 向き調節
-  pwm = 7;
+  pwm = 4;
   FacingAngle *facingAngleC = new FacingAngle(pwm, slalomAngleOffset);
   commandExecutor->addCommand(facingAngleC, new FinishedCommandPredicate(facingAngleC), GET_VARIABLE_NAME(FacingAngleC));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
-  // TODO ここまで
   // スラローム位置補正ここまで
 
   // 指示待ち走行ここから
@@ -1211,39 +1211,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(facingAngle1, new FinishedCommandPredicate(facingAngle1), GET_VARIABLE_NAME(FacingAngle1));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
-  // 45度左旋回
-  pwm = 10;
-  angle = -45;
-  RotateRobotUseGyroCommandAndPredicate *rotate1 = new RotateRobotUseGyroCommandAndPredicate(angle, pwm, robotAPI);
-  commandExecutor->addCommand(rotate1->getCommand(), rotate1->getPredicate(), GET_VARIABLE_NAME(rotate1));
-  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
-  // 直進
-  leftPWM = 16;
-  rightPWM = 16;
-  distance = 10.5;
-  Walker *walker2 = new Walker(leftPWM, rightPWM);
-  WheelDistancePredicate *walker2Predicate = new WheelDistancePredicate(distance, robotAPI);
-  commandExecutor->addCommand(walker2, walker2Predicate, GET_VARIABLE_NAME(walker2));
-  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
-  // 45度右旋回
-  pwm = 10;
-  angle = 45;
-  RotateRobotUseGyroCommandAndPredicate *rotate2 = new RotateRobotUseGyroCommandAndPredicate(angle, pwm, robotAPI);
-  commandExecutor->addCommand(rotate2->getCommand(), rotate2->getPredicate(), GET_VARIABLE_NAME(rotate2));
-  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
-  // 向き調節
-  pwm = 7;
-  FacingAngle *facingAngle2 = new FacingAngle(pwm, slalomAngleOffset);
-  commandExecutor->addCommand(facingAngle2, new FinishedCommandPredicate(facingAngle2), GET_VARIABLE_NAME(FacingAngle2));
-  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
   // 直進
   leftPWM = 10;
   rightPWM = 10;
-  distance = 17;
+  distance = 24;
   Walker *walker3 = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walker3Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker3, walker3Predicate, GET_VARIABLE_NAME(walker3));
@@ -1283,7 +1254,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 直進
   leftPWM = 10;
   rightPWM = 10;
-  distance = 5;
+  distance = 0.1;
   Walker *walker4 = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walker4Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker4, walker4Predicate, GET_VARIABLE_NAME(walker4));
@@ -1315,7 +1286,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 直進
   leftPWM = 10;
   rightPWM = 10;
-  distance = 0.1;
+  distance = 3;
   Walker *walker5 = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walker5Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker5, walker5Predicate, GET_VARIABLE_NAME(walker5));
@@ -1343,6 +1314,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   WheelDistancePredicate *walker6Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker6, walker6Predicate, GET_VARIABLE_NAME(walker6));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  commandExecutor->addCommand(colorReader, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(colorReader));
 }
 #endif
 
