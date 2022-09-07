@@ -17,11 +17,13 @@ RGBRawReader::~RGBRawReader()
 
 void RGBRawReader::run(RobotAPI *robotAPI)
 {
+    rgb_raw_t rgbRawTemp;
     if (!lockedRGBRawValue)
     {
-        robotAPI->getColorSensor()->getRawColor(rgbRaw);
+        robotAPI->getColorSensor()->getRawColor(rgbRawTemp);
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
+            rgbRaw = rgbRawTemp;
             lockedRGBRawValue = true;
         }
 
@@ -30,9 +32,9 @@ void RGBRawReader::run(RobotAPI *robotAPI)
         stringstream gs;
         stringstream bs;
 
-        rs << "r:" << float(rgbRaw.r); // intのままだと出力されないのでfloatに変換する
-        gs << "g:" << float(rgbRaw.g); // intのままだと出力されないのでfloatに変換する
-        bs << "b:" << float(rgbRaw.b); // intのままだと出力されないのでfloatに変換する
+        rs << "r:" << float(rgbRawTemp.r); // intのままだと出力されないのでfloatに変換する
+        gs << "g:" << float(rgbRawTemp.g); // intのままだと出力されないのでfloatに変換する
+        bs << "b:" << float(rgbRawTemp.b); // intのままだと出力されないのでfloatに変換する
 
         vector<string> messageLines;
         messageLines.push_back("Raw RBG Reader");
