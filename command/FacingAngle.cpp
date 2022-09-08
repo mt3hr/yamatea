@@ -4,10 +4,11 @@
 #include "Stopper.h"
 #include "DebugUtil.h"
 
-FacingAngle::FacingAngle(int pwm, int targetAngle)
+FacingAngle::FacingAngle(int pwm, int targetAngle, bool useGyro)
 {
     this->pwm = pwm;
     this->targetAngle = targetAngle;
+    this->useGyro = useGyro;
 
     turnLeft = new Walker(-pwm, pwm);
     turnRight = new Walker(pwm, -pwm);
@@ -17,14 +18,19 @@ FacingAngle::~FacingAngle(){};
 
 void FacingAngle::run(RobotAPI *robotAPI)
 {
-    int angle = robotAPI->getMeasAngle()->getAngle(); // TODO メモリ管理ガバガバ
-    /* //TODO
+    float angle;
+    if (useGyro)
+    {
 #ifndef SimulatorMode
-    int angle = robotAPI->getGyroSensor()->getAngle() * -1;
+        angle = robotAPI->getGyroSensor()->getAngle() * -1;
 #else
-    int angle = robotAPI->getGyroSensor()->getAngle();
+        angle = robotAPI->getGyroSensor()->getAngle();
 #endif
-    */
+    }
+    else
+    {
+        angle = robotAPI->getMeasAngle()->getAngle();
+    }
 
     writeDebug("FacingAngle");
     writeEndLineDebug();
@@ -56,7 +62,7 @@ void FacingAngle::preparation(RobotAPI *robotAPI)
 
 Command *FacingAngle::generateReverseCommand()
 {
-    return new FacingAngle(pwm, -targetAngle);
+    return new FacingAngle(pwm, -targetAngle, useGyro);
 }
 
 bool FacingAngle::isFinished()

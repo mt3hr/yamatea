@@ -15,12 +15,13 @@ private:
     int targetAngle;
     int angle;
     bool finish = false;
+    bool useGyro = false;
 
     Walker *turnLeft;
     Walker *turnRight;
 
 public:
-    FacingAngle(int pwm, int targetAngle);
+    FacingAngle(int pwm, int targetAngle, bool useGyro);
     ~FacingAngle();
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;

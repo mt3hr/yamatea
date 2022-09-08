@@ -795,6 +795,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   int numberOfTime;
 
+  bool facingAngleUseGyro = false;
+
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
 
@@ -923,7 +925,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 角度を調整する
   pwm = 5;
-  FacingAngle *facingAngle = new FacingAngle(pwm, slalomAngle);
+  FacingAngle *facingAngle = new FacingAngle(pwm, slalomAngle, facingAngleUseGyro);
   commandExecutor->addCommand(facingAngle, new FinishedCommandPredicate(facingAngle), GET_VARIABLE_NAME(FacingAngle));
 
   // スラローム進入ここまで
@@ -955,7 +957,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 角度を調整する
   pwm = 7;
-  facingAngle = new FacingAngle(pwm, slalomAngle);
+  facingAngle = new FacingAngle(pwm, slalomAngle, facingAngleUseGyro);
   commandExecutor->addCommand(facingAngle, new FinishedCommandPredicate(facingAngle), GET_VARIABLE_NAME(FacingAngle));
 
   //  直進
@@ -1000,7 +1002,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 角度を調整する
   pwm = 7;
-  facingAngle = new FacingAngle(pwm, slalomAngle);
+  facingAngle = new FacingAngle(pwm, slalomAngle, facingAngleUseGyro);
   commandExecutor->addCommand(facingAngle, new FinishedCommandPredicate(facingAngle), GET_VARIABLE_NAME(FacingAngle));
 
   //  直進
@@ -1266,6 +1268,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   int numberOfTime;
 
+  bool facingAngleUseGyro = false;
+
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
 
@@ -1395,7 +1399,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 向き調節
   pwm = 4;
   angle = -90;
-  FacingAngle *facingAngleX = new FacingAngle(pwm, slalomAngleOffset + angle);
+  FacingAngle *facingAngleX = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
   commandExecutor->addCommand(facingAngleX, new FinishedCommandPredicate(facingAngleX), GET_VARIABLE_NAME(FacingAngleX));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
@@ -1419,7 +1423,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 向き調節
   pwm = 4;
-  FacingAngle *facingAngleC = new FacingAngle(pwm, slalomAngleOffset);
+  FacingAngle *facingAngleC = new FacingAngle(pwm, slalomAngleOffset, facingAngleUseGyro);
   commandExecutor->addCommand(facingAngleC, new FinishedCommandPredicate(facingAngleC), GET_VARIABLE_NAME(FacingAngleC));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
@@ -1429,7 +1433,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 向き調節
   pwm = 7;
-  FacingAngle *facingAngle1 = new FacingAngle(pwm, slalomAngleOffset);
+  FacingAngle *facingAngle1 = new FacingAngle(pwm, slalomAngleOffset, facingAngleUseGyro);
   commandExecutor->addCommand(facingAngle1, new FinishedCommandPredicate(facingAngle1), GET_VARIABLE_NAME(FacingAngle1));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
@@ -1469,7 +1473,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 向き調節
   pwm = 7;
-  FacingAngle *facingAngle3 = new FacingAngle(pwm, slalomAngleOffset);
+  FacingAngle *facingAngle3 = new FacingAngle(pwm, slalomAngleOffset, facingAngleUseGyro);
   commandExecutor->addCommand(facingAngle3, new FinishedCommandPredicate(facingAngle3), GET_VARIABLE_NAME(FacingAngle3));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
@@ -1493,7 +1497,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 向き調節
   pwm = 7;
   angle = -45;
-  FacingAngle *facingAngle4 = new FacingAngle(pwm, slalomAngleOffset + angle);
+  FacingAngle *facingAngle4 = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
   commandExecutor->addCommand(facingAngle4, new FinishedCommandPredicate(facingAngle4), GET_VARIABLE_NAME(FacingAngle4));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
@@ -1524,7 +1528,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 向き調節
   pwm = 7;
-  FacingAngle *facingAngle5 = new FacingAngle(pwm, slalomAngleOffset);
+  FacingAngle *facingAngle5 = new FacingAngle(pwm, slalomAngleOffset, facingAngleUseGyro);
   commandExecutor->addCommand(facingAngle5, new FinishedCommandPredicate(facingAngle5), GET_VARIABLE_NAME(FacingAngle5));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
@@ -2182,7 +2186,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   int pwm = 10;
   int angle = 180;
-  FacingAngle *facingAngle = new FacingAngle(pwm, angle);
+  FacingAngle *facingAngle = new FacingAngle(pwm, angle, false);
   commandExecutor->addCommand(facingAngle, new FinishedCommandPredicate(facingAngle), GET_VARIABLE_NAME(facingAngle));
 }
 #endif
