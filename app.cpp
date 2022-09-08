@@ -55,6 +55,7 @@
 #include "ColorIDReader.h"
 #include "FacingAngle.h"
 #include "ResetGyroSensor.h"
+#include "ResetMeasAngle.h"
 
 using namespace std;
 using namespace ev3api;
@@ -420,6 +421,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #if defined(LeftCourceOkiharaMode) | defined(RightCourceOkiharaMode)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+  int targetBrightness = 20;
+
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
@@ -492,12 +495,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int leftPow;
   int rightPow;
 
-  int angle;
-
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI);
   Predicate *startButtonPredicate = new StartButtonPredicate();
-  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(PIDTargetBrightnessCalibrator));
 
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
   vector<string> messageLines;
@@ -549,20 +550,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
   pwm = 25;
-  kp = 0.6;
+  kp = 0.5;
   ki = 0.2;
-  kd = 0.6;
+  kd = 0.5;
   dt = 1;
   PIDTracer *waterMelonPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateWaterMelon = new WheelDistancePredicate(waterMelonDistance, robotAPI);
   calibrator->addPIDTracer(waterMelonPIDTracer);
   commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon, GET_VARIABLE_NAME(waterMelonPIDTracer));
-
-  // ゲート4方向に向き直る
-  pwm = 10;
-  angle = 330;
-  FacingAngle *facingGate4 = new FacingAngle(pwm, angle);
-  commandExecutor->addCommand(facingGate4, new FinishedCommandPredicate(facingGate4), GET_VARIABLE_NAME(facingGate4));
 
   // BokChoyWalkerの初期化とCommandExecutorへの追加
   leftPow = 20;
@@ -596,9 +591,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // CucumberPIDTracerの初期化とCommandExecutorへの追加
 
   pwm = 25;
-  kp = 0.65;
+  kp = 0.6;
   ki = 0.2;
-  kd = 0.65;
+  kd = 0.6;
   dt = 1;
   PIDTracer *cucumberPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateCucumber = new WheelDistancePredicate(cucumberDistance, robotAPI);
@@ -607,9 +602,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // StrawberryPIDTracerの初期化とCommandExecutorへの追加
   pwm = 20;
-  kp = 0.6;
+  kp = 0.5;
   ki = 0.2;
-  kd = 0.6;
+  kd = 0.5;
   dt = 1;
   PIDTracer *strawberryPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateStrawberry = new WheelDistancePredicate(strawberryDistance, robotAPI);
@@ -620,7 +615,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
 #ifdef SimulatorMode
   // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
-  int targetBrightness = 20;
   bananaPIDTracer->setTargetBrightness(targetBrightness);
   orangePIDTracer->setTargetBrightness(targetBrightness);
   cherryPIDTracer->setTargetBrightness(targetBrightness);
@@ -1321,12 +1315,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(lowPWMTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
-  // 向き調節
-  pwm = 4;
-  FacingAngle *facingAngleB = new FacingAngle(pwm, slalomAngleOffset);
-  commandExecutor->addCommand(facingAngleB, new FinishedCommandPredicate(facingAngleB), GET_VARIABLE_NAME(FacingAngleB));
-  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
   // アームを下げる
   int armAngle = 15;
   pwm = -10;
@@ -1377,6 +1365,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // ジャイロセンサをリセットする
   ResetGyroSensor *resetGyroSensor = new ResetGyroSensor();
   commandExecutor->addCommand(resetGyroSensor, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(resetGyroSensor));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // MeasAngleをリセットする
+  ResetMeasAngle *resetMeasAngle = new ResetMeasAngle();
+  commandExecutor->addCommand(resetMeasAngle, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(resetMeasAngle));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // Walkerで少し進んでスラロームに進入する（PIDTracerだとベニヤ板の暗さで行けねえ）
