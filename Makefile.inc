@@ -49,6 +49,7 @@ StartCyc.o \
 ColorIDReader.o \
 FacingAngle.o \
 ResetGyroSensor.o \
+ResetMeasAngle.o \
 
 SRCLANG := c++
 
