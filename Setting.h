@@ -44,12 +44,16 @@
 //#define BrightnessPIDTracerTestMode // TargetBrightnessPIDTraceを試すモード。テスト用
 //#define FroggySongTestMode // かえるの歌を歌わせるモード。テスト用。
 //#define GrayPredicateTestMode // グレーでとまる直進モード。テスト用。
+//#define FacingAngleTestMode // 指定角度に向き直るモード。テスト用。
+//#define WalkerTestMode
 
 // モード設定ここまで
 
-//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue
+//#define EnablePrintAngleUseWheel
+//#define EnablePrintMotorCount
 
 // ********** 設定1/2ここまで **********
 
@@ -66,6 +70,7 @@ extern float distanceFromSonarSensorToAxle;
 extern float wheelSpace;
 extern int angleFor360TurnLeftRotateRobot;
 extern int angleFor360TurnRightRotateRobot;
+extern int angleFor360TurnMeasAngle;
 extern DEBUG_LEVEL debugMessageLevel;
 extern bool enablePrintMessageMode;
 extern bool enablePrintMessageForLCD;

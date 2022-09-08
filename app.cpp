@@ -264,7 +264,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // Commandの定義とCommandExecutorへの追加ここまで
 
   // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
-  int targetBrightness = 20;
   bananaPIDTracer->setTargetBrightness(targetBrightness);
   orangePIDTracer->setTargetBrightness(targetBrightness);
   cherryPIDTracer->setTargetBrightness(targetBrightness);
@@ -561,7 +560,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // ゲート4方向に向き直る
   pwm = 10;
-  angle = -30;
+  angle = 330;
   FacingAngle *facingGate4 = new FacingAngle(pwm, angle);
   commandExecutor->addCommand(facingGate4, new FinishedCommandPredicate(facingGate4), GET_VARIABLE_NAME(facingGate4));
 
@@ -2178,7 +2177,36 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   }
   commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
 }
+#endif
 
+#ifdef FacingAngleTestMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  // PIDTargetCalibratorの初期化とCommandExecutorへの追加
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+  int pwm = 10;
+  int angle = 360;
+  FacingAngle *facingAngle = new FacingAngle(pwm, angle);
+  commandExecutor->addCommand(facingAngle, new FinishedCommandPredicate(facingAngle), GET_VARIABLE_NAME(facingAngle));
+}
+#endif
+
+#ifdef WalkerTestMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  // PIDTargetCalibratorの初期化とCommandExecutorへの追加
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+  int leftPWM = 10;
+  int rightPWM = 0;
+  Walker *walker = new Walker(leftPWM, rightPWM);
+  commandExecutor->addCommand(walker, new Predicate(), GET_VARIABLE_NAME(walker));
+}
 #endif
 
 void runner_task(intptr_t exinf)

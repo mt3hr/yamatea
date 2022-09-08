@@ -1,7 +1,7 @@
 #include "Stopper.h"
+#include "RobotAPI.h"
 #include "Setting.h"
 #include "DebugUtil.h"
-#include "RobotAPI.h"
 
 using namespace ev3api;
 

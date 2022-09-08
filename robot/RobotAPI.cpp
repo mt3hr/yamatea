@@ -5,6 +5,7 @@
 #include "GyroSensor.h"
 #include "Motor.h"
 #include "Clock.h"
+#include "DebugUtil.h"
 
 using namespace ev3api;
 
@@ -19,6 +20,7 @@ RobotAPI::RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSens
     this->armMotor = armMotor;
     this->clock = clock;
     this->tailMotor = tailMotor;
+    this->measAngle = new RobotAPI::MeasAngleUseWheel(this);
 }
 
 RobotAPI::~RobotAPI()
@@ -77,6 +79,11 @@ Motor *RobotAPI::getTailMotor()
     return tailMotor;
 }
 
+RobotAPI::MeasAngleUseWheel *RobotAPI::getMeasAngle()
+{
+    return measAngle;
+}
+
 void RobotAPI::reset()
 {
     gyroSensor->reset();
@@ -85,4 +92,35 @@ void RobotAPI::reset()
     armMotor->reset();
     clock->reset();
     tailMotor->reset();
+}
+
+RobotAPI::MeasAngleUseWheel::MeasAngleUseWheel(RobotAPI *robotAPI)
+{
+    this->robotAPI = robotAPI;
+};
+
+RobotAPI::MeasAngleUseWheel::~MeasAngleUseWheel(){};
+
+float RobotAPI::MeasAngleUseWheel::getAngle()
+{
+    int leftCount = robotAPI->getLeftWheel()->getCount();
+    int rightCount = robotAPI->getRightWheel()->getCount();
+
+    int diffCount = (leftCount - rightCount);
+    int modDiffCount = diffCount; // % angleFor360TurnMeasAngle;
+    angle = modDiffCount / 3;     // TODO これは？
+    writeDebug("meas angle use wheel");
+    writeEndLineDebug();
+    writeDebug("diffCount: ");
+    writeDebug(diffCount);
+    writeEndLineDebug();
+    writeDebug("angle: ");
+    writeDebug(angle);
+    flushDebug(TRACE, robotAPI);
+    return angle + angleOffset;
+}
+
+void RobotAPI::MeasAngleUseWheel::reset()
+{
+    angleOffset = -getAngle();
 }

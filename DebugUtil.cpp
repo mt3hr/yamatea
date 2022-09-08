@@ -57,7 +57,7 @@ void writeDebug(float f)
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
-void writeDebug(uint64_t f)
+void writeDebug(uint64_t i)
 {
     if (messageLinesForDebugPrint.size() == 0)
     {
@@ -67,7 +67,21 @@ void writeDebug(uint64_t f)
     stringstream ss;
     ss.clear();
     ss.str("");
-    ss << f;
+    ss << i;
+    messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
+}
+
+void writeDebug(int32_t i)
+{
+    if (messageLinesForDebugPrint.size() == 0)
+    {
+        messageLinesForDebugPrint.push_back("");
+    }
+
+    stringstream ss;
+    ss.clear();
+    ss.str("");
+    ss << i;
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 

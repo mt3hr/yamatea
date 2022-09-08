@@ -12,6 +12,7 @@ Predicate.o \
 FinishConfirmable.o \
 FinishedCommandPredicate.o \
 MusicalScore.o \
+Stopper.o \
 DebugUtil.o \
 ColorPredicate.o \
 CommandAndPredicate.o \
@@ -30,7 +31,6 @@ RGBRawReader.o \
 DistanceReader.o \
 ArmController.o \
 MotorRotateAnglePredicate.o \
-Stopper.o \
 ObstacleDetector.o \
 ObstacleDetectRunner.o \
 SwingSonarObstacleDetector.o \

@@ -15,11 +15,12 @@
 
 // シミュレータの車体情報設定ここから
 
-float wheelSpace = 12;                                                // 左車輪と右車輪の間隔。シミュレータ用
-float distanceFromSonarSensorToAxle = 10.5;                           // ソナーセンサから車軸までの距離。シミュレータ用
-float wheelDiameter = 10.4;                                           // 車輪直径。センチメートル。
-int angleFor360TurnLeftRotateRobot = 520;                             // 左に360度旋回するのに必要な左右車輪回転角度数
-int angleFor360TurnRightRotateRobot = angleFor360TurnLeftRotateRobot; // 右に360度旋回するのに必要な左右車輪回転角度数
+float wheelSpace = 12;                                                                           // 左車輪と右車輪の間隔。シミュレータ用
+float distanceFromSonarSensorToAxle = 10.5;                                                      // ソナーセンサから車軸までの距離。シミュレータ用
+float wheelDiameter = 10.4;                                                                      // 車輪直径。センチメートル。
+int angleFor360TurnLeftRotateRobot = 520;                                                        // 左に360度旋回するのに必要な左右車輪回転角度数
+int angleFor360TurnRightRotateRobot = angleFor360TurnLeftRotateRobot;                            // 右に360度旋回するのに必要な左右車輪回転角度数
+int angleFor360TurnMeasAngle = angleFor360TurnLeftRotateRobot + angleFor360TurnRightRotateRobot; // 片方の車輪で360度旋回するために必要な回転角
 
 // シミュレータの車体情報設定ここまで
 
@@ -27,11 +28,12 @@ int angleFor360TurnRightRotateRobot = angleFor360TurnLeftRotateRobot; // 右に3
 
 // 実機の車体情報設定ここから
 
-float wheelSpace = 14.5;                   // 左車輪と右車輪の間隔。実機用
-float distanceFromSonarSensorToAxle = 11;  // ソナーセンサから車軸までの距離。実機用
-float wheelDiameter = 10.4;                // 車輪直径。センチメートル。
-int angleFor360TurnLeftRotateRobot = 520;  // 左に360度旋回するのに必要な左右車輪回転角度数
-int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必要な左右車輪回転角度数
+float wheelSpace = 14.5;                                                                           // 左車輪と右車輪の間隔。実機用
+float distanceFromSonarSensorToAxle = 11;                                                          // ソナーセンサから車軸までの距離。実機用
+float wheelDiameter = 10.4;                                                                        // 車輪直径。センチメートル。
+int angleFor360TurnLeftRotateRobot = 520;                                                          // 左に360度旋回するのに必要な左右車輪回転角度数
+int angleFor360TurnRightRotateRobot = 510;                                                         // 右に360度旋回するのに必要な左右車輪回転角度数
+int angleFor360TurnMeasAngle = 1090; // 片方の車輪で360度旋回するために必要な回転角
 
 // 実機の車体情報設定ここまで
 
@@ -41,10 +43,10 @@ int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必�
 
 // 情報出力の有効無効設定ここから
 
-DEBUG_LEVEL debugMessageLevel = NONE;       // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-bool enablePrintMessageMode = false;        // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-bool enablePrintMessageForLCD = false;      // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
-bool enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+DEBUG_LEVEL debugMessageLevel = NONE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+bool enablePrintMessageForLCD = false;       // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
 bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
 
 // 情報出力の有効無効設定ここまで

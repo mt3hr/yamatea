@@ -1,6 +1,7 @@
 #ifndef RobotAPI_H
 #define RobotAPI_H
 
+#include "RobotAPI.h"
 #include "TouchSensor.h"
 #include "ColorSensor.h"
 #include "SonarSensor.h"
@@ -16,6 +17,21 @@ using namespace ev3api;
 // 実方
 class RobotAPI
 {
+public:
+    class MeasAngleUseWheel
+    {
+    private:
+        RobotAPI *robotAPI;
+        float angle = 0;
+        float angleOffset = 0;
+
+    public:
+        MeasAngleUseWheel(RobotAPI *robotAPI);
+        virtual ~MeasAngleUseWheel();
+        virtual float getAngle();
+        virtual void reset();
+    };
+
 private:
     TouchSensor *touchSensor;
     ColorSensor *colorSensor;
@@ -26,6 +42,7 @@ private:
     Motor *armMotor;
     Clock *clock;
     Motor *tailMotor;
+    RobotAPI::MeasAngleUseWheel *measAngle;
 
 public:
     RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSensor *sonarSensor, Motor *leftWheel, Motor *rightWheel, Motor *armMotor, Motor *tailMotor, GyroSensor *gyroSensor, Clock *clock);
@@ -39,6 +56,7 @@ public:
     virtual Motor *getArmMotor();
     virtual Motor *getTailMotor();
     virtual Clock *getClock();
+    virtual RobotAPI::MeasAngleUseWheel * getMeasAngle();
     virtual void reset();
 };
 

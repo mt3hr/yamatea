@@ -17,11 +17,15 @@ FacingAngle::~FacingAngle(){};
 
 void FacingAngle::run(RobotAPI *robotAPI)
 {
+#ifndef Gyrooooooo                                    // TODO 消して
+    int angle = robotAPI->getMeasAngle()->getAngle(); // TODO メモリ管理ガバガバ
+#else                                                 // TODO 消して
 #ifndef SimulatorMode
     int angle = robotAPI->getGyroSensor()->getAngle() * -1;
 #else
     int angle = robotAPI->getGyroSensor()->getAngle();
 #endif
+#endif // TODO 消して
 
     writeDebug("FacingAngle");
     writeEndLineDebug();
