@@ -7,6 +7,8 @@ ResetMeasAngle::~ResetMeasAngle(){};
 
 void ResetMeasAngle::run(RobotAPI *robotAPI)
 {
+    robotAPI->getLeftWheel()->reset();
+    robotAPI->getRightWheel()->reset();
     robotAPI->getMeasAngle()->reset();
 }
 

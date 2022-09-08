@@ -17,18 +17,23 @@ using namespace std;
 class PIDTargetColorBrightnessCalibrator : public Command
 {
 private:
-    bool printedReadBlackMessage = false;      // NOTE モデルに反映しません。
-    bool printedReadWhiteMessage = false;      // NOTE モデルに反映しません。
-    bool printedReadBlueMessage = false;       // NOTE モデルに反映しません。
-    bool printedReadBlackColorMessage = false; // NOTE モデルに反映しません。
-    bool printedReadWhiteColorMessage = false; // NOTE モデルに反映しません。
-    bool printedReadBlueEdgeMessage = false;   // NOTE モデルに反映しません。
-    bool printedReadSlalomWhiteColorMessage = false;   // NOTE モデルに反映しません。
-    bool printedResetAPIMessage = false;      // NOTE モデルに反映しません。
+    bool printedReadBlackMessage = false;            // NOTE モデルに反映しません。
+    bool printedReadWhiteMessage = false;            // NOTE モデルに反映しません。
+    bool printedReadBlueMessage = false;             // NOTE モデルに反映しません。
+    bool printedReadBlackColorMessage = false;       // NOTE モデルに反映しません。
+    bool printedReadWhiteColorMessage = false;       // NOTE モデルに反映しません。
+    bool printedReadBlueEdgeMessage = false;         // NOTE モデルに反映しません。
+    bool printedReadSlalomWhiteColorMessage = false; // NOTE モデルに反映しません。
+    bool printedReadBlackWhiteEdgeMessage = false;
+    bool printedResetAPIMessage = false; // NOTE モデルに反映しません。
     int whiteBrightness = 0;
     int blackBrightness = 100;
+    int blackWhiteEdgeBrightness = 50;
     rgb_raw_t whiteColor;
     rgb_raw_t blackColor;
+    rgb_raw_t blackWhiteEdgeColor;
+    bool readedBlackWhiteEdgeBrightness = false;
+    bool readedBlackWhiteEdge = false;
     bool readedWhiteBrightness = false;
     bool readedBlackBrightness = false;
     bool readedWhiteColor = false;
@@ -36,6 +41,7 @@ private:
     bool readedBlueColor = false;
     bool readedBlueEdgeColor = false;
     bool readedSlalomWhiteColor = false;
+    bool readedBlackWhiteEdgeColor = false;
     bool resetedAPI = false;
     vector<PIDTracer *> pidTracers;
     vector<ColorPIDTracer *> colorPIDTracers;
@@ -56,11 +62,14 @@ public:
     virtual bool isReadedWhiteBrightness();
     virtual bool isReadedBlackColor();
     virtual bool isReadedWhiteColor();
+    virtual bool isReadedBlackWhiteEdge();
     virtual bool isResetedAPI();
     virtual void readWhiteBrightnessFromColorSensor();
     virtual void readBlackBrightnessFromColorSensor();
     virtual void readWhiteColorFromColorSensor();
     virtual void readBlackColorFromColorSensor();
+    virtual void readBlackWhiteEdgeColorFromColorSensor();
+    virtual void readBlackWhiteEdgeBrightnessFromColorSensor();
     virtual void resetAPI();
     virtual void addPIDTracer(PIDTracer *pidTracer);
     virtual void addColorPIDTracer(ColorPIDTracer *pidTracer);

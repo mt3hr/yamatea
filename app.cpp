@@ -2181,7 +2181,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
   int pwm = 10;
-  int angle = 360;
+  int angle = 180;
   FacingAngle *facingAngle = new FacingAngle(pwm, angle);
   commandExecutor->addCommand(facingAngle, new FinishedCommandPredicate(facingAngle), GET_VARIABLE_NAME(facingAngle));
 }

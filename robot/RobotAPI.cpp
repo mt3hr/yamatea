@@ -107,8 +107,8 @@ float RobotAPI::MeasAngleUseWheel::getAngle()
     int rightCount = robotAPI->getRightWheel()->getCount();
 
     int diffCount = (leftCount - rightCount);
-    int modDiffCount = diffCount; // % angleFor360TurnMeasAngle;
-    angle = modDiffCount / 3;     // TODO これは？
+    int modDiffCount = diffCount;
+    angle = float(modDiffCount) / (float(angleFor360TurnMeasAngle) / float(360));
     writeDebug("meas angle use wheel");
     writeEndLineDebug();
     writeDebug("diffCount: ");

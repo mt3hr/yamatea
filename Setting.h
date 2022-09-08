@@ -49,7 +49,7 @@
 
 // モード設定ここまで
 
-#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue
 //#define EnablePrintAngleUseWheel
@@ -83,6 +83,9 @@ extern int loopSong;
 extern bool calibrateBlue;
 extern bool calibrateBlueEdge;
 extern bool calibrateSlalomWhite;
+extern bool calibrateBlack;
+extern bool calibrateWhite;
+extern bool calibrateBlackWhiteEdge;
 
 extern int r_r;
 extern int r_g;
@@ -132,6 +135,13 @@ extern int w_b;
 extern RawColorPredicateCondition bw_rCondition;
 extern RawColorPredicateCondition w_gCondition;
 extern RawColorPredicateCondition w_bCondition;
+
+extern int dw_r;
+extern int dw_g;
+extern int dw_b;
+extern RawColorPredicateCondition dw_rCondition;
+extern RawColorPredicateCondition dw_gCondition;
+extern RawColorPredicateCondition dw_bCondition;
 
 extern int sw_r;
 extern int sw_g;

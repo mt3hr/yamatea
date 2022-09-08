@@ -118,7 +118,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
-    else if (!isReadedBlackBrightness())
+    else if (!isReadedBlackBrightness() && calibrateBlack)
     {
         if (!printedReadBlackMessage)
         {
@@ -146,7 +146,36 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
-    else if (!isReadedWhiteBrightness())
+    else if (!isReadedBlackWhiteEdge() && calibrateBlackWhiteEdge)
+    {
+        if (!printedReadBlackWhiteEdgeMessage)
+        {
+            printedReadBlackWhiteEdgeMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read black white edge");
+            messageLines.push_back(" from color sensor");
+
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            dw_r = rawColor.r;
+            dw_g = rawColor.g;
+            dw_b = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+
+            readBlackWhiteEdgeBrightnessFromColorSensor();
+            robotAPI->getClock()->sleep(sleepDuration);
+            readBlackWhiteEdgeColorFromColorSensor();
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!isReadedWhiteBrightness() && calibrateWhite)
     {
         if (!printedReadWhiteMessage)
         {
@@ -203,15 +232,11 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
 
             for (int i = 0; i < ((int)pidTracers.size()); i++)
             {
-                pidTracers[i]->setTargetBrightness((getWhiteBrightness() + getBlackBrightness()) / 2);
+                pidTracers[i]->setTargetBrightness(blackWhiteEdgeBrightness);
             }
             for (int i = 0; i < ((int)colorPIDTracers.size()); i++)
             {
-                rgb_raw_t targetRGB;
-                targetRGB.r = (getWhiteColor().r + getBlackColor().r) / 2;
-                targetRGB.g = (getWhiteColor().g + getBlackColor().g) / 2;
-                targetRGB.b = (getWhiteColor().b + getBlackColor().b) / 2;
-                colorPIDTracers[i]->setTargetColor(targetRGB);
+                colorPIDTracers[i]->setTargetColor(blackWhiteEdgeColor);
             }
         }
         stringstream bs;
@@ -331,4 +356,23 @@ void PIDTargetColorBrightnessCalibrator::resetAPI()
 void PIDTargetColorBrightnessCalibrator::addColorPIDTracer(ColorPIDTracer *pidTracer)
 {
     colorPIDTracers.push_back(pidTracer);
+}
+
+void PIDTargetColorBrightnessCalibrator::readBlackWhiteEdgeBrightnessFromColorSensor()
+{
+    readedBlackWhiteEdgeBrightness = true;
+    blackWhiteEdgeBrightness = robotAPI->getColorSensor()->getBrightness();
+}
+
+void PIDTargetColorBrightnessCalibrator::readBlackWhiteEdgeColorFromColorSensor()
+{
+    rgb_raw_t blackWhiteEdgeTemp;
+    robotAPI->getColorSensor()->getRawColor(blackWhiteEdgeTemp);
+    blackWhiteEdgeColor = blackWhiteEdgeTemp;
+    readedBlackWhiteEdgeColor = true;
+}
+
+bool PIDTargetColorBrightnessCalibrator::isReadedBlackWhiteEdge()
+{
+    return readedBlackWhiteEdgeColor;
 }
