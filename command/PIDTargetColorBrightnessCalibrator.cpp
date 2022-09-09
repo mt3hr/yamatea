@@ -25,19 +25,19 @@ PIDTargetColorBrightnessCalibrator::~PIDTargetColorBrightnessCalibrator()
 
 void PIDTargetColorBrightnessCalibrator::readWhiteBrightnessFromColorSensor()
 {
-    readedWhiteBrightness = true;
     whiteBrightness = robotAPI->getColorSensor()->getBrightness();
+    readedWhiteBrightness = true;
 }
 
 void PIDTargetColorBrightnessCalibrator::readBlackBrightnessFromColorSensor()
 {
-    readedBlackBrightness = true;
     blackBrightness = robotAPI->getColorSensor()->getBrightness();
+    readedBlackBrightness = true;
 }
 
 void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
 {
-    int sleepDuration = 1000 * 500;
+    int sleepDuration = 1000 * 1000;
     if (!readedSlalomWhiteColor && calibrateSlalomWhite)
     {
         if (!printedReadSlalomWhiteColorMessage)
@@ -239,30 +239,18 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
                 colorPIDTracers[i]->setTargetColor(blackWhiteEdgeColor);
             }
         }
-        stringstream bs;
-        stringstream ws;
-        stringstream bcs;
-        stringstream wcs;
-        stringstream ts;
-        stringstream trs;
+        stringstream bws;
+        stringstream bwcs;
         stringstream brightnessStream;
 
-        bs << "black bright :" << float(getBlackBrightness());
-        ws << "white bright :" << float(getWhiteBrightness());
-        bcs << "black r:" << float(getBlackColor().r) << " g:" << float(getBlackColor().g) << " b:" << float(getBlackColor().b);
-        wcs << "white r:" << float(getWhiteColor().r) << " g:" << float(getWhiteColor().g) << " b:" << float(getWhiteColor().b);
-        ts << "target bright:" << float((getWhiteBrightness() + getBlackBrightness()) / 2);
-        trs << "target r:" << float((getWhiteColor().r + getBlackColor().r) / 2) << " g:" << float((getWhiteColor().g + getBlackColor().g) / 2) << " b:" << float((getWhiteColor().b + getBlackColor().b) / 2);
+        bws << "edge bright :" << float(blackWhiteEdgeBrightness);
+        bwcs << "edge r:" << float(blackWhiteEdgeColor.r) << " g:" << float(blackWhiteEdgeColor.g) << " b:" << float(blackWhiteEdgeColor.b);
         brightnessStream << "brightness: " << float(robotAPI->getColorSensor()->getBrightness());
 
         vector<string> messageLines;
         messageLines.push_back("calibrated!");
-        messageLines.push_back(bs.str());
-        messageLines.push_back(ws.str());
-        messageLines.push_back(bcs.str());
-        messageLines.push_back(wcs.str());
-        messageLines.push_back(ts.str());
-        messageLines.push_back(trs.str());
+        messageLines.push_back(bws.str());
+        messageLines.push_back(bwcs.str());
         messageLines.push_back(brightnessStream.str());
         messageLines.push_back("press touch sensor");
         messageLines.push_back("      to START!");
@@ -360,8 +348,8 @@ void PIDTargetColorBrightnessCalibrator::addColorPIDTracer(ColorPIDTracer *pidTr
 
 void PIDTargetColorBrightnessCalibrator::readBlackWhiteEdgeBrightnessFromColorSensor()
 {
-    readedBlackWhiteEdgeBrightness = true;
     blackWhiteEdgeBrightness = robotAPI->getColorSensor()->getBrightness();
+    readedBlackWhiteEdgeBrightness = true;
 }
 
 void PIDTargetColorBrightnessCalibrator::readBlackWhiteEdgeColorFromColorSensor()

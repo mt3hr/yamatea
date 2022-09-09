@@ -26,9 +26,9 @@ private:
     bool printedReadSlalomWhiteColorMessage = false; // NOTE モデルに反映しません。
     bool printedReadBlackWhiteEdgeMessage = false;
     bool printedResetAPIMessage = false; // NOTE モデルに反映しません。
-    int whiteBrightness = 0;
-    int blackBrightness = 100;
-    int blackWhiteEdgeBrightness = 50;
+    int whiteBrightness;
+    int blackBrightness;
+    int blackWhiteEdgeBrightness;
     rgb_raw_t whiteColor;
     rgb_raw_t blackColor;
     rgb_raw_t blackWhiteEdgeColor;

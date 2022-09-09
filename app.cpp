@@ -499,7 +499,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI);
   Predicate *startButtonPredicate = new StartButtonPredicate();
-  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(PIDTargetBrightnessCalibrator));
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
   vector<string> messageLines;
@@ -1406,8 +1406,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // 白を拾うまで直進
-  leftPWM = 7;
-  rightPWM = 7;
+  leftPWM = 5;
+  rightPWM = 5;
   Walker *walkerW = new Walker(leftPWM, rightPWM);
 
   RawColorPredicate *whitePredicate = new RawColorPredicate(&sw_r, BETWEEN5, &sw_g, BETWEEN5, &sw_b, BETWEEN5);
@@ -1415,8 +1415,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // バック
-  leftPWM = -10;
-  rightPWM = -10;
+  leftPWM = -7;
+  rightPWM = -7;
   distance = -6;
   Walker *walkerB = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walkerBPredicate = new WheelDistancePredicate(distance, robotAPI);
@@ -1466,7 +1466,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // カーブ
-  pwm = 10;
+  pwm = 7;
   r = 18;
   theta = -30;
   CurvatureWalkerCommandAndPredicate *curve2 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
@@ -1504,7 +1504,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   CurvatureWalkerCommandAndPredicate *curve3 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curve3->getCommand(), curve3->getPredicate(), GET_VARIABLE_NAME(curve3));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
 
   // 直進
   leftPWM = 10;
@@ -1570,16 +1569,18 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(facingAngle5, new FinishedCommandPredicate(facingAngle5), GET_VARIABLE_NAME(FacingAngle5));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
-  // 直進
-  leftPWM = 10;
-  rightPWM = 10;
-  distance = 5;
-  Walker *walker6 = new Walker(leftPWM, rightPWM);
-  WheelDistancePredicate *walker6Predicate = new WheelDistancePredicate(distance, robotAPI);
-  commandExecutor->addCommand(walker6, walker6Predicate, GET_VARIABLE_NAME(walker6));
+  // 直進位置調節
+  pwm = 10;
+  distance = 4;
+  Hedgehog *headgehog2 = new Hedgehog(distance, pwm);
+  commandExecutor->addCommand(headgehog2, new FinishedCommandPredicate(headgehog2), GET_VARIABLE_NAME(headgehog2));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   commandExecutor->addCommand(colorReader, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(colorReader));
+
+  writeDebug("colorid: ");
+  writeDebug((int)(colorReader->getColor()));
+  flushDebug(INFO, robotAPI);
 }
 #endif
 
