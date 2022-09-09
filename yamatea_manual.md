@@ -363,8 +363,7 @@ StartETRobo.bat から環境を起動している前提で説明します。
 1. 次のコマンドを実行する
 
 ```bash
-cd ~/workspace;
-git clone git@github.com:mt3hr/yamatea.git;
+cd ~/etrobo/workspace; git clone git@github.com:mt3hr/yamatea.git;
 ```
 
 1. workspace フォルダ内に yamatea ディレクトリが作られるので、作業する
@@ -376,10 +375,7 @@ git clone git@github.com:mt3hr/yamatea.git;
 1. 次のコマンドを実行する
 
 ```bash
-cd ~/workspace/yamatea;
-git add *;
-git commit -m "update"; # -mはコミットメッセージなので必要に応じて変えて。
-git pull;
+cd ~/etrobo/workspace/yamatea; git add *; git commit -m "update"; git pull;
 ```
 
 1. なんかエディタっぽいのが起動した場合は、「CTRL+S」を押して、一旦キーを離し、「CTRL+S」を押す
