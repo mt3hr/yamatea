@@ -57,6 +57,7 @@
 #include "ResetGyroSensor.h"
 #include "ResetMeasAngle.h"
 #include "Hedgehog.h"
+#include "BatteryPredicate.h"
 
 using namespace std;
 using namespace ev3api;
@@ -2248,6 +2249,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef BatteryEaaterMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+
+  int targetVoltage = 7500;
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI);
   Predicate *startButtonPredicate = new StartButtonPredicate();
@@ -2256,7 +2259,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int leftPWM = 100;
   int rightPWM = -100;
   Walker *walker = new Walker(leftPWM, rightPWM);
-  commandExecutor->addCommand(walker, new Predicate(), GET_VARIABLE_NAME(walker));
+  Predicate *batteryPredicate = new BatteryPredicate(targetVoltage);
+  commandExecutor->addCommand(walker, batteryPredicate, GET_VARIABLE_NAME(walker));
 }
 #endif
 

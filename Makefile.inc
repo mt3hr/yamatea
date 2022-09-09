@@ -51,6 +51,7 @@ FacingAngle.o \
 ResetGyroSensor.o \
 ResetMeasAngle.o \
 Hedgehog.o \
+BatteryPredicate.o \
 
 SRCLANG := c++
 
