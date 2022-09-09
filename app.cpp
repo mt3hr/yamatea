@@ -2245,6 +2245,21 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
+#ifdef BatteryEaaterMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  // PIDTargetCalibratorの初期化とCommandExecutorへの追加
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+  int leftPWM = 100;
+  int rightPWM = -100;
+  Walker *walker = new Walker(leftPWM, rightPWM);
+  commandExecutor->addCommand(walker, new Predicate(), GET_VARIABLE_NAME(walker));
+}
+#endif
+
 void runner_task(intptr_t exinf)
 {
   ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
