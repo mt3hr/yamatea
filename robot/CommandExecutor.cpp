@@ -76,24 +76,27 @@ void CommandExecutor::run()
     {
         // コマンドを実行する
         commands[currentIndexForCommand]->run(robotAPI);
+        if (runner)
+        {
 #ifdef EnablePrintGyroValue
-        writeDebug("gyro angle: ");
-        writeDebug(robotAPI->getGyroSensor()->getAngle());
-        flushDebug(INFO, robotAPI);
+            writeDebug("gyro angle: ");
+            writeDebug(robotAPI->getGyroSensor()->getAngle());
+            flushDebug(INFO, robotAPI);
 #endif
 #ifdef EnablePrintAngleUseWheel
-        writeDebug("angle: ");
-        writeDebug(robotAPI->getMeasAngle()->getAngle());
-        flushDebug(INFO, robotAPI);
+            writeDebug("angle: ");
+            writeDebug(robotAPI->getMeasAngle()->getAngle());
+            flushDebug(INFO, robotAPI);
 #endif
 #ifdef EnablePrintMotorCount
-        writeDebug("left wheel count: ");
-        writeDebug(robotAPI->getLeftWheel()->getCount());
-        writeEndLineDebug();
-        writeDebug("right wheel count: ");
-        writeDebug(robotAPI->getRightWheel()->getCount());
-        flushDebug(INFO, robotAPI);
+            writeDebug("left wheel count: ");
+            writeDebug(robotAPI->getLeftWheel()->getCount());
+            writeEndLineDebug();
+            writeDebug("right wheel count: ");
+            writeDebug(robotAPI->getRightWheel()->getCount());
+            flushDebug(INFO, robotAPI);
 #endif
+        }
     }
     else
     {
