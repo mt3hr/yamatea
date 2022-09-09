@@ -84,6 +84,7 @@ void CommandExecutor::run()
 #ifdef EnablePrintAngleUseWheel
         writeDebug("angle: ");
         writeDebug(robotAPI->getMeasAngle()->getAngle());
+        flushDebug(INFO, robotAPI);
 #endif
 #ifdef EnablePrintMotorCount
         writeDebug("left wheel count: ");
