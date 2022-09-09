@@ -50,6 +50,7 @@ ColorIDReader.o \
 FacingAngle.o \
 ResetGyroSensor.o \
 ResetMeasAngle.o \
+Hedgehog.o \
 
 SRCLANG := c++
 

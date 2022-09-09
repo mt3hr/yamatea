@@ -18,7 +18,7 @@ FacingAngle::~FacingAngle(){};
 
 void FacingAngle::run(RobotAPI *robotAPI)
 {
-    float angle;
+    int angle;
     if (useGyro)
     {
 #ifndef SimulatorMode
