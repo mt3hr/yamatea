@@ -52,7 +52,7 @@ void PIDTracer::run(RobotAPI *robotAPI)
     robotAPI->getLeftWheel()->setPWM(leftPower);
     robotAPI->getRightWheel()->setPWM(rightPower);
 
-    /* // クソ重いのでコメントアウト
+#ifdef EnablePrintPIDValues
     writeDebug("PIDTracer");
     writeEndLineDebug();
     writeDebug("p: ");
@@ -74,7 +74,7 @@ void PIDTracer::run(RobotAPI *robotAPI)
     writeDebug(brightness);
     writeEndLineDebug();
     flushDebug(TRACE, robotAPI);
-    */
+#endif
 }
 
 void PIDTracer::preparation(RobotAPI *robotAPI)

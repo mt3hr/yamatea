@@ -76,7 +76,7 @@ void ColorPIDTracer::run(RobotAPI *robotAPI)
     robotAPI->getLeftWheel()->setPWM(leftPower);
     robotAPI->getRightWheel()->setPWM(rightPower);
 
-    /* // クソ重いのでコメントアウト
+#ifdef EnablePrintPIDValues
     writeDebug("ColorPIDTracer");
     writeEndLineDebug();
     writeDebug("p: ");
@@ -104,7 +104,7 @@ void ColorPIDTracer::run(RobotAPI *robotAPI)
     writeDebug(rgb.b);
     writeEndLineDebug();
     flushDebug(TRACE, robotAPI);
-    */
+#endif
 }
 
 void ColorPIDTracer::preparation(RobotAPI *robotAPI)
