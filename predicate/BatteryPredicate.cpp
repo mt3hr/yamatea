@@ -10,11 +10,11 @@ BatteryPredicate::BatteryPredicate(int targetVoltage)
 
 BatteryPredicate::~BatteryPredicate()
 {
-    return ev3_battery_voltage_mV() <= targetVoltage;
 }
 
 bool BatteryPredicate::test(RobotAPI *robotAPI)
 {
+    return ev3_battery_voltage_mV() <= targetVoltage;
 }
 
 void BatteryPredicate::preparation(RobotAPI *robotAPI)
