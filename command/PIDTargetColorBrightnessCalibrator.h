@@ -62,7 +62,8 @@ public:
     virtual bool isReadedWhiteBrightness();
     virtual bool isReadedBlackColor();
     virtual bool isReadedWhiteColor();
-    virtual bool isReadedBlackWhiteEdge();
+    virtual bool isReadedBlackWhiteEdgeBrightness();
+    virtual bool isReadedBlackWhiteEdgeColor();
     virtual bool isResetedAPI();
     virtual void readWhiteBrightnessFromColorSensor();
     virtual void readBlackBrightnessFromColorSensor();

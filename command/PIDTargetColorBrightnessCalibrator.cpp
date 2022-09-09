@@ -146,7 +146,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
-    else if (!isReadedBlackWhiteEdge() && calibrateBlackWhiteEdge)
+    else if ((!isReadedBlackWhiteEdgeBrightness() || !isReadedBlackWhiteEdgeColor()) && calibrateBlackWhiteEdge)
     {
         if (!printedReadBlackWhiteEdgeMessage)
         {
@@ -360,7 +360,12 @@ void PIDTargetColorBrightnessCalibrator::readBlackWhiteEdgeColorFromColorSensor(
     readedBlackWhiteEdgeColor = true;
 }
 
-bool PIDTargetColorBrightnessCalibrator::isReadedBlackWhiteEdge()
+bool PIDTargetColorBrightnessCalibrator::isReadedBlackWhiteEdgeColor()
 {
     return readedBlackWhiteEdgeColor;
+}
+
+bool PIDTargetColorBrightnessCalibrator::isReadedBlackWhiteEdgeBrightness()
+{
+    return readedBlackWhiteEdgeBrightness;
 }
