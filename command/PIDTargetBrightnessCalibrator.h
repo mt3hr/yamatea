@@ -12,6 +12,7 @@
 using namespace ev3api;
 using namespace std;
 
+// 非推奨。PIDTargetColorBrightnessCalibratorを使ってください
 // PIDTargetBrightnessCalibrator
 // PIDTracerのtargetBrightnessの値を求めるために、Black、Whiteの値をセンサから取得するキャリブレータ。
 // pidTargetBrightnessCalibrator.addPIDTracer(pidTracer);すると、キャリブレーションした値がPIDトレーサに適用されます。
