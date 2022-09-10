@@ -2598,10 +2598,8 @@ void main_task(intptr_t unused)
 
     // RUNNER_CYCが終了していたら走行完了なのでループを抜ける
     T_RCYC runnerCycState;
-    T_RCYC btcCycState;
     ref_cyc(RUNNER_CYC, &runnerCycState);
-    ref_cyc(LISTEN_BLUETOOTH_COMMAND_CYC, &btcCycState);
-    if (runnerCycState.cycstat == TCYC_STP && btcCycState.cycstat == TCYC_STP)
+    if (runnerCycState.cycstat == TCYC_STP)
     {
       Stopper *stopper = new Stopper();
       stopper->run(robotAPI);
@@ -2616,10 +2614,19 @@ void main_task(intptr_t unused)
   }
 
 #ifdef EnableBluetooth
-  // RUNNER_CYCが走っていたら止める
-  T_RCYC pk_rcyc;
-  ref_cyc(RETURN_TO_START_POINT_CYC, &pk_rcyc);
-  if (pk_rcyc.cycstat == TCYC_STA)
+
+  // LISTEN_BLUETOOTH_COMMAND_CYCが走っていたら止める。
+  T_RCYC btcCycState;
+  ref_cyc(LISTEN_BLUETOOTH_COMMAND_CYC, &btcCycState);
+  if (btcCycState.cycstat == TCYC_STA)
+  {
+    stp_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
+  }
+
+  // RETURN_TO_START_POINT_CYCが走っていたら止める
+  T_RCYC rtspCycState;
+  ref_cyc(RETURN_TO_START_POINT_CYC, &rtspCycState);
+  if (rtspCycState.cycstat == TCYC_STA)
   {
     stp_cyc(RETURN_TO_START_POINT_CYC);
   }
@@ -2627,7 +2634,12 @@ void main_task(intptr_t unused)
 
 #ifdef SingASong
   // 歌ってたら止める
-  stp_cyc(SING_A_SONG_CYC);
+  T_RCYC singASongCycState;
+  ref_cyc(RETURN_TO_START_POINT_CYC, &sintASongCycState);
+  if (singASongCycState.cycstat == TCYC_STA)
+  {
+    stp_cyc(SING_A_SONG_CYC);
+  }
 #endif
 
   // メインタスクの終了
@@ -2648,4 +2660,8 @@ void main_task(intptr_t unused)
   delete returnToStartPointStraightWalker;
   delete returnToStartPointTurnLeftWalker;
   delete returnToStartPointTurnRightWalker;
+
+#ifdef EnableBluetooth
+  fclose(bt);
+#endif
 }
