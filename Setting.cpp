@@ -33,7 +33,7 @@ float distanceFromSonarSensorToAxle = 11;  // ソナーセンサから車軸ま�
 float wheelDiameter = 10.4;                // 車輪直径。センチメートル。
 int angleFor360TurnLeftRotateRobot = 520;  // 左に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必要な左右車輪回転角度数
-int angleFor360TurnMeasAngle = 1095;       // 片方の車輪で360度旋回するために必要な回転角
+int angleFor360TurnMeasAngle = 1070;       // 片方の車輪で360度旋回するために必要な回転角
 
 // 実機の車体情報設定ここまで
 
@@ -75,7 +75,6 @@ int w_b = 55;
 RawColorPredicateCondition w_rCondition = BETWEEN5;
 RawColorPredicateCondition w_gCondition = BETWEEN5;
 RawColorPredicateCondition w_bCondition = BETWEEN5;
-
 
 // 黒白境界（キャリブレータから上書きされるので設定しなくて良い）
 int dw_r = 70;
@@ -137,9 +136,9 @@ RawColorPredicateCondition y_bCondition = BETWEEN5;
 int bw_r;
 int bw_g;
 int bw_b;
-RawColorPredicateCondition bw_rCondition = BETWEEN5;
-RawColorPredicateCondition bw_gCondition = BETWEEN5;
-RawColorPredicateCondition bw_bCondition = BETWEEN5;
+RawColorPredicateCondition bw_rCondition = BETWEEN10;
+RawColorPredicateCondition bw_gCondition = BETWEEN10;
+RawColorPredicateCondition bw_bCondition = BETWEEN10;
 
 // 色設定ここまで
 
