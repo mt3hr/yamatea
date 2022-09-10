@@ -52,6 +52,8 @@ ResetGyroSensor.o \
 ResetMeasAngle.o \
 Hedgehog.o \
 BatteryPredicate.o \
+RotateRobotCommandAndPredicateV2.o \
+FacingRobotUseWheelPredicate.o \
 
 SRCLANG := c++
 
