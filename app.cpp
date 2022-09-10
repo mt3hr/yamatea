@@ -1309,6 +1309,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pidTracer->setTargetColor(targetRGB);
   lowPWMTracer->setTargetColor(targetRGB);
 #endif
+  /*
   // PIDトレースで青線まで進む
   Predicate *distancePredicate = new WheelDistancePredicate(40, robotAPI);
   commandExecutor->addCommand(pidTracer, distancePredicate, GET_VARIABLE_NAME(lowPWMTracer));
@@ -1321,6 +1322,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   distance = 35;
   commandExecutor->addCommand(lowPWMTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+  */
 
   // アームを下げる
   int armAngle = 15;
@@ -1440,13 +1442,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(facingAngle1, new FinishedCommandPredicate(facingAngle1), GET_VARIABLE_NAME(FacingAngle1));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
-  // 直進
-  leftPWM = 10;
-  rightPWM = 10;
-  distance = 24;
-  Walker *walker3 = new Walker(leftPWM, rightPWM);
-  WheelDistancePredicate *walker3Predicate = new WheelDistancePredicate(distance, robotAPI);
-  commandExecutor->addCommand(walker3, walker3Predicate, GET_VARIABLE_NAME(walker3));
+  // 位置調節
+  pwm = 7;
+  distance = 10;
+  Hedgehog *headgehogA = new Hedgehog(distance, pwm);
+  commandExecutor->addCommand(headgehogA, new FinishedCommandPredicate(headgehogA), GET_VARIABLE_NAME(headgehogA));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // カーブ
@@ -1460,7 +1460,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 直進
   leftPWM = 10;
   rightPWM = 10;
-  distance = 3;
+  distance = 5;
   Walker *walkerA = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walkerAPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walkerA, walkerAPredicate, GET_VARIABLE_NAME(walkerA));
@@ -1480,20 +1480,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(facingAngle3, new FinishedCommandPredicate(facingAngle3), GET_VARIABLE_NAME(FacingAngle3));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
-  /*
-  // 直進
-  leftPWM = 10;
-  rightPWM = 10;
-  distance = 0.1;
-  Walker *walker4 = new Walker(leftPWM, rightPWM);
-  WheelDistancePredicate *walker4Predicate = new WheelDistancePredicate(distance, robotAPI);
-  commandExecutor->addCommand(walker4, walker4Predicate, GET_VARIABLE_NAME(walker4));
-  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-  */
-
   // 位置調節
-  pwm = 10;
-  distance = 9;
+  pwm = 7;
+  distance = 8.5;
   Hedgehog *headgehog1 = new Hedgehog(distance, pwm);
   commandExecutor->addCommand(headgehog1, new FinishedCommandPredicate(headgehog1), GET_VARIABLE_NAME(headgehog1));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
@@ -1550,7 +1539,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 直進
   leftPWM = -10;
   rightPWM = -10;
-  distance = -1;
+  distance = -2;
   Walker *walker5 = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walker5Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker5, walker5Predicate, GET_VARIABLE_NAME(walker5));
@@ -1558,8 +1547,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // カーブ
   pwm = 10;
-  r = 18;
-  theta = -50;
+  r = 22;
+  theta = -40;
   CurvatureWalkerCommandAndPredicate *curve5 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curve5->getCommand(), curve5->getPredicate(), GET_VARIABLE_NAME(curve5));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
@@ -1571,17 +1560,97 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
   // 直進位置調節
-  pwm = 10;
+  pwm = 7;
   distance = 4;
   Hedgehog *headgehog2 = new Hedgehog(distance, pwm);
   commandExecutor->addCommand(headgehog2, new FinishedCommandPredicate(headgehog2), GET_VARIABLE_NAME(headgehog2));
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
 
+  // 色取得
   commandExecutor->addCommand(colorReader, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(colorReader));
 
-  writeDebug("colorid: ");
-  writeDebug((int)(colorReader->getColor()));
-  flushDebug(INFO, robotAPI);
+#ifdef SlalomAwaitingSignalModePattern1_3
+
+  // バックする
+  leftPWM = -10;
+  rightPWM = -10;
+  distance = -11.5;
+  Walker *walkerE = new Walker(leftPWM, rightPWM);
+  WheelDistancePredicate *walkerEPredicate = new WheelDistancePredicate(distance, robotAPI);
+  commandExecutor->addCommand(walkerE, walkerEPredicate, GET_VARIABLE_NAME(walkerE));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // カーブ
+  pwm = 10;
+  r = 10;
+  theta = -82.5;
+  CurvatureWalkerCommandAndPredicate *curveD = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  commandExecutor->addCommand(curveD->getCommand(), curveD->getPredicate(), GET_VARIABLE_NAME(curveD));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // 90度左を向く
+  pwm = 7;
+  angle = -90;
+  FacingAngle *facingAngleY = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  commandExecutor->addCommand(facingAngleY, new FinishedCommandPredicate(facingAngleY), GET_VARIABLE_NAME(FacingAngleY));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // 位置調節
+  pwm = 6;
+  distance = 3;
+  Hedgehog *headgehog3 = new Hedgehog(distance, pwm);
+  commandExecutor->addCommand(headgehog3, new FinishedCommandPredicate(headgehog3), GET_VARIABLE_NAME(headgehog3));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // 180度左を向く
+  pwm = 7;
+  angle = -150;
+  FacingAngle *facingAngle8 = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  commandExecutor->addCommand(facingAngle8, new FinishedCommandPredicate(facingAngle8), GET_VARIABLE_NAME(FacingAngle8));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // カーブ
+  pwm = 10;
+  r = 40;
+  theta = 70;
+  CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  commandExecutor->addCommand(curve6->getCommand(), curve6->getPredicate(), GET_VARIABLE_NAME(curve6));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // 180度左を向く
+  pwm = 7;
+  angle = -90;
+  FacingAngle *facingAngle9 = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  commandExecutor->addCommand(facingAngle9, new FinishedCommandPredicate(facingAngle9), GET_VARIABLE_NAME(FacingAngle9));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+#endif
+#ifdef SlalomAwaitingSignalModePattern2_3
+  // 120度左を向く
+  pwm = 7;
+  angle = -90;
+  FacingAngle *facingAngle7 = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  commandExecutor->addCommand(facingAngle7, new FinishedCommandPredicate(facingAngle7), GET_VARIABLE_NAME(FacingAngle7));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // 直進
+  leftPWM = 10;
+  rightPWM = 10;
+  distance = 30;
+  Walker *walker7 = new Walker(leftPWM, rightPWM);
+  WheelDistancePredicate *walker7Predicate = new WheelDistancePredicate(distance, robotAPI);
+  commandExecutor->addCommand(walker7, walker7Predicate, GET_VARIABLE_NAME(walker7));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+  // カーブ
+  pwm = 10;
+  r = 15;
+  theta = 30;
+  CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  commandExecutor->addCommand(curve6->getCommand(), curve6->getPredicate(), GET_VARIABLE_NAME(curve6));
+  commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+#endif
 }
 #endif
 
@@ -2480,13 +2549,16 @@ void main_task(intptr_t unused)
   // robotAPIの初期化。完全停止してapiを初期化する
   Stopper *stopper = new Stopper();
   stopper->run(robotAPI);
-  delete stopper;
+  robotAPI->getClock()->sleep(sleepDuration);
   robotAPI->reset();
+  robotAPI->getClock()->sleep(sleepDuration);
+  delete stopper;
   vector<string> resetedMessageLines;
   resetedMessageLines.push_back("reseted api");
   PrintMessage *printResetedMessage = new PrintMessage(resetedMessageLines, true);
   printResetedMessage->run(robotAPI);
   delete printResetedMessage;
+  robotAPI->getClock()->sleep(sleepDuration);
 
   // commandExecutorを初期化する（挙動定義）
   initializeCommandExecutor(commandExecutor, robotAPI);
@@ -2505,8 +2577,10 @@ void main_task(intptr_t unused)
   // commandExecutor->run()の周期ハンドラを起動する
   sta_cyc(RUNNER_CYC);
 
+#ifdef EnableBluetooth
   // bluetoothCommandを受け取る周期ハンドラを起動する
   sta_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
+#endif
 
   // 終了判定処理
   for (; true; clock->sleep(sleepDuration))
