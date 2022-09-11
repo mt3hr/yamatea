@@ -61,6 +61,8 @@
 #include "RotateRobotCommandAndPredicateV2.h"
 #include "FacingRobotUseWheelPredicate.h"
 #include "DealingWithGarage.h"
+#include "TimerPredicate.h"
+#include "BrightnessReader.h"
 
 using namespace std;
 using namespace ev3api;
@@ -780,6 +782,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #if defined(SlalomAwaitingSignalModePattern1_1) | defined(SlalomAwaitingSignalModePattern2_1)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+  /*
   int slalomAngle = 0; // 多分270
   // ガレージカードの色取得用ColorReader
   ColorReader *colorReader = new ColorReader();
@@ -1246,6 +1249,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
 
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+  */
 }
 #endif
 
@@ -1326,7 +1330,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pidTracer->setTargetColor(targetRGB);
   lowPWMTracer->setTargetColor(targetRGB);
 #endif
+
   /*
+  // 1.5秒止める。BrightnessからColorへの切り替えのために。
+  commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+  commandExecutor->addCommand(colorReader, new Numb erOfTimesPredicate(1), GET_VARIABLE_NAME(colorReader));
+  uint64_t waitDurationUsec = 1000000;
+  commandExecutor->addCommand(stopper, new TimerPredicate(), "wait switch mode brightness to row color");
+
   // PIDトレースで青線まで進む
   Predicate *distancePredicate = new WheelDistancePredicate(40, robotAPI);
   commandExecutor->addCommand(pidTracer, distancePredicate, GET_VARIABLE_NAME(lowPWMTracer));
@@ -1713,6 +1724,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #if defined(SlalomAwaitingSignalModePattern1_2) | defined(SlalomAwaitingSignalModePattern2_2)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+  /*
   // ガレージカードの色取得用ColorReader
   ColorReader *colorReader = new ColorReader();
 
@@ -1889,30 +1901,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   CommandAndPredicate *rotate4 = new RotateRobotCommandAndPredicateV2(angle, pwm, robotAPI);
   commandExecutor->addCommand(rotate4->getCommand(), rotate4->getPredicate(), GET_VARIABLE_NAME(rotate4));
 
-  /*
-  // 直進
-  leftPWM = 16;
-  rightPWM = 16;
-  distance = 16;
-  Walker *walker5 = new Walker(leftPWM, rightPWM);
-  WheelDistancePredicate *walker5Predicate = new WheelDistancePredicate(distance, robotAPI);
-  commandExecutor->addCommand(walker5, walker5Predicate, GET_VARIABLE_NAME(walker5));
-
-  // 45度左旋回
-  pwm = 10;
-  angle = -45;
-  CommandAndPredicate *rotate5 = new RotateRobotCommandAndPredicateV2(angle, pwm, robotAPI);
-  commandExecutor->addCommand(rotate5->getCommand(), rotate5->getPredicate(), GET_VARIABLE_NAME(rotate5));
-
-  // 直進
-  leftPWM = 16;
-  rightPWM = 16;
-  distance = 20;
-  Walker *walker6 = new Walker(leftPWM, rightPWM);
-  WheelDistancePredicate *walker6Predicate = new WheelDistancePredicate(distance, robotAPI);
-  commandExecutor->addCommand(walker6, walker6Predicate, GET_VARIABLE_NAME(walker6));
-  */
-
   // カーブ
   pwm = 10;
   r = 18;
@@ -1961,6 +1949,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Walker *walker8 = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walker8Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker8, walker8Predicate, GET_VARIABLE_NAME(walker8));
+  */
 }
 #endif
 
@@ -1994,6 +1983,15 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 {
   // rgbRawReaderの初期化とCommandExecutorへの追加
   ColorIDReader *reader = new ColorIDReader();
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(reader, startButtonPredicate, GET_VARIABLE_NAME(reader));
+}
+#endif
+
+#ifdef BrightnessReaderMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  BrightnessReader *reader = new BrightnessReader();
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(reader, startButtonPredicate, GET_VARIABLE_NAME(reader));
 }

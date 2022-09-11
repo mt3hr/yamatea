@@ -55,6 +55,8 @@ BatteryPredicate.o \
 RotateRobotCommandAndPredicateV2.o \
 FacingRobotUseWheelPredicate.o \
 DealingWithGarage.o \
+TimerPredicate.o \
+BrightnessReader.o \
 
 SRCLANG := c++
 

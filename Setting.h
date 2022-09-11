@@ -34,6 +34,7 @@ using namespace std;
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode // RGBRawの値をはかるプログラム
 //#define ColorIDReaderMode // ColorIDを取得し続けるプログラム
+//#define BrightnessReaderMode // 明るさを取得し続けるプログラム
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
 //#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
@@ -53,7 +54,7 @@ using namespace std;
 
 // モード設定ここまで
 
-#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue
 //#define EnablePrintAngleUseWheel
