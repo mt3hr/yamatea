@@ -67,7 +67,7 @@ endif
 APPL_DIRS += \
 	$(mkfile_path)command \
 	$(mkfile_path)command/slalom \
-	$(mkfile_path)command/block \
+	$(mkfile_path)command/garage \
 	$(mkfile_path)command/test \
 	$(mkfile_path)command_and_predicate \
 	$(mkfile_path)predicate \
@@ -77,7 +77,7 @@ APPL_DIRS += \
 INCLUDES += \
 	-I$(mkfile_path)command \
 	-I$(mkfile_path)command/slalom \
-	-I$(mkfile_path)command/block \
+	-I$(mkfile_path)command/garage \
 	-I$(mkfile_path)command/test \
 	-I$(mkfile_path)command_and_predicate \
 	-I$(mkfile_path)predicate \
