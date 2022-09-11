@@ -60,6 +60,7 @@
 #include "BatteryPredicate.h"
 #include "RotateRobotCommandAndPredicateV2.h"
 #include "FacingRobotUseWheelPredicate.h"
+#include "DealingWithGarage.h"
 
 using namespace std;
 using namespace ev3api;
