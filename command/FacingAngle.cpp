@@ -18,7 +18,7 @@ FacingAngle::~FacingAngle(){};
 
 void FacingAngle::run(RobotAPI *robotAPI)
 {
-    int angle;
+    int angle = 0;
     switch (mode)
     {
     case FA_Gyro:

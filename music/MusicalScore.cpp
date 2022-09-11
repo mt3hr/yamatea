@@ -56,3 +56,22 @@ vector<Note *> generateFroggySong()
     }
     return result;
 };
+
+vector<Note *> generateDededon()
+{
+    int duration = 100;
+    int volume = 30;
+
+    Note *dededonNotes[] = {
+        new Note(NOTE_F5, duration, volume),
+        new Note(NOTE_DS5, duration, volume),
+        new Note(NOTE_AS4, duration, volume),
+    };
+
+    vector<Note *> result;
+    for (int i = 0; i < ((int)(sizeof(dededonNotes) / sizeof(dededonNotes[0]))); i++)
+    {
+        result.push_back(dededonNotes[i]);
+    }
+    return result;
+};

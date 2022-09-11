@@ -9,5 +9,6 @@
 using namespace std;
 
 vector<Note *> generateFroggySong();
+vector<Note *> generateDededon();
 
 #endif

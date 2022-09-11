@@ -48,6 +48,18 @@ void CommandExecutor::run()
         return;
     }
 
+    loopCount++;
+
+#ifdef EnableRunnerTaskTimeCheck
+    time = robotAPI->getClock()->now();
+    writeDebug("runner task");
+    writeDebug(loopCount);
+    writeDebug("start: ");
+    writeDebug(time);
+    writeDebug("usec");
+    flushDebug(NONE, robotAPI);
+#endif
+
     // Commandがはじめて実行される時にPrediate.preparation()メソッドを実行する
     if (!preparated[currentIndexForCommand])
     {
@@ -66,10 +78,6 @@ void CommandExecutor::run()
     if (predicates[currentIndexForCommand]->test(robotAPI))
     {
         nextCommand();
-        if (enableBeepWhenCommandSwitching)
-        {
-            beepDebug();
-        }
     }
 
     if (((int)commands.size()) > ((int)currentIndexForCommand))
@@ -79,14 +87,19 @@ void CommandExecutor::run()
         if (runner)
         {
 #ifdef EnablePrintGyroValue
+#ifdef SimulatorMode
+            int gyroAngle = robotAPI->getGyroSensor()->getAngle() * -1;
+#else
+            int gyroAngle = robotAPI->getGyroSensor()->getAngle();
+#endif
             writeDebug("gyro angle: ");
-            writeDebug(robotAPI->getGyroSensor()->getAngle());
-            flushDebug(INFO, robotAPI);
+            writeDebug(gyroAngle);
+            flushDebug(TRACE, robotAPI);
 #endif
 #ifdef EnablePrintAngleUseWheel
-            writeDebug("angle: ");
+            writeDebug("meased angle: ");
             writeDebug(robotAPI->getMeasAngle()->getAngle());
-            flushDebug(INFO, robotAPI);
+            flushDebug(TRACE, robotAPI);
 #endif
 #ifdef EnablePrintMotorCount
             writeDebug("left wheel count: ");
@@ -94,7 +107,7 @@ void CommandExecutor::run()
             writeEndLineDebug();
             writeDebug("right wheel count: ");
             writeDebug(robotAPI->getRightWheel()->getCount());
-            flushDebug(INFO, robotAPI);
+            flushDebug(TRACE, robotAPI);
 #endif
         }
     }
@@ -112,12 +125,27 @@ void CommandExecutor::run()
         return;
     }
 
+#ifdef EnableRunnerTaskTimeCheck
+    time = robotAPI->getClock()->now();
+    writeDebug("runner task");
+    writeDebug(loopCount);
+    writeDebug("finish: ");
+    writeDebug(time);
+    writeDebug("usec");
+    flushDebug(NONE, robotAPI);
+#endif
+
     return;
 }
 
 void CommandExecutor::nextCommand()
 {
     currentIndexForCommand++;
+
+    if (enableBeepWhenCommandSwitching)
+    {
+        beepDebug();
+    }
 }
 
 void CommandExecutor::emergencyStop()

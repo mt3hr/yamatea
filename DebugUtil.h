@@ -12,12 +12,13 @@ using namespace std;
 // 必要に応じて改行: writeEndLineDebug()して、
 // 出力            : flushDebug()する。
 
-//NOTE streamを自作すればもっと楽にデバッグできるんだけどね。まあいいや。
+// NOTE streamを自作すればもっと楽にデバッグできるんだけどね。まあいいや。
 
 void clearDebug();
 void writeDebug(string str);
 void writeDebug(int i);
 void writeDebug(float f);
+void writeDebug(uint16_t i);
 void writeDebug(uint64_t i);
 void writeDebug(int32_t i);
 void writeEndLineDebug();

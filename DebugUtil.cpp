@@ -57,6 +57,20 @@ void writeDebug(float f)
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
+void writeDebug(uint16_t i)
+{
+    if (messageLinesForDebugPrint.size() == 0)
+    {
+        messageLinesForDebugPrint.push_back("");
+    }
+
+    stringstream ss;
+    ss.clear();
+    ss.str("");
+    ss << i;
+    messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
+}
+
 void writeDebug(uint64_t i)
 {
     if (messageLinesForDebugPrint.size() == 0)

@@ -3,6 +3,9 @@
 #include "Note.h"
 #include "RawColorPredicate.h"
 #include "ev3api.h"
+#include "vector"
+
+using namespace std;
 
 // 設定は2箇所に分散しています。
 // 設定1/2: Setting.h
@@ -50,12 +53,13 @@
 
 // モード設定ここまで
 
-//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue
 //#define EnablePrintAngleUseWheel
 //#define EnablePrintMotorCount
 //#define EnablePrintPIDValues
+//#define EnableRunnerTaskTimeCheck
 
 // ********** 設定1/2ここまで **********
 
@@ -81,6 +85,7 @@ extern bool enablePrintMessageForBluetooth;
 extern bool enableBeepWhenCommandSwitching;
 extern Note *beepNoteWhenCommandSwitching;
 extern int loopSong;
+extern vector<Note *> song;
 
 extern bool calibrateBlue;
 extern bool calibrateBlueEdge;

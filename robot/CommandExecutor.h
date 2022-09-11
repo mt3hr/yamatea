@@ -27,6 +27,8 @@ private:
     vector<bool> preparated;
     RobotAPI *robotAPI;
     bool runner;
+    uint64_t loopCount = 0;
+    uint64_t time = 0;
 
 public:
     CommandExecutor(RobotAPI *robotAPI, bool runner);

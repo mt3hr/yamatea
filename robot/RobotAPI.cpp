@@ -6,6 +6,7 @@
 #include "Motor.h"
 #include "Clock.h"
 #include "DebugUtil.h"
+#include "ResetMeasAngle.h"
 
 using namespace ev3api;
 
@@ -122,5 +123,7 @@ float RobotAPI::MeasAngleUseWheel::getAngle()
 
 void RobotAPI::MeasAngleUseWheel::reset()
 {
-    angleOffset = -getAngle();
+    ResetMeasAngle *reset = new ResetMeasAngle();
+    reset->run(robotAPI);
+    delete reset;
 }
