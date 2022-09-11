@@ -23,7 +23,7 @@ bool FacingRobotUseWheelPredicate::test(RobotAPI *robotAPI)
 
 void FacingRobotUseWheelPredicate::preparation(RobotAPI *robotAPI)
 {
-    this->targetAngle = robotAPI->getMeasAngle()->getAngle();
+    this->targetAngle = robotAPI->getMeasAngle()->getAngle() + angle;
 }
 
 FacingRobotUseWheelPredicate *FacingRobotUseWheelPredicate::generateReversePredicate()
