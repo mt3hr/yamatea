@@ -18,7 +18,9 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define LeftCourceMode // 左コース用プログラム
+#define TrueLeftCourceMode // 左コース用プログラム
+//#define TrueRightCourceMode // 右コース用プログラム
+//#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define LeftCourceOkiharaMode1 // 左コース用プログラム沖原コードシナリオ追加前安定版
 //#define LeftCourceOkiharaMode2 // 左コース用プログラム沖原コードシナリオ追加後
@@ -55,7 +57,12 @@ using namespace std;
 
 // モード設定ここまで
 
-#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+// スラロームパターンの設定ここから。いずれか1つを有効化して
+#define SlalomPattern1
+//#define SlalomPattern2
+// スラロームパターンの設定ここまで
+
+//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue
 //#define EnablePrintAngleUseWheel
@@ -65,9 +72,11 @@ using namespace std;
 #define DisableCalibration
 #define StopWhenThrowException
 
+// 使う走行体の選択ここから。キャリブレーションせずに固定値を使うときのrgb値決定に使われる（カラーセンサの個体差がすごい）
 //#define RobotOkihara
 //#define RobotKomichi
 #define RobotSanekata
+// 使う走行体の選択ここまで。
 
 // ********** 設定1/2ここまで **********
 

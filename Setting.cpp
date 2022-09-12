@@ -1,7 +1,6 @@
 #include "Setting.h"
 #include "ev3api.h"
 #include "Note.h"
-#include "ev3api.h"
 #include "RawColorPredicate.h"
 #include "vector"
 #include "MusicalScore.h"
@@ -106,9 +105,9 @@ RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
 RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
 RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
 #else
-int whiteAtSlalomR = 64;                 // TournamentTODO
-int whiteAtSlalomG = 61;                 // TournamentTODO
-int whiteAtSlalomB = 83;                 // TournamentTODO
+int whiteAtSlalomR = 64; // TournamentTODO
+int whiteAtSlalomG = 61; // TournamentTODO
+int whiteAtSlalomB = 83; // TournamentTODO
 RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN10;
 RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN10;
 RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN10;
@@ -197,9 +196,9 @@ RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
 RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
 RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
 #else
-int whiteAtSlalomR = 62;                 // TournamentTODO
-int whiteAtSlalomG = 66;                 // TournamentTODO
-int whiteAtSlalomB = 54;                 // TournamentTODO
+int whiteAtSlalomR = 62; // TournamentTODO
+int whiteAtSlalomG = 66; // TournamentTODO
+int whiteAtSlalomB = 54; // TournamentTODO
 RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN10;
 RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN10;
 RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN10;
@@ -222,7 +221,7 @@ RawColorPredicateCondition redGCondition = BETWEEN5;
 RawColorPredicateCondition redBCondition = BETWEEN5;
 
 // 緑
-int greenR = 12;  // TournamentTODO
+int greenR = 12; // TournamentTODO
 int greenG = 42; // TournamentTODO
 int greenB = 13; // TournamentTODO
 RawColorPredicateCondition greenRCondition = BETWEEN5;
@@ -288,9 +287,9 @@ RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
 RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
 RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
 #else
-int whiteAtSlalomR = 64;                 // TournamentTODO
-int whiteAtSlalomG = 61;                 // TournamentTODO
-int whiteAtSlalomB = 83;                 // TournamentTODO
+int whiteAtSlalomR = 64; // TournamentTODO
+int whiteAtSlalomG = 61; // TournamentTODO
+int whiteAtSlalomB = 83; // TournamentTODO
 RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN10;
 RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN10;
 RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN10;
@@ -348,7 +347,7 @@ RawColorPredicateCondition grayBCondition = BETWEEN5;
 int blueWhiteEdgeR = 31; // TournamentTODO
 int blueWhiteEdgeG = 46; // TournamentTODO
 int blueWhiteEdgeB = 73; // TournamentTODO
-RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN10;
+RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN20;
 RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN10;
 RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN10;
 #endif
