@@ -14,9 +14,10 @@
 using namespace ev3api;
 using namespace std;
 
-PIDTargetColorBrightnessCalibrator::PIDTargetColorBrightnessCalibrator(RobotAPI *robotAPI)
+PIDTargetColorBrightnessCalibrator::PIDTargetColorBrightnessCalibrator(RobotAPI *robotAPI, BrightnessCalibrateMode brightnessCalibrateMode)
 {
     this->robotAPI = robotAPI;
+    this->brightnessCalibrateMode = brightnessCalibrateMode;
 };
 
 PIDTargetColorBrightnessCalibrator::~PIDTargetColorBrightnessCalibrator()
@@ -277,7 +278,20 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
 
             for (int i = 0; i < ((int)pidTracers.size()); i++)
             {
-                pidTracers[i]->setTargetBrightness(blackWhiteEdgeBrightness);
+                switch (brightnessCalibrateMode)
+                {
+                case BCM_BlackWhiteEdge:
+                {
+                    pidTracers[i]->setTargetBrightness(blackWhiteEdgeBrightness);
+                    break;
+                }
+                case BCM_BlackWhiteAverage:
+                {
+                    pidTracers[i]->setTargetBrightness((whiteBrightness + blackBrightness) / 2);
+                }
+                default:
+                    break;
+                }
             }
             for (int i = 0; i < ((int)colorPIDTracers.size()); i++)
             {
@@ -288,7 +302,17 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         stringstream bwcs;
         stringstream brightnessStream;
 
-        bws << "edge bright :" << float(blackWhiteEdgeBrightness);
+        switch (brightnessCalibrateMode)
+        {
+        case BCM_BlackWhiteEdge:
+        {
+            bws << "edge bright :" << float(blackWhiteEdgeBrightness);
+        }
+        case BCM_BlackWhiteAverage:
+        {
+            bws << "average bright :" << float((whiteBrightness + blackBrightness) / 2);
+        }
+        }
         bwcs << "edge r:" << float(blackWhiteEdgeColor.r) << " g:" << float(blackWhiteEdgeColor.g) << " b:" << float(blackWhiteEdgeColor.b);
         brightnessStream << "brightness: " << float(robotAPI->getColorSensor()->getBrightness());
 
@@ -311,7 +335,7 @@ void PIDTargetColorBrightnessCalibrator::preparation(RobotAPI *robotAPI)
 
 PIDTargetColorBrightnessCalibrator *PIDTargetColorBrightnessCalibrator::generateReverseCommand()
 {
-    return new PIDTargetColorBrightnessCalibrator(robotAPI);
+    return new PIDTargetColorBrightnessCalibrator(robotAPI, brightnessCalibrateMode);
 }
 
 int PIDTargetColorBrightnessCalibrator::getBlackBrightness()

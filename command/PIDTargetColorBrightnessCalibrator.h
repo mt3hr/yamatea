@@ -14,9 +14,16 @@
 using namespace ev3api;
 using namespace std;
 
+enum BrightnessCalibrateMode
+{
+    BCM_BlackWhiteAverage,
+    BCM_BlackWhiteEdge,
+};
+
 class PIDTargetColorBrightnessCalibrator : public Command
 {
 private:
+    BrightnessCalibrateMode brightnessCalibrateMode;
     bool printedReadBlackMessage = false;            // NOTE モデルに反映しません。
     bool printedReadWhiteMessage = false;            // NOTE モデルに反映しません。
     bool printedReadBlueMessage = false;             // NOTE モデルに反映しません。
@@ -51,7 +58,7 @@ private:
     RobotAPI *robotAPI;
 
 public:
-    PIDTargetColorBrightnessCalibrator(RobotAPI *robotAPI);
+    PIDTargetColorBrightnessCalibrator(RobotAPI *robotAPI, BrightnessCalibrateMode mode);
     virtual ~PIDTargetColorBrightnessCalibrator();
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;

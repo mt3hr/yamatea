@@ -69,7 +69,7 @@ bool calibrateBlue = false;         // 青色をキャリブレーションす�
 bool calibrateBlueWhiteEdge = true; // 青白エッジをキャリブレーションするかどうか
 bool calibrateWhiteAtSlalom = true; // スラローム上からみた白をキャリブレーションするかどうか
 bool calibrateBlack = true;
-bool calibrateWhite = false;
+bool calibrateWhite = true;
 bool calibrateGray = true;
 bool calibrateBlackWhiteEdge = true;
 
