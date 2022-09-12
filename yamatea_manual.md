@@ -363,7 +363,7 @@ StartETRobo.bat から環境を起動している前提で説明します。
 1. 次のコマンドを実行する
 
 ```bash
-cd ~/etrobo/workspace; git clone git@github.com:mt3hr/yamatea.git;
+cd ~/etrobo/workspace; git clone https://github.com/mt3hr/yamatea.git;
 ```
 
 1. workspace フォルダ内に yamatea ディレクトリが作られるので、作業する
