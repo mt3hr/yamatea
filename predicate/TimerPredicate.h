@@ -7,7 +7,7 @@
 
 using namespace ev3api;
 
-class TimerPredicate : Predicate
+class TimerPredicate : public Predicate
 {
 private:
     uint64_t durationUsec;

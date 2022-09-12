@@ -1327,12 +1327,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   lowPWMTracer->setTargetColor(targetRGB);
 #endif
 
-  /*
   // 1.5秒止める。BrightnessからColorへの切り替えのために。
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
-  commandExecutor->addCommand(colorReader, new Numb erOfTimesPredicate(1), GET_VARIABLE_NAME(colorReader));
+  commandExecutor->addCommand(colorReader, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(colorReader));
   uint64_t waitDurationUsec = 1000000;
-  commandExecutor->addCommand(stopper, new TimerPredicate(), "wait switch mode brightness to row color");
+  commandExecutor->addCommand(stopper, new TimerPredicate(waitDurationUsec), "wait switch mode brightness to row color");
 
   // PIDトレースで青線まで進む
   Predicate *distancePredicate = new WheelDistancePredicate(40, robotAPI);
@@ -1346,7 +1345,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   distance = 35;
   commandExecutor->addCommand(lowPWMTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
-  */
 
   // アームを下げる
   int armAngle = 15;
