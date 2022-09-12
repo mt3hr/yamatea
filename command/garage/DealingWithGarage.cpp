@@ -16,11 +16,13 @@ DealingWithGarage::~DealingWithGarage()
 {
 
 }
-DealingWithGarage::DealingWithGarage(colorid_t colorID,CommandExecutor* commandExecutor)
+DealingWithGarage::DealingWithGarage(colorid_t colorID,CommandExecutor* commandExecutor,bool reverse)
 {
     //コマンドエグゼキューターポインタを渡し処理を追加させます。
+    //reverseでコース反転させるか否かを決めます
     this->colorID = colorID;
     this->commandExecutor = commandExecutor;
+    this->reverse = reverse;
 }
 
 
@@ -54,9 +56,13 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             commandExecutor->addCommand(stopper1, predicateS2, "stopper1");
             // r3,90ど右回転
             CommandAndPredicate *predicate3 = new RotateRobotUseGyroCommandAndPredicate(90,5,robotAPI);
+            if (reverse) {
+                predicate3 = new RotateRobotUseGyroCommandAndPredicate(-90,5,robotAPI);
+            }
             commandExecutor->addCommand(predicate3->getCommand(), predicate3->getPredicate(), "90turn");
             Predicate *predicateS3 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS3, "stopper1");
+            
             //r4,直進
                 leftPow = 15;
             rightPow = 15;
@@ -67,6 +73,9 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             commandExecutor->addCommand(stopper1, predicateS4, "stopper1");
             //r5,90度左回転
             CommandAndPredicate *predicate5 = new RotateRobotUseGyroCommandAndPredicate(-90,5,robotAPI);
+            if (reverse) {
+                predicate5 = new RotateRobotUseGyroCommandAndPredicate(90,5,robotAPI);
+            }
             commandExecutor->addCommand(predicate5->getCommand(), predicate5->getPredicate(), "-90turn");
             Predicate *predicateS5 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS5, "stopper1");
@@ -75,7 +84,7 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
                 commandExecutor->addCommand(walker4, predicate4, "walker4");
                 commandExecutor->addCommand(stopper1, predicateS1, "stopper1");
             }
-            //r7,90度左回転
+            //r7,90度左回転()5の使いまわし
             commandExecutor->addCommand(predicate5->getCommand(), predicate5->getPredicate(), "-90turn");
             Predicate *predicateS7 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS7, "stopper1");
@@ -87,14 +96,14 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             commandExecutor->addCommand(walker4, predicate8s, "walker48strate");
             Predicate *predicateS8 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS8, "stopper1");
-            //r9, 90ど右回転
+            //r9, 90ど右回転(３の使いまわし)
             commandExecutor->addCommand(predicate3->getCommand(), predicate3->getPredicate(), "90turn");
             commandExecutor->addCommand(stopper1, predicateS1, "stopper1");
             
         }else if(colorID==COLOR_GREEN){
             //ーーーーー14gガレージ緑ーーーーー
-            leftPow = 20;
-            rightPow = 20;
+            leftPow = 10;
+            rightPow = 10;
             Walker *walkerG = new Walker(leftPow, rightPow);
             Predicate *predicateG = new ColorPredicate(COLOR_GREEN);
             commandExecutor->addCommand(walkerG, predicateG, "walkerG");
@@ -133,6 +142,6 @@ void DealingWithGarage::preparation(RobotAPI *robotAPI)
 // オーバーライドして使って。
 Command *DealingWithGarage::generateReverseCommand()
 {
-    //これどうあつかうん
-    return new DealingWithGarage(colorID,commandExecutor);
+    DealingWithGarage *reversedDealingWithGarage = new DealingWithGarage(colorID, commandExecutor,true);
+    return reversedDealingWithGarage;
 }
