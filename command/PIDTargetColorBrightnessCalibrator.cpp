@@ -243,21 +243,25 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
             vector<string> messageLines3;
+            messageLines3.push_back("reset api");
             messageLines3.push_back("3");
             PrintMessage printMessage3(messageLines3, true);
             printMessage3.run(robotAPI);
             robotAPI->getClock()->sleep(1000 * 1000);
             vector<string> messageLines2;
+            messageLines2.push_back("reset api");
             messageLines2.push_back("2");
             PrintMessage printMessage2(messageLines2, true);
             printMessage2.run(robotAPI);
             robotAPI->getClock()->sleep(1000 * 1000);
             vector<string> messageLines1;
+            messageLines1.push_back("reset api");
             messageLines1.push_back("1");
             PrintMessage printMessage1(messageLines1, true);
             printMessage1.run(robotAPI);
             robotAPI->getClock()->sleep(1000 * 1000);
             vector<string> messageLinesResetting;
+            messageLinesResetting.push_back("reset api");
             messageLinesResetting.push_back("resetting...");
             PrintMessage printMessageResetting(messageLinesResetting, true);
             printMessage1.run(robotAPI);
