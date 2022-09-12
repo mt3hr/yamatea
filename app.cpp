@@ -1275,7 +1275,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   int numberOfTime;
 
-  bool facingAngleUseGyro = false;
+  FacingAngleMode facingAngleMode = FA_WheelCount;
 
 #ifdef SimulatorMode
   coefficientPWM = 2;
@@ -1431,7 +1431,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // ジャイロで向き調節
   pwm = 6 * coefficientPWM;
   angle = 0;
-  FacingAngle *facingAngleG = new FacingAngle(pwm, slalomAngleOffset + angle, true);
+  FacingAngle *facingAngleG = new FacingAngle(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngleG, new FinishedCommandPredicate(facingAngleG), GET_VARIABLE_NAME(FacingAngleG));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1443,7 +1443,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 向き調節
   pwm = 6 * coefficientPWM;
   angle = -90;
-  FacingAngle *facingAngleX = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  FacingAngle *facingAngleX = new FacingAngle(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngleX, new FinishedCommandPredicate(facingAngleX), GET_VARIABLE_NAME(FacingAngleX));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1452,7 +1452,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   rightPWM = 3 * coefficientPWM;
   Walker *walkerW = new Walker(leftPWM, rightPWM);
 
-  RawColorPredicate *whitePredicate = new RawColorPredicate(&sw_r, BETWEEN5, &sw_g, BETWEEN5, &sw_b, BETWEEN5);
+  RawColorPredicate *whitePredicate = new WhiteAtSlaromPredicate();
   commandExecutor->addCommand(walkerW, whitePredicate, GET_VARIABLE_NAME(walkerW));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1468,7 +1468,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 向き調節
   pwm = 6 * coefficientPWM;
   angle = 0;
-  FacingAngle *facingAngleC = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  FacingAngle *facingAngleC = new FacingAngle(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngleC, new FinishedCommandPredicate(facingAngleC), GET_VARIABLE_NAME(FacingAngleC));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1478,7 +1478,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 向き調節
   pwm = 7 * coefficientPWM;
-  FacingAngle *facingAngle1 = new FacingAngle(pwm, slalomAngleOffset, facingAngleUseGyro);
+  FacingAngle *facingAngle1 = new FacingAngle(facingAngleMode, pwm, slalomAngleOffset);
   commandExecutor->addCommand(facingAngle1, new FinishedCommandPredicate(facingAngle1), GET_VARIABLE_NAME(FacingAngle1));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1522,7 +1522,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 向き調節
   pwm = 7 * coefficientPWM;
   angle = 3; // ペットボトル検知しないと直進室受けてしまうため少し右向きにする
-  FacingAngle *facingAngle3 = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  FacingAngle *facingAngle3 = new FacingAngle(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngle3, new FinishedCommandPredicate(facingAngle3), GET_VARIABLE_NAME(FacingAngle3));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1553,7 +1553,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 向き調節
   pwm = 7 * coefficientPWM;
   angle = -35;
-  FacingAngle *facingAngle4 = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  FacingAngle *facingAngle4 = new FacingAngle(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngle4, new FinishedCommandPredicate(facingAngle4), GET_VARIABLE_NAME(FacingAngle4));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1611,7 +1611,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 向き調節
   pwm = 7 * coefficientPWM;
-  FacingAngle *facingAngle5 = new FacingAngle(pwm, slalomAngleOffset, facingAngleUseGyro);
+  FacingAngle *facingAngle5 = new FacingAngle(facingAngleMode, pwm, slalomAngleOffset);
   commandExecutor->addCommand(facingAngle5, new FinishedCommandPredicate(facingAngle5), GET_VARIABLE_NAME(FacingAngle5));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1647,7 +1647,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 90度左を向く
   pwm = 7 * coefficientPWM;
   angle = -90;
-  FacingAngle *facingAngleY = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  FacingAngle *facingAngleY = new FacingAngle(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngleY, new FinishedCommandPredicate(facingAngleY), GET_VARIABLE_NAME(FacingAngleY));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1661,7 +1661,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 150度左を向く
   pwm = 7 * coefficientPWM;
   angle = -150;
-  FacingAngle *facingAngle8 = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  FacingAngle *facingAngle8 = new FacingAngle(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngle8, new FinishedCommandPredicate(facingAngle8), GET_VARIABLE_NAME(FacingAngle8));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1673,11 +1673,24 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(curve6->getCommand(), curve6->getPredicate(), GET_VARIABLE_NAME(curve6));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
-  // 90度左を向く
+  // 65度左を向く
   pwm = 7 * coefficientPWM;
-  angle = -90;
-  FacingAngle *facingAngle9 = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  angle = -65;
+  FacingAngle *facingAngle9 = new FacingAngle(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngle9, new FinishedCommandPredicate(facingAngle9), GET_VARIABLE_NAME(FacingAngle9));
+  commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+
+  // 黒線まで直進する
+  leftPWM = 15 * coefficientPWM;
+  rightPWM = 15 * coefficientPWM;
+  Walker *walkerO = new Walker(leftPWM, rightPWM);
+  Predicate *blackPredicate = new BlackPredicate();
+  commandExecutor->addCommand(walkerO, blackPredicate, GET_VARIABLE_NAME(walkerO));
+  commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+
+  // 青線までPIDトレースする
+  RawColorPredicate *blueEdgePredicate = new BlueEdgePredicate();
+  commandExecutor->addCommand(pidTracer, blueEdgePredicate, GET_VARIABLE_NAME(lowPWMTracer));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
 #endif
@@ -1704,6 +1717,26 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   theta = 30;
   CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curve6->getCommand(), curve6->getPredicate(), GET_VARIABLE_NAME(curve6));
+  commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+
+  // 45度左を向く
+  pwm = 7 * coefficientPWM;
+  angle = -45;
+  FacingAngle *facingAngle8 = new FacingAngle(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  commandExecutor->addCommand(facingAngle8, new FinishedCommandPredicate(facingAngle8), GET_VARIABLE_NAME(FacingAngle8));
+  commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+
+  // 黒線まで直進する
+  leftPWM = 15 * coefficientPWM;
+  rightPWM = 15 * coefficientPWM;
+  Walker *walkerO = new Walker(leftPWM, rightPWM);
+  Predicate *blackPredicate = new BlackPredicate();
+  commandExecutor->addCommand(walkerO, blackPredicate, GET_VARIABLE_NAME(walkerO));
+  commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+
+  // 青線までPIDトレースする
+  RawColorPredicate *blueEdgePredicate = new BlueEdgePredicate();
+  commandExecutor->addCommand(pidTracer, blueEdgePredicate, GET_VARIABLE_NAME(lowPWMTracer));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
 #endif

@@ -38,7 +38,7 @@ void PIDTargetColorBrightnessCalibrator::readBlackBrightnessFromColorSensor()
 void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
 {
     int sleepDuration = 1000 * 1000;
-    if (!readedSlalomWhiteColor && calibrateSlalomWhite)
+    if (!readedSlalomWhiteColor && calibrateWhiteAtSlalom)
     {
         if (!printedReadSlalomWhiteColorMessage)
         {
@@ -59,14 +59,42 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         {
             rgb_raw_t rawColor;
             robotAPI->getColorSensor()->getRawColor(rawColor);
-            sw_r = rawColor.r;
-            sw_g = rawColor.g;
-            sw_b = rawColor.b;
+            whiteAtSlalomR = rawColor.r;
+            whiteAtSlalomG = rawColor.g;
+            whiteAtSlalomB = rawColor.b;
             readedSlalomWhiteColor = true;
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
-    else if (!readedBlueEdgeColor && calibrateBlueEdge)
+    else if (!readedGrayColor && calibrateGray)
+    {
+        if (!printedReadGrayColorMessage)
+        {
+            stringstream vs;
+            vs << "voltage: " << float(ev3_battery_voltage_mV());
+
+            printedReadGrayColorMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read gray color");
+            messageLines.push_back(" from color sensor");
+            messageLines.push_back(vs.str());
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            grayR = rawColor.r;
+            grayG = rawColor.g;
+            grayB = rawColor.b;
+            readedGrayColor = true;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedBlueEdgeColor && calibrateBlueWhiteEdge)
     {
         if (!printedReadBlueEdgeMessage)
         {
@@ -83,9 +111,9 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         {
             rgb_raw_t rawColor;
             robotAPI->getColorSensor()->getRawColor(rawColor);
-            bw_r = rawColor.r;
-            bw_g = rawColor.g;
-            bw_b = rawColor.b;
+            blackWhiteEdgeR = rawColor.r;
+            blackWhiteEdgeG = rawColor.g;
+            blackWhiteEdgeB = rawColor.b;
             readedBlueEdgeColor = true;
             robotAPI->getClock()->sleep(sleepDuration);
         }
@@ -111,9 +139,9 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         {
             rgb_raw_t rawColor;
             robotAPI->getColorSensor()->getRawColor(rawColor);
-            b_r = rawColor.r;
-            b_g = rawColor.g;
-            b_b = rawColor.b;
+            blackR = rawColor.r;
+            blackG = rawColor.g;
+            blackB = rawColor.b;
             readedBlueColor = true;
             robotAPI->getClock()->sleep(sleepDuration);
         }
@@ -135,9 +163,9 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         {
             rgb_raw_t rawColor;
             robotAPI->getColorSensor()->getRawColor(rawColor);
-            d_r = rawColor.r;
-            d_g = rawColor.g;
-            d_b = rawColor.b;
+            blackR = rawColor.r;
+            blackG = rawColor.g;
+            blackB = rawColor.b;
             robotAPI->getClock()->sleep(sleepDuration);
 
             readBlackBrightnessFromColorSensor();
@@ -164,9 +192,9 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         {
             rgb_raw_t rawColor;
             robotAPI->getColorSensor()->getRawColor(rawColor);
-            dw_r = rawColor.r;
-            dw_g = rawColor.g;
-            dw_b = rawColor.b;
+            blackWhiteEdgeR = rawColor.r;
+            blackWhiteEdgeG = rawColor.g;
+            blackWhiteEdgeB = rawColor.b;
             robotAPI->getClock()->sleep(sleepDuration);
 
             readBlackWhiteEdgeBrightnessFromColorSensor();
@@ -193,9 +221,9 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         {
             rgb_raw_t rawColor;
             robotAPI->getColorSensor()->getRawColor(rawColor);
-            w_r = rawColor.r;
-            w_g = rawColor.g;
-            w_b = rawColor.b;
+            whiteR = rawColor.r;
+            whiteG = rawColor.g;
+            whiteB = rawColor.b;
             robotAPI->getClock()->sleep(sleepDuration);
 
             readWhiteBrightnessFromColorSensor();

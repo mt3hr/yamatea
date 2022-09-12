@@ -66,94 +66,102 @@ int loopSong = 10;
 
 // 色設定ここから
 
-bool calibrateBlue = false;       // 青色をキャリブレーションするかどうか
-bool calibrateBlueEdge = true;    // 青白エッジをキャリブレーションするかどうか
-bool calibrateSlalomWhite = true; // スラローム上からみた白をキャリブレーションするかどうか
-bool calibrateBlack = false;
+bool calibrateBlue = false;         // 青色をキャリブレーションするかどうか
+bool calibrateBlueWhiteEdge = true; // 青白エッジをキャリブレーションするかどうか
+bool calibrateWhiteAtSlalom = true; // スラローム上からみた白をキャリブレーションするかどうか
+bool calibrateBlack = true;
 bool calibrateWhite = false;
+bool calibrateGray = true;
 bool calibrateBlackWhiteEdge = true;
 
 // 白（キャリブレータから上書きされるので設定しなくて良い）
-int w_r = 70;
-int w_g = 76;
-int w_b = 55;
-RawColorPredicateCondition w_rCondition = BETWEEN5;
-RawColorPredicateCondition w_gCondition = BETWEEN5;
-RawColorPredicateCondition w_bCondition = BETWEEN5;
+int whiteR = 70;
+int whiteG = 76;
+int whiteB = 55;
+RawColorPredicateCondition WhiteRCondition = BETWEEN5;
+RawColorPredicateCondition whiteGCondition = BETWEEN5;
+RawColorPredicateCondition whiteBCondition = BETWEEN5;
 
 // 黒白境界（キャリブレータから上書きされるので設定しなくて良い）
-int dw_r = 70;
-int dw_g = 76;
-int dw_b = 55;
-RawColorPredicateCondition dw_rCondition = BETWEEN5;
-RawColorPredicateCondition dw_gCondition = BETWEEN5;
-RawColorPredicateCondition dw_bCondition = BETWEEN5;
+int blackWhiteEdgeR = 70;
+int blackWhiteEdgeG = 76;
+int blackWhiteEdgeB = 55;
+RawColorPredicateCondition blackWhiteEdgeRCondition = BETWEEN5;
+RawColorPredicateCondition blackWhiteEdgeGCondition = BETWEEN5;
+RawColorPredicateCondition blackWhiteEdgeBCondition = BETWEEN5;
 
 // スラローム上からみた白（キャリブレータから上書きされるので設定しなくて良い）
 #ifdef SimulatorMode
-int sw_r = 115;
-int sw_g = 110;
-int sw_b = 155;
-RawColorPredicateCondition sw_rCondition = BETWEEN5;
-RawColorPredicateCondition sw_gCondition = BETWEEN5;
-RawColorPredicateCondition sw_bCondition = BETWEEN5;
+int whiteAtSlalomR = 115;
+int whiteAtSlalomG = 110;
+int whiteAtSlalomB = 155;
+RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
+RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
+RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
 #else
-int sw_r = 70;
-int sw_g = 76;
-int sw_b = 55;
-RawColorPredicateCondition sw_rCondition = BETWEEN5;
-RawColorPredicateCondition sw_gCondition = BETWEEN5;
-RawColorPredicateCondition sw_bCondition = BETWEEN5;
-
+int whiteAtSlalomR = 70;
+int whiteAtSlalomG = 76;
+int whiteAtSlalomB = 55;
+RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
+RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
+RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
 #endif
 
 // 黒（キャリブレータから上書きされるので設定しなくて良い）
-int d_r = 6;
-int d_g = 6;
-int d_b = 5;
-RawColorPredicateCondition d_rCondition = BETWEEN5;
-RawColorPredicateCondition d_gCondition = BETWEEN5;
-RawColorPredicateCondition d_bCondition = BETWEEN5;
+int blackR = 6;
+int blackG = 6;
+int blackB = 5;
+RawColorPredicateCondition blackRCondition = BETWEEN5;
+RawColorPredicateCondition blackGCondition = BETWEEN5;
+RawColorPredicateCondition blackBCondition = BETWEEN5;
 
 // 赤
-int r_r = 0;
-int r_g = 0;
-int r_b = 0;
-RawColorPredicateCondition r_rCondition = BETWEEN5;
-RawColorPredicateCondition r_gCondition = BETWEEN5;
-RawColorPredicateCondition r_bCondition = BETWEEN5;
+int redR = 0;
+int redG = 0;
+int redB = 0;
+RawColorPredicateCondition redRCondition = BETWEEN5;
+RawColorPredicateCondition redGCondition = BETWEEN5;
+RawColorPredicateCondition redBCondition = BETWEEN5;
 
 // 緑
-int g_r = 0;
-int g_g = 0;
-int g_b = 0;
-RawColorPredicateCondition g_rCondition = BETWEEN5;
-RawColorPredicateCondition g_gCondition = BETWEEN5;
-RawColorPredicateCondition g_bCondition = BETWEEN5;
+int greenR = 0;
+int greenG = 0;
+int greenB = 0;
+RawColorPredicateCondition greenRCondition = BETWEEN5;
+RawColorPredicateCondition greenGCondition = BETWEEN5;
+RawColorPredicateCondition greenBCondition = BETWEEN5;
 
 // 青（キャリブレータから上書きされるので設定しなくて良い）
-int b_r = 29;
-int b_g = 47;
-int b_b = 42;
-RawColorPredicateCondition b_rCondition = BETWEEN3;
-RawColorPredicateCondition b_gCondition = BETWEEN3;
-RawColorPredicateCondition b_bCondition = BETWEEN3;
+int blueR = 29;
+int blueG = 47;
+int blueB = 42;
+RawColorPredicateCondition blueRCondition = BETWEEN3;
+RawColorPredicateCondition blueGCondition = BETWEEN3;
+RawColorPredicateCondition blueBCondition = BETWEEN3;
 
 // 黄
-int y_r = 0;
-int y_g = 0;
-int y_b = 0;
-RawColorPredicateCondition y_rCondition = BETWEEN5;
-RawColorPredicateCondition y_gCondition = BETWEEN5;
-RawColorPredicateCondition y_bCondition = BETWEEN5;
+int yellowR = 0;
+int yellowG = 0;
+int yellowB = 0;
+RawColorPredicateCondition yellowRCondition = BETWEEN5;
+RawColorPredicateCondition yellowGCondition = BETWEEN5;
+RawColorPredicateCondition yellowBCondition = BETWEEN5;
+
+// グレー（キャリブレータから上書きされるので設定しなくて良い）
+int grayR = 0;
+int grayG = 0;
+int grayB = 0;
+RawColorPredicateCondition grayRCondition = BETWEEN5;
+RawColorPredicateCondition grayGCondition = BETWEEN5;
+RawColorPredicateCondition grayBCondition = BETWEEN5;
 
 // 青白境界（キャリブレータから上書きされるので設定しなくて良い）//TODO エッジを実測して。（平均を取るのではダメらしい）
-int bw_r;
-int bw_g;
-int bw_b;
-RawColorPredicateCondition bw_rCondition = BETWEEN10;
-RawColorPredicateCondition bw_gCondition = BETWEEN10;
-RawColorPredicateCondition bw_bCondition = BETWEEN10;
+int blueWhiteEdgeR;
+int blueWhiteEdgeG;
+int blueWhiteEdgeB;
+RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN10;
+RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN10;
+RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN10;
 
 // 色設定ここまで
 

@@ -53,7 +53,7 @@ using namespace std;
 
 // モード設定ここまで
 
-#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue
 //#define EnablePrintAngleUseWheel
@@ -93,6 +93,14 @@ extern bool calibrateSlalomWhite;
 extern bool calibrateBlack;
 extern bool calibrateWhite;
 extern bool calibrateBlackWhiteEdge;
+extern bool calibrateGray;
+
+extern bool calibrateBlue;
+extern bool calibrateBlueWhiteEdge;
+extern bool calibrateWhiteAtSlalom;
+extern bool calibrateBlack;
+extern bool calibrateWhite;
+extern bool calibrateBlackWhiteEdge;
 
 extern int r_r;
 extern int r_g;
@@ -100,61 +108,113 @@ extern int r_b;
 extern RawColorPredicateCondition r_rCondition;
 extern RawColorPredicateCondition r_gCondition;
 extern RawColorPredicateCondition r_bCondition;
-
 extern int g_r;
 extern int g_g;
 extern int g_b;
 extern RawColorPredicateCondition g_rCondition;
 extern RawColorPredicateCondition g_gCondition;
 extern RawColorPredicateCondition g_bCondition;
-
 extern int b_r;
 extern int b_g;
 extern int b_b;
 extern RawColorPredicateCondition b_rCondition;
 extern RawColorPredicateCondition b_gCondition;
 extern RawColorPredicateCondition b_bCondition;
-
 extern int y_r;
 extern int y_g;
 extern int y_b;
 extern RawColorPredicateCondition y_rCondition;
 extern RawColorPredicateCondition y_gCondition;
 extern RawColorPredicateCondition y_bCondition;
-
 extern int bw_r;
 extern int bw_g;
 extern int bw_b;
 extern RawColorPredicateCondition bw_rCondition;
 extern RawColorPredicateCondition bw_gCondition;
 extern RawColorPredicateCondition bw_bCondition;
-
-extern int d_r;
-extern int d_g;
+extern int blackR;
+extern int black_g;
 extern int d_b;
 extern RawColorPredicateCondition d_rCondition;
 extern RawColorPredicateCondition d_gCondition;
 extern RawColorPredicateCondition d_bCondition;
-
 extern int w_r;
 extern int w_g;
 extern int w_b;
 extern RawColorPredicateCondition bw_rCondition;
 extern RawColorPredicateCondition w_gCondition;
 extern RawColorPredicateCondition w_bCondition;
-
 extern int dw_r;
 extern int dw_g;
 extern int dw_b;
 extern RawColorPredicateCondition dw_rCondition;
 extern RawColorPredicateCondition dw_gCondition;
 extern RawColorPredicateCondition dw_bCondition;
-
 extern int sw_r;
 extern int sw_g;
 extern int sw_b;
 extern RawColorPredicateCondition sw_rCondition;
 extern RawColorPredicateCondition sw_gCondition;
 extern RawColorPredicateCondition sw_bCondition;
+extern int whiteR;
+extern int whiteG;
+extern int whiteB;
+extern RawColorPredicateCondition WhiteRCondition;
+extern RawColorPredicateCondition whiteGCondition;
+extern RawColorPredicateCondition whiteBCondition;
+extern int blackWhiteEdgeR;
+extern int blackWhiteEdgeG;
+extern int blackWhiteEdgeB;
+extern RawColorPredicateCondition blackWhiteEdgeRCondition;
+extern RawColorPredicateCondition blackWhiteEdgeGCondition;
+extern RawColorPredicateCondition blackWhiteEdgeBCondition;
+extern int whiteAtSlalomR;
+extern int whiteAtSlalomG;
+extern int whiteAtSlalomB;
+extern RawColorPredicateCondition whiteAtSlalomRCondition;
+extern RawColorPredicateCondition whiteAtSlalomGCondition;
+extern RawColorPredicateCondition whiteAtSlalomBCondition;
+extern int blackR;
+extern int blackG;
+extern int blackB;
+extern RawColorPredicateCondition blackRCondition;
+extern RawColorPredicateCondition blackGCondition;
+extern RawColorPredicateCondition blackBCondition;
+extern int redR;
+extern int redG;
+extern int redB;
+extern RawColorPredicateCondition redRCondition;
+extern RawColorPredicateCondition redGCondition;
+extern RawColorPredicateCondition redBCondition;
+extern int greenR;
+extern int greenG;
+extern int greenB;
+extern RawColorPredicateCondition greenRCondition;
+extern RawColorPredicateCondition greenGCondition;
+extern RawColorPredicateCondition greenBCondition;
+extern int blueR;
+extern int blueG;
+extern int blueB;
+extern RawColorPredicateCondition blueRCondition;
+extern RawColorPredicateCondition blueGCondition;
+extern RawColorPredicateCondition blueBCondition;
+extern int yellowR;
+extern int yellowG;
+extern int yellowB;
+extern RawColorPredicateCondition yellowRCondition;
+extern RawColorPredicateCondition yellowGCondition;
+extern RawColorPredicateCondition yellowBCondition;
+extern int grayR;
+extern int grayG;
+extern int grayB;
+extern RawColorPredicateCondition grayRCondition;
+extern RawColorPredicateCondition grayGCondition;
+extern RawColorPredicateCondition grayBCondition;
+extern int blueWhiteEdgeR;
+extern int blueWhiteEdgeG;
+extern int blueWhiteEdgeB;
+extern RawColorPredicateCondition blueWhiteEdgeRCondition;
+extern RawColorPredicateCondition blueWhiteEdgeGCondition;
+extern RawColorPredicateCondition blueWhiteEdgeBCondition;
 
 #endif

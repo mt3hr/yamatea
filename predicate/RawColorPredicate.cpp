@@ -187,14 +187,20 @@ Predicate *RawColorPredicate::generateReversePredicate()
     return new RawColorPredicate(r, rCondition, g, gCondition, b, bCondition);
 }
 
-BluePredicate::BluePredicate() : RawColorPredicate(&b_r, b_rCondition, &b_g, b_gCondition, &b_b, b_bCondition){};
-RedPredicate::RedPredicate() : RawColorPredicate(&r_r, r_rCondition, &r_g, r_gCondition, &r_b, r_bCondition){};
-GreenPredicate::GreenPredicate() : RawColorPredicate(&b_r, b_rCondition, &b_g, b_gCondition, &b_b, b_bCondition){};
-YellowPredicate::YellowPredicate() : RawColorPredicate(&y_r, y_rCondition, &y_g, y_gCondition, &y_b, y_bCondition){};
-BlueEdgePredicate::BlueEdgePredicate() : RawColorPredicate(&bw_r, bw_rCondition, &bw_g, bw_gCondition, &bw_b, bw_bCondition){};
+BluePredicate::BluePredicate() : RawColorPredicate(&blueR, blueRCondition, &blueG, blueGCondition, &blueB, blueBCondition){};
+RedPredicate::RedPredicate() : RawColorPredicate(&redR, redRCondition, &redG, redGCondition, &redB, redBCondition){};
+GreenPredicate::GreenPredicate() : RawColorPredicate(&greenR, greenRCondition, &greenG, greenGCondition, &greenB, greenBCondition){};
+YellowPredicate::YellowPredicate() : RawColorPredicate(&yellowR, yellowRCondition, &yellowG, yellowGCondition, &yellowB, yellowBCondition){};
+BlueEdgePredicate::BlueEdgePredicate() : RawColorPredicate(&blueWhiteEdgeR, blueWhiteEdgeRCondition, &blueWhiteEdgeG, blueWhiteEdgeGCondition, &blueWhiteEdgeB, blueWhiteEdgeBCondition){};
+BlackPredicate::BlackPredicate() : RawColorPredicate(&blackR, blackRCondition, &blackG, blackGCondition, &blackB, blackBCondition){};
+WhiteAtSlaromPredicate::WhiteAtSlaromPredicate() : RawColorPredicate(&whiteAtSlalomR, whiteAtSlalomRCondition, &whiteAtSlalomG, whiteAtSlalomGCondition, &whiteAtSlalomB, whiteAtSlalomBCondition){};
+GrayPredicate::GrayPredicate() : RawColorPredicate(&grayR, grayRCondition, &grayG, grayGCondition, &grayB, grayBCondition){};
 
 BluePredicate::~BluePredicate(){};
 RedPredicate::~RedPredicate(){};
 GreenPredicate::~GreenPredicate(){};
 YellowPredicate::~YellowPredicate(){};
 BlueEdgePredicate::~BlueEdgePredicate(){};
+BlackPredicate::~BlackPredicate(){};
+WhiteAtSlaromPredicate::~WhiteAtSlaromPredicate(){};
+GrayPredicate::~GrayPredicate(){};
