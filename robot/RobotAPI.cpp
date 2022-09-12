@@ -93,6 +93,7 @@ void RobotAPI::reset()
     armMotor->reset();
     clock->reset();
     tailMotor->reset();
+    measAngle->reset();
 }
 
 RobotAPI::MeasAngleUseWheel::MeasAngleUseWheel(RobotAPI *robotAPI)

@@ -32,11 +32,11 @@ private:
     float ki = 0;
     float kd = 0;
     float dt = 0;
-    int targetBrightness = 0;
+    int8_t targetBrightness = 0;
     float beforeP = 0;
     PIDTracerMode traceMode;
 
-    int brightness;
+    int8_t brightness;
     float p;
     float i;
     float d;
@@ -50,7 +50,7 @@ public:
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
     virtual PIDTracer *generateReverseCommand() override;
-    virtual void setTargetBrightness(int targetBrightness);
+    virtual void setTargetBrightness(int8_t targetBrightness);
 };
 
 #endif

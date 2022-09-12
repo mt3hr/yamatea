@@ -20,7 +20,8 @@ using namespace std;
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 #define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
-//#define LeftCourceOkiharaMode // 左コース用プログラム沖原コード
+//#define LeftCourceOkiharaMode1 // 左コース用プログラム沖原コードシナリオ追加前安定版
+//#define LeftCourceOkiharaMode2 // 左コース用プログラム沖原コードシナリオ追加後
 //#define RightCourceOkiharaMode // 右コース用プログラム沖原コード
 //#define SlalomUFOTestMode // スラロームをUFO走行するプログラム。
 //#define SlalomAwaitingSignalModePattern1_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案1
@@ -54,14 +55,19 @@ using namespace std;
 
 // モード設定ここまで
 
-//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue
 //#define EnablePrintAngleUseWheel
 //#define EnablePrintMotorCount
 //#define EnablePrintPIDValues
 //#define EnableRunnerTaskTimeCheck
-//#define DisableCalibration
+#define DisableCalibration
+#define StopWhenThrowException
+
+//#define RobotOkihara
+//#define RobotKomichi
+#define RobotSanekata
 
 // ********** 設定1/2ここまで **********
 

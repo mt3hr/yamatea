@@ -67,7 +67,7 @@ void writeDebug(uint16_t i)
     stringstream ss;
     ss.clear();
     ss.str("");
-    ss << i;
+    ss << float(i);
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
@@ -81,7 +81,7 @@ void writeDebug(uint64_t i)
     stringstream ss;
     ss.clear();
     ss.str("");
-    ss << i;
+    ss << float(i);
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
@@ -95,7 +95,7 @@ void writeDebug(int32_t i)
     stringstream ss;
     ss.clear();
     ss.str("");
-    ss << i;
+    ss << float(i);
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 

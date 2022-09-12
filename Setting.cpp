@@ -80,18 +80,19 @@ int blackWhiteEdgeTargetBrightness = 20;
 int blackWhiteEdgeTargetBrightness = 12; // TournamentTODO
 #endif
 
+#ifdef RobotSanekata
 // 白（キャリブレータから上書きされるので設定しなくて良い）
-int whiteR = 70; // TournamentTODO
-int whiteG = 76; // TournamentTODO
-int whiteB = 55; // TournamentTODO
+int whiteR = 69; // TournamentTODO
+int whiteG = 66; // TournamentTODO
+int whiteB = 81; // TournamentTODO
 RawColorPredicateCondition WhiteRCondition = BETWEEN5;
 RawColorPredicateCondition whiteGCondition = BETWEEN5;
 RawColorPredicateCondition whiteBCondition = BETWEEN5;
 
 // 黒白境界（キャリブレータから上書きされるので設定しなくて良い）
-int blackWhiteEdgeR = 70; // TournamentTODO
-int blackWhiteEdgeG = 76; // TournamentTODO
-int blackWhiteEdgeB = 55; // TournamentTODO
+int blackWhiteEdgeR = 45; // TournamentTODO
+int blackWhiteEdgeG = 52; // TournamentTODO
+int blackWhiteEdgeB = 60; // TournamentTODO
 RawColorPredicateCondition blackWhiteEdgeRCondition = BETWEEN5;
 RawColorPredicateCondition blackWhiteEdgeGCondition = BETWEEN5;
 RawColorPredicateCondition blackWhiteEdgeBCondition = BETWEEN5;
@@ -105,69 +106,252 @@ RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
 RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
 RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
 #else
-int whiteAtSlalomR = 70;                 // TournamentTODO
-int whiteAtSlalomG = 76;                 // TournamentTODO
-int whiteAtSlalomB = 55;                 // TournamentTODO
-RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
-RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
-RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
+int whiteAtSlalomR = 64;                 // TournamentTODO
+int whiteAtSlalomG = 61;                 // TournamentTODO
+int whiteAtSlalomB = 83;                 // TournamentTODO
+RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN10;
+RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN10;
+RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN10;
 #endif
 
 // 黒（キャリブレータから上書きされるので設定しなくて良い）
 int blackR = 6; // TournamentTODO
 int blackG = 6; // TournamentTODO
-int blackB = 5; // TournamentTODO
+int blackB = 6; // TournamentTODO
 RawColorPredicateCondition blackRCondition = BETWEEN5;
 RawColorPredicateCondition blackGCondition = BETWEEN5;
 RawColorPredicateCondition blackBCondition = BETWEEN5;
 
 // 赤
-int redR = 0; // TournamentTODO
-int redG = 0; // TournamentTODO
-int redB = 0; // TournamentTODO
+int redR = 68; // TournamentTODO
+int redG = 23; // TournamentTODO
+int redB = 19; // TournamentTODO
 RawColorPredicateCondition redRCondition = BETWEEN5;
 RawColorPredicateCondition redGCondition = BETWEEN5;
 RawColorPredicateCondition redBCondition = BETWEEN5;
 
 // 緑
-int greenR = 0; // TournamentTODO
-int greenG = 0; // TournamentTODO
-int greenB = 0; // TournamentTODO
+int greenR = 9;  // TournamentTODO
+int greenG = 33; // TournamentTODO
+int greenB = 18; // TournamentTODO
 RawColorPredicateCondition greenRCondition = BETWEEN5;
 RawColorPredicateCondition greenGCondition = BETWEEN5;
 RawColorPredicateCondition greenBCondition = BETWEEN5;
 
 // 青（キャリブレータから上書きされるので設定しなくて良い）
-int blueR = 29; // TournamentTODO
-int blueG = 47; // TournamentTODO
-int blueB = 42; // TournamentTODO
+int blueR = 6;  // TournamentTODO
+int blueG = 22; // TournamentTODO
+int blueB = 54; // TournamentTODO
 RawColorPredicateCondition blueRCondition = BETWEEN3;
 RawColorPredicateCondition blueGCondition = BETWEEN3;
 RawColorPredicateCondition blueBCondition = BETWEEN3;
 
 // 黄
-int yellowR = 0; // TournamentTODO
-int yellowG = 0; // TournamentTODO
-int yellowB = 0; // TournamentTODO
+int yellowR = 70; // TournamentTODO
+int yellowG = 57; // TournamentTODO
+int yellowB = 15; // TournamentTODO
 RawColorPredicateCondition yellowRCondition = BETWEEN5;
 RawColorPredicateCondition yellowGCondition = BETWEEN5;
 RawColorPredicateCondition yellowBCondition = BETWEEN5;
 
 // グレー（キャリブレータから上書きされるので設定しなくて良い）
-int grayR = 0; // TournamentTODO
-int grayG = 0; // TournamentTODO
-int grayB = 0; // TournamentTODO
+int grayR = 29; // TournamentTODO
+int grayG = 40; // TournamentTODO
+int grayB = 47; // TournamentTODO
 RawColorPredicateCondition grayRCondition = BETWEEN5;
 RawColorPredicateCondition grayGCondition = BETWEEN5;
 RawColorPredicateCondition grayBCondition = BETWEEN5;
 
 // 青白境界（キャリブレータから上書きされるので設定しなくて良い）//TODO エッジを実測して。（平均を取るのではダメらしい）
-int blueWhiteEdgeR; // TournamentTODO
-int blueWhiteEdgeG; // TournamentTODO
-int blueWhiteEdgeB; // TournamentTODO
+int blueWhiteEdgeR = 31; // TournamentTODO
+int blueWhiteEdgeG = 46; // TournamentTODO
+int blueWhiteEdgeB = 73; // TournamentTODO
 RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN10;
 RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN10;
 RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN10;
+#endif
+
+#ifdef RobotOkihara
+// 白（キャリブレータから上書きされるので設定しなくて良い）
+int whiteR = 74; // TournamentTODO
+int whiteG = 77; // TournamentTODO
+int whiteB = 59; // TournamentTODO
+RawColorPredicateCondition WhiteRCondition = BETWEEN5;
+RawColorPredicateCondition whiteGCondition = BETWEEN5;
+RawColorPredicateCondition whiteBCondition = BETWEEN5;
+
+// 黒白境界（キャリブレータから上書きされるので設定しなくて良い）
+int blackWhiteEdgeR = 32; // TournamentTODO
+int blackWhiteEdgeG = 40; // TournamentTODO
+int blackWhiteEdgeB = 26; // TournamentTODO
+RawColorPredicateCondition blackWhiteEdgeRCondition = BETWEEN5;
+RawColorPredicateCondition blackWhiteEdgeGCondition = BETWEEN5;
+RawColorPredicateCondition blackWhiteEdgeBCondition = BETWEEN5;
+
+// スラローム上からみた白（キャリブレータから上書きされるので設定しなくて良い）
+#ifdef SimulatorMode
+int whiteAtSlalomR = 115;
+int whiteAtSlalomG = 110;
+int whiteAtSlalomB = 155;
+RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
+RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
+RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
+#else
+int whiteAtSlalomR = 62;                 // TournamentTODO
+int whiteAtSlalomG = 66;                 // TournamentTODO
+int whiteAtSlalomB = 54;                 // TournamentTODO
+RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN10;
+RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN10;
+RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN10;
+#endif
+
+// 黒（キャリブレータから上書きされるので設定しなくて良い）
+int blackR = 6; // TournamentTODO
+int blackG = 6; // TournamentTODO
+int blackB = 6; // TournamentTODO
+RawColorPredicateCondition blackRCondition = BETWEEN5;
+RawColorPredicateCondition blackGCondition = BETWEEN5;
+RawColorPredicateCondition blackBCondition = BETWEEN5;
+
+// 赤
+int redR = 67; // TournamentTODO
+int redG = 24; // TournamentTODO
+int redB = 13; // TournamentTODO
+RawColorPredicateCondition redRCondition = BETWEEN5;
+RawColorPredicateCondition redGCondition = BETWEEN5;
+RawColorPredicateCondition redBCondition = BETWEEN5;
+
+// 緑
+int greenR = 12;  // TournamentTODO
+int greenG = 42; // TournamentTODO
+int greenB = 13; // TournamentTODO
+RawColorPredicateCondition greenRCondition = BETWEEN5;
+RawColorPredicateCondition greenGCondition = BETWEEN5;
+RawColorPredicateCondition greenBCondition = BETWEEN5;
+
+// 青（キャリブレータから上書きされるので設定しなくて良い）
+int blueR = 6;  // TournamentTODO
+int blueG = 22; // TournamentTODO
+int blueB = 34; // TournamentTODO
+RawColorPredicateCondition blueRCondition = BETWEEN3;
+RawColorPredicateCondition blueGCondition = BETWEEN3;
+RawColorPredicateCondition blueBCondition = BETWEEN3;
+
+// 黄
+int yellowR = 75; // TournamentTODO
+int yellowG = 70; // TournamentTODO
+int yellowB = 10; // TournamentTODO
+RawColorPredicateCondition yellowRCondition = BETWEEN5;
+RawColorPredicateCondition yellowGCondition = BETWEEN5;
+RawColorPredicateCondition yellowBCondition = BETWEEN5;
+
+// グレー（キャリブレータから上書きされるので設定しなくて良い）
+int grayR = 27; // TournamentTODO
+int grayG = 40; // TournamentTODO
+int grayB = 28; // TournamentTODO
+RawColorPredicateCondition grayRCondition = BETWEEN5;
+RawColorPredicateCondition grayGCondition = BETWEEN5;
+RawColorPredicateCondition grayBCondition = BETWEEN5;
+
+// 青白境界（キャリブレータから上書きされるので設定しなくて良い）//TODO エッジを実測して。（平均を取るのではダメらしい）
+int blueWhiteEdgeR = 32; // TournamentTODO
+int blueWhiteEdgeG = 54; // TournamentTODO
+int blueWhiteEdgeB = 54; // TournamentTODO
+RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN10;
+RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN10;
+RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN10;
+#endif
+
+#ifdef RobotKomichi // TODO
+// 白（キャリブレータから上書きされるので設定しなくて良い）
+int whiteR = 69; // TournamentTODO
+int whiteG = 66; // TournamentTODO
+int whiteB = 81; // TournamentTODO
+RawColorPredicateCondition WhiteRCondition = BETWEEN5;
+RawColorPredicateCondition whiteGCondition = BETWEEN5;
+RawColorPredicateCondition whiteBCondition = BETWEEN5;
+
+// 黒白境界（キャリブレータから上書きされるので設定しなくて良い）
+int blackWhiteEdgeR = 45; // TournamentTODO
+int blackWhiteEdgeG = 52; // TournamentTODO
+int blackWhiteEdgeB = 60; // TournamentTODO
+RawColorPredicateCondition blackWhiteEdgeRCondition = BETWEEN5;
+RawColorPredicateCondition blackWhiteEdgeGCondition = BETWEEN5;
+RawColorPredicateCondition blackWhiteEdgeBCondition = BETWEEN5;
+
+// スラローム上からみた白（キャリブレータから上書きされるので設定しなくて良い）
+#ifdef SimulatorMode
+int whiteAtSlalomR = 115;
+int whiteAtSlalomG = 110;
+int whiteAtSlalomB = 155;
+RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
+RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
+RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
+#else
+int whiteAtSlalomR = 64;                 // TournamentTODO
+int whiteAtSlalomG = 61;                 // TournamentTODO
+int whiteAtSlalomB = 83;                 // TournamentTODO
+RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN10;
+RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN10;
+RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN10;
+#endif
+
+// 黒（キャリブレータから上書きされるので設定しなくて良い）
+int blackR = 6; // TournamentTODO
+int blackG = 6; // TournamentTODO
+int blackB = 6; // TournamentTODO
+RawColorPredicateCondition blackRCondition = BETWEEN5;
+RawColorPredicateCondition blackGCondition = BETWEEN5;
+RawColorPredicateCondition blackBCondition = BETWEEN5;
+
+// 赤
+int redR = 68; // TournamentTODO
+int redG = 23; // TournamentTODO
+int redB = 19; // TournamentTODO
+RawColorPredicateCondition redRCondition = BETWEEN5;
+RawColorPredicateCondition redGCondition = BETWEEN5;
+RawColorPredicateCondition redBCondition = BETWEEN5;
+
+// 緑
+int greenR = 9;  // TournamentTODO
+int greenG = 33; // TournamentTODO
+int greenB = 18; // TournamentTODO
+RawColorPredicateCondition greenRCondition = BETWEEN5;
+RawColorPredicateCondition greenGCondition = BETWEEN5;
+RawColorPredicateCondition greenBCondition = BETWEEN5;
+
+// 青（キャリブレータから上書きされるので設定しなくて良い）
+int blueR = 6;  // TournamentTODO
+int blueG = 22; // TournamentTODO
+int blueB = 54; // TournamentTODO
+RawColorPredicateCondition blueRCondition = BETWEEN3;
+RawColorPredicateCondition blueGCondition = BETWEEN3;
+RawColorPredicateCondition blueBCondition = BETWEEN3;
+
+// 黄
+int yellowR = 70; // TournamentTODO
+int yellowG = 57; // TournamentTODO
+int yellowB = 15; // TournamentTODO
+RawColorPredicateCondition yellowRCondition = BETWEEN5;
+RawColorPredicateCondition yellowGCondition = BETWEEN5;
+RawColorPredicateCondition yellowBCondition = BETWEEN5;
+
+// グレー（キャリブレータから上書きされるので設定しなくて良い）
+int grayR = 29; // TournamentTODO
+int grayG = 40; // TournamentTODO
+int grayB = 47; // TournamentTODO
+RawColorPredicateCondition grayRCondition = BETWEEN5;
+RawColorPredicateCondition grayGCondition = BETWEEN5;
+RawColorPredicateCondition grayBCondition = BETWEEN5;
+
+// 青白境界（キャリブレータから上書きされるので設定しなくて良い）//TODO エッジを実測して。（平均を取るのではダメらしい）
+int blueWhiteEdgeR = 31; // TournamentTODO
+int blueWhiteEdgeG = 46; // TournamentTODO
+int blueWhiteEdgeB = 73; // TournamentTODO
+RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN10;
+RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN10;
+RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN10;
+#endif
 
 // 色設定ここまで
 

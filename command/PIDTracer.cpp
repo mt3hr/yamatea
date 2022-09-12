@@ -110,7 +110,7 @@ PIDTracer *PIDTracer::generateReverseCommand()
     return new PIDTracer(reversedMode, pwm, kp, ki, kd, dt);
 }
 
-void PIDTracer::setTargetBrightness(int t)
+void PIDTracer::setTargetBrightness(int8_t t)
 {
     targetBrightness = t;
 }

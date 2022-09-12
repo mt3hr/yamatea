@@ -4,7 +4,10 @@
 #include "Clock.h"
 #include "DebugUtil.h"
 
-TimerPredicate::TimerPredicate(uint64_t durationUsec){};
+TimerPredicate::TimerPredicate(uint64_t durationUsec)
+{
+    this->durationUsec = durationUsec;
+};
 
 TimerPredicate::~TimerPredicate(){};
 
