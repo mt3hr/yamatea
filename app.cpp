@@ -1316,11 +1316,18 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   ColorPIDTracer *lowPWMTracer = new ColorPIDTracer(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt);
   calibrator->addColorPIDTracer(pidTracer);
   calibrator->addColorPIDTracer(lowPWMTracer);
-
+#if defined(DisableCalibration)
+  rgb_raw_t targetRGB;
+  targetRGB.r = blackWhiteEdgeR;
+  targetRGB.g = blackWhiteEdgeG;
+  targetRGB.b = blackWhiteEdgeB;
+  pidTracer->setTargetColor(targetRGB);
+  lowPWMTracer->setTargetColor(targetRGB);
+#endif
 #ifdef SimulatorMode
   float targetBrightness = 20;
   rgb_raw_t targetRGB;
-  targetRGB.r = 60;
+  targetRGB.r = blackWhiteEdgeR;
   targetRGB.g = 60;
   targetRGB.b = 60;
   pidTracer->setTargetColor(targetRGB);
@@ -1330,7 +1337,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 1.5秒止める。BrightnessからColorへの切り替えのために。
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
   commandExecutor->addCommand(colorReader, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(colorReader));
-  uint64_t waitDurationUsec = 1000000;
+  uint64_t waitDurationUsec = 1000;
   commandExecutor->addCommand(stopper, new TimerPredicate(waitDurationUsec), "wait switch mode brightness to row color");
 
   // PIDトレースで青線まで進む
