@@ -16,9 +16,9 @@ private:
 public:
     TimerPredicate(uint64_t durationUsec);
     virtual ~TimerPredicate();
-    virtual bool test(RobotAPI *robotAPI);
-    virtual void preparation(RobotAPI *robotAPI);
-    virtual TimerPredicate *generateReversePredicate();
+    virtual bool test(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
+    virtual TimerPredicate *generateReversePredicate() override;
 };
 
 #endif

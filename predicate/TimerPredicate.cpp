@@ -2,6 +2,7 @@
 #include "Predicate.h"
 #include "RobotAPI.h"
 #include "Clock.h"
+#include "DebugUtil.h"
 
 TimerPredicate::TimerPredicate(uint64_t durationUsec){};
 
@@ -9,7 +10,15 @@ TimerPredicate::~TimerPredicate(){};
 
 bool TimerPredicate::test(RobotAPI *robotAPI)
 {
-    return targetTime <= robotAPI->getClock()->now();
+    uint64_t now = robotAPI->getClock()->now();
+    bool result = targetTime <= now;
+    writeDebug("targetTime: ");
+    writeDebug(targetTime);
+    writeEndLineDebug();
+    writeDebug("now: ");
+    writeDebug(now);
+    flushDebug(TRACE, robotAPI);
+    return result;
 }
 
 void TimerPredicate::preparation(RobotAPI *robotAPI)
