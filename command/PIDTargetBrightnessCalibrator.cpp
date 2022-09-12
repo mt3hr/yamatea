@@ -33,7 +33,7 @@ void PIDTargetBrightnessCalibrator::readBlackFromColorSensor()
 
 void PIDTargetBrightnessCalibrator::run(RobotAPI *robotAPI)
 {
-    int sleepDuration = 1000 * 500;
+    int sleepDuration = 1000 * 2500;
     if (!isReadedBlack())
     {
         if (!printedReadBlackMessage)

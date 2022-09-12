@@ -94,30 +94,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
-    else if (!readedBlueEdgeColor && calibrateBlueWhiteEdge)
-    {
-        if (!printedReadBlueEdgeMessage)
-        {
-            printedReadBlueEdgeMessage = true;
-            vector<string> messageLines;
-            messageLines.push_back("calibrating");
-            messageLines.push_back("press right key");
-            messageLines.push_back(" read blue white edge");
-            messageLines.push_back(" from color sensor");
-            PrintMessage printMessage(messageLines, true);
-            printMessage.run(robotAPI);
-        }
-        if (ev3_button_is_pressed(RIGHT_BUTTON))
-        {
-            rgb_raw_t rawColor;
-            robotAPI->getColorSensor()->getRawColor(rawColor);
-            blackWhiteEdgeR = rawColor.r;
-            blackWhiteEdgeG = rawColor.g;
-            blackWhiteEdgeB = rawColor.b;
-            readedBlueEdgeColor = true;
-            robotAPI->getClock()->sleep(sleepDuration);
-        }
-    }
+
     else if (!readedBlueColor && calibrateBlue)
     {
         if (!printedReadBlueMessage)
@@ -169,7 +146,6 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             robotAPI->getClock()->sleep(sleepDuration);
 
             readBlackBrightnessFromColorSensor();
-            robotAPI->getClock()->sleep(sleepDuration);
             readBlackColorFromColorSensor();
             robotAPI->getClock()->sleep(sleepDuration);
         }
@@ -195,11 +171,32 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             blackWhiteEdgeR = rawColor.r;
             blackWhiteEdgeG = rawColor.g;
             blackWhiteEdgeB = rawColor.b;
-            robotAPI->getClock()->sleep(sleepDuration);
-
+            readBlackWhiteEdgeColorFromColorSensor();
             readBlackWhiteEdgeBrightnessFromColorSensor();
             robotAPI->getClock()->sleep(sleepDuration);
-            readBlackWhiteEdgeColorFromColorSensor();
+        }
+    }
+    else if (!readedBlueEdgeColor && calibrateBlueWhiteEdge)
+    {
+        if (!printedReadBlueEdgeMessage)
+        {
+            printedReadBlueEdgeMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read blue white edge");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedBlueEdgeColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            blackWhiteEdgeR = rawColor.r;
+            blackWhiteEdgeG = rawColor.g;
+            blackWhiteEdgeB = rawColor.b;
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
@@ -224,10 +221,8 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             whiteR = rawColor.r;
             whiteG = rawColor.g;
             whiteB = rawColor.b;
-            robotAPI->getClock()->sleep(sleepDuration);
 
             readWhiteBrightnessFromColorSensor();
-            robotAPI->getClock()->sleep(sleepDuration);
             readWhiteColorFromColorSensor();
             robotAPI->getClock()->sleep(sleepDuration);
         }
@@ -247,7 +242,25 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         }
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
-            robotAPI->getClock()->sleep(sleepDuration);
+            vector<string> messageLines3;
+            messageLines3.push_back("3");
+            PrintMessage printMessage3(messageLines3, true);
+            printMessage3.run(robotAPI);
+            robotAPI->getClock()->sleep(1000 * 1000);
+            vector<string> messageLines2;
+            messageLines2.push_back("2");
+            PrintMessage printMessage2(messageLines2, true);
+            printMessage2.run(robotAPI);
+            robotAPI->getClock()->sleep(1000 * 1000);
+            vector<string> messageLines1;
+            messageLines1.push_back("1");
+            PrintMessage printMessage1(messageLines1, true);
+            printMessage1.run(robotAPI);
+            robotAPI->getClock()->sleep(1000 * 1000);
+            vector<string> messageLinesResetting;
+            messageLinesResetting.push_back("resetting...");
+            PrintMessage printMessageResetting(messageLinesResetting, true);
+            printMessage1.run(robotAPI);
             resetAPI();
             robotAPI->getClock()->sleep(sleepDuration);
         }

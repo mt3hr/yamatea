@@ -74,8 +74,6 @@ RobotAPI *robotAPI;
 #if defined(LeftCourceMode) | defined(RightCourceMode)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  int targetBrightness = 20;
-
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
@@ -272,14 +270,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // Commandの定義とCommandExecutorへの追加ここまで
 
   // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
-  bananaPIDTracer->setTargetBrightness(targetBrightness);
-  orangePIDTracer->setTargetBrightness(targetBrightness);
-  cherryPIDTracer->setTargetBrightness(targetBrightness);
-  waterMelonPIDTracer->setTargetBrightness(targetBrightness);
-  dorianPIDTracer->setTargetBrightness(targetBrightness);
-  melonPIDTracer->setTargetBrightness(targetBrightness);
-  cucumberPIDTracer->setTargetBrightness(targetBrightness);
-  strawberryPIDTracer->setTargetBrightness(targetBrightness);
+  bananaPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  orangePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  cherryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  waterMelonPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  dorianPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  melonPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  cucumberPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  strawberryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
 
 #ifdef RightCourceMode
   commandExecutor->reverseCommandAndPredicate();
@@ -406,16 +404,16 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // Commandの定義とCommandExecutorへの追加ここまで
 
-#ifdef SimulatorMode
+#if defined(SimulatorMode) | defined(DisableCalibration)
   // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
-  bananaPIDTracer->setTargetBrightness(targetBrightness);
-  orangePIDTracer->setTargetBrightness(targetBrightness);
-  cherryPIDTracer->setTargetBrightness(targetBrightness);
-  waterMelonPIDTracer->setTargetBrightness(targetBrightness);
-  dorianPIDTracer->setTargetBrightness(targetBrightness);
-  melonPIDTracer->setTargetBrightness(targetBrightness);
-  cucumberPIDTracer->setTargetBrightness(targetBrightness);
-  strawberryPIDTracer->setTargetBrightness(targetBrightness);
+  bananaPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  orangePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  cherryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  waterMelonPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  dorianPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  melonPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  cucumberPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  strawberryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
 #endif
 
 #ifdef RightCourceMode
@@ -428,8 +426,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #if defined(LeftCourceOkiharaMode) | defined(RightCourceOkiharaMode)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  int targetBrightness = 20;
-
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
@@ -620,7 +616,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // Commandの定義とCommandExecutorへの追加ここまで
 
-#ifdef SimulatorMode
+#if defined(SimulatorMode) | defined(DisableCalibration)
   // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
   bananaPIDTracer->setTargetBrightness(targetBrightness);
   orangePIDTracer->setTargetBrightness(targetBrightness);
@@ -2441,7 +2437,7 @@ enum ReturnToStartPointState
 ReturnToStartPointState returnToStartPointState = RTSP_TURNNING_UP;
 Walker *returnToStartPointStraightWalker = new Walker(20, 20);
 FacingAngle *facing180 = new FacingAngle(FA_WheelCount, 10, 180);
-FacingAngle *facing90 = new FacingAngle(FA_WheelCount, 10, 90);
+FacingAngle *facing90 = new FacingAngle(FA_WheelCount, 10, 270);
 Predicate *facing180Predicate = new FinishedCommandPredicate(facing180);
 Predicate *facing90Predicate = new FinishedCommandPredicate(facing90);
 bool initedFacing180 = false;

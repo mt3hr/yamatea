@@ -61,6 +61,7 @@ using namespace std;
 //#define EnablePrintMotorCount
 //#define EnablePrintPIDValues
 //#define EnableRunnerTaskTimeCheck
+//#define DisableCalibration
 
 // ********** 設定1/2ここまで **********
 
@@ -95,6 +96,8 @@ extern bool calibrateBlack;
 extern bool calibrateWhite;
 extern bool calibrateBlackWhiteEdge;
 extern bool calibrateGray;
+
+extern int blackWhiteEdgeTargetBrightness;
 
 extern bool calibrateBlue;
 extern bool calibrateBlueWhiteEdge;
