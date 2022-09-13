@@ -31,6 +31,7 @@ void ResetArmAngle::run(RobotAPI *robotAPI)
     {
         if (!initedPullArm)
         {
+            initedPullArm = true;
             pullArm->preparation(robotAPI);
             pullArmPredicate->preparation(robotAPI);
             return;
@@ -49,6 +50,7 @@ void ResetArmAngle::run(RobotAPI *robotAPI)
     {
         if (!initedFixArm)
         {
+            initedFixArm = true;
             fixArm->preparation(robotAPI);
             fixArmPredicate->preparation(robotAPI);
             return;
