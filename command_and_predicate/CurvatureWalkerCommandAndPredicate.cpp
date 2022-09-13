@@ -33,7 +33,6 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(CWCAPMode
         loneR = (r + wheelSpaceDivide2) * -thetaMPi180;
     }
 
-
     float ratioL = loneL / lone;
     float ratioR = loneR / lone;
     int leftPWM = round(pwm * ratioL);
@@ -49,7 +48,7 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(CWCAPMode
 
     Command *walker = new Walker(leftPWM, rightPWM);
 
-    Predicate *predicate;
+    Predicate *predicate = new Predicate();
     switch (mode)
     {
     case CWCMP_Gyro:

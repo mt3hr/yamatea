@@ -1,10 +1,10 @@
-#include "FacingAngle.h"
+#include "FacingAngleAbs.h"
 #include "RobotAPI.h"
 #include "Walker.h"
 #include "Stopper.h"
 #include "DebugUtil.h"
 
-FacingAngle::FacingAngle(FacingAngleMode mode, int pwm, int targetAngle)
+FacingAngleAbs::FacingAngleAbs(FacingAngleMode mode, int pwm, int targetAngle)
 {
     this->mode = mode;
     this->pwm = pwm;
@@ -14,9 +14,9 @@ FacingAngle::FacingAngle(FacingAngleMode mode, int pwm, int targetAngle)
     turnRight = new Walker(pwm, -pwm);
 };
 
-FacingAngle::~FacingAngle(){};
+FacingAngleAbs::~FacingAngleAbs(){};
 
-void FacingAngle::run(RobotAPI *robotAPI)
+void FacingAngleAbs::run(RobotAPI *robotAPI)
 {
     int angle = 0;
     switch (mode)
@@ -62,17 +62,17 @@ void FacingAngle::run(RobotAPI *robotAPI)
     }
 }
 
-void FacingAngle::preparation(RobotAPI *robotAPI)
+void FacingAngleAbs::preparation(RobotAPI *robotAPI)
 {
     return;
 }
 
-Command *FacingAngle::generateReverseCommand()
+FacingAngleAbs *FacingAngleAbs::generateReverseCommand()
 {
-    return new FacingAngle(mode, pwm, -targetAngle);
+    return new FacingAngleAbs(mode, pwm, -targetAngle);
 }
 
-bool FacingAngle::isFinished()
+bool FacingAngleAbs::isFinished()
 {
     return finish;
 }

@@ -47,7 +47,7 @@ SonarDistancePredicate.o \
 TailController.o \
 StartCyc.o \
 ColorIDReader.o \
-FacingAngle.o \
+FacingAngleAbs.o \
 ResetGyroSensor.o \
 ResetMeasAngle.o \
 Hedgehog.o \
