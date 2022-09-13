@@ -48,6 +48,7 @@ TailController.o \
 StartCyc.o \
 ColorIDReader.o \
 FacingAngleAbs.o \
+FacingAngle.o \
 ResetGyroSensor.o \
 ResetMeasAngle.o \
 Hedgehog.o \
