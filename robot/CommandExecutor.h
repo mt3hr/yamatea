@@ -38,6 +38,7 @@ public:
     virtual void nextCommand();
     virtual void emergencyStop();
     virtual void reverseCommandAndPredicate();
+    virtual bool isFinished();
 };
 
 #endif

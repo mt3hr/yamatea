@@ -117,7 +117,6 @@ void CommandExecutor::run()
         finished = true;
         if (runner)
         {
-            stp_cyc(RUNNER_CYC);
             Stopper *stopper = new Stopper();
             stopper->run(robotAPI);
             delete stopper;
@@ -159,7 +158,6 @@ void CommandExecutor::emergencyStop()
     messageLines.push_back("emergency stopped");
     PrintMessage printStopMessage(messageLines, true);
     printStopMessage.run(robotAPI);
-    stp_cyc(RUNNER_CYC);
 }
 
 void CommandExecutor::reverseCommandAndPredicate()
@@ -177,4 +175,9 @@ void CommandExecutor::reverseCommandAndPredicate()
         delete predicates[i];
         predicates[i] = reversed;
     }
+}
+
+bool CommandExecutor::isFinished()
+{
+    return finished;
 }

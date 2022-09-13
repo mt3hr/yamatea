@@ -2681,7 +2681,6 @@ void runner_task(intptr_t exinf)
   catch (exception e)
   {
     commandExecutor->emergencyStop();
-    stp_cyc(RUNNER_CYC);
     StartCyc *startDededon = new StartCyc(DEDEDON_CYC);
     startDededon->run(robotAPI);
     delete startDededon;
@@ -2821,6 +2820,21 @@ enum BTCommand
   BTC_NEXT_COMMAND = 'n',
 };
 
+void stp_cyc_all()
+{
+  stp_cyc(RUNNER_CYC);
+  stp_cyc(SING_A_SONG_CYC);
+  stp_cyc(DEDEDON_CYC);
+  stp_cyc(RETURN_TO_START_POINT_CYC);
+  stp_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
+}
+
+void emergencyStop()
+{
+  stp_cyc_all();
+  commandExecutor->emergencyStop();
+}
+
 void listen_bluetooth_command_task(intptr_t exinf)
 {
 #ifdef EnableBluetooth
@@ -2831,9 +2845,7 @@ void listen_bluetooth_command_task(intptr_t exinf)
   {
   case BTC_EMERGENCY_STOP:
   {
-    stp_cyc(SING_A_SONG_CYC);
-    stp_cyc(RETURN_TO_START_POINT_CYC);
-    commandExecutor->emergencyStop();
+    emergencyStop();
     Stopper *stopper = new Stopper();
     stopper->run(robotAPI);
     delete stopper;
@@ -2847,8 +2859,7 @@ void listen_bluetooth_command_task(intptr_t exinf)
 
       const uint32_t sleepDuration = 100 * 1000;
 
-      stp_cyc(SING_A_SONG_CYC);
-      commandExecutor->emergencyStop();
+      emergencyStop();
 
       vector<string> messageLines;
       messageLines.push_back("STARTED Back to the future");
@@ -2856,17 +2867,6 @@ void listen_bluetooth_command_task(intptr_t exinf)
       printMessage->run(robotAPI);
       robotAPI->getClock()->sleep(sleepDuration);
       delete printMessage;
-
-      // runnerTaskが終了するのを待機する
-      for (; true; robotAPI->getClock()->sleep(btSleepDuration))
-      {
-        T_RCYC runnerCycState;
-        ref_cyc(RUNNER_CYC, &runnerCycState);
-        if (runnerCycState.cycstat == TCYC_STP)
-        {
-          break;
-        }
-      }
 
       StartCyc *startBackToTheFuture = new StartCyc(RETURN_TO_START_POINT_CYC);
       startBackToTheFuture->run(robotAPI);
@@ -2881,11 +2881,6 @@ void listen_bluetooth_command_task(intptr_t exinf)
   }
   default:
     break;
-  }
-
-  if (ev3_button_is_pressed(LEFT_BUTTON))
-  {
-    stp_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
   }
 #endif
   ext_tsk();
@@ -3960,12 +3955,8 @@ void main_task(intptr_t unused)
   ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
   ev3_lcd_draw_string("initializing...", 0, line * line_height);
 
-  // すべてのタスクを止める
-  stp_cyc(RUNNER_CYC);
-  stp_cyc(SING_A_SONG_CYC);
-  stp_cyc(DEDEDON_CYC);
-  stp_cyc(RETURN_TO_START_POINT_CYC);
-  stp_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
+  // すべての周期ハンドラを止める
+  stp_cyc_all();
 
   // EV3APIオブジェクトの初期化
   TouchSensor *touchSensor = new TouchSensor(PORT_1);
@@ -4044,39 +4035,47 @@ void main_task(intptr_t unused)
     }
 
     // RUNNER_CYCが終了していたら走行完了なのでループを抜ける
-    T_RCYC runnerCycState;
-    ref_cyc(RUNNER_CYC, &runnerCycState);
-    if (runnerCycState.cycstat == TCYC_STP)
+    // CommandExecutorが終了していたら走行完了なのでループを抜ける
+    if (commandExecutor->isFinished())
     {
       break;
     }
   }
 
-#ifdef EnableBluetooth
+  // runner_cycを止める
+  stp_cyc(RUNNER_CYC);
 
+#ifdef EnableBluetooth
   // LISTEN_BLUETOOTH_COMMAND_CYCが走っていたら止める。
-  T_RCYC btcCycState;
-  ref_cyc(LISTEN_BLUETOOTH_COMMAND_CYC, &btcCycState);
-  if (btcCycState.cycstat == TCYC_STA)
-  {
-    stp_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
-  }
+  // T_RCYC btcCycState;
+  // ref_cyc(LISTEN_BLUETOOTH_COMMAND_CYC, &btcCycState);
+  // if (btcCycState.cycstat == TCYC_STA)
+  // {
+  stp_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
+  // }
 #endif
 
 #ifdef SingASong
   // 歌ってたら止める
-  T_RCYC singASongCycState;
-  ref_cyc(RETURN_TO_START_POINT_CYC, &singASongCycState);
-  if (singASongCycState.cycstat == TCYC_STA)
-  {
-    stp_cyc(SING_A_SONG_CYC);
-  }
+  // T_RCYC singASongCycState;
+  // ref_cyc(RETURN_TO_START_POINT_CYC, &singASongCycState);
+  // if (singASongCycState.cycstat == TCYC_STA)
+  // {
+  stp_cyc(SING_A_SONG_CYC);
+  // }
 #endif
 
   // returnToStartPointの終了待機
   robotAPI->getClock()->sleep(sleepDuration);
   for (; true; clock->sleep(sleepDuration))
   {
+    // 左ボタンが押されたら周期ハンドラを止める
+    if (ev3_button_is_pressed(LEFT_BUTTON))
+    {
+      // 停止処理
+      stp_cyc(BTC_RETURN_TO_START_POINT);
+    }
+
     // RETURN_TO_START_POINT_CYCが終了していたら走行完了なのでループを抜ける
     T_RCYC returnToStartPointCycState;
     ref_cyc(BTC_RETURN_TO_START_POINT, &returnToStartPointCycState);
@@ -4085,6 +4084,8 @@ void main_task(intptr_t unused)
       break;
     }
   }
+
+  stp_cyc_all();
 
   // 走行体停止
   stopper->run(robotAPI);
