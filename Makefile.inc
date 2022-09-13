@@ -59,6 +59,7 @@ FacingRobotUseWheelPredicate.o \
 DealingWithGarage.o \
 TimerPredicate.o \
 BrightnessReader.o \
+ResetArmAngle.o \
 
 SRCLANG := c++
 

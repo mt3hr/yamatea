@@ -90,6 +90,10 @@ extern float wheelSpace;
 extern int angleFor360TurnLeftRotateRobot;
 extern int angleFor360TurnRightRotateRobot;
 extern int angleFor360TurnMeasAngle;
+extern int pwmForResetArm;
+extern int angleForResetArm;
+extern int numberOfTimesForPullWhenResetArm;
+
 extern DEBUG_LEVEL debugMessageLevel;
 extern bool enablePrintMessageMode;
 extern bool enablePrintMessageForLCD;

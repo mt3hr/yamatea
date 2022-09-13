@@ -24,6 +24,9 @@ float wheelDiameter = 10.4;                 // 車輪直径。センチメート
 int angleFor360TurnLeftRotateRobot = 520;   // 左に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnRightRotateRobot = 520;  // 右に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnMeasAngle = 1065;        // 片方の車輪で360度旋回するために必要な回転角
+int pwmForResetArm = 10;
+int numberOfTimesForPullWhenResetArm = 25;
+int angleForResetArm = 20;
 
 // シミュレータの車体情報設定ここまで
 
@@ -37,6 +40,9 @@ float wheelDiameter = 10.4;                // 車輪直径。センチメート�
 int angleFor360TurnLeftRotateRobot = 520;  // 左に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnMeasAngle = 1120;       // 片方の車輪で360度旋回するために必要な回転角
+int pwmForResetArm = 10;
+int numberOfTimesForPullWhenResetArm = 25;
+int angleForResetArm = 20;
 
 // 実機の車体情報設定ここまで
 

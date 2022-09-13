@@ -64,6 +64,7 @@
 #include "DealingWithGarage.h"
 #include "TimerPredicate.h"
 #include "BrightnessReader.h"
+#include "ResetArmAngle.h"
 
 using namespace std;
 using namespace ev3api;
@@ -2989,6 +2990,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   int leftPow;
   int rightPow;
+
+  // アームの角度リセット
+  ResetArmAngle *resetArmAngle = new ResetArmAngle();
+  commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
 
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
