@@ -2907,24 +2907,29 @@ void initSong(int loop)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // ↓ここから沖原↓
+  int pwm;
+  float kp;
+  float ki;
+  float kd;
+  int dt;
 
+  int leftPow;
+  int rightPow;
+
+  // アームの角度リセット
+  ResetArmAngle *resetArmAngle = new ResetArmAngle();
+  commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
+
+  // PIDTargetCalibratorの初期化とCommandExecutorへの追加
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+  /*
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
   // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
-  /*
-    float bananaDistance = 109;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
-    float orangeDistance = 113;     // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
-    float starFruitsDistance = 9;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
-    float cherryDistance = 18;      // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
-    float waterMelonDistance = 300; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
-    float bokChoyDistance = 35;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
-    float dorianDistance = 25;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
-    float melonDistance = 209;      // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
-    float cucumberDistance = 140;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
-    float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
-  */
-
   int sceneBananaMotorCountPredicateArg = 1750;      // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
   int sceneOrangeMotorCountPredicateArg = 2500;      // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
   int sceneStarFruitsMotorCountPredicateArg = 2550;  // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
@@ -2963,40 +2968,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   distanceTemp += strawberryDistance;
   int cabbageDistance = (sceneCabbageMotorCountpredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
   distanceTemp += cabbageDistance;
-  /*
-    printf("以下出力された値をbananaDistanceとかに入れていって。");
-    printf("%sDistance: %10.f\n", "Banana", bananaDistance);
-    printf("%sDistance: %10.f\n", "Orange", orangeDistance);
-    printf("%sDistance: %10.f\n", "StarFruits", starFruitsDistance);
-    printf("%sDistance: %10.f\n", "Cherry", cherryDistance);
-    printf("%sDistance: %10.f\n", "WaterMelon", waterMelonDistance);
-    printf("%sDistance: %10.f\n", "BokChoy", bokChoyDistance);
-    printf("%sDistance: %10.f\n", "Dorian", dorianDistance);
-     printf("%sDistance: %10.f\n", "Radish", radishDistance);
-    printf("%sDistance: %10.f\n", "Melon", melonDistance);
-    printf("%sDistance: %10.f\n", "Cucumber", cucumberDistance);
-    printf("%sDistance: %10.f\n", "Strawberry", strawberryDistance);
-    printf("以上");
-
-    */
-
-  int pwm;
-  float kp;
-  float ki;
-  float kd;
-  int dt;
-
-  int leftPow;
-  int rightPow;
-
-  // アームの角度リセット
-  ResetArmAngle *resetArmAngle = new ResetArmAngle();
-  commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
-
-  // PIDTargetCalibratorの初期化とCommandExecutorへの追加
-  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
-  Predicate *startButtonPredicate = new StartButtonPredicate();
-  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
   vector<string> messageLines;
@@ -3147,6 +3118,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   cabbagePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
 #endif
   // ↑ここまで沖原↑
+  */
   // ↓ここから実方↓
 
   // ガレージカードの色取得用ColorReader
@@ -3198,11 +3170,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   calibrator->addColorPIDTracer(pidTracer);
   calibrator->addColorPIDTracer(lowPWMTracer);
 #ifdef SimulatorMode
-  float targetBrightness = 20;
   rgb_raw_t targetRGB;
   targetRGB.r = blackWhiteEdgeR;
-  targetRGB.g = 60;
-  targetRGB.b = 60;
+  targetRGB.g = blackWhiteEdgeG;
+  targetRGB.b = blackWhiteEdgeB;
   pidTracer->setTargetColor(targetRGB);
   lowPWMTracer->setTargetColor(targetRGB);
 #endif
