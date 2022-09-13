@@ -3,13 +3,16 @@
 #include "Sensor.h"
 #include "DebugUtil.h"
 
-ColorReader::ColorReader(){};
+ColorReader::ColorReader()
+{
+    color = new colorid_t;
+};
 
 ColorReader::~ColorReader(){};
 
 void ColorReader::run(RobotAPI *robotAPI)
 {
-    color = robotAPI->getColorSensor()->getColorNumber();
+    *color = robotAPI->getColorSensor()->getColorNumber();
     writeDebug("ColorReader: ");
     writeEndLineDebug();
     writeDebug("color id: ");
@@ -21,12 +24,12 @@ void ColorReader::preparation(RobotAPI *robotAPI)
 {
 }
 
-Command *ColorReader::generateReverseCommand()
+ColorReader *ColorReader::generateReverseCommand()
 {
     return new ColorReader();
 }
 
-colorid_t ColorReader::getColor()
+colorid_t *ColorReader::getColorPtr()
 {
     return color;
 }

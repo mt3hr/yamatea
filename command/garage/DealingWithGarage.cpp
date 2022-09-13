@@ -16,7 +16,7 @@ DealingWithGarage::~DealingWithGarage()
 {
 
 }
-DealingWithGarage::DealingWithGarage(colorid_t colorID,CommandExecutor* commandExecutor,bool reverse)
+DealingWithGarage::DealingWithGarage(colorid_t *colorID,CommandExecutor* commandExecutor,bool reverse)
 {
     //コマンドエグゼキューターポインタを渡し処理を追加させます。
     //reverseでコース反転させるか否かを決めます
@@ -33,7 +33,7 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
         int leftPow;
         int rightPow;
         Stopper *stopper1 = new Stopper();
-        if(colorID==COLOR_RED){
+        if((*colorID)==COLOR_RED){
             //------14r、ガレージ赤------
             Predicate *predicateS0 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS0, "stopper1");
@@ -100,14 +100,14 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             commandExecutor->addCommand(predicate3->getCommand(), predicate3->getPredicate(), "90turn");
             commandExecutor->addCommand(stopper1, predicateS1, "stopper1");
             
-        }else if(colorID==COLOR_GREEN){
+        }else if((*colorID)==COLOR_GREEN){
             //ーーーーー14gガレージ緑ーーーーー
             leftPow = 10;
             rightPow = 10;
             Walker *walkerG = new Walker(leftPow, rightPow);
             Predicate *predicateG = new ColorPredicate(COLOR_GREEN);
             commandExecutor->addCommand(walkerG, predicateG, "walkerG");
-        }else if(colorID==COLOR_GREEN){
+        }else if((*colorID)==COLOR_GREEN){
             
             //ーーーーー14ｙガレージ黄色ーーーーー
             leftPow = 10;   
@@ -115,7 +115,7 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             Walker *walkerY = new Walker(leftPow, rightPow);
             Predicate *predicateY = new ColorPredicate(COLOR_YELLOW);
             commandExecutor->addCommand(walkerY, predicateY, "walkerY");
-        }else if(colorID==COLOR_GREEN){
+        }else if((*colorID)==COLOR_GREEN){
             //ーーーーー14gガレージ緑ーーーーー
             leftPow = 10;
             rightPow = 10;

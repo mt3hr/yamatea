@@ -3211,6 +3211,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 1秒止める。BrightnessからColorへの切り替えのために。
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
   commandExecutor->addCommand(colorReader, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(colorReader));
+  colorid_t *garageCardColorPtr = colorReader->getColorPtr();
   uint64_t waitDurationUsec = 1000 * 1000;
   commandExecutor->addCommand(stopper, new TimerPredicate(waitDurationUsec), "wait switch mode brightness to row color");
 
@@ -3731,7 +3732,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // commandExecutor->addCommand(predicate13l->getCommand(), predicate13l->getPredicate(), GET_VARIABLE_NAME(predicate13l->getCommand()));
   // commandExecutor->addCommand(walker13S, predicate13S, GET_VARIABLE_NAME(walker13S));
   // 14,ガレージに直進（取得した色ごとに分岐させる）colorReadergetColor()で色を取得できる
-  Command *dealingWithGarage14 = new DealingWithGarage(colorReader->getColor(), commandExecutor, false);
+  Command *dealingWithGarage14 = new DealingWithGarage(garageCardColorPtr, commandExecutor, false);
   Predicate *predicate14 = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(dealingWithGarage14, predicate14, GET_VARIABLE_NAME(dealingWithGarage14));
 

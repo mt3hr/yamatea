@@ -8,14 +8,15 @@
 class ColorReader : public Command
 {
 private:
-    colorid_t color;
+    colorid_t *color;
+
 public:
     ColorReader();
     virtual ~ColorReader();
-    virtual void run(RobotAPI *robotAPI);
-    virtual void preparation(RobotAPI *robotAPI);
-    virtual Command *generateReverseCommand();
-    virtual colorid_t getColor();
+    virtual void run(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
+    virtual ColorReader *generateReverseCommand() override;
+    virtual colorid_t *getColorPtr();
 };
 
 #endif
