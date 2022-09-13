@@ -5,9 +5,11 @@
 #include "WheelDistancePredicate.h"
 #include "DebugUtil.h"
 #include "GyroRotateAnglePredicate.h"
+#include "FacingRobotUseWheelPredicate.h"
 
-CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, float r, float theta, RobotAPI *robotAPI)
+CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(CWCAP_Mode mode, int pwm, float r, float theta, RobotAPI *robotAPI)
 {
+
     float wheelSpaceDivide2 = wheelSpace / 2; // 先に割り算しておかないとシミュレータで期待どおりに動かない
     // 時計回りの時。
     // 中央の孤の長さ: lone  = 半径 * rad(角度)
@@ -31,6 +33,7 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, 
         loneR = (r + wheelSpaceDivide2) * -thetaMPi180;
     }
 
+
     float ratioL = loneL / lone;
     float ratioR = loneR / lone;
     int leftPWM = round(pwm * ratioL);
@@ -46,15 +49,20 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(int pwm, 
 
     Command *walker = new Walker(leftPWM, rightPWM);
 
-    /* 精度が悪い
-    WheelDistancePredicate *predicate = new WheelDistancePredicate(loneL, robotAPI);
-    if (theta < 0)
+    Predicate *predicate;
+    switch (mode)
     {
-        predicate = predicate->generateReversePredicate();
+    case CWCMP_Gyro:
+    {
+        predicate = new GyroRotateAnglePredicate(theta);
+        break;
     }
-    */
-    Predicate *predicate = new GyroRotateAnglePredicate(theta);
-
+    case CWCMP_WheelCount:
+    {
+        predicate = new FacingRobotUseWheelPredicate(theta);
+        break;
+    }
+    }
     setCommand(walker);
     setPredicate(predicate);
 }
