@@ -1,6 +1,7 @@
 mkfile_path := $(dir $(lastword $(MAKEFILE_LIST)))
 
 APPL_CXXOBJS += \
+Util.o \
 RawColorPredicate.o \
 Setting.o \
 Bluetooth.o \

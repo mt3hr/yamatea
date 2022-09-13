@@ -73,12 +73,6 @@ using namespace std;
 #define DisableCalibration
 #define StopWhenThrowException
 
-// 使う走行体の選択ここから。キャリブレーションせずに固定値を使うときのrgb値決定に使われる（カラーセンサの個体差がすごい）
-//#define RobotOkihara
-//#define RobotKomichi
-#define RobotSanekata
-// 使う走行体の選択ここまで。
-
 // ********** 設定1/2ここまで **********
 
 enum DEBUG_LEVEL
@@ -88,6 +82,8 @@ enum DEBUG_LEVEL
     DEBUG,
     TRACE,
 };
+
+extern char preCalibratedValuesFileName[];
 
 extern float wheelDiameter;
 extern float distanceFromSonarSensorToAxle;
@@ -114,6 +110,8 @@ extern bool calibrateBlackWhiteEdge;
 extern bool calibrateGray;
 
 extern int blackWhiteEdgeTargetBrightness;
+extern int whiteBrightness;
+extern int blackBrightness;
 
 extern bool calibrateBlue;
 extern bool calibrateBlueWhiteEdge;
@@ -122,64 +120,13 @@ extern bool calibrateBlack;
 extern bool calibrateWhite;
 extern bool calibrateBlackWhiteEdge;
 
-extern int r_r;
-extern int r_g;
-extern int r_b;
-extern RawColorPredicateCondition r_rCondition;
-extern RawColorPredicateCondition r_gCondition;
-extern RawColorPredicateCondition r_bCondition;
-extern int g_r;
-extern int g_g;
-extern int g_b;
-extern RawColorPredicateCondition g_rCondition;
-extern RawColorPredicateCondition g_gCondition;
-extern RawColorPredicateCondition g_bCondition;
-extern int b_r;
-extern int b_g;
-extern int b_b;
-extern RawColorPredicateCondition b_rCondition;
-extern RawColorPredicateCondition b_gCondition;
-extern RawColorPredicateCondition b_bCondition;
-extern int y_r;
-extern int y_g;
-extern int y_b;
-extern RawColorPredicateCondition y_rCondition;
-extern RawColorPredicateCondition y_gCondition;
-extern RawColorPredicateCondition y_bCondition;
-extern int bw_r;
-extern int bw_g;
-extern int bw_b;
-extern RawColorPredicateCondition bw_rCondition;
-extern RawColorPredicateCondition bw_gCondition;
-extern RawColorPredicateCondition bw_bCondition;
-extern int blackR;
-extern int black_g;
-extern int d_b;
-extern RawColorPredicateCondition d_rCondition;
-extern RawColorPredicateCondition d_gCondition;
-extern RawColorPredicateCondition d_bCondition;
-extern int w_r;
-extern int w_g;
-extern int w_b;
-extern RawColorPredicateCondition bw_rCondition;
-extern RawColorPredicateCondition w_gCondition;
-extern RawColorPredicateCondition w_bCondition;
-extern int dw_r;
-extern int dw_g;
-extern int dw_b;
-extern RawColorPredicateCondition dw_rCondition;
-extern RawColorPredicateCondition dw_gCondition;
-extern RawColorPredicateCondition dw_bCondition;
-extern int sw_r;
-extern int sw_g;
-extern int sw_b;
 extern RawColorPredicateCondition sw_rCondition;
 extern RawColorPredicateCondition sw_gCondition;
 extern RawColorPredicateCondition sw_bCondition;
 extern int whiteR;
 extern int whiteG;
 extern int whiteB;
-extern RawColorPredicateCondition WhiteRCondition;
+extern RawColorPredicateCondition whiteRCondition;
 extern RawColorPredicateCondition whiteGCondition;
 extern RawColorPredicateCondition whiteBCondition;
 extern int blackWhiteEdgeR;

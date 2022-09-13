@@ -34,12 +34,6 @@ private:
     bool printedReadBlackWhiteEdgeMessage = false;
     bool printedReadGrayColorMessage = false;
     bool printedResetAPIMessage = false; // NOTE モデルに反映しません。
-    int whiteBrightness;
-    int blackBrightness;
-    int blackWhiteEdgeBrightness;
-    rgb_raw_t whiteColor;
-    rgb_raw_t blackColor;
-    rgb_raw_t blackWhiteEdgeColor;
     bool readedBlackWhiteEdgeBrightness = false;
     bool readedBlackWhiteEdge = false;
     bool readedWhiteBrightness = false;
@@ -52,6 +46,7 @@ private:
     bool readedBlackWhiteEdgeColor = false;
     bool readedGrayColor = false;
     bool resetedAPI = false;
+    bool wrotedToFile = false;
     vector<PIDTracer *> pidTracers;
     vector<ColorPIDTracer *> colorPIDTracers;
     bool calibratedPIDTracers = false;
@@ -63,10 +58,6 @@ public:
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
     virtual PIDTargetColorBrightnessCalibrator *generateReverseCommand() override;
-    virtual int getBlackBrightness();
-    virtual int getWhiteBrightness();
-    virtual rgb_raw_t getBlackColor();
-    virtual rgb_raw_t getWhiteColor();
     virtual bool isReadedBlackBrightness();
     virtual bool isReadedWhiteBrightness();
     virtual bool isReadedBlackColor();
