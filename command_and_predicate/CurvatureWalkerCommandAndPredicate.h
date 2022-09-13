@@ -4,7 +4,7 @@
 #include "CommandAndPredicate.h"
 #include "RobotAPI.h"
 
-enum CWCAP_Mode
+enum CWCAPMode
 {
     CWCMP_Gyro,
     CWCMP_WheelCount,
@@ -18,7 +18,7 @@ class CurvatureWalkerCommandAndPredicate : public CommandAndPredicate
 {
 private:
 public:
-    CurvatureWalkerCommandAndPredicate(CWCAP_Mode mode, int pwm, float r, float theta, RobotAPI *robotAPI);
+    CurvatureWalkerCommandAndPredicate(CWCAPMode mode, int pwm, float r, float theta, RobotAPI *robotAPI);
     virtual ~CurvatureWalkerCommandAndPredicate();
 };
 

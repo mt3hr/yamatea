@@ -7,7 +7,7 @@
 #include "GyroRotateAnglePredicate.h"
 #include "FacingRobotUseWheelPredicate.h"
 
-CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(CWCAP_Mode mode, int pwm, float r, float theta, RobotAPI *robotAPI)
+CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(CWCAPMode mode, int pwm, float r, float theta, RobotAPI *robotAPI)
 {
 
     float wheelSpaceDivide2 = wheelSpace / 2; // 先に割り算しておかないとシミュレータで期待どおりに動かない

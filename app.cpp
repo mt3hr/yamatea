@@ -969,7 +969,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 15;
   r = 13.5;
   theta = -95;
-  CurvatureWalkerCommandAndPredicate *curvatureWalkerCommandAndPredicate1 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curvatureWalkerCommandAndPredicate1 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curvatureWalkerCommandAndPredicate1->getCommand(), curvatureWalkerCommandAndPredicate1->getPredicate(), "curvatureWalker1");
 
   /*
@@ -1236,7 +1236,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
   r = 18;
   theta = 30;
-  CurvatureWalkerCommandAndPredicate *curve1 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve1 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curve1->getCommand(), curve1->getPredicate(), GET_VARIABLE_NAME(curve1));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1305,7 +1305,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
   r = 16;
   theta = 50;
-  CurvatureWalkerCommandAndPredicate *curve2 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve2 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curve2->getCommand(), curve2->getPredicate(), GET_VARIABLE_NAME(curve2));
 
   //  直進
@@ -1329,7 +1329,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
   r = 8;
   theta = 50;
-  CurvatureWalkerCommandAndPredicate *curve3 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve3 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curve3->getCommand(), curve3->getPredicate(), GET_VARIABLE_NAME(curve3));
 
   //  直進
@@ -1353,7 +1353,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
   r = 10;
   theta = -45;
-  CurvatureWalkerCommandAndPredicate *curve4 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve4 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curve4->getCommand(), curve4->getPredicate(), GET_VARIABLE_NAME(curve4));
 
   //  直進
@@ -1410,7 +1410,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
   r = 13.5;
   theta = 90;
-  CurvatureWalkerCommandAndPredicate *curve5 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve5 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curve5->getCommand(), curve5->getPredicate(), GET_VARIABLE_NAME(curve5));
 
   //  直進
@@ -1474,7 +1474,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
   r = 23;
   theta = 40;
-  CurvatureWalkerCommandAndPredicate *curve5 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve5 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curve5->getCommand(), curve5->getPredicate(), GET_VARIABLE_NAME(curve5));
 
   // カーブ
@@ -1485,7 +1485,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
   r = 10;
   theta = -65;
-  CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curve6->getCommand(), curve6->getPredicate(), GET_VARIABLE_NAME(curve6));
 
   // PIDで青線まで進む
@@ -1755,7 +1755,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 16;
   theta = 50;
-  CurvatureWalkerCommandAndPredicate *curve1 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve1 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve1->getCommand(), curve1->getPredicate(), GET_VARIABLE_NAME(curve1));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1772,7 +1772,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 7 * coefficientPWM;
   radius = 22;
   theta = -16;
-  CurvatureWalkerCommandAndPredicate *curve2 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve2 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve2->getCommand(), curve2->getPredicate(), GET_VARIABLE_NAME(curve2));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1794,7 +1794,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 15;
   theta = -35;
-  CurvatureWalkerCommandAndPredicate *curve3 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve3 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve3->getCommand(), curve3->getPredicate(), GET_VARIABLE_NAME(curve3));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1818,7 +1818,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 14;
   theta = 40;
-  CurvatureWalkerCommandAndPredicate *curve4 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve4 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve4->getCommand(), curve4->getPredicate(), GET_VARIABLE_NAME(curve4));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1835,7 +1835,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 14;
   theta = 40;
-  CurvatureWalkerCommandAndPredicate *curveA = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curveA = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curveA->getCommand(), curveA->getPredicate(), GET_VARIABLE_NAME(curveA));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1862,7 +1862,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 22;
   theta = -20;
-  CurvatureWalkerCommandAndPredicate *curve5 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve5 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve5->getCommand(), curve5->getPredicate(), GET_VARIABLE_NAME(curve5));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1897,7 +1897,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 10;
   theta = -82.5;
-  CurvatureWalkerCommandAndPredicate *curveD = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curveD = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curveD->getCommand(), curveD->getPredicate(), GET_VARIABLE_NAME(curveD));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1926,7 +1926,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 33;
   theta = 70;
-  CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve6->getCommand(), curve6->getPredicate(), GET_VARIABLE_NAME(curve6));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1974,7 +1974,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 20;
   theta = 30;
-  CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve6->getCommand(), curve6->getPredicate(), GET_VARIABLE_NAME(curve6));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -2186,7 +2186,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10;
   r = 18;
   theta = -80;
-  CommandAndPredicate *curve1 = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  CommandAndPredicate *curve1 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, r, theta, robotAPI);
   commandExecutor->addCommand(curve1->getCommand(), curve1->getPredicate(), GET_VARIABLE_NAME(curve1));
 
   // 90度右旋回
@@ -2380,7 +2380,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int pwm = 20; // NOTE pwm上げるとおかしくなる
   float r = 30;
   float theta = 90;
-  CurvatureWalkerCommandAndPredicate *commandAndPredicate = new CurvatureWalkerCommandAndPredicate(pwm, r, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *commandAndPredicate = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, r, theta, robotAPI);
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate(), "curvatureWalker");
 
   // 停止コマンドの初期化とCommandExecutorへの追加
@@ -3574,7 +3574,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 16;
   theta = 50;
-  CurvatureWalkerCommandAndPredicate *curve1 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve1 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve1->getCommand(), curve1->getPredicate(), GET_VARIABLE_NAME(curve1));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -3591,7 +3591,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 7 * coefficientPWM;
   radius = 22;
   theta = -16;
-  CurvatureWalkerCommandAndPredicate *curve2 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve2 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve2->getCommand(), curve2->getPredicate(), GET_VARIABLE_NAME(curve2));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -3613,7 +3613,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 15;
   theta = -35;
-  CurvatureWalkerCommandAndPredicate *curve3 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve3 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve3->getCommand(), curve3->getPredicate(), GET_VARIABLE_NAME(curve3));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -3637,7 +3637,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 14;
   theta = 40;
-  CurvatureWalkerCommandAndPredicate *curve4 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve4 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve4->getCommand(), curve4->getPredicate(), GET_VARIABLE_NAME(curve4));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -3654,7 +3654,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 14;
   theta = 40;
-  CurvatureWalkerCommandAndPredicate *curveA = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curveA = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curveA->getCommand(), curveA->getPredicate(), GET_VARIABLE_NAME(curveA));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -3681,7 +3681,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 22;
   theta = -20;
-  CurvatureWalkerCommandAndPredicate *curve5 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve5 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve5->getCommand(), curve5->getPredicate(), GET_VARIABLE_NAME(curve5));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -3716,7 +3716,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 10;
   theta = -82.5;
-  CurvatureWalkerCommandAndPredicate *curveD = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curveD = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curveD->getCommand(), curveD->getPredicate(), GET_VARIABLE_NAME(curveD));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -3745,7 +3745,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 33;
   theta = 70;
-  CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve6->getCommand(), curve6->getPredicate(), GET_VARIABLE_NAME(curve6));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -3793,7 +3793,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 10 * coefficientPWM;
   radius = 20;
   theta = 30;
-  CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(pwm, radius, theta, robotAPI);
+  CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve6->getCommand(), curve6->getPredicate(), GET_VARIABLE_NAME(curve6));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
