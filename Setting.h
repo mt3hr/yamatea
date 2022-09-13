@@ -70,7 +70,6 @@ using namespace std;
 //#define EnablePrintMotorCount
 //#define EnablePrintPIDValues
 //#define EnableRunnerTaskTimeCheck
-#define DisableCalibration
 #define StopWhenThrowException
 
 // ********** 設定1/2ここまで **********

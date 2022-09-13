@@ -271,7 +271,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 // Commandの定義とCommandExecutorへの追加ここまで
 
 // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
-#if defined(SimulatorMode) | defined(DisableCalibration)
+#if defined(SimulatorMode)
   bananaPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
   orangePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
   cherryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
@@ -403,7 +403,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // Commandの定義とCommandExecutorへの追加ここまで
 
-#if defined(SimulatorMode) | defined(DisableCalibration)
+#if defined(SimulatorMode)
   // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
   bananaPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
   orangePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
@@ -621,7 +621,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // Commandの定義とCommandExecutorへの追加ここまで
 
-#if defined(SimulatorMode) | defined(DisableCalibration)
+#if defined(SimulatorMode)
   // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
   bananaPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
   orangePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
@@ -1557,14 +1557,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   ColorPIDTracer *lowPWMTracer = new ColorPIDTracer(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt);
   calibrator->addColorPIDTracer(pidTracer);
   calibrator->addColorPIDTracer(lowPWMTracer);
-#if defined(DisableCalibration)
-  rgb_raw_t targetRGB;
-  targetRGB.r = blackWhiteEdgeR;
-  targetRGB.g = blackWhiteEdgeG;
-  targetRGB.b = blackWhiteEdgeB;
-  pidTracer->setTargetColor(targetRGB);
-  lowPWMTracer->setTargetColor(targetRGB);
-#endif
 #ifdef SimulatorMode
   float targetBrightness = 20;
   rgb_raw_t targetRGB;
@@ -3299,7 +3291,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // Commandの定義とCommandExecutorへの追加ここまで
 
   // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
-#if defined(SimulatorMode) | defined(DisableCalibration)
+#if defined(SimulatorMode)
   bananaPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
   orangePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
   cherryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
@@ -3365,14 +3357,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   ColorPIDTracer *lowPWMTracer = new ColorPIDTracer(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt);
   calibrator->addColorPIDTracer(pidTracer);
   calibrator->addColorPIDTracer(lowPWMTracer);
-#if defined(DisableCalibration)
-  rgb_raw_t targetRGB;
-  targetRGB.r = blackWhiteEdgeR;
-  targetRGB.g = blackWhiteEdgeG;
-  targetRGB.b = blackWhiteEdgeB;
-  pidTracer->setTargetColor(targetRGB);
-  lowPWMTracer->setTargetColor(targetRGB);
-#endif
 #ifdef SimulatorMode
   float targetBrightness = 20;
   rgb_raw_t targetRGB;
