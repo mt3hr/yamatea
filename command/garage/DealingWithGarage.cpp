@@ -9,6 +9,7 @@
 #include "WheelDistancePredicate.h"
 #include "CommandAndPredicate.h"
 #include "RotateRobotUseGyroCommandAndPredicate.h"
+#include "RawColorPredicate.h"
 
 // TODO reverseへの対応
 
@@ -16,7 +17,7 @@ DealingWithGarage::~DealingWithGarage()
 {
 
 }
-DealingWithGarage::DealingWithGarage(colorid_t *colorID,CommandExecutor* commandExecutor,bool reverse)
+DealingWithGarage::DealingWithGarage(colorid_t* colorID,CommandExecutor* commandExecutor,bool reverse)
 {
     //コマンドエグゼキューターポインタを渡し処理を追加させます。
     //reverseでコース反転させるか否かを決めます
@@ -33,12 +34,12 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
         int leftPow;
         int rightPow;
         Stopper *stopper1 = new Stopper();
-        if((*colorID)==COLOR_RED){
+        if(*colorID==COLOR_RED){
             //------14r、ガレージ赤------
             Predicate *predicateS0 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS0, "stopper1");
             
-            //r1,緑エリアまで直進
+            //r1,赤エリアまで直進
             leftPow = 20;   
             rightPow = 20;
             Walker *walker1 = new Walker(leftPow, rightPow);
@@ -100,27 +101,27 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             commandExecutor->addCommand(predicate3->getCommand(), predicate3->getPredicate(), "90turn");
             commandExecutor->addCommand(stopper1, predicateS1, "stopper1");
             
-        }else if((*colorID)==COLOR_GREEN){
+        }else if(*colorID==COLOR_GREEN){
             //ーーーーー14gガレージ緑ーーーーー
             leftPow = 10;
             rightPow = 10;
             Walker *walkerG = new Walker(leftPow, rightPow);
             Predicate *predicateG = new ColorPredicate(COLOR_GREEN);
             commandExecutor->addCommand(walkerG, predicateG, "walkerG");
-        }else if((*colorID)==COLOR_GREEN){
+        }else if(*colorID==COLOR_YELLOW){
             
             //ーーーーー14ｙガレージ黄色ーーーーー
             leftPow = 10;   
             rightPow = 10;
             Walker *walkerY = new Walker(leftPow, rightPow);
-            Predicate *predicateY = new ColorPredicate(COLOR_YELLOW);
+            Predicate *predicateY = new YellowPredicate();
             commandExecutor->addCommand(walkerY, predicateY, "walkerY");
-        }else if((*colorID)==COLOR_GREEN){
-            //ーーーーー14gガレージ緑ーーーーー
+        }else{
+            //ーーーーー14gガレージ青ーーーーー
             leftPow = 10;
             rightPow = 10;
             Walker *walkerB = new Walker(leftPow, rightPow);
-            Predicate *predicateB = new ColorPredicate(COLOR_BLUE);
+            Predicate *predicateB = new BluePredicate();
             commandExecutor->addCommand(walkerB, predicateB, "walkerB");  
         }
         // 停止コマンドの初期化とCommandExecutorへの追加
