@@ -31,7 +31,7 @@ using namespace std;
 //#define SlalomAwaitingSignalModePattern2_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2。案1
 //#define SlalomAwaitingSignalModePattern1_2 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案2
 //#define SlalomAwaitingSignalModePattern2_2 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2。案2
-//#define SlalomAwaitingSignalModePattern1_3 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案3
+//#define SlalomAwaitingSignalModePatternPlan3 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案3
 //#define SlalomAwaitingSignalModePattern2_3 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2。案3
 //#define BlockTestMode  // ブロック搬入だけを走行するプログラム。
 //#define FlatLineMode // すべて同じPIDで倉庫する左コース用プログラム
@@ -59,8 +59,8 @@ using namespace std;
 // モード設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
-#define SlalomPattern1
-//#define SlalomPattern2
+//#define SlalomPattern1
+#define SlalomPattern2
 // スラロームパターンの設定ここまで
 
 //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
@@ -70,7 +70,8 @@ using namespace std;
 //#define EnablePrintMotorCount
 //#define EnablePrintPIDValues
 //#define EnableRunnerTaskTimeCheck
-#define StopWhenThrowException
+//#define EnablePrintCommandName // コマンド切り替え時にコマンド名を出力する。キャリブレータの表示がコマンド名で上書きされることがあるので、デバッグ時以外は無効化しておいたほうがいいかも
+#define StopWhenThrowException // TODO
 
 // ********** 設定1/2ここまで **********
 

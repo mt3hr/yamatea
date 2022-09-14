@@ -67,11 +67,13 @@ void CommandExecutor::run()
         commands[currentIndexForCommand]->preparation(robotAPI);
         predicates[currentIndexForCommand]->preparation(robotAPI);
 
+#ifdef EnablePrintCommandName
         vector<string> messageLines;
         messageLines.push_back("STARTED " + commandNames[currentIndexForCommand]);
         PrintMessage *printMessage = new PrintMessage(messageLines, true);
         printMessage->run(robotAPI);
         delete printMessage;
+#endif
     }
 
     // 終了条件が満たされたらindexを変更して次のコマンドに移動する

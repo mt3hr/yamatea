@@ -52,10 +52,10 @@ int angleForResetArm = 30;
 
 // 情報出力の有効無効設定ここから
 
-DEBUG_LEVEL debugMessageLevel = NONE;      // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+DEBUG_LEVEL debugMessageLevel = NONE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
 bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-bool enablePrintMessageForLCD = false;      // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
-bool enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForLCD = false;       // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
 bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
 
 // 情報出力の有効無効設定ここまで
@@ -103,9 +103,9 @@ int blackBrightness = 0;
 int whiteAtSlalomR = 0;
 int whiteAtSlalomG = 0;
 int whiteAtSlalomB = 0;
-RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
-RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
-RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
+RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN10;
+RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN10;
+RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN10;
 #else
 int whiteAtSlalomR = 0;
 int whiteAtSlalomG = 0;
