@@ -60,6 +60,7 @@ DealingWithGarage.o \
 TimerPredicate.o \
 BrightnessReader.o \
 ResetArmAngle.o \
+ReleaseWheel.o \
 
 SRCLANG := c++
 
