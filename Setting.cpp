@@ -73,10 +73,10 @@ int loopSong = 10;
 
 char preCalibratedValuesFileName[] = "/PreCalibratedValues.ini";
 
-bool calibrateRed = false;
-bool calibrateGreen = false;
-bool calibrateBlue = false; // 青色をキャリブレーションするかどうか
-bool calibrateYellow = false;
+bool calibrateRed = true;
+bool calibrateGreen = true;
+bool calibrateBlue = true; // 青色をキャリブレーションするかどうか
+bool calibrateYellow = true;
 bool calibrateBlueWhiteEdge = true; // 青白エッジをキャリブレーションするかどうか
 bool calibrateWhiteAtSlalom = true; // スラローム上からみた白をキャリブレーションするかどうか
 bool calibrateBlack = true;
