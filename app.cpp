@@ -44,7 +44,7 @@
 #include "RobotAPI.h"
 #include "GyroRotateAnglePredicate.h"
 #include "RotateRobotUseGyroCommandAndPredicate.h"
-#include "ColorReader.h"
+#include "ColorReaderUseRaw.h"
 #include "DebugUtil.h"
 #include "Bluetooth.h"
 #include "ColorPIDTracer.h"
@@ -3222,7 +3222,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // ↓ここから実方↓
   // ガレージカードの色取得用ColorReader
-  ColorReader *colorReader = new ColorReader();
+  ColorReaderUseRaw *colorReader = new ColorReaderUseRaw();
   float slalomAngleOffset = 0;
 
   float coefficientPWM;

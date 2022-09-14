@@ -8,7 +8,10 @@ ColorReader::ColorReader()
     color = new colorid_t;
 };
 
-ColorReader::~ColorReader(){};
+ColorReader::~ColorReader()
+{
+    delete color;
+};
 
 void ColorReader::run(RobotAPI *robotAPI)
 {

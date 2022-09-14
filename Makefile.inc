@@ -41,6 +41,7 @@ ClockwiseObstacleDetector.o \
 UFORunner.o \
 SuperSocialDistanceRunner.o \
 ColorReader.o \
+ColorReaderUseRaw.o \
 SpiderManRunner.o \
 RotateRobotDistanceAngleDetector.o \
 RotateRobotUseGyroCommandAndPredicate.o \
