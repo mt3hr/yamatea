@@ -1940,7 +1940,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 120度左を向く
   pwm = 7 * coefficientPWM;
   angle = -130;
-  FacingAngleAbs *facingAngle7 = new FacingAngleAbs(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  FacingAngleAbs *facingAngle7 = new FacingAngleAbs(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngle7, new FinishedCommandPredicate(facingAngle7), GET_VARIABLE_NAME(facingAngle7));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -1964,7 +1964,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 45度左を向く
   pwm = 7 * coefficientPWM;
   angle = -45;
-  FacingAngleAbs *facingAngle8 = new FacingAngleAbs(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  FacingAngleAbs *facingAngle8 = new FacingAngleAbs(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngle8, new FinishedCommandPredicate(facingAngle8), GET_VARIABLE_NAME(facingAngle8));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -3548,7 +3548,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 120度左を向く
   pwm = 7 * coefficientPWM;
   angle = -130;
-  FacingAngleAbs *facingAngle7 = new FacingAngleAbs(facingAngleMode,pwm, slalomAngleOffset + angle);
+  FacingAngleAbs *facingAngle7 = new FacingAngleAbs(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngle7, new FinishedCommandPredicate(facingAngle7), GET_VARIABLE_NAME(facingAngle7));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
@@ -3572,7 +3572,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 45度左を向く
   pwm = 7 * coefficientPWM;
   angle = -45;
-  FacingAngleAbs *facingAngle8 = new FacingAngleAbs(pwm, slalomAngleOffset + angle, facingAngleUseGyro);
+  FacingAngleAbs *facingAngle8 = new FacingAngleAbs(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngle8, new FinishedCommandPredicate(facingAngle8), GET_VARIABLE_NAME(facingAngle8));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
