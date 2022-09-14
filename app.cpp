@@ -100,56 +100,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float cucumberDistance = 140;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
   float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
 
-  /*
-  // TODO ここから消そう
-  int sceneBananaMotorCountPredicateArg = 1200;      // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
-  int sceneOrangeMotorCountPredicateArg = 2450;      // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
-  int sceneStarFruitsMotorCountPredicateArg = 2550;  // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
-  int sceneCherryMotorCountPredicateArg = 2750;      // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
-  int sceneWaterMelonMotorCountPredicateArg = 5150;  // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
-  int sceneBokChoyMotorCountPredicateArg = 5400;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
-  int sceneDorianMotorCountPredicateArg = 5700;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
-  int sceneMelonMotorCountPredicateArg = 8000;       // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
-  int sceneCucumberMotorCountPredicateArg = 9700;    // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
-  int sceneStrawberryMotorCountPredicateArg = 11200; // ゴールまで。いちご好き。ライントレースする。
-
-  float distanceTemp = 0;
-  bananaDistance = (sceneBananaMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
-  distanceTemp += bananaDistance;
-  orangeDistance = (sceneOrangeMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
-  distanceTemp += orangeDistance;
-  starFruitsDistance = (sceneStarFruitsMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
-  distanceTemp += starFruitsDistance;
-  cherryDistance = (sceneCherryMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
-  distanceTemp += cherryDistance;
-  waterMelonDistance = (sceneWaterMelonMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
-  distanceTemp += waterMelonDistance;
-  bokChoyDistance = (sceneBokChoyMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
-  distanceTemp += bokChoyDistance;
-  dorianDistance = (sceneDorianMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
-  distanceTemp += dorianDistance;
-  melonDistance = (sceneMelonMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
-  distanceTemp += melonDistance;
-  cucumberDistance = (sceneCucumberMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
-  distanceTemp += cucumberDistance;
-  strawberryDistance = (sceneStrawberryMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
-  distanceTemp += strawberryDistance;
-
-  printf("以下出力された値をbananaDistanceとかに入れていって。");
-  printf("%sDistance: %10.f\n", "Banana", bananaDistance);
-  printf("%sDistance: %10.f\n", "Orange", orangeDistance);
-  printf("%sDistance: %10.f\n", "StarFruits", starFruitsDistance);
-  printf("%sDistance: %10.f\n", "Cherry", cherryDistance);
-  printf("%sDistance: %10.f\n", "WaterMelon", waterMelonDistance);
-  printf("%sDistance: %10.f\n", "BokChoy", bokChoyDistance);
-  printf("%sDistance: %10.f\n", "Dorian", dorianDistance);
-  printf("%sDistance: %10.f\n", "Melon", melonDistance);
-  printf("%sDistance: %10.f\n", "Cucumber", cucumberDistance);
-  printf("%sDistance: %10.f\n", "Strawberry", strawberryDistance);
-  printf("以上");
-  // TODO ここまで消そう
-  */
-
   int pwm;
   float kp;
   float ki;
@@ -1146,11 +1096,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // PIDトレースで青線まで進む
   Predicate *pidTracerPredicate = new ColorPredicate(COLOR_BLUE);
-  // TODO commandExecutor->addCommand(pidTracer, pidTracerPredicate, GET_VARIABLE_NAME(pidTracer));
+  // commandExecutor->addCommand(pidTracer, pidTracerPredicate, GET_VARIABLE_NAME(pidTracer));
 
   // スラローム直前までPIDトレース
   float distance = 30;
-  // TODO commandExecutor->addCommand(pidTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
+  // commandExecutor->addCommand(pidTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // アームを下げる
@@ -2315,7 +2265,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 直進
   leftPWM = 16;
   rightPWM = 16;
-  distance = 16; // TODO
+  distance = 16;
   Walker *walker8 = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walker8Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker8, walker8Predicate, GET_VARIABLE_NAME(walker8));
@@ -2326,8 +2276,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef BlockTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // TODO 実装して
-
   // 停止コマンドの初期化とCommandExecutorへの追加
   int numberOfTimes = 1;
   Stopper *stopper = new Stopper();
@@ -2786,7 +2734,6 @@ void runner_task(intptr_t exinf)
   ext_tsk();
 }
 
-// TODO コードの場所移動して
 enum ReturnToStartPointState
 {
   RTSP_TURNNING_UP,
@@ -2796,7 +2743,6 @@ enum ReturnToStartPointState
   RTSP_FINISH,
 };
 
-// TODO コードの場所移動して
 ReturnToStartPointState returnToStartPointState = RTSP_TURNNING_UP;
 Walker *returnToStartPointStraightWalker = new Walker(20, 20);
 FacingAngleAbs *facing180 = new FacingAngleAbs(FA_WheelCount, 10, 180);
@@ -2924,7 +2870,6 @@ void return_to_start_point_task(intptr_t exinf)
   ext_tsk();
 }
 
-// TODO コードの場所移動して
 enum BTCommand
 {
   BTC_EMERGENCY_STOP = 's',
@@ -3397,16 +3342,16 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // PIDトレースで青線まで進む
   Predicate *distancePredicate = new WheelDistancePredicate(40, robotAPI);
-  // TODO commandExecutor->addCommand(pidTracer, distancePredicate, GET_VARIABLE_NAME(lowPWMTracer));
+  commandExecutor->addCommand(pidTracer, distancePredicate, GET_VARIABLE_NAME(lowPWMTracer));
 
   // PIDトレースで青線まで進む
   Predicate *pidTracerPredicate = new BlueEdgePredicate();
-  // TODO commandExecutor->addCommand(lowPWMTracer, pidTracerPredicate, GET_VARIABLE_NAME(lowPWMTracer));
+  commandExecutor->addCommand(lowPWMTracer, pidTracerPredicate, GET_VARIABLE_NAME(lowPWMTracer));
 
   // スラローム直前までPIDトレース
   distance = 35;
-  // TODO commandExecutor->addCommand(lowPWMTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
-  // TODO commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+  commandExecutor->addCommand(lowPWMTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
+  commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // アームを下げる
   int armAngle = 15;
@@ -3674,7 +3619,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // 直進位置調節
-  int diff = 6; // TODO 0にして
+  int diff = 0;
   pwm = 7 * coefficientPWM;
   distance = 4 + diff;
   Hedgehog *headgehog2 = new Hedgehog(distance, pwm);
@@ -3839,8 +3784,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *blackPredicate = new BlackPredicate();
   commandExecutor->addCommand(walkerO, blackPredicate, GET_VARIABLE_NAME(walkerO));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
-
-  // TODO カーブ
 
   // 青線までPIDトレースする
   RawColorPredicate *blueEdgePredicate = new BlueEdgePredicate();

@@ -158,7 +158,7 @@ RawColorPredicateCondition y_rCondition = BETWEEN5;
 RawColorPredicateCondition y_gCondition = BETWEEN5;
 RawColorPredicateCondition y_bCondition = BETWEEN5;
 
-// 青白境界（キャリブレータから上書きされるので設定しなくて良い）//TODO エッジを実測して。（平均を取るのではダメらしい）
+// 青白境界（キャリブレータから上書きされるので設定しなくて良い）// エッジを実測して。（平均を取るのではダメらしい）
 int bw_r = (w_r + b_r) / 2;
 int bw_g = (w_g + b_g) / 2;
 int bw_b = (w_b + b_b) / 2;
@@ -325,7 +325,7 @@ RawColorPredicateCondition y_rCondition = BETWEEN5;
 RawColorPredicateCondition y_gCondition = BETWEEN5;
 RawColorPredicateCondition y_bCondition = BETWEEN5;
 
-// 青白境界（キャリブレータから上書きされるので設定しなくて良い）//TODO エッジを実測して。（平均を取るのではダメらしい）
+// 青白境界（キャリブレータから上書きされるので設定しなくて良い）// エッジを実測して。（平均を取るのではダメらしい）
 int bw_r = (w_r + b_r) / 2;
 int bw_g = (w_g + b_g) / 2;
 int bw_b = (w_b + b_b) / 2;
