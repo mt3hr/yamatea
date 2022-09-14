@@ -2925,7 +2925,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-  /*
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
@@ -3118,7 +3117,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   cabbagePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
 #endif
   // ↑ここまで沖原↑
-  */
   // ↓ここから実方↓
 
   // ガレージカードの色取得用ColorReader

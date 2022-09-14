@@ -53,6 +53,78 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blackWhiteEdgeTargetBrightness);
             flushDebug(DEBUG, robotAPI);
         }
+        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteAtSlalomR)))
+        {
+            whiteAtSlalomR = value;
+            writeDebug(GET_VARIABLE_NAME(whiteAtSlalomR));
+            writeDebug(": ");
+            writeDebug(whiteAtSlalomR);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteAtSlalomG)))
+        {
+            whiteAtSlalomG = value;
+            writeDebug(GET_VARIABLE_NAME(whiteAtSlalomG));
+            writeDebug(": ");
+            writeDebug(whiteAtSlalomG);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteAtSlalomB)))
+        {
+            whiteAtSlalomB = value;
+            writeDebug(GET_VARIABLE_NAME(whiteAtSlalomB));
+            writeDebug(": ");
+            writeDebug(whiteAtSlalomB);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(grayR)))
+        {
+            grayR = value;
+            writeDebug(GET_VARIABLE_NAME(grayR));
+            writeDebug(": ");
+            writeDebug(grayR);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(grayG)))
+        {
+            grayG = value;
+            writeDebug(GET_VARIABLE_NAME(grayG));
+            writeDebug(": ");
+            writeDebug(grayG);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(grayB)))
+        {
+            grayB = value;
+            writeDebug(GET_VARIABLE_NAME(grayB));
+            writeDebug(": ");
+            writeDebug(grayB);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackR)))
+        {
+            blackR = value;
+            writeDebug(GET_VARIABLE_NAME(blackR));
+            writeDebug(": ");
+            writeDebug(blackR);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackG)))
+        {
+            blackG = value;
+            writeDebug(GET_VARIABLE_NAME(blackG));
+            writeDebug(": ");
+            writeDebug(blackG);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackB)))
+        {
+            blackB = value;
+            writeDebug(GET_VARIABLE_NAME(blackB));
+            writeDebug(": ");
+            writeDebug(blackB);
+            flushDebug(DEBUG, robotAPI);
+        }
         else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteR)))
         {
             whiteR = value;
@@ -101,52 +173,28 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blackWhiteEdgeB);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteAtSlalomR)))
+        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blueWhiteEdgeR)))
         {
-            whiteAtSlalomR = value;
-            writeDebug(GET_VARIABLE_NAME(whiteAtSlalomR));
+            blueWhiteEdgeR = value;
+            writeDebug(GET_VARIABLE_NAME(blueWhiteEdgeR));
             writeDebug(": ");
-            writeDebug(whiteAtSlalomR);
+            writeDebug(blueWhiteEdgeR);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteAtSlalomG)))
+        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blueWhiteEdgeG)))
         {
-            whiteAtSlalomG = value;
-            writeDebug(GET_VARIABLE_NAME(whiteAtSlalomG));
+            blueWhiteEdgeG = value;
+            writeDebug(GET_VARIABLE_NAME(blueWhiteEdgeG));
             writeDebug(": ");
-            writeDebug(whiteAtSlalomG);
+            writeDebug(blueWhiteEdgeG);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteAtSlalomB)))
+        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blueWhiteEdgeB)))
         {
-            whiteAtSlalomB = value;
-            writeDebug(GET_VARIABLE_NAME(whiteAtSlalomB));
+            blueWhiteEdgeB = value;
+            writeDebug(GET_VARIABLE_NAME(blueWhiteEdgeB));
             writeDebug(": ");
-            writeDebug(whiteAtSlalomB);
-            flushDebug(DEBUG, robotAPI);
-        }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackR)))
-        {
-            blackR = value;
-            writeDebug(GET_VARIABLE_NAME(blackR));
-            writeDebug(": ");
-            writeDebug(blackR);
-            flushDebug(DEBUG, robotAPI);
-        }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackG)))
-        {
-            blackG = value;
-            writeDebug(GET_VARIABLE_NAME(blackG));
-            writeDebug(": ");
-            writeDebug(blackG);
-            flushDebug(DEBUG, robotAPI);
-        }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackB)))
-        {
-            blackB = value;
-            writeDebug(GET_VARIABLE_NAME(blackB));
-            writeDebug(": ");
-            writeDebug(blackB);
+            writeDebug(blueWhiteEdgeB);
             flushDebug(DEBUG, robotAPI);
         }
         else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(redR)))
@@ -245,54 +293,6 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(yellowB);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(grayR)))
-        {
-            grayR = value;
-            writeDebug(GET_VARIABLE_NAME(grayR));
-            writeDebug(": ");
-            writeDebug(grayR);
-            flushDebug(DEBUG, robotAPI);
-        }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(grayG)))
-        {
-            grayG = value;
-            writeDebug(GET_VARIABLE_NAME(grayG));
-            writeDebug(": ");
-            writeDebug(grayG);
-            flushDebug(DEBUG, robotAPI);
-        }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(grayB)))
-        {
-            grayB = value;
-            writeDebug(GET_VARIABLE_NAME(grayB));
-            writeDebug(": ");
-            writeDebug(grayB);
-            flushDebug(DEBUG, robotAPI);
-        }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blueWhiteEdgeR)))
-        {
-            blueWhiteEdgeR = value;
-            writeDebug(GET_VARIABLE_NAME(blueWhiteEdgeR));
-            writeDebug(": ");
-            writeDebug(blueWhiteEdgeR);
-            flushDebug(DEBUG, robotAPI);
-        }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blueWhiteEdgeG)))
-        {
-            blueWhiteEdgeG = value;
-            writeDebug(GET_VARIABLE_NAME(blueWhiteEdgeG));
-            writeDebug(": ");
-            writeDebug(blueWhiteEdgeG);
-            flushDebug(DEBUG, robotAPI);
-        }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blueWhiteEdgeB)))
-        {
-            blueWhiteEdgeB = value;
-            writeDebug(GET_VARIABLE_NAME(blueWhiteEdgeB));
-            writeDebug(": ");
-            writeDebug(blueWhiteEdgeB);
-            flushDebug(DEBUG, robotAPI);
-        }
     }
 }
 
@@ -302,18 +302,24 @@ void writeCalibratedValuesToFile(RobotAPI *robotAPI)
     ss << GET_VARIABLE_NAME(blackWhiteEdgeTargetBrightness) << "=" << float(blackWhiteEdgeTargetBrightness) << endl;
     ss << GET_VARIABLE_NAME(whiteBrightness) << "=" << float(whiteBrightness) << endl;
     ss << GET_VARIABLE_NAME(blackBrightness) << "=" << float(blackBrightness) << endl;
+    ss << GET_VARIABLE_NAME(whiteAtSlalomR) << "=" << float(whiteAtSlalomR) << endl;
+    ss << GET_VARIABLE_NAME(whiteAtSlalomG) << "=" << float(whiteAtSlalomG) << endl;
+    ss << GET_VARIABLE_NAME(whiteAtSlalomB) << "=" << float(whiteAtSlalomB) << endl;
+    ss << GET_VARIABLE_NAME(grayR) << "=" << float(grayR) << endl;
+    ss << GET_VARIABLE_NAME(grayG) << "=" << float(grayG) << endl;
+    ss << GET_VARIABLE_NAME(grayB) << "=" << float(grayB) << endl;
+    ss << GET_VARIABLE_NAME(blackR) << "=" << float(blackR) << endl;
+    ss << GET_VARIABLE_NAME(blackG) << "=" << float(blackG) << endl;
+    ss << GET_VARIABLE_NAME(blackB) << "=" << float(blackB) << endl;
     ss << GET_VARIABLE_NAME(whiteR) << "=" << float(whiteR) << endl;
     ss << GET_VARIABLE_NAME(whiteG) << "=" << float(whiteG) << endl;
     ss << GET_VARIABLE_NAME(whiteB) << "=" << float(whiteB) << endl;
     ss << GET_VARIABLE_NAME(blackWhiteEdgeR) << "=" << float(blackWhiteEdgeR) << endl;
     ss << GET_VARIABLE_NAME(blackWhiteEdgeG) << "=" << float(blackWhiteEdgeG) << endl;
     ss << GET_VARIABLE_NAME(blackWhiteEdgeB) << "=" << float(blackWhiteEdgeB) << endl;
-    ss << GET_VARIABLE_NAME(whiteAtSlalomR) << "=" << float(whiteAtSlalomR) << endl;
-    ss << GET_VARIABLE_NAME(whiteAtSlalomG) << "=" << float(whiteAtSlalomG) << endl;
-    ss << GET_VARIABLE_NAME(whiteAtSlalomB) << "=" << float(whiteAtSlalomB) << endl;
-    ss << GET_VARIABLE_NAME(blackR) << "=" << float(blackR) << endl;
-    ss << GET_VARIABLE_NAME(blackG) << "=" << float(blackG) << endl;
-    ss << GET_VARIABLE_NAME(blackB) << "=" << float(blackB) << endl;
+    ss << GET_VARIABLE_NAME(blueWhiteEdgeR) << "=" << float(blueWhiteEdgeR) << endl;
+    ss << GET_VARIABLE_NAME(blueWhiteEdgeG) << "=" << float(blueWhiteEdgeG) << endl;
+    ss << GET_VARIABLE_NAME(blueWhiteEdgeB) << "=" << float(blueWhiteEdgeB) << endl;
     ss << GET_VARIABLE_NAME(redR) << "=" << float(redR) << endl;
     ss << GET_VARIABLE_NAME(redG) << "=" << float(redG) << endl;
     ss << GET_VARIABLE_NAME(redB) << "=" << float(redB) << endl;
@@ -326,12 +332,6 @@ void writeCalibratedValuesToFile(RobotAPI *robotAPI)
     ss << GET_VARIABLE_NAME(yellowR) << "=" << float(yellowR) << endl;
     ss << GET_VARIABLE_NAME(yellowG) << "=" << float(yellowG) << endl;
     ss << GET_VARIABLE_NAME(yellowB) << "=" << float(yellowB) << endl;
-    ss << GET_VARIABLE_NAME(grayR) << "=" << float(grayR) << endl;
-    ss << GET_VARIABLE_NAME(grayG) << "=" << float(grayG) << endl;
-    ss << GET_VARIABLE_NAME(grayB) << "=" << float(grayB) << endl;
-    ss << GET_VARIABLE_NAME(blueWhiteEdgeR) << "=" << float(blueWhiteEdgeR) << endl;
-    ss << GET_VARIABLE_NAME(blueWhiteEdgeG) << "=" << float(blueWhiteEdgeG) << endl;
-    ss << GET_VARIABLE_NAME(blueWhiteEdgeB) << "=" << float(blueWhiteEdgeB) << endl;
 
     writeDebug(GET_VARIABLE_NAME(blackWhiteEdgeTargetBrightness));
     writeDebug(": ");
@@ -578,58 +578,6 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
-    else if (!readedBlueEdgeColor && calibrateBlueWhiteEdge)
-    {
-        if (!printedReadBlueEdgeMessage)
-        {
-            printedReadBlueEdgeMessage = true;
-            vector<string> messageLines;
-            messageLines.push_back("calibrating");
-            messageLines.push_back("press right key");
-            messageLines.push_back(" read blue white edge");
-            messageLines.push_back(" from color sensor");
-            PrintMessage printMessage(messageLines, true);
-            printMessage.run(robotAPI);
-        }
-        if (ev3_button_is_pressed(RIGHT_BUTTON))
-        {
-            readedBlueEdgeColor = true;
-            rgb_raw_t rawColor;
-            robotAPI->getColorSensor()->getRawColor(rawColor);
-            blackWhiteEdgeR = rawColor.r;
-            blackWhiteEdgeG = rawColor.g;
-            blackWhiteEdgeB = rawColor.b;
-            robotAPI->getClock()->sleep(sleepDuration);
-        }
-    }
-    else if (!readedBlueColor && calibrateBlue)
-    {
-        if (!printedReadBlueMessage)
-        {
-            stringstream vs;
-            vs << "voltage: " << float(ev3_battery_voltage_mV());
-
-            printedReadBlueMessage = true;
-            vector<string> messageLines;
-            messageLines.push_back("calibrating");
-            messageLines.push_back("press right key");
-            messageLines.push_back(" read blue");
-            messageLines.push_back(" from color sensor");
-            messageLines.push_back(vs.str());
-            PrintMessage printMessage(messageLines, true);
-            printMessage.run(robotAPI);
-        }
-        if (ev3_button_is_pressed(RIGHT_BUTTON))
-        {
-            rgb_raw_t rawColor;
-            robotAPI->getColorSensor()->getRawColor(rawColor);
-            blackR = rawColor.r;
-            blackG = rawColor.g;
-            blackB = rawColor.b;
-            readedBlueColor = true;
-            robotAPI->getClock()->sleep(sleepDuration);
-        }
-    }
     else if (!isReadedBlackBrightness() && calibrateBlack)
     {
         if (!printedReadBlackMessage)
@@ -684,7 +632,6 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
-
     else if ((!isReadedBlackWhiteEdgeBrightness() || !isReadedBlackWhiteEdgeColor()) && calibrateBlackWhiteEdge)
     {
         if (!printedReadBlackWhiteEdgeMessage)
@@ -708,6 +655,127 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             blackWhiteEdgeB = rawColor.b;
             readBlackWhiteEdgeColorFromColorSensor();
             readBlackWhiteEdgeBrightnessFromColorSensor();
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedBlueEdgeColor && calibrateBlueWhiteEdge)
+    {
+        if (!printedReadBlueEdgeMessage)
+        {
+            printedReadBlueEdgeMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read blue white edge");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedBlueEdgeColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            blueWhiteEdgeR = rawColor.r;
+            blueWhiteEdgeG = rawColor.g;
+            blueWhiteEdgeB = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+
+    else if (!readedRedColor && calibrateRed)
+    {
+        if (!printedReadRedMessage)
+        {
+            printedReadRedMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read red white edge");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedRedColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            redR = rawColor.r;
+            redG = rawColor.g;
+            redB = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedGreenColor && calibrateGreen)
+    {
+        if (!printedReadGreenMessage)
+        {
+            printedReadGreenMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read green white edge");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedGreenColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            greenR = rawColor.r;
+            greenG = rawColor.g;
+            greenB = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedBlueColor && calibrateBlue)
+    {
+        if (!printedReadBlueMessage)
+        {
+            printedReadBlueMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read blue");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedBlueColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            blueR = rawColor.r;
+            blueG = rawColor.g;
+            blueB = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedYellowColor && calibrateYellow)
+    {
+        if (!printedReadYellowMessage)
+        {
+            printedReadYellowMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read yellow white edge");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedYellowColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            yellowR = rawColor.r;
+            yellowG = rawColor.g;
+            yellowB = rawColor.b;
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }

@@ -69,15 +69,24 @@ int loopSong = 10;
 
 // コマンド切り替え時ビープ音設定ここまで
 
-// 色設定ここから
+// キャリブレーション設定ここから
 
-bool calibrateBlue = false;         // 青色をキャリブレーションするかどうか
+char preCalibratedValuesFileName[] = "/PreCalibratedValues.ini";
+
+bool calibrateRed = false;
+bool calibrateGreen = false;
+bool calibrateBlue = false; // 青色をキャリブレーションするかどうか
+bool calibrateYellow = false;
 bool calibrateBlueWhiteEdge = true; // 青白エッジをキャリブレーションするかどうか
 bool calibrateWhiteAtSlalom = true; // スラローム上からみた白をキャリブレーションするかどうか
 bool calibrateBlack = true;
 bool calibrateWhite = true;
 bool calibrateGray = true;
 bool calibrateBlackWhiteEdge = true;
+
+// 以下色の値設定
+// 設定しなくてOK。キャリブレーター使えば上書きされますし、
+// キャリブレーション完了してから上ボタンで値を保存、キャリブレーション中に下ボタンで保存した値を読み込みできます。
 
 #ifdef SimulatorMode
 int blackWhiteEdgeTargetBrightness = 20;
@@ -89,25 +98,7 @@ int whiteBrightness = 0;
 int blackBrightness = 0;
 #endif
 
-char preCalibratedValuesFileName[] = "/PreCalibratedValues.ini";
-
-// 白（キャリブレータから上書きされるので設定しなくて良い）
-int whiteR = 0;
-int whiteG = 0;
-int whiteB = 0;
-RawColorPredicateCondition WhiteRCondition = BETWEEN5;
-RawColorPredicateCondition whiteGCondition = BETWEEN5;
-RawColorPredicateCondition whiteBCondition = BETWEEN5;
-
-// 黒白境界（キャリブレータから上書きされるので設定しなくて良い）
-int blackWhiteEdgeR = 0;
-int blackWhiteEdgeG = 0;
-int blackWhiteEdgeB = 0;
-RawColorPredicateCondition blackWhiteEdgeRCondition = BETWEEN5;
-RawColorPredicateCondition blackWhiteEdgeGCondition = BETWEEN5;
-RawColorPredicateCondition blackWhiteEdgeBCondition = BETWEEN5;
-
-// スラローム上からみた白（キャリブレータから上書きされるので設定しなくて良い）
+// スラローム上からみた白
 #ifdef SimulatorMode
 int whiteAtSlalomR = 0;
 int whiteAtSlalomG = 0;
@@ -124,13 +115,45 @@ RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN10;
 RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN10;
 #endif
 
-// 黒（キャリブレータから上書きされるので設定しなくて良い）
+// グレー
+int grayR = 0;
+int grayG = 0;
+int grayB = 0;
+RawColorPredicateCondition grayRCondition = BETWEEN5;
+RawColorPredicateCondition grayGCondition = BETWEEN5;
+RawColorPredicateCondition grayBCondition = BETWEEN5;
+
+// 黒
 int blackR = 0;
 int blackG = 0;
 int blackB = 0;
 RawColorPredicateCondition blackRCondition = BETWEEN5;
 RawColorPredicateCondition blackGCondition = BETWEEN5;
 RawColorPredicateCondition blackBCondition = BETWEEN5;
+
+// 白
+int whiteR = 0;
+int whiteG = 0;
+int whiteB = 0;
+RawColorPredicateCondition WhiteRCondition = BETWEEN5;
+RawColorPredicateCondition whiteGCondition = BETWEEN5;
+RawColorPredicateCondition whiteBCondition = BETWEEN5;
+
+// 黒白境界
+int blackWhiteEdgeR = 0;
+int blackWhiteEdgeG = 0;
+int blackWhiteEdgeB = 0;
+RawColorPredicateCondition blackWhiteEdgeRCondition = BETWEEN5;
+RawColorPredicateCondition blackWhiteEdgeGCondition = BETWEEN5;
+RawColorPredicateCondition blackWhiteEdgeBCondition = BETWEEN5;
+
+// 青白境界
+int blueWhiteEdgeR = 0;
+int blueWhiteEdgeG = 0;
+int blueWhiteEdgeB = 0;
+RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN10;
+RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN10;
+RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN10;
 
 // 赤
 int redR = 0;
@@ -148,7 +171,7 @@ RawColorPredicateCondition greenRCondition = BETWEEN5;
 RawColorPredicateCondition greenGCondition = BETWEEN5;
 RawColorPredicateCondition greenBCondition = BETWEEN5;
 
-// 青（キャリブレータから上書きされるので設定しなくて良い）
+// 青
 int blueR = 0;
 int blueG = 0;
 int blueB = 0;
@@ -164,19 +187,6 @@ RawColorPredicateCondition yellowRCondition = BETWEEN5;
 RawColorPredicateCondition yellowGCondition = BETWEEN5;
 RawColorPredicateCondition yellowBCondition = BETWEEN5;
 
-// グレー（キャリブレータから上書きされるので設定しなくて良い）
-int grayR = 0;
-int grayG = 0;
-int grayB = 0;
-RawColorPredicateCondition grayRCondition = BETWEEN5;
-RawColorPredicateCondition grayGCondition = BETWEEN5;
-RawColorPredicateCondition grayBCondition = BETWEEN5;
+// キャリブレーション設定ここまで
 
-// 青白境界（キャリブレータから上書きされるので設定しなくて良い）//TODO エッジを実測して。（平均を取るのではダメらしい）
-int blueWhiteEdgeR = 0;
-int blueWhiteEdgeG = 0;
-int blueWhiteEdgeB = 0;
-RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN10;
-RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN10;
-RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN10;
 // ********** 設定2/2ここまで **********

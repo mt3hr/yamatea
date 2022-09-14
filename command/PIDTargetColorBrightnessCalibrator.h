@@ -26,7 +26,10 @@ private:
     BrightnessCalibrateMode brightnessCalibrateMode;
     bool printedReadBlackMessage = false;            // NOTE モデルに反映しません。
     bool printedReadWhiteMessage = false;            // NOTE モデルに反映しません。
+    bool printedReadRedMessage = false;              // NOTE モデルに反映しません。
+    bool printedReadGreenMessage = false;            // NOTE モデルに反映しません。
     bool printedReadBlueMessage = false;             // NOTE モデルに反映しません。
+    bool printedReadYellowMessage = false;           // NOTE モデルに反映しません。
     bool printedReadBlackColorMessage = false;       // NOTE モデルに反映しません。
     bool printedReadWhiteColorMessage = false;       // NOTE モデルに反映しません。
     bool printedReadBlueEdgeMessage = false;         // NOTE モデルに反映しません。
@@ -40,7 +43,10 @@ private:
     bool readedBlackBrightness = false;
     bool readedWhiteColor = false;
     bool readedBlackColor = false;
+    bool readedRedColor = false;
+    bool readedGreenColor = false;
     bool readedBlueColor = false;
+    bool readedYellowColor = false;
     bool readedBlueEdgeColor = false;
     bool readedSlalomWhiteColor = false;
     bool readedBlackWhiteEdgeColor = false;
