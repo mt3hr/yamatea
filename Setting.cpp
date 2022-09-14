@@ -26,7 +26,7 @@ int angleFor360TurnRightRotateRobot = 520;  // 右に360度旋回するのに必
 int angleFor360TurnMeasAngle = 1065;        // 片方の車輪で360度旋回するために必要な回転角
 int pwmForResetArm = 10;
 int numberOfTimesForPullWhenResetArm = 25;
-int angleForResetArm = 20;
+int angleForResetArm = 30;
 
 // シミュレータの車体情報設定ここまで
 
@@ -42,7 +42,7 @@ int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必�
 int angleFor360TurnMeasAngle = 1120;       // 片方の車輪で360度旋回するために必要な回転角
 int pwmForResetArm = 10;
 int numberOfTimesForPullWhenResetArm = 25;
-int angleForResetArm = 20;
+int angleForResetArm = 30;
 
 // 実機の車体情報設定ここまで
 
@@ -52,10 +52,10 @@ int angleForResetArm = 20;
 
 // 情報出力の有効無効設定ここから
 
-DEBUG_LEVEL debugMessageLevel = NONE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+DEBUG_LEVEL debugMessageLevel = NONE;      // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
 bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-bool enablePrintMessageForLCD = false;       // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
-bool enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForLCD = false;      // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
 bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
 
 // 情報出力の有効無効設定ここまで
