@@ -2821,8 +2821,6 @@ void emergencyStop()
 void listen_bluetooth_command_task(intptr_t exinf)
 {
 #ifdef EnableBluetooth
-  const uint32_t btSleepDuration = 100 * 100;
-
   unsigned char bluetoothCommand = fgetc(bt);
   switch (bluetoothCommand)
   {

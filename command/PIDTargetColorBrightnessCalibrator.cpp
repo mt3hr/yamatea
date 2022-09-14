@@ -29,7 +29,42 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
         int value = 0;
         string valueStr = keyAndValue[1];
         sscanf(valueStr.c_str(), "%d", &value);
-        if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackWhiteEdgeTargetBrightness)))
+
+        string blackWhiteEdgeTargetBrightnessVariableName = GET_VARIABLE_NAME(blackWhiteEdgeTargetBrightness);
+        string whiteBrightnessVariableName = GET_VARIABLE_NAME(whiteBrightness);
+        string blackBrightnessVariableName = GET_VARIABLE_NAME(blackBrightness);
+        string whiteAtSlalomRVariableName = GET_VARIABLE_NAME(whiteAtSlalomR);
+        string whiteAtSlalomGVariableName = GET_VARIABLE_NAME(whiteAtSlalomG);
+        string whiteAtSlalomBVariableName = GET_VARIABLE_NAME(whiteAtSlalomB);
+        string grayRVariableName = GET_VARIABLE_NAME(grayR);
+        string grayGVariableName = GET_VARIABLE_NAME(grayG);
+        string grayBVariableName = GET_VARIABLE_NAME(grayB);
+        string blackRVariableName = GET_VARIABLE_NAME(blackR);
+        string blackGVariableName = GET_VARIABLE_NAME(blackG);
+        string blackBVariableName = GET_VARIABLE_NAME(blackB);
+        string whiteRVariableName = GET_VARIABLE_NAME(whiteR);
+        string whiteGVariableName = GET_VARIABLE_NAME(whiteG);
+        string whiteBVariableName = GET_VARIABLE_NAME(whiteB);
+        string blackWhiteEdgeRVariableName = GET_VARIABLE_NAME(blackWhiteEdgeR);
+        string blackWhiteEdgeGVariableName = GET_VARIABLE_NAME(blackWhiteEdgeG);
+        string blackWhiteEdgeBVariableName = GET_VARIABLE_NAME(blackWhiteEdgeB);
+        string blueWhiteEdgeRVariableName = GET_VARIABLE_NAME(blueWhiteEdgeR);
+        string blueWhiteEdgeGVariableName = GET_VARIABLE_NAME(blueWhiteEdgeG);
+        string blueWhiteEdgeBVariableName = GET_VARIABLE_NAME(blueWhiteEdgeB);
+        string redRVariableName = GET_VARIABLE_NAME(redR);
+        string redGVariableName = GET_VARIABLE_NAME(redG);
+        string redBVariableName = GET_VARIABLE_NAME(redB);
+        string greenRVariableName = GET_VARIABLE_NAME(greenR);
+        string greenGVariableName = GET_VARIABLE_NAME(greenG);
+        string greenBVariableName = GET_VARIABLE_NAME(greenB);
+        string blueRVariableName = GET_VARIABLE_NAME(blueR);
+        string blueGVariableName = GET_VARIABLE_NAME(blueG);
+        string blueBVariableName = GET_VARIABLE_NAME(blueB);
+        string yellowRVariableName = GET_VARIABLE_NAME(yellowR);
+        string yellowGVariableName = GET_VARIABLE_NAME(yellowG);
+        string yellowBVariableName = GET_VARIABLE_NAME(yellowB);
+
+        if (equal(blackWhiteEdgeTargetBrightnessVariableName.begin(), blackWhiteEdgeTargetBrightnessVariableName.end(), key.c_str()))
         {
             blackWhiteEdgeTargetBrightness = value;
             writeDebug(GET_VARIABLE_NAME(blackWhiteEdgeTargetBrightness));
@@ -37,7 +72,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blackWhiteEdgeTargetBrightness);
             flushDebug(DEBUG, robotAPI);
         }
-        if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteBrightness)))
+        if (equal(whiteBrightnessVariableName.begin(), whiteBrightnessVariableName.end(), key.c_str()))
         {
             whiteBrightness = value;
             writeDebug(GET_VARIABLE_NAME(whiteBrightness));
@@ -45,7 +80,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(whiteBrightness);
             flushDebug(DEBUG, robotAPI);
         }
-        if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackBrightness)))
+        if (equal(blackBrightnessVariableName.begin(), blackBrightnessVariableName.end(), key.c_str()))
         {
             blackBrightness = value;
             writeDebug(GET_VARIABLE_NAME(blackBrightness));
@@ -53,7 +88,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blackWhiteEdgeTargetBrightness);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteAtSlalomR)))
+        else if (equal(whiteAtSlalomRVariableName.begin(), whiteAtSlalomRVariableName.end(), key.c_str()))
         {
             whiteAtSlalomR = value;
             writeDebug(GET_VARIABLE_NAME(whiteAtSlalomR));
@@ -61,7 +96,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(whiteAtSlalomR);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteAtSlalomG)))
+        else if (equal(whiteAtSlalomGVariableName.begin(), whiteAtSlalomGVariableName.end(), key.c_str()))
         {
             whiteAtSlalomG = value;
             writeDebug(GET_VARIABLE_NAME(whiteAtSlalomG));
@@ -69,7 +104,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(whiteAtSlalomG);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteAtSlalomB)))
+        else if (equal(whiteAtSlalomBVariableName.begin(), whiteAtSlalomBVariableName.end(), key.c_str()))
         {
             whiteAtSlalomB = value;
             writeDebug(GET_VARIABLE_NAME(whiteAtSlalomB));
@@ -77,7 +112,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(whiteAtSlalomB);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(grayR)))
+        else if (equal(grayRVariableName.begin(), grayRVariableName.end(), key.c_str()))
         {
             grayR = value;
             writeDebug(GET_VARIABLE_NAME(grayR));
@@ -85,7 +120,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(grayR);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(grayG)))
+        else if (equal(grayGVariableName.begin(), grayGVariableName.end(), key.c_str()))
         {
             grayG = value;
             writeDebug(GET_VARIABLE_NAME(grayG));
@@ -93,7 +128,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(grayG);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(grayB)))
+        else if (equal(grayBVariableName.begin(), grayBVariableName.end(), key.c_str()))
         {
             grayB = value;
             writeDebug(GET_VARIABLE_NAME(grayB));
@@ -101,7 +136,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(grayB);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackR)))
+        else if (equal(blackRVariableName.begin(), blackRVariableName.end(), key.c_str()))
         {
             blackR = value;
             writeDebug(GET_VARIABLE_NAME(blackR));
@@ -109,7 +144,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blackR);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackG)))
+        else if (equal(blackGVariableName.begin(), blackGVariableName.end(), key.c_str()))
         {
             blackG = value;
             writeDebug(GET_VARIABLE_NAME(blackG));
@@ -117,7 +152,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blackG);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackB)))
+        else if (equal(blackBVariableName.begin(), blackBVariableName.end(), key.c_str()))
         {
             blackB = value;
             writeDebug(GET_VARIABLE_NAME(blackB));
@@ -125,7 +160,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blackB);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteR)))
+        else if (equal(whiteRVariableName.begin(), whiteRVariableName.end(), key.c_str()))
         {
             whiteR = value;
             writeDebug(GET_VARIABLE_NAME(whiteR));
@@ -133,7 +168,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(whiteR);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteG)))
+        else if (equal(whiteGVariableName.begin(), whiteGVariableName.end(), key.c_str()))
         {
             whiteG = value;
             writeDebug(GET_VARIABLE_NAME(whiteG));
@@ -141,7 +176,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(whiteG);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(whiteB)))
+        else if (equal(whiteBVariableName.begin(), whiteBVariableName.end(), key.c_str()))
         {
             whiteB = value;
             writeDebug(GET_VARIABLE_NAME(whiteB));
@@ -149,7 +184,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(whiteB);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackWhiteEdgeR)))
+        else if (equal(blackWhiteEdgeRVariableName.begin(), blackWhiteEdgeRVariableName.end(), key.c_str()))
         {
             blackWhiteEdgeR = value;
             writeDebug(GET_VARIABLE_NAME(blackWhiteEdgeR));
@@ -157,7 +192,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blackWhiteEdgeR);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackWhiteEdgeG)))
+        else if (equal(blackWhiteEdgeGVariableName.begin(), blackWhiteEdgeGVariableName.end(), key.c_str()))
         {
             blackWhiteEdgeG = value;
             writeDebug(GET_VARIABLE_NAME(blackWhiteEdgeG));
@@ -165,7 +200,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blackWhiteEdgeG);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blackWhiteEdgeB)))
+        else if (equal(blackWhiteEdgeBVariableName.begin(), blackWhiteEdgeBVariableName.end(), key.c_str()))
         {
             blackWhiteEdgeB = value;
             writeDebug(GET_VARIABLE_NAME(blackWhiteEdgeB));
@@ -173,7 +208,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blackWhiteEdgeB);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blueWhiteEdgeR)))
+        else if (equal(blueWhiteEdgeRVariableName.begin(), blueWhiteEdgeRVariableName.end(), key.c_str()))
         {
             blueWhiteEdgeR = value;
             writeDebug(GET_VARIABLE_NAME(blueWhiteEdgeR));
@@ -181,7 +216,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blueWhiteEdgeR);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blueWhiteEdgeG)))
+        else if (equal(blueWhiteEdgeGVariableName.begin(), blueWhiteEdgeGVariableName.end(), key.c_str()))
         {
             blueWhiteEdgeG = value;
             writeDebug(GET_VARIABLE_NAME(blueWhiteEdgeG));
@@ -189,7 +224,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blueWhiteEdgeG);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blueWhiteEdgeB)))
+        else if (equal(blueWhiteEdgeBVariableName.begin(), blueWhiteEdgeBVariableName.end(), key.c_str()))
         {
             blueWhiteEdgeB = value;
             writeDebug(GET_VARIABLE_NAME(blueWhiteEdgeB));
@@ -197,7 +232,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blueWhiteEdgeB);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(redR)))
+        else if (equal(redRVariableName.begin(), redRVariableName.begin(), key.c_str()))
         {
             redR = value;
             writeDebug(GET_VARIABLE_NAME(redR));
@@ -205,7 +240,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(redR);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(redG)))
+        else if (equal(redGVariableName.begin(), redGVariableName.begin(), key.c_str()))
         {
             redG = value;
             writeDebug(GET_VARIABLE_NAME(redG));
@@ -213,7 +248,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(redG);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(redB)))
+        else if (equal(redBVariableName.begin(), redBVariableName.begin(), key.c_str()))
         {
             redB = value;
             writeDebug(GET_VARIABLE_NAME(redB));
@@ -221,7 +256,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(redB);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(greenR)))
+        else if (equal(greenRVariableName.begin(), greenRVariableName.end(), key.c_str()))
         {
             greenR = value;
             writeDebug(GET_VARIABLE_NAME(greenR));
@@ -229,7 +264,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(greenR);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(greenG)))
+        else if (equal(greenGVariableName.begin(), greenGVariableName.end(), key.c_str()))
         {
             greenG = value;
             writeDebug(GET_VARIABLE_NAME(greenG));
@@ -237,7 +272,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(greenG);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(greenB)))
+        else if (equal(greenBVariableName.begin(), greenBVariableName.end(), key.c_str()))
         {
             greenB = value;
             writeDebug(GET_VARIABLE_NAME(greenB));
@@ -245,7 +280,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(greenB);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blueR)))
+        else if (equal(blueRVariableName.begin(), blueRVariableName.end(), key.c_str()))
         {
             blueR = value;
             writeDebug(GET_VARIABLE_NAME(blueR));
@@ -253,7 +288,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blueR);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blueG)))
+        else if (equal(blueGVariableName.begin(), blueGVariableName.end(), key.c_str()))
         {
             blueG = value;
             writeDebug(GET_VARIABLE_NAME(blueG));
@@ -261,7 +296,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blueG);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(blueB)))
+        else if (equal(blueBVariableName.begin(), blueBVariableName.end(), key.c_str()))
         {
             blueB = value;
             writeDebug(GET_VARIABLE_NAME(blueB));
@@ -269,7 +304,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(blueB);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(yellowR)))
+        else if (equal(yellowRVariableName.begin(), yellowRVariableName.end(), key.c_str()))
         {
             yellowR = value;
             writeDebug(GET_VARIABLE_NAME(yellowR));
@@ -277,7 +312,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(yellowR);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(yellowG)))
+        else if (equal(yellowGVariableName.begin(), yellowGVariableName.end(), key.c_str()))
         {
             yellowG = value;
             writeDebug(GET_VARIABLE_NAME(yellowG));
@@ -285,7 +320,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(yellowG);
             flushDebug(DEBUG, robotAPI);
         }
-        else if (equal(key.begin(), key.end(), GET_VARIABLE_NAME(yellowB)))
+        else if (equal(yellowBVariableName.begin(), yellowBVariableName.end(), key.c_str()))
         {
             yellowB = value;
             writeDebug(GET_VARIABLE_NAME(yellowB));
