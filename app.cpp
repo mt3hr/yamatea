@@ -73,6 +73,15 @@ using namespace ev3api;
 CommandExecutor *commandExecutor;
 RobotAPI *robotAPI;
 
+void stp_cyc_all()
+{
+  stp_cyc(RUNNER_CYC);
+  stp_cyc(SING_A_SONG_CYC);
+  stp_cyc(DEDEDON_CYC);
+  stp_cyc(RETURN_TO_START_POINT_CYC);
+  stp_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
+}
+
 // LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
 #if defined(LeftCourceMode) | defined(RightCourceMode)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
@@ -2758,7 +2767,7 @@ void runner_task(intptr_t exinf)
   }
   catch (exception e)
   {
-    commandExecutor->emergencyStop();
+    stp_cyc_all();
     StartCyc *startDededon = new StartCyc(DEDEDON_CYC);
     startDededon->run(robotAPI);
     delete startDededon;
@@ -2801,92 +2810,117 @@ bool startedBackToTheFuture = false;
 
 void return_to_start_point_task(intptr_t exinf)
 {
-  switch (returnToStartPointState)
+#ifdef StopWhenThrowException
+  try
   {
-  case RTSP_TURNNING_UP:
-  {
-    if (!initedFacing180)
+#endif
+    switch (returnToStartPointState)
     {
-      StartCyc *startDededon = new StartCyc(DEDEDON_CYC);
-      startDededon->run(robotAPI);
-      delete startDededon;
+    case RTSP_TURNNING_UP:
+    {
+      if (!initedFacing180)
+      {
+        StartCyc *startDededon = new StartCyc(DEDEDON_CYC);
+        startDededon->run(robotAPI);
+        delete startDededon;
 
-      facing180->preparation(robotAPI);
-      facing180Predicate->preparation(robotAPI);
-      initedFacing180 = true;
-      ext_tsk();
-      return;
+        facing180->preparation(robotAPI);
+        facing180Predicate->preparation(robotAPI);
+        initedFacing180 = true;
+        ext_tsk();
+        return;
+      }
+      if (!facing180Predicate->test(robotAPI))
+      {
+        facing180->run(robotAPI);
+        ext_tsk();
+        return;
+      }
+      else
+      {
+        returnToStartPointState = RTSP_WALKING_UP;
+        ext_tsk();
+        return;
+      }
     }
-    if (!facing180Predicate->test(robotAPI))
-    {
-      facing180->run(robotAPI);
-      ext_tsk();
-      return;
-    }
-    else
-    {
-      returnToStartPointState = RTSP_WALKING_UP;
-      ext_tsk();
-      return;
-    }
-  }
-  break;
-
-  case RTSP_WALKING_UP:
-  {
-    returnToStartPointStraightWalker->run(robotAPI);
-    colorid_t colorID = robotAPI->getColorSensor()->getColorNumber();
-    if (colorID == returnToStartPointEdgeLineColor)
-    {
-      returnToStartPointState = RTSP_TURNNING_RIGHT;
-      ext_tsk();
-      return;
-    }
-  }
-  break;
-
-  case RTSP_TURNNING_RIGHT:
-  {
-    if (!initedFacing90)
-    {
-      facing90->preparation(robotAPI);
-      facing90Predicate->preparation(robotAPI);
-      initedFacing90 = true;
-      ext_tsk();
-      return;
-    }
-    if (!facing90Predicate->test(robotAPI))
-    {
-      facing90->run(robotAPI);
-      ext_tsk();
-      return;
-    }
-    else
-    {
-      returnToStartPointState = RTSP_WALKING_RIGHT;
-      ext_tsk();
-      return;
-    }
-  }
-  break;
-
-  case RTSP_WALKING_RIGHT:
-  {
-    returnToStartPointStraightWalker->run(robotAPI);
-    ext_tsk();
-    return;
-  }
-  break;
-
-  case RTSP_FINISH:
-  {
-    // 別になくてもいっか。スタート地点に帰ってくればいいんだからな。
-  }
-  break;
-
-  default:
     break;
+
+    case RTSP_WALKING_UP:
+    {
+      returnToStartPointStraightWalker->run(robotAPI);
+      colorid_t colorID = robotAPI->getColorSensor()->getColorNumber();
+      if (colorID == returnToStartPointEdgeLineColor)
+      {
+        returnToStartPointState = RTSP_TURNNING_RIGHT;
+        ext_tsk();
+        return;
+      }
+    }
+    break;
+
+    case RTSP_TURNNING_RIGHT:
+    {
+      if (!initedFacing90)
+      {
+        facing90->preparation(robotAPI);
+        facing90Predicate->preparation(robotAPI);
+        initedFacing90 = true;
+        ext_tsk();
+        return;
+      }
+      if (!facing90Predicate->test(robotAPI))
+      {
+        facing90->run(robotAPI);
+        ext_tsk();
+        return;
+      }
+      else
+      {
+        returnToStartPointState = RTSP_WALKING_RIGHT;
+        ext_tsk();
+        return;
+      }
+    }
+    break;
+
+    case RTSP_WALKING_RIGHT:
+    {
+      returnToStartPointStraightWalker->run(robotAPI);
+      ext_tsk();
+      return;
+    }
+    break;
+
+    case RTSP_FINISH:
+    {
+      // 別になくてもいっか。スタート地点に帰ってくればいいんだからな。
+    }
+    break;
+
+    default:
+      break;
+    }
+
+#ifdef StopWhenThrowException
   }
+  catch (exception e)
+  {
+    stp_cyc_all();
+    StartCyc *startDededon = new StartCyc(DEDEDON_CYC);
+    startDededon->run(robotAPI);
+    delete startDededon;
+
+    vector<string> messageLines;
+    messageLines.push_back(e.what());
+    PrintMessage *printMessage = new PrintMessage(messageLines, true);
+    printMessage->run(robotAPI);
+    delete printMessage;
+
+    Stopper *stopper = new Stopper();
+    stopper->run(robotAPI);
+    delete stopper;
+  }
+#endif
   ext_tsk();
 }
 
@@ -2898,15 +2932,6 @@ enum BTCommand
   BTC_NEXT_COMMAND = 'n',
 };
 
-void stp_cyc_all()
-{
-  stp_cyc(RUNNER_CYC);
-  stp_cyc(SING_A_SONG_CYC);
-  stp_cyc(DEDEDON_CYC);
-  stp_cyc(RETURN_TO_START_POINT_CYC);
-  stp_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
-}
-
 void emergencyStop()
 {
   stp_cyc_all();
@@ -2916,56 +2941,108 @@ void emergencyStop()
 void listen_bluetooth_command_task(intptr_t exinf)
 {
 #ifdef EnableBluetooth
-  unsigned char bluetoothCommand = fgetc(bt);
-  switch (bluetoothCommand)
+
+#ifdef StopWhenThrowException
+  try
   {
-  case BTC_EMERGENCY_STOP:
+#endif
+
+    unsigned char bluetoothCommand = fgetc(bt);
+    switch (bluetoothCommand)
+    {
+    case BTC_EMERGENCY_STOP:
+    {
+      emergencyStop();
+      Stopper *stopper = new Stopper();
+      stopper->run(robotAPI);
+      delete stopper;
+      break;
+    }
+    case BTC_RETURN_TO_START_POINT:
+    {
+      if (!startedBackToTheFuture)
+      {
+        startedBackToTheFuture = true;
+
+        const uint32_t sleepDuration = 100 * 1000;
+
+        emergencyStop();
+
+        vector<string> messageLines;
+        messageLines.push_back("STARTED Back to the future");
+        PrintMessage *printMessage = new PrintMessage(messageLines, true);
+        printMessage->run(robotAPI);
+        robotAPI->getClock()->sleep(sleepDuration);
+        delete printMessage;
+
+        StartCyc *startBackToTheFuture = new StartCyc(RETURN_TO_START_POINT_CYC);
+        startBackToTheFuture->run(robotAPI);
+        delete startBackToTheFuture;
+        break;
+      }
+    }
+    case BTC_NEXT_COMMAND:
+    {
+      commandExecutor->nextCommand();
+      break;
+    }
+    default:
+      break;
+    }
+#ifdef StopWhenThrowException
+  }
+  catch (exception e)
   {
-    emergencyStop();
+    stp_cyc_all();
+    StartCyc *startDededon = new StartCyc(DEDEDON_CYC);
+    startDededon->run(robotAPI);
+    delete startDededon;
+
+    vector<string> messageLines;
+    messageLines.push_back(e.what());
+    PrintMessage *printMessage = new PrintMessage(messageLines, true);
+    printMessage->run(robotAPI);
+    delete printMessage;
+
     Stopper *stopper = new Stopper();
     stopper->run(robotAPI);
     delete stopper;
-    break;
-  }
-  case BTC_RETURN_TO_START_POINT:
-  {
-    if (!startedBackToTheFuture)
-    {
-      startedBackToTheFuture = true;
-
-      const uint32_t sleepDuration = 100 * 1000;
-
-      emergencyStop();
-
-      vector<string> messageLines;
-      messageLines.push_back("STARTED Back to the future");
-      PrintMessage *printMessage = new PrintMessage(messageLines, true);
-      printMessage->run(robotAPI);
-      robotAPI->getClock()->sleep(sleepDuration);
-      delete printMessage;
-
-      StartCyc *startBackToTheFuture = new StartCyc(RETURN_TO_START_POINT_CYC);
-      startBackToTheFuture->run(robotAPI);
-      delete startBackToTheFuture;
-      break;
-    }
-  }
-  case BTC_NEXT_COMMAND:
-  {
-    commandExecutor->nextCommand();
-    break;
-  }
-  default:
-    break;
   }
 #endif
+#endif
+
   ext_tsk();
 };
 
 CommandExecutor *singASongCommandExecutor;
 void sing_a_song_task(intptr_t exinf)
 {
-  singASongCommandExecutor->run();
+#ifdef StopWhenThrowException
+  try
+  {
+#endif
+    singASongCommandExecutor->run();
+#ifdef StopWhenThrowException
+  }
+  catch (exception e)
+  {
+    stp_cyc_all();
+    StartCyc *startDededon = new StartCyc(DEDEDON_CYC);
+    startDededon->run(robotAPI);
+    delete startDededon;
+
+    vector<string> messageLines;
+    messageLines.push_back(e.what());
+    PrintMessage *printMessage = new PrintMessage(messageLines, true);
+    printMessage->run(robotAPI);
+    delete printMessage;
+
+    Stopper *stopper = new Stopper();
+    stopper->run(robotAPI);
+    delete stopper;
+  }
+#endif
+
   ext_tsk();
 };
 
@@ -2973,7 +3050,32 @@ vector<Note *> dededon = generateDededon();
 CommandExecutor *dededonCommandExecutor;
 void dededon_task(intptr_t exinf)
 {
-  dededonCommandExecutor->run();
+#ifdef StopWhenThrowException
+  try
+  {
+#endif
+    dededonCommandExecutor->run();
+#ifdef StopWhenThrowException
+  }
+  catch (exception e)
+  {
+    stp_cyc_all();
+    StartCyc *startDededon = new StartCyc(DEDEDON_CYC);
+    startDededon->run(robotAPI);
+    delete startDededon;
+
+    vector<string> messageLines;
+    messageLines.push_back(e.what());
+    PrintMessage *printMessage = new PrintMessage(messageLines, true);
+    printMessage->run(robotAPI);
+    delete printMessage;
+
+    Stopper *stopper = new Stopper();
+    stopper->run(robotAPI);
+    delete stopper;
+  }
+#endif
+
   ext_tsk();
 };
 
@@ -3864,182 +3966,207 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
 void main_task(intptr_t unused)
 {
-  const uint32_t sleepDuration = 100 * 1000;
-  const int8_t line_height = 20;
+#ifdef StopWhenThrowException
+  try
+  {
+#endif
+    const uint32_t sleepDuration = 100 * 1000;
+    const int8_t line_height = 20;
 
 // Bluetoothファイルを開く
 #ifdef EnableBluetooth
-  bt = ev3_serial_open_file(EV3_SERIAL_BT);
+    bt = ev3_serial_open_file(EV3_SERIAL_BT);
 #endif
 
-  // 初期化中メッセージの出力
-  int line = 1;
-  ev3_lcd_fill_rect(0, line * line_height, EV3_LCD_WIDTH, line_height, EV3_LCD_WHITE);
-  ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
-  ev3_lcd_draw_string("initializing...", 0, line * line_height);
+    // 初期化中メッセージの出力
+    int line = 1;
+    ev3_lcd_fill_rect(0, line * line_height, EV3_LCD_WIDTH, line_height, EV3_LCD_WHITE);
+    ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
+    ev3_lcd_draw_string("initializing...", 0, line * line_height);
 
-  // すべての周期ハンドラを止める
-  stp_cyc_all();
+    // すべての周期ハンドラを止める
+    stp_cyc_all();
 
-  // EV3APIオブジェクトの初期化
-  TouchSensor *touchSensor = new TouchSensor(PORT_1);
-  ColorSensor *colorSensor = new ColorSensor(PORT_2);
-  SonarSensor *sonarSensor = new SonarSensor(PORT_3);
-  GyroSensor *gyroSensor = new GyroSensor(PORT_4);
-  Motor *armMotor = new Motor(PORT_A);
-  Motor *rightWheel = new Motor(PORT_B);
-  Motor *leftWheel = new Motor(PORT_C);
-  Motor *tailMotor = new Motor(PORT_D);
-  Clock *clock = new Clock();
+    // EV3APIオブジェクトの初期化
+    TouchSensor *touchSensor = new TouchSensor(PORT_1);
+    ColorSensor *colorSensor = new ColorSensor(PORT_2);
+    SonarSensor *sonarSensor = new SonarSensor(PORT_3);
+    GyroSensor *gyroSensor = new GyroSensor(PORT_4);
+    Motor *armMotor = new Motor(PORT_A);
+    Motor *rightWheel = new Motor(PORT_B);
+    Motor *leftWheel = new Motor(PORT_C);
+    Motor *tailMotor = new Motor(PORT_D);
+    Clock *clock = new Clock();
 
-  // RobotAPIとCommandExecutorの初期化
-  robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, tailMotor, gyroSensor, clock);
-  commandExecutor = new CommandExecutor(robotAPI, true);
+    // RobotAPIとCommandExecutorの初期化
+    robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, tailMotor, gyroSensor, clock);
+    commandExecutor = new CommandExecutor(robotAPI, true);
 
-  // ev3_lcd_set_font(EV3_FONT_MEDIUM);           // フォントの設定
-  ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
+    // ev3_lcd_set_font(EV3_FONT_MEDIUM);           // フォントの設定
+    ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
 
-  // robotAPIの初期化。完全停止してapiを初期化する
-  Stopper *stopper = new Stopper();
-  stopper->run(robotAPI);
-  robotAPI->getClock()->sleep(sleepDuration);
-  robotAPI->reset();
-  robotAPI->getClock()->sleep(sleepDuration);
-  delete stopper;
-  vector<string> resetedMessageLines;
-  resetedMessageLines.push_back("reseted api");
-  PrintMessage *printResetedMessage = new PrintMessage(resetedMessageLines, true);
-  printResetedMessage->run(robotAPI);
-  delete printResetedMessage;
-  robotAPI->getClock()->sleep(sleepDuration);
+    // robotAPIの初期化。完全停止してapiを初期化する
+    Stopper *stopper = new Stopper();
+    stopper->run(robotAPI);
+    robotAPI->getClock()->sleep(sleepDuration);
+    robotAPI->reset();
+    robotAPI->getClock()->sleep(sleepDuration);
+    delete stopper;
+    vector<string> resetedMessageLines;
+    resetedMessageLines.push_back("reseted api");
+    PrintMessage *printResetedMessage = new PrintMessage(resetedMessageLines, true);
+    printResetedMessage->run(robotAPI);
+    delete printResetedMessage;
+    robotAPI->getClock()->sleep(sleepDuration);
 
-  // commandExecutorを初期化する（挙動定義）
-  initializeCommandExecutor(commandExecutor, robotAPI);
-  vector<string> readyMessageLines;
-  readyMessageLines.push_back("ready");
-  PrintMessage *printReadyMessage = new PrintMessage(resetedMessageLines, true);
-  printReadyMessage->run(robotAPI);
-  delete printReadyMessage;
+    // commandExecutorを初期化する（挙動定義）
+    initializeCommandExecutor(commandExecutor, robotAPI);
+    vector<string> readyMessageLines;
+    readyMessageLines.push_back("ready");
+    PrintMessage *printReadyMessage = new PrintMessage(resetedMessageLines, true);
+    printReadyMessage->run(robotAPI);
+    delete printReadyMessage;
 
 // FroggySongを歌うCommandExecutorを初期化する
 #ifdef SingASong
-  singASongCommandExecutor = new CommandExecutor(robotAPI, false);
-  initSong(loopSong);
+    singASongCommandExecutor = new CommandExecutor(robotAPI, false);
+    initSong(loopSong);
 #endif
 
-  // デデドン！
-  dededonCommandExecutor = new CommandExecutor(robotAPI, false);
-  initDededon();
+    // デデドン！
+    dededonCommandExecutor = new CommandExecutor(robotAPI, false);
+    initDededon();
 
-  // commandExecutor->run()の周期ハンドラを起動する
-  StartCyc *startRunnerCyc = new StartCyc(RUNNER_CYC);
-  startRunnerCyc->run(robotAPI);
-  delete startRunnerCyc;
+    // commandExecutor->run()の周期ハンドラを起動する
+    StartCyc *startRunnerCyc = new StartCyc(RUNNER_CYC);
+    startRunnerCyc->run(robotAPI);
+    delete startRunnerCyc;
 
 #ifdef EnableBluetooth
-  // bluetoothCommandを受け取る周期ハンドラを起動する
-  StartCyc *startListenBluetoothCyc = new StartCyc(LISTEN_BLUETOOTH_COMMAND_CYC);
-  startListenBluetoothCyc->run(robotAPI);
-  delete startListenBluetoothCyc;
+    // bluetoothCommandを受け取る周期ハンドラを起動する
+    StartCyc *startListenBluetoothCyc = new StartCyc(LISTEN_BLUETOOTH_COMMAND_CYC);
+    startListenBluetoothCyc->run(robotAPI);
+    delete startListenBluetoothCyc;
 #endif
 
-  // 終了判定処理
-  for (; true; clock->sleep(sleepDuration))
-  {
-    // 左ボタンが押されたら緊急停止のためにループを抜ける
-    if (ev3_button_is_pressed(LEFT_BUTTON))
+    // 終了判定処理
+    for (; true; clock->sleep(sleepDuration))
     {
-      // 停止処理
-      commandExecutor->emergencyStop();
+      // 左ボタンが押されたら緊急停止のためにループを抜ける
+      if (ev3_button_is_pressed(LEFT_BUTTON))
+      {
+        // 停止処理
+        commandExecutor->emergencyStop();
 #ifdef SingASong
-      singASongCommandExecutor->emergencyStop();
+        singASongCommandExecutor->emergencyStop();
 #endif
-      break;
+        break;
+      }
+
+      // RUNNER_CYCが終了していたら走行完了なのでループを抜ける
+      // CommandExecutorが終了していたら走行完了なのでループを抜ける
+      if (commandExecutor->isFinished())
+      {
+        break;
+      }
     }
 
-    // RUNNER_CYCが終了していたら走行完了なのでループを抜ける
-    // CommandExecutorが終了していたら走行完了なのでループを抜ける
-    if (commandExecutor->isFinished())
-    {
-      break;
-    }
-  }
-
-  // runner_cycを止める
-  stp_cyc(RUNNER_CYC);
+    // runner_cycを止める
+    stp_cyc(RUNNER_CYC);
 
 #ifdef EnableBluetooth
-  // LISTEN_BLUETOOTH_COMMAND_CYCが走っていたら止める。
-  // T_RCYC btcCycState;
-  // ref_cyc(LISTEN_BLUETOOTH_COMMAND_CYC, &btcCycState);
-  // if (btcCycState.cycstat == TCYC_STA)
-  // {
-  stp_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
-  // }
+    // LISTEN_BLUETOOTH_COMMAND_CYCが走っていたら止める。
+    // T_RCYC btcCycState;
+    // ref_cyc(LISTEN_BLUETOOTH_COMMAND_CYC, &btcCycState);
+    // if (btcCycState.cycstat == TCYC_STA)
+    // {
+    stp_cyc(LISTEN_BLUETOOTH_COMMAND_CYC);
+    // }
 #endif
 
 #ifdef SingASong
-  // 歌ってたら止める
-  // T_RCYC singASongCycState;
-  // ref_cyc(RETURN_TO_START_POINT_CYC, &singASongCycState);
-  // if (singASongCycState.cycstat == TCYC_STA)
-  // {
-  stp_cyc(SING_A_SONG_CYC);
-  // }
+    // 歌ってたら止める
+    // T_RCYC singASongCycState;
+    // ref_cyc(RETURN_TO_START_POINT_CYC, &singASongCycState);
+    // if (singASongCycState.cycstat == TCYC_STA)
+    // {
+    stp_cyc(SING_A_SONG_CYC);
+    // }
 #endif
 
-  // returnToStartPointの終了待機
-  robotAPI->getClock()->sleep(sleepDuration);
-  for (; true; clock->sleep(sleepDuration))
-  {
-    // 左ボタンが押されたら周期ハンドラを止める
-    if (ev3_button_is_pressed(LEFT_BUTTON))
+    // returnToStartPointの終了待機
+    robotAPI->getClock()->sleep(sleepDuration);
+    for (; true; clock->sleep(sleepDuration))
     {
-      // 停止処理
-      stp_cyc(BTC_RETURN_TO_START_POINT);
+      // 左ボタンが押されたら周期ハンドラを止める
+      if (ev3_button_is_pressed(LEFT_BUTTON))
+      {
+        // 停止処理
+        stp_cyc(BTC_RETURN_TO_START_POINT);
+      }
+
+      // RETURN_TO_START_POINT_CYCが終了していたら走行完了なのでループを抜ける
+      T_RCYC returnToStartPointCycState;
+      ref_cyc(BTC_RETURN_TO_START_POINT, &returnToStartPointCycState);
+      if (returnToStartPointCycState.cycstat == TCYC_STP)
+      {
+        break;
+      }
     }
 
-    // RETURN_TO_START_POINT_CYCが終了していたら走行完了なのでループを抜ける
-    T_RCYC returnToStartPointCycState;
-    ref_cyc(BTC_RETURN_TO_START_POINT, &returnToStartPointCycState);
-    if (returnToStartPointCycState.cycstat == TCYC_STP)
-    {
-      break;
-    }
+    stp_cyc_all();
+
+    // 走行体停止
+    stopper->run(robotAPI);
+    delete stopper;
+
+    // 終了メッセージの表示
+    robotAPI->getClock()->sleep(sleepDuration);
+    vector<string> messageLines;
+    messageLines.push_back("finish!!");
+    PrintMessage printFinishMessage(messageLines, true);
+    printFinishMessage.run(robotAPI);
+
+    // メインタスクの終了
+    ext_tsk();
+
+    // オブジェクトの削除
+    delete commandExecutor;
+    delete robotAPI;
+    delete touchSensor;
+    delete colorSensor;
+    delete sonarSensor;
+    delete gyroSensor;
+    delete armMotor;
+    delete leftWheel;
+    delete rightWheel;
+    delete tailMotor;
+    delete clock;
+    delete returnToStartPointStraightWalker;
+    delete facing90;
+    delete facing180;
+#ifdef StopWhenThrowException
+  }
+  catch (exception e)
+  {
+    stp_cyc_all();
+    commandExecutor->emergencyStop();
+    StartCyc *startDededon = new StartCyc(DEDEDON_CYC);
+    startDededon->run(robotAPI);
+    delete startDededon;
+
+    vector<string> messageLines;
+    messageLines.push_back(e.what());
+    PrintMessage *printMessage = new PrintMessage(messageLines, true);
+    printMessage->run(robotAPI);
+    delete printMessage;
+
+    Stopper *stopper = new Stopper();
+    stopper->run(robotAPI);
+    delete stopper;
   }
 
-  stp_cyc_all();
-
-  // 走行体停止
-  stopper->run(robotAPI);
-  delete stopper;
-
-  // 終了メッセージの表示
-  robotAPI->getClock()->sleep(sleepDuration);
-  vector<string> messageLines;
-  messageLines.push_back("finish!!");
-  PrintMessage printFinishMessage(messageLines, true);
-  printFinishMessage.run(robotAPI);
-
-  // メインタスクの終了
-  ext_tsk();
-
-  // オブジェクトの削除
-  delete commandExecutor;
-  delete robotAPI;
-  delete touchSensor;
-  delete colorSensor;
-  delete sonarSensor;
-  delete gyroSensor;
-  delete armMotor;
-  delete leftWheel;
-  delete rightWheel;
-  delete tailMotor;
-  delete clock;
-  delete returnToStartPointStraightWalker;
-  delete facing90;
-  delete facing180;
-
+#endif
 #ifdef EnableBluetooth
   fclose(bt);
 #endif

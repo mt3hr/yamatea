@@ -71,7 +71,7 @@ using namespace std;
 //#define EnablePrintPIDValues
 //#define EnableRunnerTaskTimeCheck
 //#define EnablePrintCommandName // コマンド切り替え時にコマンド名を出力する。キャリブレータの表示がコマンド名で上書きされることがあるので、デバッグ時以外は無効化しておいたほうがいいかも
-#define StopWhenThrowException // TODO
+#define StopWhenThrowException
 
 // ********** 設定1/2ここまで **********
 
