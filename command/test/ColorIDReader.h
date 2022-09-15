@@ -4,8 +4,12 @@
 #include "Command.h"
 #include "RobotAPI.h"
 #include "Sensor.h"
+#include "string"
 
 using namespace ev3api;
+using namespace std;
+
+string colorIDToString(colorid_t colorID);
 
 // 実方
 class ColorIDReader : public Command

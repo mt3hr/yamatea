@@ -43,7 +43,7 @@ void CommandExecutor::addCommand(Command *command, Predicate *exitCondition, str
 void CommandExecutor::run()
 {
     // 完了していればなにもしないで返す
-    if (finished)
+    if (isFinished())
     {
         return;
     }
@@ -82,7 +82,7 @@ void CommandExecutor::run()
         nextCommand();
     }
 
-    if (((int)commands.size()) > ((int)currentIndexForCommand))
+    if (!isFinished())
     {
         // コマンドを実行する
         commands[currentIndexForCommand]->run(robotAPI);
@@ -113,18 +113,6 @@ void CommandExecutor::run()
 #endif
         }
     }
-    else
-    {
-        // 現在の要素がなければ停止してタスクを終了する。
-        finished = true;
-        if (runner)
-        {
-            Stopper *stopper = new Stopper();
-            stopper->run(robotAPI);
-            delete stopper;
-        }
-        return;
-    }
 
 #ifdef EnableRunnerTaskTimeCheck
     time = robotAPI->getClock()->now();
@@ -135,13 +123,24 @@ void CommandExecutor::run()
     writeDebug("usec");
     flushDebug(NONE, robotAPI);
 #endif
-
     return;
 }
 
 void CommandExecutor::nextCommand()
 {
     currentIndexForCommand++;
+
+    if (isFinished())
+    {
+        // 現在の要素がなければ停止してタスクを終了する。
+        if (runner)
+        {
+            Stopper *stopper = new Stopper();
+            stopper->run(robotAPI);
+            delete stopper;
+        }
+        return;
+    }
 
     if (enableBeepWhenCommandSwitching)
     {
@@ -181,5 +180,5 @@ void CommandExecutor::reverseCommandAndPredicate()
 
 bool CommandExecutor::isFinished()
 {
-    return finished;
+    return !(((int)commands.size()) > ((int)currentIndexForCommand));
 }

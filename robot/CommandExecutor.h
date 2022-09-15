@@ -20,7 +20,6 @@ class CommandExecutor
 {
 private:
     int currentIndexForCommand;
-    bool finished = false;
     vector<Command *> commands;
     vector<Predicate *> predicates;
     vector<string> commandNames;

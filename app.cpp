@@ -4012,6 +4012,7 @@ void main_task(intptr_t unused)
       {
         // 停止処理
         commandExecutor->emergencyStop();
+        dededonCommandExecutor->emergencyStop();
 #ifdef SingASong
         singASongCommandExecutor->emergencyStop();
 #endif
