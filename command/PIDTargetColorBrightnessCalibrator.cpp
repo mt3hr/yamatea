@@ -726,7 +726,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             vector<string> messageLines;
             messageLines.push_back("calibrating");
             messageLines.push_back("press right key");
-            messageLines.push_back(" read red white edge");
+            messageLines.push_back(" read red");
             messageLines.push_back(" from color sensor");
             PrintMessage printMessage(messageLines, true);
             printMessage.run(robotAPI);
@@ -750,7 +750,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             vector<string> messageLines;
             messageLines.push_back("calibrating");
             messageLines.push_back("press right key");
-            messageLines.push_back(" read green white edge");
+            messageLines.push_back(" read green");
             messageLines.push_back(" from color sensor");
             PrintMessage printMessage(messageLines, true);
             printMessage.run(robotAPI);
@@ -798,7 +798,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             vector<string> messageLines;
             messageLines.push_back("calibrating");
             messageLines.push_back("press right key");
-            messageLines.push_back(" read yellow white edge");
+            messageLines.push_back(" read yellow");
             messageLines.push_back(" from color sensor");
             PrintMessage printMessage(messageLines, true);
             printMessage.run(robotAPI);
