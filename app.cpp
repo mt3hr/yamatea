@@ -1578,8 +1578,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pidTracer->setTargetColor(targetRGB);
   lowPWMTracer->setTargetColor(targetRGB);
 #endif
-  ResetArmAngle *resetArmAngle = new ResetArmAngle();
-  commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
+  ResetArmAngle *resetArmAngleAtSlalom = new ResetArmAngle();
+  commandExecutor->addCommand(resetArmAngleAtSlalom, new FinishedCommandPredicate(resetArmAngleAtSlalom), GET_VARIABLE_NAME(resetArmAngleAtSlalom));
   commandExecutor->addCommand(calibrator, new StartButtonPredicate(), GET_VARIABLE_NAME(calibrator));
 
   // 1.5秒止める。BrightnessからColorへの切り替えのために。
@@ -3058,6 +3058,9 @@ void initSong(int loop)
 #if defined(TrueLeftCourceMode) | defined(TrueRightCourceMode)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+  ResetArmAngle *resetArmAngle = new ResetArmAngle();
+  commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
+
   // ↓ここから沖原↓
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
   // そのシーンが終了する距離の定義。
@@ -3342,10 +3345,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pidTracer->setTargetColor(targetRGB);
   lowPWMTracer->setTargetColor(targetRGB);
 #endif
-  ResetArmAngle *resetArmAngle = new ResetArmAngle();
-  commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
-  commandExecutor->addCommand(calibrator, new StartButtonPredicate(), GET_VARIABLE_NAME(calibrator));
-
   // 1.5秒止める。BrightnessからColorへの切り替えのために。
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
   commandExecutor->addCommand(colorReader, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(colorReader));
