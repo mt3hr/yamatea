@@ -19,7 +19,7 @@ void ColorReader::run(RobotAPI *robotAPI)
     writeDebug("ColorReader: ");
     writeEndLineDebug();
     writeDebug("color id: ");
-    writeDebug(((int)color));
+    writeDebug(((int)(*color)));
     flushDebug(DEBUG, robotAPI);
 }
 

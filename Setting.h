@@ -54,6 +54,7 @@ using namespace std;
 //#define GrayPredicateTestMode // グレーでとまる直進モード。テスト用。
 //#define FacingAngleTestMode // 指定角度に向き直るモード。テスト用。
 //#define WalkerTestMode
+//#define ColorReaderUseRawTestMode
 //#define BatteryEaaterMode // その場旋回をして電池を消費するモード。テスト用
 
 // モード設定ここまで

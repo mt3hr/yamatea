@@ -2,6 +2,8 @@
 #include "Command.h"
 #include "RobotAPI.h"
 #include "RawColorPredicate.h"
+#include "DebugUtil.h"
+#include "ColorIDReader.h"
 
 ColorReaderUseRaw::ColorReaderUseRaw()
 {
@@ -35,6 +37,13 @@ void ColorReaderUseRaw::run(RobotAPI *robotAPI)
     {
         *color = COLOR_YELLOW;
     }
+    writeDebug("ColorReader: ");
+    writeEndLineDebug();
+    writeDebug("color id use raw: ");
+    writeDebug(((int)(*color)));
+    writeDebug("color: ");
+    writeDebug(colorIDToString(*color));
+    flushDebug(DEBUG, robotAPI);
     return;
 }
 

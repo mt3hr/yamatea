@@ -2645,6 +2645,18 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
+#ifdef ColorReaderUseRawTestMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+  ColorReaderUseRaw *colorReader = new ColorReaderUseRaw();
+  commandExecutor->addCommand(colorReader, new Predicate(), GET_VARIABLE_NAME(colorReader));
+}
+#endif
+
 #ifdef FroggySongTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
@@ -4093,7 +4105,6 @@ void main_task(intptr_t unused)
   catch (exception e)
   {
     stp_cyc_all();
-    commandExecutor->emergencyStop();
     StartCyc *startDededon = new StartCyc(DEDEDON_CYC);
     startDededon->run(robotAPI);
     delete startDededon;
