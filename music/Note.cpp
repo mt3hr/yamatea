@@ -2,6 +2,7 @@
 #include "RobotAPI.h"
 #include "DebugUtil.h"
 #include "ev3api.h"
+#include "FinishConfirmable.h"
 
 using namespace ev3api;
 

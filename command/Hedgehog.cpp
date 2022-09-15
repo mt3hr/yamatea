@@ -1,6 +1,7 @@
 #include "Hedgehog.h"
 #include "Stopper.h"
 #include "RobotAPI.h"
+#include "FinishConfirmable.h"
 
 Hedgehog::Hedgehog(int targetDistance, int pwm)
 {

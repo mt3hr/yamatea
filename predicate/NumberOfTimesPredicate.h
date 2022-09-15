@@ -11,7 +11,7 @@
 class NumberOfTimesPredicate : public Predicate
 {
 private:
-    int targetCount;
+    int targetCount = 0;
     int currentCount = 0;
 
 public:

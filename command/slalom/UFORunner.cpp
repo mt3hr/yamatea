@@ -12,6 +12,7 @@
 #include "RotateRobotUseGyroCommandAndPredicate.h"
 #include "SwingSonarObstacleDetector.h"
 #include "ClockwiseObstacleDetector.h"
+#include "FinishConfirmable.h"
 
 using namespace std;
 using namespace ev3api;

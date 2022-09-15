@@ -10,6 +10,9 @@
 #include "string"
 #include "sstream"
 #include "vector"
+#include "FinishedCommandPredicate.h"
+#include "typeinfo"
+#include "FinishConfirmable.h"
 
 using namespace ev3api;
 using namespace std;
@@ -163,14 +166,24 @@ void CommandExecutor::emergencyStop()
 
 void CommandExecutor::reverseCommandAndPredicate()
 {
-    for (int i = 0; i < ((int)sizeof(commands)); i++)
-    {
-        *(commands[i]) = *(commands[i]->generateReverseCommand());
-    }
+    FinishedCommandPredicate *fcp = new FinishedCommandPredicate(new FinishConfirmable());
+    string finishCommandPredicateTypeName = typeid(fcp).name();
 
-    for (int i = 0; i < ((int)sizeof(predicates)); i++)
+    for (int i = 0; i < ((int)commands.size()); i++)
     {
-        *(predicates[i]) = *(predicates[i]->generateReversePredicate());
+        commands[i] = commands[i]->generateReverseCommand();
+        predicates[i] = predicates[i]->generateReversePredicate();
+
+        FinishConfirmable *newFinishConfirmable = dynamic_cast<FinishConfirmable *>(commands[i]);
+        if (newFinishConfirmable != NULL)
+        {
+            Command *newCommand = dynamic_cast<Command *>(commands[i]);
+            FinishedCommandPredicate *newPredicate = dynamic_cast<FinishedCommandPredicate *>(predicates[i]);
+            newPredicate->setTarget(newFinishConfirmable);
+
+            commands[i] = newCommand;
+            predicates[i] = newPredicate;
+        }
     }
 }
 

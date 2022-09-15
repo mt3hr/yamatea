@@ -1,6 +1,7 @@
 #include "SpiderManRunner.h"
 #include "DebugUtil.h"
 #include "Walker.h"
+#include "FinishConfirmable.h"
 
 SpiderManRunner::SpiderManRunner(int pwm, float angleLeftCenter, float angleCenterRight, int targetLeft, int targetCenter, int targetRight)
 {

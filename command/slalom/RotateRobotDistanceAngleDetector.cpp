@@ -5,6 +5,7 @@
 #include "Setting.h"
 #include "Stopper.h"
 #include "DebugUtil.h"
+#include "FinishConfirmable.h"
 
 RotateRobotDistanceAngleDetector::RotateRobotDistanceAngleDetector(float targetAngle, int distanceThreshold, int pwm, RobotAPI *robotAPI)
 {

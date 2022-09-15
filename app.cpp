@@ -2055,7 +2055,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(lowPWMTracer, blueEdgePredicate, GET_VARIABLE_NAME(lowPWMTracer));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
-  commandExecutor->reverseCommandAndPredicate();//TODO けして
+  commandExecutor->reverseCommandAndPredicate(); // TODO けして
 }
 #endif
 
@@ -2717,6 +2717,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int rightPWM = -10;
   Walker *walker = new Walker(leftPWM, rightPWM);
   commandExecutor->addCommand(walker, new Predicate(), GET_VARIABLE_NAME(walker));
+  commandExecutor->reverseCommandAndPredicate(); // TODO けして
 }
 #endif
 

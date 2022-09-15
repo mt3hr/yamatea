@@ -8,7 +8,7 @@
 // FinishedCommandPredicate
 // 「終了状態」を持つコマンドからPredicateを生成するためのクラス。
 // 終了状態を持つコマンドは、FinishConfirmableインターフェースを実装している。
-// 
+//
 // 実方
 class FinishedCommandPredicate : public Predicate
 {
@@ -21,6 +21,7 @@ public:
     virtual bool test(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
     virtual FinishedCommandPredicate *generateReversePredicate() override;
+    virtual void setTarget(FinishConfirmable *target);
 };
 
 #endif

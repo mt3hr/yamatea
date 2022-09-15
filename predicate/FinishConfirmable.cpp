@@ -1,4 +1,8 @@
 #include "FinishConfirmable.h"
+#include "algorithm"
+#include "set"
+
+set<string> finishConfirmableClassNames();
 
 FinishConfirmable::FinishConfirmable()
 {

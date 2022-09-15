@@ -24,3 +24,8 @@ FinishedCommandPredicate *FinishedCommandPredicate::generateReversePredicate()
 {
     return new FinishedCommandPredicate(finishConfirmable);
 }
+
+void FinishedCommandPredicate::setTarget(FinishConfirmable *target)
+{
+    finishConfirmable = target;
+}

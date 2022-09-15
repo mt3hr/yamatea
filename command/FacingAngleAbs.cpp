@@ -3,6 +3,7 @@
 #include "Walker.h"
 #include "Stopper.h"
 #include "DebugUtil.h"
+#include "FinishConfirmable.h"
 
 FacingAngleAbs::FacingAngleAbs(FacingAngleMode mode, int pwm, int targetAngle)
 {

@@ -1,4 +1,5 @@
 #include "ObstacleDetector.h"
+#include "FinishConfirmable.h"
 
 ObstacleDetector::~ObstacleDetector()
 {

@@ -877,6 +877,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
                 case BCM_BlackWhiteAverage:
                 {
                     pidTracers[i]->setTargetBrightness((whiteBrightness + blackBrightness) / 2);
+                    break;
                 }
                 default:
                     break;

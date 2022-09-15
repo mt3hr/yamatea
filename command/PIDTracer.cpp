@@ -98,15 +98,16 @@ void PIDTracer::preparation(RobotAPI *robotAPI)
 
 PIDTracer *PIDTracer::generateReverseCommand()
 {
+    PIDTracerMode reversedMode = LEFT_TRACE; // とりあえずね
     if (traceMode == LEFT_TRACE)
     {
-        return new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
+        reversedMode = RIGHT_TRACE;
     }
     else if (traceMode == RIGHT_TRACE)
     {
-        return new PIDTracer(LEFT_TRACE, pwm, kp, ki, kd, dt);
+        reversedMode = LEFT_TRACE;
     }
-    return new PIDTracer(LEFT_TRACE, pwm, kp, ki, kd, dt);
+    return new PIDTracer(reversedMode, pwm, kp, ki, kd, dt);
 }
 
 void PIDTracer::setTargetBrightness(int8_t t)
