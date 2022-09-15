@@ -542,11 +542,14 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         readedBlackBrightness = true;
         readedWhiteColor = true;
         readedBlackColor = true;
-        readedBlueColor = true;
         readedBlueEdgeColor = true;
         readedSlalomWhiteColor = true;
         readedBlackWhiteEdgeColor = true;
         readedGrayColor = true;
+        readedRedColor = true;
+        readedGreenColor = true;
+        readedBlueColor = true;
+        readedYellowColor = true;
 
         vector<string> messageLines;
         messageLines.push_back("loaded calibrated data from file");
@@ -942,7 +945,10 @@ void PIDTargetColorBrightnessCalibrator::preparation(RobotAPI *robotAPI)
 
 PIDTargetColorBrightnessCalibrator *PIDTargetColorBrightnessCalibrator::generateReverseCommand()
 {
-    return new PIDTargetColorBrightnessCalibrator(robotAPI, brightnessCalibrateMode);
+    PIDTargetColorBrightnessCalibrator *reversed = new PIDTargetColorBrightnessCalibrator(robotAPI, brightnessCalibrateMode);
+    reversed->pidTracers = pidTracers;
+    reversed->colorPIDTracers = colorPIDTracers;
+    return reversed;
 }
 
 bool PIDTargetColorBrightnessCalibrator::isReadedBlackBrightness()

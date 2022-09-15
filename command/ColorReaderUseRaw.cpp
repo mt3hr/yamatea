@@ -41,9 +41,10 @@ void ColorReaderUseRaw::run(RobotAPI *robotAPI)
     writeEndLineDebug();
     writeDebug("color id use raw: ");
     writeDebug(((int)(*color)));
+    writeEndLineDebug();
     writeDebug("color: ");
     writeDebug(colorIDToString(*color));
-    flushDebug(DEBUG, robotAPI);
+    flushDebug(INFO, robotAPI);
     return;
 }
 

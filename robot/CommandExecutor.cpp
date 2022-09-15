@@ -165,16 +165,12 @@ void CommandExecutor::reverseCommandAndPredicate()
 {
     for (int i = 0; i < ((int)sizeof(commands)); i++)
     {
-        Command *reversed = commands[i]->generateReverseCommand();
-        delete commands[i];
-        commands[i] = reversed;
+        *(commands[i]) = *(commands[i]->generateReverseCommand());
     }
 
     for (int i = 0; i < ((int)sizeof(predicates)); i++)
     {
-        Predicate *reversed = predicates[i]->generateReversePredicate();
-        delete predicates[i];
-        predicates[i] = reversed;
+        *(predicates[i]) = *(predicates[i]->generateReversePredicate());
     }
 }
 

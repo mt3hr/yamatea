@@ -103,9 +103,9 @@ int blackBrightness = 0;
 int whiteAtSlalomR = 0;
 int whiteAtSlalomG = 0;
 int whiteAtSlalomB = 0;
-RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN10;
-RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN10;
-RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN10;
+RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
+RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
+RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
 #else
 int whiteAtSlalomR = 0;
 int whiteAtSlalomG = 0;
@@ -159,33 +159,33 @@ RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN10;
 int redR = 0;
 int redG = 0;
 int redB = 0;
-RawColorPredicateCondition redRCondition = BETWEEN5;
-RawColorPredicateCondition redGCondition = BETWEEN5;
-RawColorPredicateCondition redBCondition = BETWEEN5;
+RawColorPredicateCondition redRCondition = BETWEEN15;
+RawColorPredicateCondition redGCondition = BETWEEN10;
+RawColorPredicateCondition redBCondition = BETWEEN10;
 
 // 緑
 int greenR = 0;
 int greenG = 0;
 int greenB = 0;
-RawColorPredicateCondition greenRCondition = BETWEEN5;
-RawColorPredicateCondition greenGCondition = BETWEEN5;
-RawColorPredicateCondition greenBCondition = BETWEEN5;
+RawColorPredicateCondition greenRCondition = BETWEEN10;
+RawColorPredicateCondition greenGCondition = BETWEEN10;
+RawColorPredicateCondition greenBCondition = BETWEEN10;
 
 // 青
 int blueR = 0;
 int blueG = 0;
 int blueB = 0;
-RawColorPredicateCondition blueRCondition = BETWEEN3;
-RawColorPredicateCondition blueGCondition = BETWEEN3;
-RawColorPredicateCondition blueBCondition = BETWEEN3;
+RawColorPredicateCondition blueRCondition = BETWEEN10;
+RawColorPredicateCondition blueGCondition = BETWEEN10;
+RawColorPredicateCondition blueBCondition = BETWEEN10;
 
 // 黄
 int yellowR = 0;
 int yellowG = 0;
 int yellowB = 0;
-RawColorPredicateCondition yellowRCondition = BETWEEN5;
-RawColorPredicateCondition yellowGCondition = BETWEEN5;
-RawColorPredicateCondition yellowBCondition = BETWEEN5;
+RawColorPredicateCondition yellowRCondition = BETWEEN10;
+RawColorPredicateCondition yellowGCondition = BETWEEN10;
+RawColorPredicateCondition yellowBCondition = BETWEEN10;
 
 // キャリブレーション設定ここまで
 
