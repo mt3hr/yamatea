@@ -65,7 +65,7 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             commandExecutor->addCommand(stopper1, predicateS3, "stopper1");
             
             //r4,直進
-                leftPow = 15;
+            leftPow = 15;
             rightPow = 15;
             Walker *walker4 = new Walker(leftPow, rightPow);
             Predicate *predicate4 = new WheelDistancePredicate(12, robotAPI);
@@ -114,15 +114,25 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             leftPow = 10;   
             rightPow = 10;
             Walker *walkerY = new Walker(leftPow, rightPow);
-            Predicate *predicateY = new YellowPredicate();
+            Predicate *predicateY = new ColorPredicate(COLOR_GREEN);
             commandExecutor->addCommand(walkerY, predicateY, "walkerY");
+            leftPow = 15;
+            rightPow = 15;
+            Walker *walker4 = new Walker(leftPow, rightPow);
+            Predicate *predicate4 = new WheelDistancePredicate(20, robotAPI);
+            commandExecutor->addCommand(walker4, predicate4, "walkerB");
         }else{
             //ーーーーー14gガレージ青ーーーーー
             leftPow = 10;
             rightPow = 10;
             Walker *walkerB = new Walker(leftPow, rightPow);
-            Predicate *predicateB = new BluePredicate();
-            commandExecutor->addCommand(walkerB, predicateB, "walkerB");  
+            Predicate *predicateB = new ColorPredicate(COLOR_GREEN);
+            commandExecutor->addCommand(walkerB, predicateB, "walkerY");  
+            leftPow = 15;
+            rightPow = 15;
+            Walker *walker4 = new Walker(leftPow, rightPow);
+            Predicate *predicate4 = new WheelDistancePredicate(40, robotAPI);
+            commandExecutor->addCommand(walker4, predicate4, "walkerB");
         }
         // 停止コマンドの初期化とCommandExecutorへの追加
         int numberOfTimes = 1;
