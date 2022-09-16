@@ -3288,10 +3288,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   ResetArmAngle *resetArmAngle = new ResetArmAngle();
   commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
 
-// 小路でシナリオ
-// 沖原でトレース
-#define Komichi
-  // #define Okihara
+  // 小路でシナリオ
+  // 沖原でトレース
+  //#define Komichi
+#define Okihara
 
 #ifdef Komichi
   // ↓ここから小路↓
