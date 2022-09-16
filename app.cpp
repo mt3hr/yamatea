@@ -409,20 +409,51 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
   */
 
-  int sceneBananaMotorCountPredicateArg = 1750;      // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
-  int sceneOrangeMotorCountPredicateArg = 2500;      // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
-  int sceneStarFruitsMotorCountPredicateArg = 2550;  // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
-  int sceneCherryMotorCountPredicateArg = 2700;      // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
-  int sceneWaterMelonMotorCountPredicateArg = 6170;  // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+  int sceneBananaMotorCountPredicateArg = 1750;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+  int sceneOrangeMotorCountPredicateArg = 2500;     // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
+  int sceneStarFruitsMotorCountPredicateArg = 2550; // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
+  int sceneCherryMotorCountPredicateArg = 2700;     // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneWaterMelonMotorCountPredicateArg = 6170; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+#ifdef RightCourceOkiharaMode1
+  int sceneBokChoyMotorCountPredicateArg = 6700; // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+#else
   int sceneBokChoyMotorCountPredicateArg = 6490;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneDorianMotorCountPredicateArg = 6860; // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+#else
   int sceneDorianMotorCountPredicateArg = 6650;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneAsparagusMotorCountPredicateArg = 7310; // ドリアン終了後の１つ目の直線
+#else
   int sceneAsparagusMotorCountPredicateArg = 7100;   // ドリアン終了後の１つ目の直線
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneRadishMotorCountPredicateArg = 7760; // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
+#else
   int sceneRadishMotorCountPredicateArg = 7550;      // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneMelonMotorCountPredicateArg = 9030; // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+#else
   int sceneMelonMotorCountPredicateArg = 8850;       // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneCucumberMotorCountPredicateArg = 10705; // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+#else
   int sceneCucumberMotorCountPredicateArg = 10495;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneStrawberryMotorCountPredicateArg = 11310; // ゴールまで。いちご好き。ライントレースする。
+#else
   int sceneStrawberryMotorCountPredicateArg = 11100; // ゴールまで。いちご好き。ライントレースする。
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneCabbageMotorCountpredicateArg = 12710; // ゴールまで。
+#else
   int sceneCabbageMotorCountpredicateArg = 12500;    // ゴールまで。
-
+#endif
   float distanceTemp = 0;
   int bananaDistance = (sceneBananaMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
   distanceTemp += bananaDistance;
@@ -621,15 +652,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   PIDTracer *cabbagePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateCabbage = new WheelDistancePredicate(cabbageDistance, robotAPI);
-  /*
-  #ifdef RightCourceOkiharaMode1
-  cabbagePIDTracer->cabbagePIDTracer.reverseCommand();
-  predicateCabbage->predicateCabbage.reversePredicate();
-  #endif
   calibrator->addPIDTracer(cabbagePIDTracer);
   commandExecutor->addCommand(cabbagePIDTracer, predicateCabbage, GET_VARIABLE_NAME(cabbagePIDTracer));
-  */
-
   // Commandの定義とCommandExecutorへの追加ここまで
 
 #if defined(SimulatorMode) | defined(DisableCalibration)
@@ -920,6 +944,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   int leftPow;
   int rightPow;
+  int distance;
 
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
   Predicate *startButtonPredicate = new StartButtonPredicate();
@@ -930,6 +955,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   ki = 0.2;
   kd = 0.7;
   dt = 1;
+  distance = 8;
   PIDTracer *bananaPIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   calibrator->addPIDTracer(bananaPIDTracer);
 
@@ -937,7 +963,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   rightPow = 0;
   Walker *walkerS = new Walker(leftPow, rightPow);
   // Predicate *predicate0 = new NumberOfTimesPredicate(4);
-  Predicate *predicate0 = new WheelDistancePredicate(20, robotAPI);
+  Predicate *predicate0 = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(bananaPIDTracer, predicate0, GET_VARIABLE_NAME(bananaPIDTracer));
   //第一直進
   leftPow = 50;
@@ -1011,7 +1037,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(walker12, predicate12, GET_VARIABLE_NAME(walker12));
   commandExecutor->addCommand(walkerS, predicate11, GET_VARIABLE_NAME(walkerS));
   // IF１３コースに沿って直進
-  Predicate *predicate13S = new WheelDistancePredicate(133, robotAPI);
+  Predicate *predicate13S = new WheelDistancePredicate(148, robotAPI);
   commandExecutor->addCommand(walkerS, predicate13S, GET_VARIABLE_NAME(walkerS));
   leftPow = 13;
   rightPow = 50;
@@ -1036,7 +1062,26 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Walker *walker14S = new Walker(leftPow, rightPow);
   Predicate *predicate14c = new ColorPredicate(COLOR_BLACK);
   commandExecutor->addCommand(walker14S, predicate14c, GET_VARIABLE_NAME(walker14S));
-  //  ToDo PID書く
+
+  pwm = 10;
+  int angle = -45;
+  FacingAngleAbs *facingAngle45 = new FacingAngleAbs(FA_Gyro, pwm, angle);
+  commandExecutor->addCommand(facingAngle45, new FinishedCommandPredicate(facingAngle45), GET_VARIABLE_NAME(facingAngle45));
+
+  leftPow = 20;
+  rightPow = 20;
+  Walker *lowWalker = new Walker(leftPow, rightPow);
+  Predicate *blackPredicate = new BlackPredicate();
+  commandExecutor->addCommand(lowWalker, blackPredicate, GET_VARIABLE_NAME(lowWalker));
+
+  pwm = 15;
+  kp = 0.2;
+  ki = 0.1;
+  kd = 0.2;
+  dt = 1;
+  ColorPIDTracer *colorPIDTracer = new ColorPIDTracer(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt);
+  calibrator->addColorPIDTracer(colorPIDTracer);
+  commandExecutor->addCommand(colorPIDTracer, new BlueEdgePredicate(), GET_VARIABLE_NAME(colorPIDTracer));
 
 #ifdef RightScenarioKomichiMode
   commandExecutor->reverseCommandAndPredicate();
@@ -1662,6 +1707,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #if defined(SlalomAwaitingSignalModePatternPlan3)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "Stopper");
+
   // ガレージカードの色取得用ColorReader
   ColorReader *colorReader = new ColorReader();
   colorid_t *garageCardColorPtr = colorReader->getColorPtr();
@@ -2210,6 +2257,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(lowPWMTracer, blueEdgePredicate, GET_VARIABLE_NAME(lowPWMTracer));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 }
+
 #endif
 
 #if defined(SlalomAwaitingSignalModePattern1_2) | defined(SlalomAwaitingSignalModePattern2_2)
@@ -3254,20 +3302,51 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
   */
 
-  int sceneBananaMotorCountPredicateArg = 1750;      // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
-  int sceneOrangeMotorCountPredicateArg = 2500;      // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
-  int sceneStarFruitsMotorCountPredicateArg = 2550;  // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
-  int sceneCherryMotorCountPredicateArg = 2700;      // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
-  int sceneWaterMelonMotorCountPredicateArg = 6170;  // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+  int sceneBananaMotorCountPredicateArg = 1750;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+  int sceneOrangeMotorCountPredicateArg = 2500;     // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
+  int sceneStarFruitsMotorCountPredicateArg = 2550; // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
+  int sceneCherryMotorCountPredicateArg = 2700;     // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneWaterMelonMotorCountPredicateArg = 6170; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+#ifdef RightCourceOkiharaMode1
+  int sceneBokChoyMotorCountPredicateArg = 6700; // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+#else
   int sceneBokChoyMotorCountPredicateArg = 6490;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneDorianMotorCountPredicateArg = 6860; // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+#else
   int sceneDorianMotorCountPredicateArg = 6650;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneAsparagusMotorCountPredicateArg = 7310; // ドリアン終了後の１つ目の直線
+#else
   int sceneAsparagusMotorCountPredicateArg = 7100;   // ドリアン終了後の１つ目の直線
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneRadishMotorCountPredicateArg = 7760; // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
+#else
   int sceneRadishMotorCountPredicateArg = 7550;      // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneMelonMotorCountPredicateArg = 9030; // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+#else
   int sceneMelonMotorCountPredicateArg = 8850;       // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneCucumberMotorCountPredicateArg = 10705; // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+#else
   int sceneCucumberMotorCountPredicateArg = 10495;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneStrawberryMotorCountPredicateArg = 11310; // ゴールまで。いちご好き。ライントレースする。
+#else
   int sceneStrawberryMotorCountPredicateArg = 11100; // ゴールまで。いちご好き。ライントレースする。
+#endif
+#ifdef RightCourceOkiharaMode1
+  int sceneCabbageMotorCountpredicateArg = 12710; // ゴールまで。
+#else
   int sceneCabbageMotorCountpredicateArg = 12500;    // ゴールまで。
-
+#endif
   float distanceTemp = 0;
   int bananaDistance = (sceneBananaMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
   distanceTemp += bananaDistance;
@@ -3466,15 +3545,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   PIDTracer *cabbagePIDTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   Predicate *predicateCabbage = new WheelDistancePredicate(cabbageDistance, robotAPI);
-  /*
-  #ifdef RightCourceOkiharaMode1
-  cabbagePIDTracer->cabbagePIDTracer.reverseCommand();
-  predicateCabbage->predicateCabbage.reversePredicate();
-  #endif
   calibrator->addPIDTracer(cabbagePIDTracer);
   commandExecutor->addCommand(cabbagePIDTracer, predicateCabbage, GET_VARIABLE_NAME(cabbagePIDTracer));
-  */
-
   // Commandの定義とCommandExecutorへの追加ここまで
 
 #if defined(SimulatorMode) | defined(DisableCalibration)
@@ -3491,6 +3563,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // ↑ここまで沖原↑
 
   // ↓ここから実方↓
+  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "Stopper");
   // ガレージカードの色取得用ColorReader
   ColorReader *colorReader = new ColorReader();
   colorid_t *garageCardColorPtr = colorReader->getColorPtr();
@@ -3563,17 +3636,17 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new TimerPredicate(waitDurationUsec), "wait switch mode brightness to row color");
 
   // PIDトレースで青線まで進む
-  // Predicate *distancePredicate = new WheelDistancePredicate(40, robotAPI);
-  // TODO commandExecutor->addCommand(pidTracer, distancePredicate, GET_VARIABLE_NAME(lowPWMTracer));
+  Predicate *distancePredicate = new WheelDistancePredicate(40, robotAPI);
+  commandExecutor->addCommand(pidTracer, distancePredicate, GET_VARIABLE_NAME(lowPWMTracer));
 
   // PIDトレースで青線まで進む
-  // Predicate *pidTracerPredicate = new BlueEdgePredicate();
-  // TODO commandExecutor->addCommand(lowPWMTracer, pidTracerPredicate, GET_VARIABLE_NAME(lowPWMTracer));
+  Predicate *pidTracerPredicate = new BlueEdgePredicate();
+  commandExecutor->addCommand(lowPWMTracer, pidTracerPredicate, GET_VARIABLE_NAME(lowPWMTracer));
 
   // スラローム直前までPIDトレース
   distance = 35;
-  // TODO commandExecutor->addCommand(lowPWMTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
-  // TODO commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+  commandExecutor->addCommand(lowPWMTracer, new WheelDistancePredicate(distance, robotAPI), GET_VARIABLE_NAME(pidTracer));
+  commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // アームを下げる
   int armAngle = 15;
