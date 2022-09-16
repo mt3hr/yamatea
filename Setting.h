@@ -62,8 +62,8 @@ using namespace std;
 // モード設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
-//#define SlalomPattern1
-#define SlalomPattern2
+#define SlalomPattern1
+//#define SlalomPattern2
 // スラロームパターンの設定ここまで
 
 //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
