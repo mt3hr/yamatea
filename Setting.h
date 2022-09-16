@@ -18,14 +18,16 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define TrueLeftCourceMode // 左コース用プログラム
-#define TrueRightCourceMode // 右コース用プログラム
+#define TrueLeftCourceMode // 左コース用プログラム
+//#define TrueRightCourceMode // 右コース用プログラム
 //#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define LeftCourceOkiharaMode1 // 左コース用プログラム沖原コードシナリオ追加前安定版
 //#define LeftCourceOkiharaMode2 // 左コース用プログラム沖原コードシナリオ追加後
 //#define LeftCourceOkiharaMode // 左コース用プログラム沖原コード
 //#define RightCourceOkiharaMode // 右コース用プログラム沖原コード
+//#define LeftScenarioKomichiMode
+//#define RightScenarioKomichiMode
 //#define SlalomUFOTestMode // スラロームをUFO走行するプログラム。
 //#define SlalomAwaitingSignalModePattern1_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案1
 //#define SlalomAwaitingSignalModePattern2_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2。案1
