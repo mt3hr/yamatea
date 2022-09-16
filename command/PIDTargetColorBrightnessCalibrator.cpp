@@ -946,10 +946,7 @@ void PIDTargetColorBrightnessCalibrator::preparation(RobotAPI *robotAPI)
 
 PIDTargetColorBrightnessCalibrator *PIDTargetColorBrightnessCalibrator::generateReverseCommand()
 {
-    PIDTargetColorBrightnessCalibrator *reversed = new PIDTargetColorBrightnessCalibrator(robotAPI, brightnessCalibrateMode);
-    reversed->pidTracers = pidTracers;
-    reversed->colorPIDTracers = colorPIDTracers;
-    return reversed;
+    return new PIDTargetColorBrightnessCalibrator(robotAPI, brightnessCalibrateMode);
 }
 
 bool PIDTargetColorBrightnessCalibrator::isReadedBlackBrightness()
@@ -1037,4 +1034,24 @@ bool PIDTargetColorBrightnessCalibrator::isReadedBlackWhiteEdgeColor()
 bool PIDTargetColorBrightnessCalibrator::isReadedBlackWhiteEdgeBrightness()
 {
     return readedBlackWhiteEdgeBrightness;
+}
+
+vector<PIDTracer *> *PIDTargetColorBrightnessCalibrator::getPIDTracers()
+{
+    vector<PIDTracer *> *result = new vector<PIDTracer *>();
+    for (int i = 0; i < ((int)pidTracers.size()); i++)
+    {
+        result->push_back(pidTracers[i]);
+    }
+    return result;
+}
+
+vector<ColorPIDTracer *> *PIDTargetColorBrightnessCalibrator::getColorPIDTracers()
+{
+    vector<ColorPIDTracer *> *result = new vector<ColorPIDTracer *>();
+    for (int i = 0; i < ((int)colorPIDTracers.size()); i++)
+    {
+        result->push_back(colorPIDTracers[i]);
+    }
+    return result;
 }

@@ -122,6 +122,17 @@ void ColorPIDTracer::preparation(RobotAPI *robotAPI)
     writeEndLineDebug();
     writeDebug("dt: ");
     writeDebug(dt);
+    writeEndLineDebug();
+    writeDebug("target color");
+    writeEndLineDebug();
+    writeDebug("r: ");
+    writeDebug(targetRGB.r);
+    writeEndLineDebug();
+    writeDebug("g: ");
+    writeDebug(targetRGB.g);
+    writeEndLineDebug();
+    writeDebug("b: ");
+    writeDebug(targetRGB.b);
     flushDebug(DEBUG, robotAPI);
     return;
 }

@@ -21,6 +21,7 @@ void writeDebug(float f);
 void writeDebug(uint16_t i);
 void writeDebug(uint64_t i);
 void writeDebug(int32_t i);
+// void writeDebug(bool b);
 void writeEndLineDebug();
 void flushDebug(DEBUG_LEVEL level, RobotAPI *robotAPI);
 void writeAndFlushDebug(string str, DEBUG_LEVEL level, RobotAPI *robotAPI);

@@ -1588,11 +1588,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new TimerPredicate(waitDurationUsec), "wait switch mode brightness to row color");
 
   // PIDトレースで青線まで進む
-  Predicate *distancePredicate = new WheelDistancePredicate(40, robotAPI);
+  // Predicate *distancePredicate = new WheelDistancePredicate(40, robotAPI);
   // TODO commandExecutor->addCommand(pidTracer, distancePredicate, GET_VARIABLE_NAME(lowPWMTracer));
 
   // PIDトレースで青線まで進む
-  Predicate *pidTracerPredicate = new BlueEdgePredicate();
+  // Predicate *pidTracerPredicate = new BlueEdgePredicate();
   // TODO commandExecutor->addCommand(lowPWMTracer, pidTracerPredicate, GET_VARIABLE_NAME(lowPWMTracer));
 
   // スラローム直前までPIDトレース
@@ -3442,9 +3442,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // ジャイロセンサをリセットする
-  ResetGyroSensor *resetGyroSensor = new ResetGyroSensor();
+  // ResetGyroSensor *resetGyroSensor = new ResetGyroSensor();
   // commandExecutor->addCommand(resetGyroSensor, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(resetGyroSensor));
-  commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+  // commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // MeasAngleをリセットする
   ResetMeasAngle *resetMeasAngle = new ResetMeasAngle();
@@ -3476,9 +3476,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // スラローム位置補正ここから
 
   // ジャイロで向き調節
-  pwm = 6 * coefficientPWMForFacingAngle;
-  angle = 0;
-  FacingAngleAbs *facingAngleG = new FacingAngleAbs(facingAngleMode, pwm, slalomAngleOffset + angle);
+  // pwm = 6 * coefficientPWMForFacingAngle;
+  // angle = 0;
+  // FacingAngleAbs *facingAngleG = new FacingAngleAbs(facingAngleMode, pwm, slalomAngleOffset + angle);
   //ない方が安定する commandExecutor->addCommand(facingAngleG, new FinishedCommandPredicate(facingAngleG), GET_VARIABLE_NAME(FacingAngleG));
   //ない方が安定する commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 

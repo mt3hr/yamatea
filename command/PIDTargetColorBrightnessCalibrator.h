@@ -80,6 +80,8 @@ public:
     virtual void resetAPI();
     virtual void addPIDTracer(PIDTracer *pidTracer);
     virtual void addColorPIDTracer(ColorPIDTracer *pidTracer);
+    virtual vector<PIDTracer *> *getPIDTracers();
+    virtual vector<ColorPIDTracer *> *getColorPIDTracers();
 };
 
 #endif

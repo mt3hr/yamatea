@@ -99,6 +99,20 @@ void writeDebug(int32_t i)
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
+void writeDebug(bool b)
+{
+    if (messageLinesForDebugPrint.size() == 0)
+    {
+        messageLinesForDebugPrint.push_back("");
+    }
+
+    stringstream ss;
+    ss.clear();
+    ss.str("");
+    ss << b;
+    messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
+}
+
 // 改行する
 void writeEndLineDebug()
 {

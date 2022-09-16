@@ -13,6 +13,7 @@
 #include "FinishedCommandPredicate.h"
 #include "typeinfo"
 #include "FinishConfirmable.h"
+#include "PIDTargetColorBrightnessCalibrator.h"
 
 using namespace ev3api;
 using namespace std;
@@ -166,14 +167,129 @@ void CommandExecutor::emergencyStop()
 
 void CommandExecutor::reverseCommandAndPredicate()
 {
-    FinishedCommandPredicate *fcp = new FinishedCommandPredicate(new FinishConfirmable());
-    string finishCommandPredicateTypeName = typeid(fcp).name();
+    // commandsからキャリブレータを抽出する
+    vector<PIDTargetColorBrightnessCalibrator *> calibrators;
+    for (int i = 0; i < (int)commands.size(); i++)
+    {
+        PIDTargetColorBrightnessCalibrator *calibrator = dynamic_cast<PIDTargetColorBrightnessCalibrator *>(commands[i]);
+        if (calibrator != NULL)
+        {
+            calibrators.push_back(calibrator);
+        }
+    }
+    writeDebug("CommandExecutor");
+    writeEndLineDebug();
+    writeDebug("extructed calibrator");
+    flushDebug(DEBUG, robotAPI);
 
+    vector<vector<int> *> *targetBrightnessTracerIndexs = new vector<vector<int> *>();
+    vector<vector<int> *> *targetColorTracerIndexs = new vector<vector<int> *>();
     for (int i = 0; i < ((int)commands.size()); i++)
+    {
+        // commands[i]がcalibrators[i]の対象であるかを判断する
+        for (int j = 0; j < ((int)calibrators.size()); j++)
+        {
+            targetBrightnessTracerIndexs->push_back(new vector<int>());
+            targetColorTracerIndexs->push_back(new vector<int>());
+            vector<PIDTracer *> targetPIDTracer = *calibrators[j]->getPIDTracers();
+            vector<ColorPIDTracer *> targetColorPIDTracer = *calibrators[j]->getColorPIDTracers();
+            for (int k = 0; k < ((int)targetPIDTracer.size()); k++)
+            {
+                if (&(*targetPIDTracer[k]) == &(*commands[i]))
+                {
+                    (*targetBrightnessTracerIndexs)[j]->push_back(i);
+                    writeDebug("pidTracer index: ");
+                    writeDebug(i);
+                    flushDebug(DEBUG, robotAPI);
+                }
+            }
+            for (int k = 0; k < ((int)targetColorPIDTracer.size()); k++)
+            {
+                if (&(*targetColorPIDTracer[k]) == &(*commands[i]))
+                {
+                    (*targetColorTracerIndexs)[j]->push_back(i);
+                    writeDebug("colorPIDTracer index: ");
+                    writeDebug(i);
+                    flushDebug(DEBUG, robotAPI);
+                }
+            }
+        }
+    }
+
+    writeDebug("targetBrightnessTracerIndexs size: ");
+    writeDebug((int)(*(*targetBrightnessTracerIndexs)[0]).size());
+    flushDebug(DEBUG, robotAPI);
+
+    writeDebug("extructed target pid tracer");
+    flushDebug(DEBUG, robotAPI);
+
+    for (int i = 0; i < (int)commands.size(); i++)
     {
         commands[i] = commands[i]->generateReverseCommand();
         predicates[i] = predicates[i]->generateReversePredicate();
+    }
+    writeDebug("reversed command");
+    flushDebug(DEBUG, robotAPI);
 
+    vector<PIDTargetColorBrightnessCalibrator *> newCalibrators;
+    for (int i = 0; i < (int)commands.size(); i++)
+    {
+        PIDTargetColorBrightnessCalibrator *calibrator = dynamic_cast<PIDTargetColorBrightnessCalibrator *>(commands[i]);
+        if (calibrator != NULL)
+        {
+            newCalibrators.push_back(calibrator);
+        }
+    }
+
+    writeDebug("reversedCalibrator.size():");
+    writeDebug((int)newCalibrators.size());
+    writeEndLineDebug();
+    writeDebug("extructed reversed calibrator");
+    flushDebug(DEBUG, robotAPI);
+
+    // PIDCalibratorの対象を新キャリブレータに適用する
+    for (int j = 0; j < ((int)newCalibrators.size()); j++)
+    {
+        writeDebug("targetBrightnessTracerIndexsSize: ");
+        writeDebug(j);
+        writeDebug(": ");
+        writeDebug((int)(*targetBrightnessTracerIndexs)[j]->size());
+        flushDebug(DEBUG, robotAPI);
+        for (int k = 0; k < ((int)(*targetBrightnessTracerIndexs)[j]->size()); k++)
+        {
+            PIDTracer *pidTracer = dynamic_cast<PIDTracer *>(commands[(*(*targetBrightnessTracerIndexs)[j])[k]]);
+            writeDebug("pidTracer is null: ");
+            writeDebug(pidTracer == NULL);
+            flushDebug(DEBUG, robotAPI);
+            newCalibrators[j]->addPIDTracer(pidTracer);
+            writeDebug("set pid tracer to calibrator");
+            flushDebug(DEBUG, robotAPI);
+        }
+    }
+    for (int j = 0; j < ((int)newCalibrators.size()); j++)
+    {
+        writeDebug("targetColorTracerIndexsSize: ");
+        writeDebug(j);
+        writeDebug(": ");
+        writeDebug((int)(*targetColorTracerIndexs)[j]->size());
+        flushDebug(DEBUG, robotAPI);
+        for (int k = 0; k < ((int)(*targetColorTracerIndexs)[j]->size()); k++)
+        {
+            ColorPIDTracer *colorPIDTracer = dynamic_cast<ColorPIDTracer *>(commands[(*(*targetColorTracerIndexs)[j])[k]]);
+            writeDebug("colorPIDTracer is null: ");
+            writeDebug(colorPIDTracer == NULL);
+            flushDebug(DEBUG, robotAPI);
+            newCalibrators[j]->addColorPIDTracer(colorPIDTracer);
+            writeDebug("set color pid tracer to calibrator");
+            flushDebug(DEBUG, robotAPI);
+        }
+    }
+    writeDebug("set pid tracers to calibrator");
+    flushDebug(DEBUG, robotAPI);
+
+    // predicateがFinishConfirmableだったら対象を反転後のコマンドに変更する
+    for (int i = 0; i < ((int)commands.size()); i++)
+    {
         FinishConfirmable *newFinishConfirmable = dynamic_cast<FinishConfirmable *>(commands[i]);
         if (newFinishConfirmable != NULL)
         {
@@ -185,6 +301,8 @@ void CommandExecutor::reverseCommandAndPredicate()
             predicates[i] = newPredicate;
         }
     }
+    writeDebug("resoluted finish confirmable commands");
+    flushDebug(DEBUG, robotAPI);
 }
 
 bool CommandExecutor::isFinished()

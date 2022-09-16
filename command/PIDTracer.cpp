@@ -92,6 +92,9 @@ void PIDTracer::preparation(RobotAPI *robotAPI)
     writeEndLineDebug();
     writeDebug("dt: ");
     writeDebug(dt);
+    writeEndLineDebug();
+    writeDebug("target brightness: ");
+    writeDebug(targetBrightness);
     flushDebug(DEBUG, robotAPI);
     return;
 }
