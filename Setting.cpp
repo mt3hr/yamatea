@@ -103,9 +103,9 @@ int blackBrightness = 2;
 int whiteAtSlalomR = 0;
 int whiteAtSlalomG = 0;
 int whiteAtSlalomB = 0;
-RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
-RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
-RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
+RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN15;
+RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN10;
+RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN10;
 #else
 int whiteAtSlalomR = 61;
 int whiteAtSlalomG = 59;
@@ -151,17 +151,17 @@ RawColorPredicateCondition blackWhiteEdgeBCondition = BETWEEN5;
 int blueWhiteEdgeR = 36;
 int blueWhiteEdgeG = 56;
 int blueWhiteEdgeB = 92;
-RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN10;
-RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN10;
-RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN10;
+RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN5;
+RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN5;
+RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN5;
 
 // 赤
 int redR = 70;
 int redG = 23;
 int redB = 20;
-RawColorPredicateCondition redRCondition = BETWEEN15;
+RawColorPredicateCondition redRCondition = BETWEEN10;
 RawColorPredicateCondition redGCondition = BETWEEN10;
-RawColorPredicateCondition redBCondition = BETWEEN10;
+RawColorPredicateCondition redBCondition = BETWEEN5;
 
 // 緑
 int greenR = 12;
