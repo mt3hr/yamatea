@@ -52,10 +52,10 @@ int angleForResetArm = 30;
 
 // 情報出力の有効無効設定ここから
 
-DEBUG_LEVEL debugMessageLevel = NONE;      // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+DEBUG_LEVEL debugMessageLevel = NONE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
 bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-bool enablePrintMessageForLCD = false;      // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
-bool enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForLCD = false;       // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
 bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
 
 // 情報出力の有効無効設定ここまで
@@ -93,12 +93,12 @@ int blackWhiteEdgeTargetBrightness = 20;
 int whiteBrightness = 0;
 int blackBrightness = 0;
 #else
-int blackWhiteEdgeTargetBrightness = 0;
-int whiteBrightness = 0;
-int blackBrightness = 0;
+int blackWhiteEdgeTargetBrightness = (30 + 2) / 2;
+int whiteBrightness = 30;
+int blackBrightness = 2;
 #endif
 
-// スラローム上からみた白
+// スラローム上からみた白（試走会では値取れていないので学校の値）
 #ifdef SimulatorMode
 int whiteAtSlalomR = 0;
 int whiteAtSlalomG = 0;
@@ -107,82 +107,82 @@ RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN5;
 RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN5;
 RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN5;
 #else
-int whiteAtSlalomR = 0;
-int whiteAtSlalomG = 0;
-int whiteAtSlalomB = 0;
+int whiteAtSlalomR = 61;
+int whiteAtSlalomG = 59;
+int whiteAtSlalomB = 84;
 RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN10;
 RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN10;
 RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN10;
 #endif
 
 // グレー
-int grayR = 0;
-int grayG = 0;
-int grayB = 0;
+int grayR = 33;
+int grayG = 40;
+int grayB = 50;
 RawColorPredicateCondition grayRCondition = BETWEEN5;
 RawColorPredicateCondition grayGCondition = BETWEEN5;
 RawColorPredicateCondition grayBCondition = BETWEEN5;
 
-// 黒
-int blackR = 0;
-int blackG = 0;
-int blackB = 0;
+// 黒（試走会では値取れていないので学校の値）
+int blackR = 8;
+int blackG = 8;
+int blackB = 10;
 RawColorPredicateCondition blackRCondition = BETWEEN5;
 RawColorPredicateCondition blackGCondition = BETWEEN5;
 RawColorPredicateCondition blackBCondition = BETWEEN5;
 
-// 白
-int whiteR = 0;
-int whiteG = 0;
-int whiteB = 0;
+// 白（試走会では値取れていないので学校の値）
+int whiteR = 72;
+int whiteG = 72;
+int whiteB = 94;
 RawColorPredicateCondition WhiteRCondition = BETWEEN5;
 RawColorPredicateCondition whiteGCondition = BETWEEN5;
 RawColorPredicateCondition whiteBCondition = BETWEEN5;
 
-// 黒白境界
-int blackWhiteEdgeR = 0;
-int blackWhiteEdgeG = 0;
-int blackWhiteEdgeB = 0;
+// 黒白境界（試走会では値取れていないので学校の値）
+int blackWhiteEdgeR = 38;
+int blackWhiteEdgeG = 42;
+int blackWhiteEdgeB = 51;
 RawColorPredicateCondition blackWhiteEdgeRCondition = BETWEEN5;
 RawColorPredicateCondition blackWhiteEdgeGCondition = BETWEEN5;
 RawColorPredicateCondition blackWhiteEdgeBCondition = BETWEEN5;
 
-// 青白境界
-int blueWhiteEdgeR = 0;
-int blueWhiteEdgeG = 0;
-int blueWhiteEdgeB = 0;
+// 青白境界（試走会では値取れていないので学校の値）
+int blueWhiteEdgeR = 36;
+int blueWhiteEdgeG = 56;
+int blueWhiteEdgeB = 92;
 RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN10;
 RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN10;
 RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN10;
 
 // 赤
-int redR = 0;
-int redG = 0;
-int redB = 0;
+int redR = 70;
+int redG = 23;
+int redB = 20;
 RawColorPredicateCondition redRCondition = BETWEEN15;
 RawColorPredicateCondition redGCondition = BETWEEN10;
 RawColorPredicateCondition redBCondition = BETWEEN10;
 
 // 緑
-int greenR = 0;
-int greenG = 0;
-int greenB = 0;
+int greenR = 12;
+int greenG = 45;
+int greenB = 21;
 RawColorPredicateCondition greenRCondition = BETWEEN10;
 RawColorPredicateCondition greenGCondition = BETWEEN10;
 RawColorPredicateCondition greenBCondition = BETWEEN10;
 
 // 青
-int blueR = 0;
-int blueG = 0;
-int blueB = 0;
+int blueR = 4;
+int blueG = 21;
+int blueB = 54;
 RawColorPredicateCondition blueRCondition = BETWEEN10;
 RawColorPredicateCondition blueGCondition = BETWEEN10;
 RawColorPredicateCondition blueBCondition = BETWEEN10;
 
 // 黄
-int yellowR = 0;
-int yellowG = 0;
-int yellowB = 0;
+int yellowR = 75;
+int yellowG = 66;
+int yellowB = 16;
 RawColorPredicateCondition yellowRCondition = BETWEEN10;
 RawColorPredicateCondition yellowGCondition = BETWEEN10;
 RawColorPredicateCondition yellowBCondition = BETWEEN10;

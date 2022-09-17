@@ -559,6 +559,31 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         printMessage.run(robotAPI);
     }
 
+    if (ev3_button_is_pressed(ENTER_BUTTON))
+    {
+        readedBlackWhiteEdgeBrightness = true;
+        readedBlackWhiteEdge = true;
+        readedWhiteBrightness = true;
+        readedBlackBrightness = true;
+        readedWhiteColor = true;
+        readedBlackColor = true;
+        readedBlueEdgeColor = true;
+        readedSlalomWhiteColor = true;
+        readedBlackWhiteEdgeColor = true;
+        readedGrayColor = true;
+        readedRedColor = true;
+        readedGreenColor = true;
+        readedBlueColor = true;
+        readedYellowColor = true;
+
+        vector<string> messageLines;
+        messageLines.push_back("use default value.");
+        messageLines.push_back("press right key");
+        messageLines.push_back(" reset api");
+        PrintMessage printMessage(messageLines, true);
+        printMessage.run(robotAPI);
+    }
+
     if (!readedSlalomWhiteColor && calibrateWhiteAtSlalom)
     {
         if (!printedReadSlalomWhiteColorMessage)
