@@ -66,6 +66,7 @@
 #include "BrightnessReader.h"
 #include "ResetArmAngle.h"
 #include "ReleaseWheel.h"
+#include "SonarDistancePredicate.h"
 
 using namespace std;
 using namespace ev3api;
@@ -949,6 +950,13 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+#define SonarStarter
+#ifdef SonarStarter
+  Walker *sonarStandby = new Walker(leftPow, rightPow);
+  Predicate *sonarStater = new SonarDistancePredicate(10, true);
+  commandExecutor->addCommand(sonarStandby, sonarStater, GET_VARIABLE_NAME(sonarStandby));
+#endif
 
   pwm = 22;
   kp = 0.7;
@@ -3983,6 +3991,13 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+#define SonarStarter
+#ifdef SonarStarter
+  Walker *sonarStandby = new Walker(leftPow, rightPow);
+  Predicate *sonarStater = new SonarDistancePredicate(10, true);
+  commandExecutor->addCommand(sonarStandby, sonarStater, GET_VARIABLE_NAME(sonarStandby));
+#endif
 
   Kpwm = 22;
   Kkp = 0.7;
