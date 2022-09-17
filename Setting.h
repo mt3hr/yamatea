@@ -18,8 +18,8 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define TrueLeftCourceMode // 左コース用プログラム
-#define TrueRightCourceMode // 右コース用プログラム
+#define TrueLeftCourceMode // 左コース用プログラム
+//#define TrueRightCourceMode // 右コース用プログラム
 //#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
 //#define LeftCourceOkiharaMode1 // 左コース用プログラム沖原コードシナリオ追加前安定版
@@ -63,8 +63,8 @@ using namespace std;
 // モード設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
-//#define SlalomPattern1
-#define SlalomPattern2
+#define SlalomPattern1
+//#define SlalomPattern2
 // スラロームパターンの設定ここまで
 
 //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ

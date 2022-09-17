@@ -4130,17 +4130,13 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
   // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
-  float bananaDistance = 158;   // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
-  float orangeDistance = 68;    // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
-  float starFruitsDistance = 5; // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
-  float cherryDistance = 14;    // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
-#ifdef TrueRightCourceMode
-  float waterMelonDistance = 320; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
-#else
+  float bananaDistance = 158;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+  float orangeDistance = 68;      // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
+  float starFruitsDistance = 5;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
+  float cherryDistance = 14;      // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
   float waterMelonDistance = 314; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
-#endif
-  float bokChoyDistance = 30; // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
-  float dorianDistance = 14;  // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+  float bokChoyDistance = 30;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+  float dorianDistance = 14;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
   float asparagusDistance = 41;
   float radishDistance = 41;
   float melonDistance = 118;     // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
