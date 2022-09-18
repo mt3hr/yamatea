@@ -7,6 +7,11 @@
 
 using namespace std;
 
+#define TrueLeftCourceMode // 左コース用プログラム
+#define SlalomPattern1
+//#define SlalomPattern2
+//#define TrueRightCourceMode // 右コース用プログラム
+
 // 設定は2箇所に分散しています。
 // 設定1/2: Setting.h
 // 設定2/2: Setting.cpp
@@ -18,7 +23,7 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define TrueLeftCourceMode // 左コース用プログラム
+//#define TrueLeftCourceMode // 左コース用プログラム
 //#define TrueRightCourceMode // 右コース用プログラム
 //#define LeftCourceMode // 左コース用プログラム
 //#define RightCourceMode // 右コース用プログラム
@@ -63,7 +68,7 @@ using namespace std;
 // モード設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
-#define SlalomPattern1
+//#define SlalomPattern1
 //#define SlalomPattern2
 // スラロームパターンの設定ここまで
 
