@@ -4057,7 +4057,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-#define SonarStarter
+//#define SonarStarter
 #ifdef SonarStarter
   Walker *sonarStandby = new Walker(leftPow, rightPow);
   Predicate *sonarStater = new SonarDistancePredicate(10, true);
