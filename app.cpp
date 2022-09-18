@@ -84,7 +84,7 @@ void stp_cyc_all()
 }
 
 // LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
-#if defined(LeftCourceMode) | defined(RightCourceMode)
+#ifdef GoalMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
@@ -377,20 +377,20 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   strawberryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
 #endif
 
-#ifdef RightCourceMode
+#ifdef Right
   commandExecutor->reverseCommandAndPredicate();
 #endif
 }
 #endif
 
-#if defined(LeftCourceOkiharaMode) | defined(RightCourceOkiharaMode)
+#ifdef GoalOkiharaMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
 }
 #endif
 
 // LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
-#if defined(LeftCourceOkiharaMode1) | defined(RightCourceOkiharaMode1)
+#ifdef GoalOkiharaMode1
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
@@ -669,14 +669,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   strawberryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
 #endif
 
-#ifdef RightCourceOkiharaMode1
+#ifdef Right
   commandExecutor->reverseCommandAndPredicate();
 #endif
 }
 #endif
 
 // LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
-#if defined(LeftCourceOkiharaMode2) | defined(RightCourceOkiharaMode2)
+#ifdef GoalOkiharaMode2
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
@@ -934,7 +934,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#if defined(LeftScenarioKomichiMode) | defined(RightScenarioKomichiMode)
+#ifdef KomichiScnenarioTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   int pwm;
@@ -1093,7 +1093,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   calibrator->addColorPIDTracer(colorPIDTracer);
   commandExecutor->addCommand(colorPIDTracer, new BlueEdgePredicate(), GET_VARIABLE_NAME(colorPIDTracer));
 
-#ifdef RightScenarioKomichiMode
+#ifdef Right
   commandExecutor->reverseCommandAndPredicate();
 #endif
 }
@@ -1237,13 +1237,16 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   numberOfTimes = 1;
   Predicate *stopperPredicate = new NumberOfTimesPredicate(numberOfTimes);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
-#if defined(SlalomAwaitingSignalModePattern1_1) | defined(SlalomAwaitingSignalModePattern2_1)
+#ifdef SlalomAwaitingSignalPlan1TestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  /*
   int slalomAngle = 0; // 多分270
   // ガレージカードの色取得用ColorReader
   ColorReader *colorReader = new ColorReader();
@@ -1394,7 +1397,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 角度を調整する
   pwm = 5;
-  FacingAngle *facingAngle = new FacingAngle(pwm, slalomAngle, facingAngleUseGyro);
+  FacingAngleAbs *facingAngle = new FacingAngleAbs(FacingAngleMode, pwm, slalomAngle, facingAngleUseGyro);
   commandExecutor->addCommand(facingAngle, new FinishedCommandPredicate(facingAngle), GET_VARIABLE_NAME(FacingAngle));
 
   // スラローム進入ここまで
@@ -1426,7 +1429,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 角度を調整する
   pwm = 7;
-  facingAngle = new FacingAngle(pwm, slalomAngle, facingAngleUseGyro);
+  FacingAngleAbs *facingAngleAbs = new FacingAngleAbs(pwm, slalomAngle, facingAngleUseGyro);
   commandExecutor->addCommand(facingAngle, new FinishedCommandPredicate(facingAngle), GET_VARIABLE_NAME(FacingAngle));
 
   //  直進
@@ -1471,7 +1474,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 角度を調整する
   pwm = 7;
-  facingAngle = new FacingAngle(pwm, slalomAngle, facingAngleUseGyro);
+  facingAngleAbs = new FacingAngleAbs(pwm, slalomAngle, facingAngleUseGyro);
   commandExecutor->addCommand(facingAngle, new FinishedCommandPredicate(facingAngle), GET_VARIABLE_NAME(FacingAngle));
 
   //  直進
@@ -1710,11 +1713,13 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
 
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-  */
+#ifdef Rightn
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
-#if defined(SlalomAwaitingSignalModePatternPlan3)
+#ifdef SlalomAwaitingSignalPlan2TestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   int pwm;
@@ -2297,8 +2302,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(lowPWMTracer, blueEdgePredicate, GET_VARIABLE_NAME(lowPWMTracer));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
-#define Reverse
-#ifdef Reverse
+#ifdef Right
   commandExecutor->reverseCommandAndPredicate();
 #endif
 
@@ -2306,10 +2310,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#if defined(SlalomAwaitingSignalModePattern1_2) | defined(SlalomAwaitingSignalModePattern2_2)
+#ifdef SlalomAwaitingSignalPlan3TestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  /*
   // ガレージカードの色取得用ColorReader
   ColorReader *colorReader = new ColorReader();
 
@@ -2534,7 +2537,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Walker *walker8 = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walker8Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker8, walker8Predicate, GET_VARIABLE_NAME(walker8));
-  */
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
@@ -2604,7 +2609,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
 
 // RotateTestModeの場合のcommandExecutor初期化処理
-#if defined(RotateTestMode)
+#ifdef RotateTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
@@ -2621,11 +2626,15 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
 // NOTE ジャイロ、 実機とシミュレータで左右判定が逆になる？
-#if defined(RotateGyroTestMode)
+#ifdef RotateGyroTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
@@ -2642,6 +2651,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
@@ -2668,10 +2681,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+#ifdef Rightn
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
-#if defined(CurvatureWalkerTestMode)
+#ifdef CurvatureWalkerTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
@@ -2689,10 +2706,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
-#if defined(SwingSonarDetectorTestMode)
+#ifdef SwingSonarDetectorTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
@@ -2713,10 +2734,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
-#if defined(ShigekiTestMode)
+#ifdef ShigekiTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   int pwm = 10;
@@ -2752,10 +2777,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
-#if defined(UFORunnerSwingTestMode)
+#ifdef UFORunnerSwingTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
@@ -2798,10 +2827,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
-#if defined(UFORunnerClockwiseTestMode)
+#ifdef UFORunnerClockwiseTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
@@ -2846,6 +2879,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
@@ -2864,6 +2901,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTracer *pidTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   commandExecutor->addCommand(pidTracer, new Predicate(), GET_VARIABLE_NAME(pidTracer));
   calibrator->addPIDTracer(pidTracer);
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
@@ -2889,6 +2930,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   targetRGB.g = 100;
   targetRGB.b = 150;
   colorPIDTracer->setTargetColor(targetRGB);
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 #endif
 }
 #endif
@@ -2949,6 +2994,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int angle = 180;
   FacingAngleAbs *facingAngle = new FacingAngleAbs(FA_WheelCount, pwm, angle);
   commandExecutor->addCommand(facingAngle, new FinishedCommandPredicate(facingAngle), GET_VARIABLE_NAME(facingAngle));
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
@@ -2964,6 +3013,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int rightPWM = -10;
   Walker *walker = new Walker(leftPWM, rightPWM);
   commandExecutor->addCommand(walker, new Predicate(), GET_VARIABLE_NAME(walker));
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
@@ -2980,6 +3033,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Walker *walker = new Walker(leftPWM, rightPWM);
   Predicate *batteryPredicate = new BatteryPredicate(targetVoltage);
   commandExecutor->addCommand(walker, batteryPredicate, GET_VARIABLE_NAME(walker));
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
 }
 #endif
 
@@ -3675,7 +3732,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // ↑ここまで小路↑
 
-#ifdef RightScenarioKomichiMode
+#ifdef Right
   commandExecutor->reverseCommandAndPredicate();
 #endif
 }
@@ -4021,7 +4078,7 @@ void initSong(int loop)
   }
 };
 
-#if defined(TrueLeftCourceMode) | defined(TrueRightCourceMode)
+#ifdef TrueCourceMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   ResetArmAngle *resetArmAngle = new ResetArmAngle();
@@ -5151,7 +5208,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // ↑ここまで小路↑
 
-#ifdef TrueRightCourceMode
+#ifdef Right
   commandExecutor->reverseCommandAndPredicate();
 #endif
 }

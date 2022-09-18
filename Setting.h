@@ -6,12 +6,6 @@
 #include "vector"
 
 using namespace std;
-
-#define TrueLeftCourceMode // 左コース用プログラム
-#define SlalomPattern1
-//#define SlalomPattern2
-//#define TrueRightCourceMode // 右コース用プログラム
-
 // 設定は2箇所に分散しています。
 // 設定1/2: Setting.h
 // 設定2/2: Setting.cpp
@@ -21,26 +15,29 @@ using namespace std;
 // 実機シミュレータ設定。ジャイロセンサから取得できる角度の方向が実機とシミュレータでは異なるので。
 //#define SimulatorMode // 実機で動かすときにはコメントアウトして
 
+// コース設定ここから。いずれか1つを有効化して
+#define Left
+//#define Right
+// コース設定ここまで
+
+// スラロームパターンの設定ここから。いずれか1つを有効化して
+#define SlalomPattern1
+//#define SlalomPattern2
+// スラロームパターンの設定ここまで
+
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define TrueLeftCourceMode // 左コース用プログラム
-//#define TrueRightCourceMode // 右コース用プログラム
-//#define LeftCourceMode // 左コース用プログラム
-//#define RightCourceMode // 右コース用プログラム
-//#define LeftCourceOkiharaMode1 // 左コース用プログラム沖原コードシナリオ追加前安定版
-//#define LeftCourceOkiharaMode2 // 左コース用プログラム沖原コードシナリオ追加後
-//#define LeftCourceOkiharaMode // 左コース用プログラム沖原コード
-//#define RightCourceOkiharaMode // 右コース用プログラム沖原コード
-//#define LeftScenarioKomichiMode
-//#define RightScenarioKomichiMode
+#define TrueCourceMode // 完走用プログラム
+//#define GoalMode // ゴール用プログラム
+//#define GoalOkiharaMode // 左コース用プログラム沖原コード
+//#define GoalOkiharaMode1 // 左コース用プログラム沖原コードシナリオ追加前安定版
+//#define GoalOkiharaMode2 // 左コース用プログラム沖原コードシナリオ追加後
+//#define KomichiScnenarioTestMode
 //#define SlalomUFOTestMode // スラロームをUFO走行するプログラム。
-//#define SlalomAwaitingSignalModePattern1_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案1
-//#define SlalomAwaitingSignalModePattern2_1 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2。案1
-//#define SlalomAwaitingSignalModePattern1_2 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案2
-//#define SlalomAwaitingSignalModePattern2_2 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2。案2
-//#define SlalomAwaitingSignalModePatternPlan3 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案3
-//#define SlalomAwaitingSignalModePattern2_3 // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2。案3
-//#define BlockTestMode  // ブロック搬入だけを走行するプログラム。
+//#define SlalomAwaitingSignalPlan1TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案1
+//#define SlalomAwaitingSignalPlan2TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2。案1
+//#define SlalomAwaitingSignalPlan3TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案3
+//#define BlockTestMode // ブロック搬入だけを走行するプログラム。
 //#define FlatLineMode // すべて同じPIDで倉庫する左コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム
 //#define RGBRawReaderMode // RGBRawの値をはかるプログラム
@@ -66,11 +63,6 @@ using namespace std;
 //#define SlalomBlockJoinTestMode
 
 // モード設定ここまで
-
-// スラロームパターンの設定ここから。いずれか1つを有効化して
-//#define SlalomPattern1
-//#define SlalomPattern2
-// スラロームパターンの設定ここまで
 
 //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
