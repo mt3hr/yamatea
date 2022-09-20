@@ -4078,18 +4078,13 @@ void initSong(int loop)
   }
 };
 
-#ifdef TrueCourceMode
+#if defined(TrueCourceOkiharaMode) | defined(TrueCourceKomichiMode)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   ResetArmAngle *resetArmAngle = new ResetArmAngle();
   commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
 
-// 小路でシナリオ
-// 沖原でトレース
-#define Komichi
-  //#define Okihara
-
-#ifdef Komichi
+#ifdef TrueCourceKomichiMode
   // ↓ここから小路↓
   int Kpwm;
   float Kkp;
@@ -4260,7 +4255,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
 #endif
 
-#ifdef Okihara
+#ifdef TrueCourceOkiharaMode
   // ↓ここから沖原↓
 
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
