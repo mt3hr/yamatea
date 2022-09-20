@@ -150,6 +150,10 @@ void CommandExecutor::nextCommand()
     {
         beepDebug();
     }
+    if (enableSwitchLEDWhenCommandSwitching)
+    {
+        ledDebug();
+    }
 }
 
 void CommandExecutor::emergencyStop()

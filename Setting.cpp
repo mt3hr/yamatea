@@ -60,14 +60,22 @@ bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接�
 
 // 情報出力の有効無効設定ここまで
 
-// コマンド切り替え時ビープ音設定ここから
+// コマンド切り替え時ビープ音LED設定ここから
 
 bool enableBeepWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
 Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 30);
 vector<Note *> song = generateFroggySong();
 int loopSong = 10;
 
-// コマンド切り替え時ビープ音設定ここまで
+bool enableSwitchLEDWhenCommandSwitching = true;
+ledcolor_t ledColorsWhenCommandSwitchingArray[] = {
+    LED_RED,
+    LED_GREEN,
+    LED_ORANGE,
+};
+vector<ledcolor_t> ledColorsWhenCommandSwitching(ledColorsWhenCommandSwitchingArray, ledColorsWhenCommandSwitchingArray+sizeof(ledColorsWhenCommandSwitchingArray)/sizeof(ledColorsWhenCommandSwitchingArray[0]));
+
+// コマンド切り替え時ビープ音LED設定ここまで
 
 // キャリブレーション設定ここから
 

@@ -26,6 +26,7 @@ void writeEndLineDebug();
 void flushDebug(DEBUG_LEVEL level, RobotAPI *robotAPI);
 void writeAndFlushDebug(string str, DEBUG_LEVEL level, RobotAPI *robotAPI);
 void beepDebug();
+void ledDebug();
 
 // 変数名取得
 #define GET_VARIABLE_NAME(Variable) (#Variable)

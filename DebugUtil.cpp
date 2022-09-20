@@ -141,3 +141,14 @@ void beepDebug()
     ev3_speaker_set_volume(beepNoteWhenCommandSwitching->getVolume());
     ev3_speaker_play_tone(beepNoteWhenCommandSwitching->getFrequency(), beepNoteWhenCommandSwitching->getDuration());
 }
+
+int ledDebugIndex = 0;
+void ledDebug()
+{
+    if (ledDebugIndex > ((int)ledColorsWhenCommandSwitching.size()) - 1)
+    {
+        ledDebugIndex = 0;
+    }
+    ev3_led_set_color(ledColorsWhenCommandSwitching[ledDebugIndex]);
+    ledDebugIndex++;
+}
