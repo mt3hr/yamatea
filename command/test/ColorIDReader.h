@@ -9,8 +9,12 @@
 using namespace ev3api;
 using namespace std;
 
+// ColorIDから色名を取得する関数
 string colorIDToString(colorid_t colorID);
 
+// ColorIDReader 
+// ColorIDを測定するクラス。右ボタンで取得値記録（ディスプレイに表示）
+// 
 // 実方
 class ColorIDReader : public Command
 {

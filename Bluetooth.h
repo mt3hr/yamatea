@@ -7,6 +7,8 @@
 #ifdef EnableBluetooth
 
 // Bluetoothファイル
+// 
+// 実方
 extern FILE *bt;
 
 #endif

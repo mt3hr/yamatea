@@ -7,6 +7,9 @@
 
 using namespace ev3api;
 
+// BrightnessReader 
+// カラーセンサから現在の輝度を取得するコマンド
+// 
 // 実方
 class BrightnessReader : public Command
 {

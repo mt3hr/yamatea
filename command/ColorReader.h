@@ -5,6 +5,12 @@
 #include "RobotAPI.h"
 #include "Sensor.h"
 
+// 非推奨。ColorIDを直に読み取ると精度が悪い。
+// 代わりにColorReaderUseRawを使ってください。
+// ColorReader
+// カラーセンサから色情報を取得するコマンド
+//
+// 実方
 class ColorReader : public Command
 {
 private:

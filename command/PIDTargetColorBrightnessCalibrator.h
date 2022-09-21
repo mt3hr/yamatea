@@ -14,12 +14,25 @@
 using namespace ev3api;
 using namespace std;
 
+// BrightnessCalibrateMode
+// 輝度PIDTracer（PIDTracerクラス）のTargetBrightnessの算出方法
+//
+// 実方
 enum BrightnessCalibrateMode
 {
-    BCM_BlackWhiteAverage,
-    BCM_BlackWhiteEdge,
+    BCM_BlackWhiteAverage, // 白と黒の平均値
+    BCM_BlackWhiteEdge,    // 白黒エッジ実測
 };
 
+// PIDTargetColorBrightnessCalibrator
+// PIDTracerのTargetBrightness, ColorPIDTracerのTargetColorを適用するために、各色の値を計測するコマンド。
+// どの色をキャリブレーションするかはSetting.cppから設定できる。
+// 各種PIDTracerを用いるときには、
+//  pidTargetColorBrightnessCalibrator.addPIDTracer(pidTracer);
+//  pidTargetColorBrightnessCalibrator.addColorPIDTracer(colorPIDTracer);
+// してください
+//
+// 実方
 class PIDTargetColorBrightnessCalibrator : public Command
 {
 private:

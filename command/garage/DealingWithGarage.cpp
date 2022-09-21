@@ -11,8 +11,6 @@
 #include "RotateRobotUseGyroCommandAndPredicate.h"
 #include "RawColorPredicate.h"
 
-// TODO reverseへの対応
-
 DealingWithGarage::~DealingWithGarage()
 {
 

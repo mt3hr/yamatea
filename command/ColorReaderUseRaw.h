@@ -7,6 +7,11 @@
 
 using namespace ev3api;
 
+// ColorReaderUseRaw
+// カラーセンサから色情報を取得するコマンド
+// ColorReaderとは違い、キャリブレーションした値を用いる。
+//
+// 実方
 class ColorReaderUseRaw : public Command
 {
 private:

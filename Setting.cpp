@@ -24,9 +24,9 @@ float wheelDiameter = 10.4;                 // 車輪直径。センチメート
 int angleFor360TurnLeftRotateRobot = 520;   // 左に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnRightRotateRobot = 520;  // 右に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnMeasAngle = 1065;        // 片方の車輪で360度旋回するために必要な回転角
-int pwmForResetArm = 10;
-int numberOfTimesForPullWhenResetArm = 25;
-int angleForResetArm = 30;
+int pwmForResetArm = 10;                    // ResetArmAngleで使われるPWM
+int numberOfTimesForPullWhenResetArm = 25;  // ResetArmAngleの初回動作、ー無を引っ張るフレーム数
+int angleForResetArm = 30;                  // ResetArmAngleによって設定されるアーム角度
 
 // シミュレータの車体情報設定ここまで
 
@@ -40,9 +40,9 @@ float wheelDiameter = 10.4;                // 車輪直径。センチメート�
 int angleFor360TurnLeftRotateRobot = 520;  // 左に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnRightRotateRobot = 510; // 右に360度旋回するのに必要な左右車輪回転角度数
 int angleFor360TurnMeasAngle = 1120;       // 片方の車輪で360度旋回するために必要な回転角
-int pwmForResetArm = 10;
-int numberOfTimesForPullWhenResetArm = 25;
-int angleForResetArm = 30;
+int pwmForResetArm = 10;                   // ResetArmAngleで使われるPWM
+int numberOfTimesForPullWhenResetArm = 25; // ResetArmAngleの初回動作、ー無を引っ張るフレーム数
+int angleForResetArm = 30;                 // ResetArmAngleによって設定されるアーム角度
 
 // 実機の車体情報設定ここまで
 
@@ -62,35 +62,39 @@ bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接�
 
 // コマンド切り替え時ビープ音LED設定ここから
 
-bool enableBeepWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
-Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 30);
-vector<Note *> song = generateFroggySong();
-int loopSong = 10;
+bool enableBeepWhenCommandSwitching = true;                     // trueにすると、コマンド切り替え時にビープ音を鳴らす。
+Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 30); // debugBeep()で鳴らす音の定義
+vector<Note *> song = generateFroggySong();                     // 流す曲の定義
+int loopSong = 10;                                              // 曲のループ数
 
-bool enableSwitchLEDWhenCommandSwitching = true;
+bool enableSwitchLEDWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にLEDの色を切り替える。
 ledcolor_t ledColorsWhenCommandSwitchingArray[] = {
     LED_RED,
     LED_GREEN,
     LED_ORANGE,
-};
-vector<ledcolor_t> ledColorsWhenCommandSwitching(ledColorsWhenCommandSwitchingArray, ledColorsWhenCommandSwitchingArray+sizeof(ledColorsWhenCommandSwitchingArray)/sizeof(ledColorsWhenCommandSwitchingArray[0]));
+}; // debugLEDで切り替えるときのLEDの色定義
+vector<ledcolor_t> ledColorsWhenCommandSwitching(ledColorsWhenCommandSwitchingArray, ledColorsWhenCommandSwitchingArray + sizeof(ledColorsWhenCommandSwitchingArray) / sizeof(ledColorsWhenCommandSwitchingArray[0]));
 
 // コマンド切り替え時ビープ音LED設定ここまで
 
 // キャリブレーション設定ここから
 
-char preCalibratedValuesFileName[] = "/PreCalibratedValues.ini";
+char preCalibratedValuesFileName[] = "/PreCalibratedValues.ini"; // キャリブレーションした値を保存するファイルのpath
+
+// 各色をキャリブレーションするかどうかの設定ここから
 
 bool calibrateRed = true;
 bool calibrateGreen = true;
-bool calibrateBlue = true; // 青色をキャリブレーションするかどうか
+bool calibrateBlue = true;
 bool calibrateYellow = true;
-bool calibrateBlueWhiteEdge = true; // 青白エッジをキャリブレーションするかどうか
-bool calibrateWhiteAtSlalom = true; // スラローム上からみた白をキャリブレーションするかどうか
+bool calibrateBlueWhiteEdge = true;
+bool calibrateWhiteAtSlalom = true;
 bool calibrateBlack = true;
 bool calibrateWhite = true;
 bool calibrateGray = true;
 bool calibrateBlackWhiteEdge = true;
+
+// 各色をキャリブレーションするかどうかの設定ここまで
 
 // 以下色の値設定
 // 設定しなくてOK。キャリブレーター使えば上書きされますし、

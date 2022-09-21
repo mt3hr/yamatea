@@ -7,7 +7,7 @@
 
 // FinishedCommandPredicate
 // 「終了状態」を持つコマンドからPredicateを生成するためのクラス。
-// 終了状態を持つコマンドは、FinishConfirmableインターフェースを実装している。
+// 終了状態を持つコマンドは、FinishConfirmableインターフェースを実装している必要がある。
 //
 // 実方
 class FinishedCommandPredicate : public Predicate

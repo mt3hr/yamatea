@@ -4,6 +4,11 @@
 #include "Predicate.h"
 #include "RobotAPI.h"
 
+// BatteryPredicate
+// バッテリーが指定されたmVを下回ったらtrueを返すPredicate。
+// 空転させて電池調節するときに使える。
+//
+// 実方
 class BatteryPredicate : public Predicate
 {
 private:

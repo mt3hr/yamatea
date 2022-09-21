@@ -6,6 +6,10 @@
 #include "Stopper.h"
 #include "RobotAPI.h"
 
+// Hedgehog
+// ソナーセンサで取得できる値が指定距離になるまで直進、後退を繰り返すコマンド。
+//
+// 実方
 class Hedgehog : public Command, public FinishConfirmable
 {
 private:

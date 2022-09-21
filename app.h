@@ -21,12 +21,22 @@ extern "C"
 
 #ifndef TOPPERS_MACRO_ONLY
 
+    // メインタスク。RobotAPIやCommandExecutorなどを初期化し、RunnerTaskを呼び出す。
     extern void main_task(intptr_t exinf);
+
+    // RunnerTask。CommandExecutorに定義された挙動通りに動くタスク。
     extern void runner_task(intptr_t exinf);
-    extern void runner_cyc(intptr_t exinf);
+
+    // ListenBluetoothCommandTask。Bluetoothからの命令を受け付けるタスク。
     extern void listen_bluetooth_command_task(intptr_t exinf);
+
+    // バック・トゥ・ザ・フューチャーTask。走行中に暴走したとき、TeraTerm経由でRキーを押すとスタート地点まで戻ってくる。ただし、赤テープを貼る必要あり。
     extern void return_to_start_point_task(intptr_t exinf);
+
+    // singASongTask。歌う。
     extern void sing_a_song_task(intptr_t exinf);
+
+    // デデドンtask。絶望。
     extern void dededon_task(intptr_t exinf);
 
 #endif /* TOPPERS_MACRO_ONLY */

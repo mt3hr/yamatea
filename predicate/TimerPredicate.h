@@ -7,6 +7,10 @@
 
 using namespace ev3api;
 
+// TimerPredicate
+// 指定マイクロ秒経過したらtrueを返すPredicate。
+//
+// 実方
 class TimerPredicate : public Predicate
 {
 private:

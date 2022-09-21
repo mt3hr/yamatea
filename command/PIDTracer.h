@@ -50,6 +50,8 @@ public:
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
     virtual PIDTracer *generateReverseCommand() override;
+
+    // TargetBrightnessを設定するメソッド
     virtual void setTargetBrightness(int8_t targetBrightness);
 };
 

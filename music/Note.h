@@ -8,6 +8,11 @@
 
 using namespace ev3api;
 
+// Note
+// 1つの音符を表現するクラス。
+// runすると対応したBeep音を鳴らす。
+//
+// 実方
 class Note : public Command, public FinishConfirmable
 {
 private:

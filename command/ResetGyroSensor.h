@@ -4,6 +4,10 @@
 #include "Command.h"
 #include "RobotAPI.h"
 
+// ResetGyroSensor
+// ジャイロセンサをリセットするコマンド。
+//
+// 実方
 class ResetGyroSensor : public Command
 {
 private:

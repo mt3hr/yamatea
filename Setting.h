@@ -29,21 +29,21 @@ using namespace std;
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 #define TrueCourceOkiharaMode // 完走用プログラム。沖原トレース
 //#define TrueCourceKomichiMode // 完走用プログラム。小路シナリオ
-//#define GoalMode // ゴール用プログラム
-//#define GoalOkiharaMode // 左コース用プログラム沖原コード
-//#define GoalOkiharaMode1 // 左コース用プログラム沖原コードシナリオ追加前安定版
-//#define GoalOkiharaMode2 // 左コース用プログラム沖原コードシナリオ追加後
-//#define KomichiScnenarioTestMode
-//#define SlalomUFOTestMode // スラロームをUFO走行するプログラム。
-//#define SlalomAwaitingSignalPlan1TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案1
-//#define SlalomAwaitingSignalPlan2TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン2。案1
-//#define SlalomAwaitingSignalPlan3TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。パターン1。案3
-//#define BlockTestMode // ブロック搬入だけを走行するプログラム。
-//#define FlatLineMode // すべて同じPIDで倉庫する左コース用プログラム
-//#define DistanceReaderMode // 距離をはかり続けるプログラム
-//#define RGBRawReaderMode // RGBRawの値をはかるプログラム
-//#define ColorIDReaderMode // ColorIDを取得し続けるプログラム
-//#define BrightnessReaderMode // 明るさを取得し続けるプログラム
+//#define GoalMode // ゴール用プログラム。試走会1時点。
+//#define GoalOkiharaMode // 左コース用プログラム。沖原作業用
+//#define GoalOkiharaMode1 // 左コース用プログラム。地区大会時点安定
+//#define GoalOkiharaMode2 // 左コース用プログラム
+//#define KomichiScnenarioTestMode // 完全シナリオ小路コード。
+//#define SlalomAwaitingSignalPlan1TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案1
+//#define SlalomAwaitingSignalPlan2TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案2
+//#define SlalomAwaitingSignalPlan3TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
+//#define BlockTestMode // ブロック搬入だけを走行するプログラム。小路作業用
+//#define FlatLineMode // すべて同じPIDで走行する左コース用プログラム
+//#define DistanceReaderMode // 距離をはかり続けるプログラム。試走会用
+//#define RGBRawReaderMode // RGBRawの値をはかるプログラム。試走会用
+//#define ColorIDReaderMode // ColorIDを取得し続けるプログラム。試走会用
+//#define ColorReaderUseRawTestMode // RawColorで色を取得し続けるプログラム。試走会用。
+//#define BrightnessReaderMode // 明るさを取得し続けるプログラム。試走会用
 //#define Rotate360TestMode // 360度回転に必要なモータ回転角をはかるためのもの。テスト用
 //#define RotateTestMode // 旋回モード。テスト用
 //#define RotateGyroTestMode // ジャイロを使った旋回モード。テスト用。
@@ -51,6 +51,7 @@ using namespace std;
 //#define CurvatureWalkerTestMode // 曲率旋回モード。テスト用
 //#define SwingSonarDetectorTestMode // 障害物距離角度首振り検出モード。テスト用
 //#define ShigekiTestMode // あなたの墓地にあり伝説でないカードＸ枚を対象とする。それらをあなたの手札に戻す。テスト用
+//#define SlalomUFOTestMode // スラロームだけをUFO走行するプログラム。
 //#define UFORunnerSwingTestMode // UFO走行モード。障害物間を向いている状態から始める。テスト用
 //#define UFORunnerClockwiseTestMode // UFO走行モード。左障害物を向いている状態から始める。テスト用
 //#define ColorPIDTracerTestMode // ColorPIDTraceを試すモード。テスト用
@@ -58,22 +59,21 @@ using namespace std;
 //#define FroggySongTestMode // かえるの歌を歌わせるモード。テスト用。
 //#define GrayPredicateTestMode // グレーでとまる直進モード。テスト用。
 //#define FacingAngleTestMode // 指定角度に向き直るモード。テスト用。
-//#define WalkerTestMode
-//#define ColorReaderUseRawTestMode
+//#define WalkerTestMode // Walkerで走るモード。テスト用。
 //#define BatteryEaaterMode // その場旋回をして電池を消費するモード。テスト用
-//#define SlalomBlockJoinTestMode
+//#define SlalomBlockJoinTestMode // スラロームとブロックの結合を試すモード。テスト用。
 
 // モード設定ここまで
 
 //#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
-//#define EnablePrintGyroValue
-//#define EnablePrintAngleUseWheel
-//#define EnablePrintMotorCount
-//#define EnablePrintPIDValues
-//#define EnableRunnerTaskTimeCheck
-//#define EnablePrintCommandName // コマンド切り替え時にコマンド名を出力する。キャリブレータの表示がコマンド名で上書きされることがあるので、デバッグ時以外は無効化しておいたほうがいいかも
-#define StopWhenThrowException
+//#define EnablePrintGyroValue // コメントアウトを外すとジャイロの値を出力する
+//#define EnablePrintAngleUseWheel // コメントアウトを外すと車輪回転角から導き出された車体旋回角度を出力する
+//#define EnablePrintMotorCount // コメントアウトを外すとモータの回転数を出力する
+//#define EnablePrintPIDValues // コメントアウトを外すと各PIDTracerのPID値などを出力する
+//#define EnableRunnerTaskTimeCheck // コメントアウトを外すと、RunnerTask開始と終了のタイミングを出力する
+#define EnablePrintCommandName // コマンド切り替え時にコマンド名を出力する。
+#define StopWhenThrowException // コメントアウトを外すと、例外が飛んだときにデデドンして止まる
 
 // ********** 設定1/2ここまで **********
 

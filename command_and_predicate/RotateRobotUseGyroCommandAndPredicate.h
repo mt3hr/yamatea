@@ -5,6 +5,7 @@
 
 // RotateRobotUseGyroCommandAndPredicate
 // ロボットを指定角度旋回させるためのCommandとPredicate。
+// 精度が求められる場合はcommand/FacingAngleを使って。
 // 
 // 実方
 class RotateRobotUseGyroCommandAndPredicate : public CommandAndPredicate

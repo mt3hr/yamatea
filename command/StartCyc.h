@@ -7,6 +7,10 @@
 
 using namespace ev3api;
 
+// StartCyc
+// 周期ハンドラを起動するコマンド
+//
+// 実方
 class StartCyc : public Command
 {
 private:

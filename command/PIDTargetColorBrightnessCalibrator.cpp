@@ -18,6 +18,7 @@
 using namespace ev3api;
 using namespace std;
 
+// ファイルからキャリブレーションされた値を読み込む関数。
 void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
 {
     fstream fs(preCalibratedValuesFileName);
@@ -331,6 +332,7 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
     }
 }
 
+// ファイルへとキャリブレーションされた値を書き込む関数。
 void writeCalibratedValuesToFile(RobotAPI *robotAPI)
 {
     stringstream ss;

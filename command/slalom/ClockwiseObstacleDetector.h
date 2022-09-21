@@ -6,6 +6,10 @@
 #include "Stopper.h"
 #include "NumberOfTimesPredicate.h"
 
+// ClockwiseObstacleDetectorState
+// ClockWiseObstacleDetectorのとり得る状態
+// 
+// 実方
 enum ClockwiseObstacleDetectorState
 {
     CODS_DETECTING_LEFT_OBSTACLE,

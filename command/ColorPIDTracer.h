@@ -10,15 +10,20 @@
 using namespace ev3api;
 using namespace std;
 
+// TraceColor
+// ColorPIDTracerでトレースする色
+//
+// 実方
 enum TraceColor
 {
-    Trace_R,
-    Trace_G,
-    Trace_B,
+    Trace_R, // 赤
+    Trace_G, // 緑
+    Trace_B, // 青
 };
 
-// PIDTracer
+// ColorPIDTracer
 // PIDの値をもとにラインに沿って走行するトレーサ。
+// setTargetColorしてから実行してください
 //
 // 実方
 class ColorPIDTracer : public Command
@@ -48,6 +53,8 @@ public:
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
     virtual ColorPIDTracer *generateReverseCommand() override;
+
+    // TargetColorを設定するメソッド
     virtual void setTargetColor(rgb_raw_t targetRGB);
 };
 

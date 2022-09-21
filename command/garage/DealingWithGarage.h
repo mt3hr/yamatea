@@ -6,14 +6,7 @@
 #include "RobotAPI.h"
 #include "CommandExecutor.h"
 
-enum CheetBlockState
-{
-    CR_R,
-    CR_B,
-    CR_G,
-    CR_Y
-};
-
+// 小路
 class DealingWithGarage : public Command
 {
 private:

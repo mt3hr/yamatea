@@ -4,6 +4,11 @@
 #include "Command.h"
 #include "RobotAPI.h"
 
+// ResetMeasAngle
+// RobotAPI.MeasAngleをリセットするコマンド。
+// FacingAngleを使う直前などに呼び出して。
+//
+// 実方
 class ResetMeasAngle : public Command
 {
 private:

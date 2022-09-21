@@ -21,6 +21,7 @@
 #   （「.\buildYamateaHackEV.ps1 -clean」でappsディレクトリの中身を全消ししてからビルドして転送（有線接続のみ有効））
 #   （「.\buildYamateaHackEV.ps1 -bluetoothPort 3」でPort3のEV3に接続して転送）
 
+# 実方
 # 以上説明。以下コード。
 
 # コマンドライン引数

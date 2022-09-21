@@ -40,6 +40,8 @@ void writeDebug(int i)
     ss.clear();
     ss.str("");
     ss << float(i);
+
+    // 最後の行に追記する
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
@@ -54,6 +56,8 @@ void writeDebug(float f)
     ss.clear();
     ss.str("");
     ss << float(f);
+
+    // 最後の行に追記する
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
@@ -68,6 +72,8 @@ void writeDebug(uint16_t i)
     ss.clear();
     ss.str("");
     ss << float(i);
+
+    // 最後の行に追記する
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
@@ -82,6 +88,8 @@ void writeDebug(uint64_t i)
     ss.clear();
     ss.str("");
     ss << float(i);
+
+    // 最後の行に追記する
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
@@ -96,6 +104,8 @@ void writeDebug(int32_t i)
     ss.clear();
     ss.str("");
     ss << float(i);
+
+    // 最後の行に追記する
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 
@@ -110,6 +120,8 @@ void writeDebug(bool b)
     ss.clear();
     ss.str("");
     ss << b;
+
+    // 最後の行に追記する
     messageLinesForDebugPrint[messageLinesForDebugPrint.size() - 1] += ss.str();
 }
 

@@ -42,6 +42,7 @@ void CommandExecutor::addCommand(Command *command, Predicate *exitCondition, str
     predicates.push_back(exitCondition);
     commandNames.push_back(commandName);
     preparated.push_back(false);
+    printedCommandName.push_back(false);
 }
 
 void CommandExecutor::run()
@@ -54,6 +55,7 @@ void CommandExecutor::run()
 
     loopCount++;
 
+// タスク開始時刻をログに出力する
 #ifdef EnableRunnerTaskTimeCheck
     time = robotAPI->getClock()->now();
     writeDebug("runner task");
@@ -71,12 +73,17 @@ void CommandExecutor::run()
         commands[currentIndexForCommand]->preparation(robotAPI);
         predicates[currentIndexForCommand]->preparation(robotAPI);
 
+// 実行されているコマンド名を出力する
 #ifdef EnablePrintCommandName
-        vector<string> messageLines;
-        messageLines.push_back("STARTED " + commandNames[currentIndexForCommand]);
-        PrintMessage *printMessage = new PrintMessage(messageLines, true);
-        printMessage->run(robotAPI);
-        delete printMessage;
+        if (!printedCommandName[currentIndexForCommand])
+        {
+            printedCommandName[currentIndexForCommand] = true;
+            vector<string> messageLines;
+            messageLines.push_back("STARTED " + commandNames[currentIndexForCommand]);
+            PrintMessage *printMessage = new PrintMessage(messageLines, true);
+            printMessage->run(robotAPI);
+            delete printMessage;
+        }
 #endif
     }
 
@@ -92,6 +99,7 @@ void CommandExecutor::run()
         commands[currentIndexForCommand]->run(robotAPI);
         if (runner)
         {
+            // ジャイロ角度を出力する
 #ifdef EnablePrintGyroValue
 #ifdef SimulatorMode
             int gyroAngle = robotAPI->getGyroSensor()->getAngle() * -1;
@@ -102,11 +110,13 @@ void CommandExecutor::run()
             writeDebug(gyroAngle);
             flushDebug(TRACE, robotAPI);
 #endif
+// 車輪回転角から導き出された旋回角度を出力する
 #ifdef EnablePrintAngleUseWheel
             writeDebug("meased angle: ");
             writeDebug(robotAPI->getMeasAngle()->getAngle());
             flushDebug(TRACE, robotAPI);
 #endif
+// 車輪回転数を出力する
 #ifdef EnablePrintMotorCount
             writeDebug("left wheel count: ");
             writeDebug(robotAPI->getLeftWheel()->getCount());
@@ -118,6 +128,7 @@ void CommandExecutor::run()
         }
     }
 
+// タスク終了時刻をログに出力する
 #ifdef EnableRunnerTaskTimeCheck
     time = robotAPI->getClock()->now();
     writeDebug("runner task");
@@ -146,10 +157,12 @@ void CommandExecutor::nextCommand()
         return;
     }
 
+    // ビープを鳴らす
     if (enableBeepWhenCommandSwitching)
     {
         beepDebug();
     }
+    // LEDを切り替える
     if (enableSwitchLEDWhenCommandSwitching)
     {
         ledDebug();
@@ -158,11 +171,13 @@ void CommandExecutor::nextCommand()
 
 void CommandExecutor::emergencyStop()
 {
+    // indexを境界外に設定し、走行体を止める
     currentIndexForCommand = commands.size() + 1;
     Stopper *stopper = new Stopper();
     stopper->run(robotAPI);
     delete stopper;
 
+    // メッセージを出力する
     vector<string> messageLines;
     messageLines.push_back("emergency stopped");
     PrintMessage printStopMessage(messageLines, true);
@@ -171,6 +186,12 @@ void CommandExecutor::emergencyStop()
 
 void CommandExecutor::reverseCommandAndPredicate()
 {
+    // やることは4つ。
+    // キャリブレータの抽出
+    // キャリブレータの対象PIDTracer, ColorPIDTracerの抽出
+    // 各コマンドとPredicateの反転
+    // FinishedCommandPredicateの対象コマンドの更新
+
     // commandsからキャリブレータを抽出する
     vector<PIDTargetColorBrightnessCalibrator *> calibrators;
     for (int i = 0; i < (int)commands.size(); i++)
@@ -186,6 +207,7 @@ void CommandExecutor::reverseCommandAndPredicate()
     writeDebug("extructed calibrator");
     flushDebug(DEBUG, robotAPI);
 
+    // calibratorの対象PIDTracer, ColorPIDTracerのIndexを取得する
     vector<vector<int> *> *targetBrightnessTracerIndexs = new vector<vector<int> *>();
     vector<vector<int> *> *targetColorTracerIndexs = new vector<vector<int> *>();
     for (int i = 0; i < ((int)commands.size()); i++)
@@ -227,6 +249,7 @@ void CommandExecutor::reverseCommandAndPredicate()
     writeDebug("extructed target pid tracer");
     flushDebug(DEBUG, robotAPI);
 
+    // CommandとPredicateを反転する
     for (int i = 0; i < (int)commands.size(); i++)
     {
         commands[i] = commands[i]->generateReverseCommand();
@@ -235,6 +258,7 @@ void CommandExecutor::reverseCommandAndPredicate()
     writeDebug("reversed command");
     flushDebug(DEBUG, robotAPI);
 
+    // 反転された新しいキャリブレータを取得する
     vector<PIDTargetColorBrightnessCalibrator *> newCalibrators;
     for (int i = 0; i < (int)commands.size(); i++)
     {

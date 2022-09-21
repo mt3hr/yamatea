@@ -11,6 +11,10 @@
 #include "Command.h"
 #include "Stopper.h"
 
+// UFOBehavior
+// UFO走行のペットボトル検出時の挙動
+// 
+// 実方
 enum UFOBehavior
 {
     SWING_SONAR, // 障害物間をむいているところからはじめ、右を向き、左を向いて検出したら終わる。

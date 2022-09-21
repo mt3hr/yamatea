@@ -13,7 +13,8 @@ float distanceToMotorRotateAngle(float distanceCm);
 // WheelDistancePredicate
 // 左車輪が指定距離（cm）分だけ回転したらtrueを返すPredicate。
 // generateReversePredicate()メソッドから右車輪を対象としたDistancePredicateを生成できる。
-// 主に直進するときに使える。
+// 主に直進するとき、カーブ走行をするときに使える。
+// カーブ走行はcommand_and_predicate/CurvatureWalkerCommandAndPredicateを使えば実現できるけど
 //
 // 実方
 class WheelDistancePredicate : public Predicate

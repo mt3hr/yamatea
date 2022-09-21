@@ -13,6 +13,7 @@ using namespace ev3api;
 
 // RobotAPI
 // ロボットのAPIをまとめたクラス
+// APIへの命令はこのクラスを通して行ってください
 //
 // 実方
 class RobotAPI

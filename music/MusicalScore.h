@@ -8,7 +8,13 @@
 
 using namespace std;
 
+// 曲。
+// 実方
+
+// カエルの歌。実方
 vector<Note *> generateFroggySong();
+
+// デデドン！（絶望）。実方
 vector<Note *> generateDededon();
 
 #endif

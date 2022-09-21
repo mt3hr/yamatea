@@ -13,6 +13,10 @@
 
 using namespace ev3api;
 
+// ResetArmAngleState
+// ResetArmAngleの状態
+//
+// 実方
 enum ResetArmAngleState
 {
     RAAS_PullingArm,
@@ -20,6 +24,10 @@ enum ResetArmAngleState
     RAAS_Finish,
 };
 
+// ResetArmAngle
+// キャリブレーション前にカラーセンサの乗ったアーム角度を調節するコマンド。
+//
+// 実方
 class ResetArmAngle : public Command, public FinishConfirmable
 {
 private:
