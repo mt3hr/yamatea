@@ -59,9 +59,6 @@ RobotAPI *robotAPI;
 // commandExecutorなどの初期化処理。
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-    // commandExecutorとwheelControllerの初期化
-    commandExecutor = new CommandExecutor(robotAPI, true);
-
     // シンプルなウォーカ。左右車輪50のpwmで進む。
     int leftPow = 50;
     int rightPow = 50;
