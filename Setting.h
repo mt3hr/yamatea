@@ -13,7 +13,7 @@ using namespace std;
 // ********** 設定1/2ここから **********
 
 // 実機シミュレータ設定。ジャイロセンサから取得できる角度の方向が実機とシミュレータでは異なるので。
-#define SimulatorMode // 実機で動かすときにはコメントアウトして
+//#define SimulatorMode // 実機で動かすときにはコメントアウトして
 
 // コース設定ここから。いずれか1つを有効化して
 #define Left
@@ -66,7 +66,7 @@ using namespace std;
 
 // モード設定ここまで
 
-//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue // コメントアウトを外すとジャイロの値を出力する
 //#define EnablePrintAngleUseWheel // コメントアウトを外すと車輪回転角から導き出された車体旋回角度を出力する

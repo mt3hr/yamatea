@@ -38,6 +38,12 @@ CurvatureWalkerCommandAndPredicate::CurvatureWalkerCommandAndPredicate(CWCAPMode
     int leftPWM = round(pwm * ratioL);
     int rightPWM = round(pwm * ratioR);
 
+    writeDebug("ratioL");
+    writeDebug(ratioL);
+    writeEndLineDebug();
+    writeDebug("ratioR");
+    writeDebug(ratioR);
+
     writeDebug("leftPWM");
     writeDebug(leftPWM);
     writeEndLineDebug();
