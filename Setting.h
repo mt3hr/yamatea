@@ -13,7 +13,7 @@ using namespace std;
 // ********** 設定1/2ここから **********
 
 // 実機シミュレータ設定。ジャイロセンサから取得できる角度の方向が実機とシミュレータでは異なるので。
-//#define SimulatorMode // 実機で動かすときにはコメントアウトして
+#define SimulatorMode // 実機で動かすときにはコメントアウトして
 
 // コース設定ここから。いずれか1つを有効化して
 #define Left
@@ -27,13 +27,14 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define TrueCourceOkiharaMode // 完走用プログラム。沖原トレース
+//#define TrueCourceOkiharaMode // 完走用プログラム。沖原トレース
 //#define TrueCourceKomichiMode // 完走用プログラム。小路シナリオ
 //#define GoalMode // ゴール用プログラム。試走会1時点。
 //#define GoalOkiharaMode // 左コース用プログラム。沖原作業用
 //#define GoalOkiharaMode1 // 左コース用プログラム。地区大会時点安定
 //#define GoalOkiharaMode2 // 左コース用プログラム
-//#define KomichiScnenarioTestMode // 完全シナリオ小路コード。
+//#define KomichiScnenarioTestMode // 完全シナリオ小路コード
+#define SanekataScenarioTestMode // 部分シナリオ実方コード
 //#define SlalomAwaitingSignalPlan1TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案1
 //#define SlalomAwaitingSignalPlan2TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案2
 //#define SlalomAwaitingSignalPlan3TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3

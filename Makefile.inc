@@ -62,6 +62,7 @@ TimerPredicate.o \
 BrightnessReader.o \
 ResetArmAngle.o \
 ReleaseWheel.o \
+AngleAbsPredicate.o \
 
 SRCLANG := c++
 
