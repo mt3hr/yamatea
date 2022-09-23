@@ -24,7 +24,9 @@ CommandExecutor.o \
 RotateRobotCommandAndPredicate.o \
 GyroRotateAnglePredicate.o \
 PIDTracer.o \
+PIDTracerV2.o \
 ColorPIDTracer.o \
+ColorPIDTracerV2.o \
 PIDTargetBrightnessCalibrator.o \
 PIDTargetColorBrightnessCalibrator.o \
 Walker.o \

@@ -24,6 +24,7 @@
 #include "CommandExecutor.h"
 #include "Predicate.h"
 #include "PIDTracer.h"
+#include "PIDTracerV2.h"
 #include "Walker.h"
 #include "ArmController.h"
 #include "ColorPredicate.h"
@@ -48,6 +49,7 @@
 #include "DebugUtil.h"
 #include "Bluetooth.h"
 #include "ColorPIDTracer.h"
+#include "ColorPIDTracerV2.h"
 #include "PIDTargetColorBrightnessCalibrator.h"
 #include "TailController.h"
 #include "MusicalScore.h"
@@ -2921,6 +2923,37 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float kd = 0.2;
   float dt = 1;
   ColorPIDTracer *colorPIDTracer = new ColorPIDTracer(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt);
+  commandExecutor->addCommand(colorPIDTracer, new Predicate(), GET_VARIABLE_NAME(colorPIDTracer));
+  calibrator->addColorPIDTracer(colorPIDTracer);
+
+#ifdef SimulatorMode
+  rgb_raw_t targetRGB;
+  targetRGB.r = 110;
+  targetRGB.g = 100;
+  targetRGB.b = 150;
+  colorPIDTracer->setTargetColor(targetRGB);
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
+#endif
+}
+#endif
+
+#ifdef ColorPIDTracerV2TestMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+  int pwm = 20;
+  float kp = 0.2;
+  float ki = 0.1;
+  float kd = 0.2;
+  float dt = 1;
+  float r = 2;
+  ColorPIDTracerV2 *colorPIDTracer = new ColorPIDTracerV2(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt, r);
   commandExecutor->addCommand(colorPIDTracer, new Predicate(), GET_VARIABLE_NAME(colorPIDTracer));
   calibrator->addColorPIDTracer(colorPIDTracer);
 
