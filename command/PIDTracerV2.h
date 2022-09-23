@@ -29,6 +29,7 @@ private:
     PIDTracerMode traceMode;
 
     int8_t brightness;
+    float integral = 0;
     float p;
     float i;
     float d;

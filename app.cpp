@@ -2943,16 +2943,36 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef ColorPIDTracerV2TestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+  ResetArmAngle *resetArmAngleAtSlalom = new ResetArmAngle();
+  commandExecutor->addCommand(resetArmAngleAtSlalom, new FinishedCommandPredicate(resetArmAngleAtSlalom), GET_VARIABLE_NAME(resetArmAngleAtSlalom));
+
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-  int pwm = 20;
-  float kp = 0.2;
-  float ki = 0.1;
-  float kd = 0.2;
-  float dt = 1;
-  float r = 2;
+  int pwm;
+  float kp;
+  float ki;
+  float kd;
+  float dt;
+  float r;
+
+  // pwm25
+  pwm = 25;
+  kp = 0.1653;
+  ki = 0.041;
+  kd = 0.1639;
+  dt = 1;
+  r = 0;
+
+  // pwm30
+  pwm = 30;
+  kp = 0.185;
+  ki = 0.02;
+  kd = 0.422;
+  dt = 1;
+  r = 0;
+
   ColorPIDTracerV2 *colorPIDTracer = new ColorPIDTracerV2(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt, r);
   commandExecutor->addCommand(colorPIDTracer, new Predicate(), GET_VARIABLE_NAME(colorPIDTracer));
   calibrator->addColorPIDTracer(colorPIDTracer);

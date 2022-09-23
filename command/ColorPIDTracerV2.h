@@ -31,6 +31,7 @@ private:
     TraceColor traceColor;
 
     rgb_raw_t rgb;
+    float integral = 0;
     float p;
     float i;
     float d;

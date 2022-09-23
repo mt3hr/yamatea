@@ -6,6 +6,7 @@
 #include "iomanip"
 #include "RobotAPI.h"
 #include "DebugUtil.h"
+#include "math.h"
 
 using namespace ev3api;
 using namespace std;
@@ -31,8 +32,9 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
     brightness = robotAPI->getColorSensor()->getBrightness();
 
     // PID値の算出ここから
+    integral += (p + beforeP) / 2 * dt;
     p = brightness - targetBrightness;
-    i = p * dt;
+    i = integral;
     d = (p - beforeP) / dt;
     pid = kp * p + ki * i + kd * d;
     pidr = pid + r;
@@ -42,13 +44,13 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
     // 右ライントレースか左ライントレースか
     if (traceMode == RIGHT_TRACE)
     {
-        leftPower = pwm - pidr;
-        rightPower = pwm + pidr;
+        leftPower = round(pwm - pidr);
+        rightPower = round(pwm + pidr);
     }
     else if (traceMode == LEFT_TRACE)
     {
-        leftPower = pwm + pidr;
-        rightPower = pwm - pidr;
+        leftPower = round(pwm + pidr);
+        rightPower = round(pwm - pidr);
     }
 
     // モータを動かす

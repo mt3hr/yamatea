@@ -6,6 +6,7 @@
 #include "iomanip"
 #include "RobotAPI.h"
 #include "DebugUtil.h"
+#include "math.h"
 
 using namespace ev3api;
 using namespace std;
@@ -55,7 +56,8 @@ void ColorPIDTracerV2::run(RobotAPI *robotAPI)
         p = rgb.r - targetRGB.r;
         break;
     }
-    i = p * dt;
+    integral += (p + beforeP) / 2 * dt;
+    i = integral;
     d = (p - beforeP) / dt;
     pid = kp * p + ki * i + kd * d;
     pidr = pid + r;
@@ -65,13 +67,13 @@ void ColorPIDTracerV2::run(RobotAPI *robotAPI)
     // 右ライントレースか左ライントレースか
     if (traceMode == RIGHT_TRACE)
     {
-        leftPower = pwm - pidr;
-        rightPower = pwm + pidr;
+        leftPower = round(pwm - pidr);
+        rightPower = round(pwm + pidr);
     }
     else if (traceMode == LEFT_TRACE)
     {
-        leftPower = pwm + pidr;
-        rightPower = pwm - pidr;
+        leftPower = round(pwm + pidr);
+        rightPower = round(pwm - pidr);
     }
 
     // モータを動かす
@@ -92,6 +94,12 @@ void ColorPIDTracerV2::run(RobotAPI *robotAPI)
     writeEndLineDebug();
     writeDebug("r: ");
     writeDebug(r);
+    writeEndLineDebug();
+    writeDebug("pid: ");
+    writeDebug(pid);
+    writeEndLineDebug();
+    writeDebug("pidr: ");
+    writeDebug(pidr);
     writeEndLineDebug();
     writeDebug("leftPow: ");
     writeDebug(leftPower);

@@ -63,6 +63,12 @@ void PIDTracer::run(RobotAPI *robotAPI)
     writeEndLineDebug();
     writeDebug("d: ");
     writeDebug(d);
+    writeDebug("pid: ");
+    writeDebug(pid);
+    writeEndLineDebug();
+    writeDebug("pidr: ");
+    writeDebug(pidr);
+    writeEndLineDebug();
     writeEndLineDebug();
     writeDebug("leftPow: ");
     writeDebug(leftPower);
