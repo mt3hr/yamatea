@@ -1,5 +1,6 @@
 #include "CorrectedMotor.h"
 #include "Motor.h"
+#include "math.h"
 
 using namespace ev3api;
 
@@ -28,9 +29,9 @@ void CorrectedMotor::setCount(int32_t count)
     motor->setCount(count);
 }
 
-void CorrectedMotor::setPWM(int pwm)
+void CorrectedMotor::setPWM(float pwm)
 {
-    motor->setPWM(pwm * pwmCorrectionValue);
+    motor->setPWM((int)(round(pwm * pwmCorrectionValue)));
 }
 
 void CorrectedMotor::setBrake(bool brake)

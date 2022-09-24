@@ -17,7 +17,7 @@ public:
     void reset(void);
     int32_t getCount(void) const;
     void setCount(int32_t count);
-    void setPWM(int pwm);
+    void setPWM(float pwm);
     void setBrake(bool brake);
     void stop();
 };
