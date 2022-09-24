@@ -6,12 +6,11 @@
 
 // Stopper
 // ロボットのモータをすべて停止させるコマンド
-// 
+//
 // 実方
 class Stopper : public Command
 {
 private:
-
 public:
     Stopper();
     virtual ~Stopper();

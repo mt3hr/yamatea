@@ -6,7 +6,7 @@
 // 非推奨。RotateRobotUseGyroCommandAndPredicateのほうが高精度（このクラスは車輪回転数から逆算しているが、あまり精度が良くない）
 // RotateRobotCommandAndPredicate
 // ロボットを指定角度旋回させるためのCommandとPredicate。
-// 
+//
 // 実方
 class RotateRobotCommandAndPredicate : public CommandAndPredicate
 {

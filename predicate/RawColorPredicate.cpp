@@ -182,7 +182,7 @@ void RawColorPredicate::preparation(RobotAPI *robotAPI)
     return;
 }
 
-Predicate *RawColorPredicate::generateReversePredicate()
+RawColorPredicate *RawColorPredicate::generateReversePredicate()
 {
     return new RawColorPredicate(r, rCondition, g, gCondition, b, bCondition);
 }

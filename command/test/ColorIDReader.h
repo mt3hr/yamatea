@@ -12,9 +12,10 @@ using namespace std;
 // ColorIDから色名を取得する関数
 string colorIDToString(colorid_t colorID);
 
-// ColorIDReader 
+// ColorIDReader
 // ColorIDを測定するクラス。右ボタンで取得値記録（ディスプレイに表示）
-// 
+// 試走会などで値を取るためのもの
+//
 // 実方
 class ColorIDReader : public Command
 {

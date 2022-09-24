@@ -1,13 +1,9 @@
 #include "StartButtonPredicate.h"
 #include "RobotAPI.h"
 
-StartButtonPredicate::StartButtonPredicate()
-{
-};
+StartButtonPredicate::StartButtonPredicate(){};
 
-StartButtonPredicate::~StartButtonPredicate()
-{
-};
+StartButtonPredicate::~StartButtonPredicate(){};
 
 bool StartButtonPredicate::test(RobotAPI *robotAPI)
 {

@@ -13,6 +13,7 @@ using namespace std;
 
 // ColorPIDTracerV2
 // PIDの値をもとにラインに沿って走行するトレーサ。
+// 曲率項追加済み、I制御修正済み。
 // setTargetColorしてから実行してください
 //
 // 実方

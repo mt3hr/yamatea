@@ -14,7 +14,6 @@ using namespace ev3api;
 class StartButtonPredicate : public Predicate
 {
 private:
-
 public:
   StartButtonPredicate();
   virtual ~StartButtonPredicate();

@@ -57,7 +57,7 @@ public:
     virtual Motor *getArmMotor();
     virtual Motor *getTailMotor();
     virtual Clock *getClock();
-    virtual RobotAPI::MeasAngleUseWheel * getMeasAngle();
+    virtual RobotAPI::MeasAngleUseWheel *getMeasAngle();
     virtual void reset();
 };
 

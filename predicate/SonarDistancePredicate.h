@@ -7,7 +7,7 @@
 // SonarDistancePredicate
 // ソナーセンサで指定距離（cm）以下の数値が取得できたらtrueを返すPredicate。
 // ある距離を確実に保ちたいならば、command/Hedgehogクラスを使った方がいい
-// 
+//
 // 実方
 class SonarDistancePredicate : public Predicate
 {
@@ -20,7 +20,7 @@ public:
     virtual ~SonarDistancePredicate();
     virtual bool test(RobotAPI *robotAPI);
     virtual void preparation(RobotAPI *robotAPI);
-    virtual Predicate *generateReversePredicate();
+    virtual SonarDistancePredicate *generateReversePredicate();
 };
 
 #endif

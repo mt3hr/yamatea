@@ -12,7 +12,7 @@ using namespace std;
 // PrintMessage
 // メッセージをディスプレイやコンソール、Bluetooth端末に出力するコマンド
 // 出力先設定はapp.cppの enablePrintMessageMode, enablePrintMessageForConsole, enablePrintMessageForBluetoothから指定できます。
-// 
+//
 // 実方
 class PrintMessage : public Command
 {

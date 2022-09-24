@@ -31,6 +31,7 @@ enum BrightnessCalibrateMode
 //  pidTargetColorBrightnessCalibrator.addPIDTracer(pidTracer);
 //  pidTargetColorBrightnessCalibrator.addColorPIDTracer(colorPIDTracer);
 // してください
+// 色の値はSetting.cppの各値に収められます。
 //
 // 実方
 class PIDTargetColorBrightnessCalibrator : public Command
@@ -47,25 +48,28 @@ private:
     bool printedReadWhiteColorMessage = false;       // NOTE モデルに反映しません。
     bool printedReadBlueEdgeMessage = false;         // NOTE モデルに反映しません。
     bool printedReadSlalomWhiteColorMessage = false; // NOTE モデルに反映しません。
-    bool printedReadBlackWhiteEdgeMessage = false;
-    bool printedReadGrayColorMessage = false;
-    bool printedResetAPIMessage = false; // NOTE モデルに反映しません。
-    bool readedBlackWhiteEdgeBrightness = false;
-    bool readedBlackWhiteEdge = false;
-    bool readedWhiteBrightness = false;
+    bool printedReadBlackWhiteEdgeMessage = false;   // NOTE モデルに反映しません。
+    bool printedReadGrayColorMessage = false;        // NOTE モデルに反映しません。
+    bool printedResetAPIMessage = false;             // NOTE モデルに反映しません。
+
+    bool readedSlalomWhiteColor = false;
+    bool readedGrayColor = false;
+    bool readedBlackColor = false;
     bool readedBlackBrightness = false;
     bool readedWhiteColor = false;
-    bool readedBlackColor = false;
+    bool readedWhiteBrightness = false;
+    bool readedBlackWhiteEdge = false;
+    bool readedBlackWhiteEdgeColor = false;
+    bool readedBlackWhiteEdgeBrightness = false;
     bool readedRedColor = false;
     bool readedGreenColor = false;
     bool readedBlueColor = false;
-    bool readedYellowColor = false;
     bool readedBlueEdgeColor = false;
-    bool readedSlalomWhiteColor = false;
-    bool readedBlackWhiteEdgeColor = false;
-    bool readedGrayColor = false;
+    bool readedYellowColor = false;
     bool resetedAPI = false;
+
     bool wrotedToFile = false;
+
     vector<PIDTracer *> pidTracers;
     vector<ColorPIDTracer *> colorPIDTracers;
     bool calibratedPIDTracers = false;

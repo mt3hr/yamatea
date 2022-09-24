@@ -6,9 +6,7 @@ NumberOfTimesPredicate::NumberOfTimesPredicate(int tc)
     targetCount = tc;
 };
 
-NumberOfTimesPredicate::~NumberOfTimesPredicate()
-{
-};
+NumberOfTimesPredicate::~NumberOfTimesPredicate(){};
 
 bool NumberOfTimesPredicate::test(RobotAPI *robotAPI)
 {

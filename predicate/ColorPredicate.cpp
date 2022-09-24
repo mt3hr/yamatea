@@ -19,7 +19,7 @@ void ColorPredicate::preparation(RobotAPI *robotAPI)
 {
 }
 
-Predicate *ColorPredicate::generateReversePredicate()
+ColorPredicate *ColorPredicate::generateReversePredicate()
 {
     return new ColorPredicate(colorID);
 }

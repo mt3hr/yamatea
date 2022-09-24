@@ -22,7 +22,7 @@ void BatteryPredicate::preparation(RobotAPI *robotAPI)
     return;
 }
 
-Predicate *BatteryPredicate::generateReversePredicate()
+BatteryPredicate *BatteryPredicate::generateReversePredicate()
 {
     return new BatteryPredicate(targetVoltage);
 }

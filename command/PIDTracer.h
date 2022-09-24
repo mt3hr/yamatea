@@ -19,6 +19,7 @@ enum PIDTracerMode
     RIGHT_TRACE,
 };
 
+// 非推奨。PIDTracerV2を使ってください。このクラスはi制御していません。
 // PIDTracer
 // PIDの値をもとにラインに沿って走行するトレーサ。
 // setTargetBrightnessしてから実行してください

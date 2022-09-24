@@ -31,13 +31,9 @@ string colorIDToString(colorid_t colorID)
     return "NONE";
 }
 
-ColorIDReader::ColorIDReader()
-{
-};
+ColorIDReader::ColorIDReader(){};
 
-ColorIDReader::~ColorIDReader()
-{
-};
+ColorIDReader::~ColorIDReader(){};
 
 void ColorIDReader::run(RobotAPI *robotAPI)
 {

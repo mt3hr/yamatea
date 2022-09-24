@@ -83,16 +83,16 @@ char preCalibratedValuesFileName[] = "/PreCalibratedValues.ini"; // キャリブ
 
 // 各色をキャリブレーションするかどうかの設定ここから
 
+bool calibrateWhiteAtSlalom = true;
+bool calibrateGray = true;
+bool calibrateBlack = true;
+bool calibrateWhite = true;
+bool calibrateBlackWhiteEdge = true;
+bool calibrateBlueWhiteEdge = true;
 bool calibrateRed = true;
 bool calibrateGreen = true;
 bool calibrateBlue = true;
 bool calibrateYellow = true;
-bool calibrateBlueWhiteEdge = true;
-bool calibrateWhiteAtSlalom = true;
-bool calibrateBlack = true;
-bool calibrateWhite = true;
-bool calibrateGray = true;
-bool calibrateBlackWhiteEdge = true;
 
 // 各色をキャリブレーションするかどうかの設定ここまで
 

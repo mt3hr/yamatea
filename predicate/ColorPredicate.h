@@ -22,7 +22,7 @@ public:
     virtual ~ColorPredicate();
     virtual bool test(RobotAPI *robotAPI);
     virtual void preparation(RobotAPI *robotAPI);
-    virtual Predicate *generateReversePredicate();
+    virtual ColorPredicate *generateReversePredicate();
 };
 
 #endif

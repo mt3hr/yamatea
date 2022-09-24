@@ -6,7 +6,7 @@
 
 // TODO BETWEEN8ほしくない？？
 
-// RawColorPredicateCOndition
+// RawColorPredicateCondition
 // RawColorPredicateの条件。
 //
 // 実方
@@ -41,16 +41,7 @@ public:
     virtual ~RawColorPredicate();
     virtual bool test(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
-    virtual Predicate *generateReversePredicate() override;
-};
-
-// 現在のカラーセンサから取得できる値がキャリブレーションした青の範囲内であればTrueを返すPredicate。
-class BluePredicate : public RawColorPredicate
-{
-private:
-public:
-    BluePredicate();
-    virtual ~BluePredicate();
+    virtual RawColorPredicate *generateReversePredicate() override;
 };
 
 // 現在のカラーセンサから取得できる値がキャリブレーションした赤の範囲内であればTrueを返すPredicate。
@@ -62,15 +53,6 @@ public:
     virtual ~RedPredicate();
 };
 
-// 現在のカラーセンサから取得できる値がキャリブレーションした黄の範囲内であればTrueを返すPredicate。
-class YellowPredicate : public RawColorPredicate
-{
-private:
-public:
-    YellowPredicate();
-    virtual ~YellowPredicate();
-};
-
 // 現在のカラーセンサから取得できる値がキャリブレーションした緑の範囲内であればTrueを返すPredicate。
 class GreenPredicate : public RawColorPredicate
 {
@@ -80,13 +62,22 @@ public:
     virtual ~GreenPredicate();
 };
 
-// 現在のカラーセンサから取得できる値がキャリブレーションした青白エッジの範囲内であればTrueを返すPredicate。
-class BlueEdgePredicate : public RawColorPredicate
+// 現在のカラーセンサから取得できる値がキャリブレーションした青の範囲内であればTrueを返すPredicate。
+class BluePredicate : public RawColorPredicate
 {
 private:
 public:
-    BlueEdgePredicate();
-    virtual ~BlueEdgePredicate();
+    BluePredicate();
+    virtual ~BluePredicate();
+};
+
+// 現在のカラーセンサから取得できる値がキャリブレーションした黄の範囲内であればTrueを返すPredicate。
+class YellowPredicate : public RawColorPredicate
+{
+private:
+public:
+    YellowPredicate();
+    virtual ~YellowPredicate();
 };
 
 // 現在のカラーセンサから取得できる値がキャリブレーションした黒の範囲内であればTrueを返すPredicate。
@@ -98,15 +89,6 @@ public:
     virtual ~BlackPredicate();
 };
 
-// 現在のカラーセンサから取得できる値がキャリブレーションしたスラロームから見た白の範囲内であればTrueを返すPredicate。
-class WhiteAtSlaromPredicate : public RawColorPredicate
-{
-private:
-public:
-    WhiteAtSlaromPredicate();
-    virtual ~WhiteAtSlaromPredicate();
-};
-
 // 現在のカラーセンサから取得できる値がキャリブレーションした灰の範囲内であればTrueを返すPredicate。
 class GrayPredicate : public RawColorPredicate
 {
@@ -114,6 +96,24 @@ private:
 public:
     GrayPredicate();
     virtual ~GrayPredicate();
+};
+
+// 現在のカラーセンサから取得できる値がキャリブレーションした青白エッジの範囲内であればTrueを返すPredicate。
+class BlueEdgePredicate : public RawColorPredicate
+{
+private:
+public:
+    BlueEdgePredicate();
+    virtual ~BlueEdgePredicate();
+};
+
+// 現在のカラーセンサから取得できる値がキャリブレーションしたスラロームから見た白の範囲内であればTrueを返すPredicate。
+class WhiteAtSlaromPredicate : public RawColorPredicate
+{
+private:
+public:
+    WhiteAtSlaromPredicate();
+    virtual ~WhiteAtSlaromPredicate();
 };
 
 #endif

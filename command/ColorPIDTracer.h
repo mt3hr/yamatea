@@ -21,6 +21,8 @@ enum TraceColor
     Trace_B, // 青
 };
 
+// 非推奨。ColorPIDTracerV2を使ってください。
+// このクラスはi制御していません
 // ColorPIDTracer
 // PIDの値をもとにラインに沿って走行するトレーサ。
 // setTargetColorしてから実行してください

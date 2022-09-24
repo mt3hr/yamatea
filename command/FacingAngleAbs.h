@@ -11,6 +11,7 @@ enum FacingAngleMode
     FA_WheelCount,
 };
 
+// FacingAngleAbs
 // 渡された角度を向くまで旋回し続けるコマンド。
 // スラローム進入後の段差での角度ずれを解決するためのもの。
 // 指定角度旋回したいのであれば、RotateRobotUseGyroCommandAndPredicateを使ってください

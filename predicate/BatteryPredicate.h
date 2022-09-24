@@ -19,7 +19,7 @@ public:
     virtual ~BatteryPredicate();
     virtual bool test(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
-    virtual Predicate *generateReversePredicate() override;
+    virtual BatteryPredicate *generateReversePredicate() override;
 };
 
 #endif

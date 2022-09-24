@@ -7,8 +7,7 @@ SonarDistancePredicate::SonarDistancePredicate(int distance, bool lessThan)
     this->lessThan = lessThan;
 };
 
-SonarDistancePredicate::~SonarDistancePredicate()
-{
+SonarDistancePredicate::~SonarDistancePredicate(){
 
 };
 
@@ -29,7 +28,7 @@ void SonarDistancePredicate::preparation(RobotAPI *robotAPI)
     return;
 }
 
-Predicate *SonarDistancePredicate::generateReversePredicate()
+SonarDistancePredicate *SonarDistancePredicate::generateReversePredicate()
 {
     return new SonarDistancePredicate(distance, lessThan);
 }
