@@ -1,7 +1,7 @@
 #include "WheelDistancePredicate.h"
 #include "Setting.h"
 #include "math.h"
-#include "Motor.h"
+#include "CorrectedMotor.h"
 #include "RobotAPI.h"
 
 using namespace ev3api;

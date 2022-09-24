@@ -2,7 +2,7 @@
 #define DistancePredicate_H
 
 #include "Predicate.h"
-#include "Motor.h"
+#include "CorrectedMotor.h"
 #include "RobotAPI.h"
 
 using namespace ev3api;
@@ -22,7 +22,7 @@ class WheelDistancePredicate : public Predicate
 private:
     float targetDistanceCm;
     float targetAngle = FLOAT32_MAX;
-    Motor *wheel;
+    CorrectedMotor *wheel;
     bool hasLeftWheel;
     RobotAPI *robotAPI;
     bool up = false;

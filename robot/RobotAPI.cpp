@@ -7,6 +7,7 @@
 #include "Clock.h"
 #include "DebugUtil.h"
 #include "ResetMeasAngle.h"
+#include "CorrectedMotor.h"
 
 using namespace ev3api;
 
@@ -16,11 +17,11 @@ RobotAPI::RobotAPI(TouchSensor *touchSensor, ColorSensor *colorSensor, SonarSens
     this->colorSensor = colorSensor;
     this->sonarSensor = sonarSensor;
     this->gyroSensor = gyroSensor;
-    this->leftWheel = leftWheel;
-    this->rightWheel = rightWheel;
-    this->armMotor = armMotor;
+    this->leftWheel = new CorrectedMotor(leftWheel, leftWheelPWMCorrectedValue);
+    this->rightWheel = new CorrectedMotor(rightWheel, rightWheelPWMCorrectedValue);
+    this->armMotor = new CorrectedMotor(armMotor, armMotorPWMCorrectedValue);
     this->clock = clock;
-    this->tailMotor = tailMotor;
+    this->tailMotor = new CorrectedMotor(tailMotor, tailMotorPWMCorrectedValue);
     this->measAngle = new RobotAPI::MeasAngleUseWheel(this);
 }
 
@@ -55,17 +56,17 @@ GyroSensor *RobotAPI::getGyroSensor()
     return gyroSensor;
 }
 
-Motor *RobotAPI::getLeftWheel()
+CorrectedMotor *RobotAPI::getLeftWheel()
 {
     return leftWheel;
 }
 
-Motor *RobotAPI::getRightWheel()
+CorrectedMotor *RobotAPI::getRightWheel()
 {
     return rightWheel;
 }
 
-Motor *RobotAPI::getArmMotor()
+CorrectedMotor *RobotAPI::getArmMotor()
 {
     return armMotor;
 }
@@ -75,7 +76,7 @@ Clock *RobotAPI::getClock()
     return clock;
 }
 
-Motor *RobotAPI::getTailMotor()
+CorrectedMotor *RobotAPI::getTailMotor()
 {
     return tailMotor;
 }

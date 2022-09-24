@@ -1,10 +1,10 @@
-#include "Motor.h"
+#include "CorrectedMotor.h"
 #include "MotorRotateAnglePredicate.h"
 #include "RobotAPI.h"
 
 using namespace ev3api;
 
-MotorRotateAnglePredicate::MotorRotateAnglePredicate(int a, Motor *m)
+MotorRotateAnglePredicate::MotorRotateAnglePredicate(int a, CorrectedMotor *m)
 {
     angle = a;
     motor = m;

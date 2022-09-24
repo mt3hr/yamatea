@@ -8,6 +8,7 @@
 #include "GyroSensor.h"
 #include "Motor.h"
 #include "Clock.h"
+#include "CorrectedMotor.h"
 
 using namespace ev3api;
 
@@ -38,11 +39,11 @@ private:
     ColorSensor *colorSensor;
     SonarSensor *sonarSensor;
     GyroSensor *gyroSensor;
-    Motor *leftWheel;
-    Motor *rightWheel;
-    Motor *armMotor;
+    CorrectedMotor *leftWheel;
+    CorrectedMotor *rightWheel;
+    CorrectedMotor *armMotor;
     Clock *clock;
-    Motor *tailMotor;
+    CorrectedMotor *tailMotor;
     RobotAPI::MeasAngleUseWheel *measAngle;
 
 public:
@@ -52,10 +53,10 @@ public:
     virtual ColorSensor *getColorSensor();
     virtual SonarSensor *getSonarSensor();
     virtual GyroSensor *getGyroSensor();
-    virtual Motor *getLeftWheel();
-    virtual Motor *getRightWheel();
-    virtual Motor *getArmMotor();
-    virtual Motor *getTailMotor();
+    virtual CorrectedMotor *getLeftWheel();
+    virtual CorrectedMotor *getRightWheel();
+    virtual CorrectedMotor *getArmMotor();
+    virtual CorrectedMotor *getTailMotor();
     virtual Clock *getClock();
     virtual RobotAPI::MeasAngleUseWheel *getMeasAngle();
     virtual void reset();

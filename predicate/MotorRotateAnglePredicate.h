@@ -1,7 +1,7 @@
 #ifndef MotorRotateAnglePredicate_H
 #define MotorRotateAnglePredicate_H
 
-#include "Motor.h"
+#include "CorrectedMotor.h"
 #include "Predicate.h"
 #include "RobotAPI.h"
 
@@ -18,11 +18,11 @@ class MotorRotateAnglePredicate : public Predicate
 private:
     int angle;       // コンストラクタ引数から渡される角度の値
     int targetAngle; // preparation()メソッド実行時に決定される角度の値。angleにこれまでに回転したモータ角度を加算したもの。
-    Motor *motor;
+    CorrectedMotor *motor;
     bool up = false;
 
 public:
-    MotorRotateAnglePredicate(int angle, Motor *motor);
+    MotorRotateAnglePredicate(int angle, CorrectedMotor *motor);
     virtual ~MotorRotateAnglePredicate();
     virtual bool test(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;

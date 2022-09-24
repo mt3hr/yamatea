@@ -99,6 +99,11 @@ extern int pwmForResetArm;
 extern int angleForResetArm;
 extern int numberOfTimesForPullWhenResetArm;
 
+extern float leftWheelPWMCorrectedValue;
+extern float rightWheelPWMCorrectedValue;
+extern float armMotorPWMCorrectedValue ;   
+extern float tailMotorPWMCorrectedValue ; 
+
 extern DEBUG_LEVEL debugMessageLevel;
 extern bool enablePrintMessageMode;
 extern bool enablePrintMessageForLCD;

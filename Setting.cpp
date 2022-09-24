@@ -27,6 +27,10 @@ int angleFor360TurnMeasAngle = 1065;        // 片方の車輪で360度旋回す
 int pwmForResetArm = 10;                    // ResetArmAngleで使われるPWM
 int numberOfTimesForPullWhenResetArm = 25;  // ResetArmAngleの初回動作、ー無を引っ張るフレーム数
 int angleForResetArm = 30;                  // ResetArmAngleによって設定されるアーム角度
+float leftWheelPWMCorrectedValue = 1;       // 右モータPWM補正値
+float rightWheelPWMCorrectedValue = 1;      // 左モータPWM補正値
+float armMotorPWMCorrectedValue = 1;        // アームモータPWM補正値
+float tailMotorPWMCorrectedValue = 1;       // テールモータPWM補正値
 
 // シミュレータの車体情報設定ここまで
 
@@ -43,6 +47,10 @@ int angleFor360TurnMeasAngle = 1120;       // 片方の車輪で360度旋回す�
 int pwmForResetArm = 10;                   // ResetArmAngleで使われるPWM
 int numberOfTimesForPullWhenResetArm = 25; // ResetArmAngleの初回動作、ー無を引っ張るフレーム数
 int angleForResetArm = 30;                 // ResetArmAngleによって設定されるアーム角度
+float leftWheelPWMCorrectedValue = 1;      // 右モータPWM補正値
+float rightWheelPWMCorrectedValue = 1;     // 左モータPWM補正値
+float armMotorPWMCorrectedValue = 1;       // アームモータPWM補正値
+float tailMotorPWMCorrectedValue = 1;      // テールモータPWM補正値
 
 // 実機の車体情報設定ここまで
 
@@ -52,11 +60,11 @@ int angleForResetArm = 30;                 // ResetArmAngleによって設定さ
 
 // 情報出力の有効無効設定ここから
 
-DEBUG_LEVEL debugMessageLevel = TRACE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-bool enablePrintMessageMode = true;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
-bool enablePrintMessageForLCD = false;       // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
-bool enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
-bool enablePrintMessageForBluetooth = true; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
+DEBUG_LEVEL debugMessageLevel = NONE;      // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+bool enablePrintMessageForLCD = false;      // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForConsole = false;  // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
 
 // 情報出力の有効無効設定ここまで
 

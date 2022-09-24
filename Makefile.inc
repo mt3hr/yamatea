@@ -5,6 +5,7 @@ Util.o \
 RawColorPredicate.o \
 Setting.o \
 Bluetooth.o \
+CorrectedMotor.o \
 RobotAPI.o \
 PrintMessage.o \
 Note.o \
