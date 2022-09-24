@@ -2910,6 +2910,49 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
+#ifdef BrightnessPIDTracerV2TestMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  ResetArmAngle *resetArmAngle = new ResetArmAngle();
+  commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
+
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+  float pwm;
+  float kp;
+  float ki;
+  float kd;
+  float dt;
+  float r;
+
+  // TODO pwm60 円コース
+  pwm = 60;
+  kp = 0.881;
+  ki = 0.025;
+  kd = 0.952;
+  dt = 1;
+  r = 0;
+
+  // pwm40 円コース
+  pwm = 40;
+  kp = 0.6265;
+  ki = 0.0812;
+  kd = 1.9221;
+  dt = 1;
+  r = 0;
+
+  PIDTracerV2 *pidTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+  commandExecutor->addCommand(pidTracer, new Predicate(), GET_VARIABLE_NAME(pidTracer));
+  calibrator->addPIDTracer(pidTracer);
+
+#ifdef Right
+  commandExecutor->reverseCommandAndPredicate();
+#endif
+}
+#endif
+
 #ifdef ColorPIDTracerTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
@@ -2957,7 +3000,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float dt;
   float r;
 
-  // pwm25
+  // pwm25 円コース
   pwm = 25;
   kp = 0.1653;
   ki = 0.041;
@@ -2965,7 +3008,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   r = 0;
 
-  // pwm30
+  // pwm30 円コース
   pwm = 30;
   kp = 0.185;
   ki = 0.02;
