@@ -11,6 +11,8 @@
 using namespace ev3api;
 using namespace std;
 
+float integralForColorPIDTracer = 0;
+
 ColorPIDTracerV2::ColorPIDTracerV2(PIDTracerMode traceModea, TraceColor traceColor, int pwma, float kpa, float kia, float kda, float dta, float r) : ColorPIDTracer(traceModea, traceColor, pwm, kp, ki, kd, dt)
 {
     traceMode = traceModea;
@@ -56,8 +58,12 @@ void ColorPIDTracerV2::run(RobotAPI *robotAPI)
         p = rgb.r - targetRGB.r;
         break;
     }
-    integral += (p + beforeP) / 2 * dt;
-    i = integral;
+    bool integralIsZero = integralForColorPIDTracer == 0;
+    integralForColorPIDTracer += (p + beforeP) / 2 * dt;
+    if (!integralIsZero)
+    {
+        i = integralForColorPIDTracer;
+    }
     d = (p - beforeP) / dt;
     pid = kp * p + ki * i + kd * d;
     pidr = pid + r;
