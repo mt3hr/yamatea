@@ -379,10 +379,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   cucumberPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
   strawberryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
 #endif
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -671,10 +667,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   cucumberPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
   strawberryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
 #endif
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -930,10 +922,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   strawberryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
   cabbagePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
 #endif
-
-#ifdef RightCourceMode
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -1095,10 +1083,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   ColorPIDTracer *colorPIDTracer = new ColorPIDTracer(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt);
   calibrator->addColorPIDTracer(colorPIDTracer);
   commandExecutor->addCommand(colorPIDTracer, new BlueEdgePredicate(), GET_VARIABLE_NAME(colorPIDTracer));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -1240,10 +1224,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   numberOfTimes = 1;
   Predicate *stopperPredicate = new NumberOfTimesPredicate(numberOfTimes);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -1716,9 +1696,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
 
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-#ifdef Rightn
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -2304,11 +2281,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   RawColorPredicate *blueEdgePredicate = new BlueEdgePredicate();
   commandExecutor->addCommand(lowPWMTracer, blueEdgePredicate, GET_VARIABLE_NAME(lowPWMTracer));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
-
 #endif
 }
 #endif
@@ -2540,9 +2512,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Walker *walker8 = new Walker(leftPWM, rightPWM);
   WheelDistancePredicate *walker8Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker8, walker8Predicate, GET_VARIABLE_NAME(walker8));
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3237,10 +3206,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3262,10 +3227,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3292,10 +3253,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
-#ifdef Rightn
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3317,10 +3274,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3345,10 +3298,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3388,10 +3337,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3438,10 +3383,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3490,10 +3431,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Stopper *stopper = new Stopper();
   Predicate *stopperPredicate = new NumberOfTimesPredicate(1);
   commandExecutor->addCommand(stopper, stopperPredicate, GET_VARIABLE_NAME(stopper));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3512,10 +3449,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTracer *pidTracer = new PIDTracer(RIGHT_TRACE, pwm, kp, ki, kd, dt);
   commandExecutor->addCommand(pidTracer, new Predicate(), GET_VARIABLE_NAME(pidTracer));
   calibrator->addPIDTracer(pidTracer);
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3555,10 +3488,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTracerV2 *pidTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
   commandExecutor->addCommand(pidTracer, new Predicate(), GET_VARIABLE_NAME(pidTracer));
   calibrator->addPIDTracer(pidTracer);
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3584,10 +3513,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   targetRGB.g = 100;
   targetRGB.b = 150;
   colorPIDTracer->setTargetColor(targetRGB);
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 #endif
 }
 #endif
@@ -3635,10 +3560,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   targetRGB.g = 100;
   targetRGB.b = 150;
   colorPIDTracer->setTargetColor(targetRGB);
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 #endif
 }
 #endif
@@ -3699,10 +3620,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int angle = 180;
   FacingAngleAbs *facingAngle = new FacingAngleAbs(FA_WheelCount, pwm, angle);
   commandExecutor->addCommand(facingAngle, new FinishedCommandPredicate(facingAngle), GET_VARIABLE_NAME(facingAngle));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3718,10 +3635,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int rightPWM = -10;
   Walker *walker = new Walker(leftPWM, rightPWM);
   commandExecutor->addCommand(walker, new Predicate(), GET_VARIABLE_NAME(walker));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -3738,10 +3651,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Walker *walker = new Walker(leftPWM, rightPWM);
   Predicate *batteryPredicate = new BatteryPredicate(targetVoltage);
   commandExecutor->addCommand(walker, batteryPredicate, GET_VARIABLE_NAME(walker));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -4436,10 +4345,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(dealingWithGarage14, predicate14, GET_VARIABLE_NAME(dealingWithGarage14));
 
   // ↑ここまで小路↑
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -5904,10 +5809,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(dealingWithGarage14, predicate14, GET_VARIABLE_NAME(dealingWithGarage14));
 
   // ↑ここまで小路↑
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -6077,10 +5978,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(walker9ys, walker9ysPredicate, GET_VARIABLE_NAME(walker9ys));
 
   commandExecutor->addCommand(colorPIDTracerRight, new BlueEdgePredicate(), GET_VARIABLE_NAME(colorPIDTracer));
-
-#ifdef Right
-  commandExecutor->reverseCommandAndPredicate();
-#endif
 }
 #endif
 
@@ -6141,6 +6038,9 @@ void main_task(intptr_t unused)
 
     // commandExecutorを初期化する（挙動定義）
     initializeCommandExecutor(commandExecutor, robotAPI);
+#ifdef Right
+    commandExecutor->reverseCommandAndPredicate();
+#endif
     vector<string> readyMessageLines;
     readyMessageLines.push_back("ready");
     PrintMessage *printReadyMessage = new PrintMessage(resetedMessageLines, true);
