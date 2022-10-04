@@ -28,6 +28,7 @@ private:
     float r = 0;
     rgb_raw_t targetRGB;
     float beforeP = 0;
+    float integral = 0;
     PIDTracerMode traceMode;
     TraceColor traceColor;
 

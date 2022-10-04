@@ -11,8 +11,6 @@
 using namespace ev3api;
 using namespace std;
 
-float integralForBrightnessPIDTracer = 0;
-
 PIDTracerV2::PIDTracerV2(PIDTracerMode traceModea, int pwma, float kpa, float kia, float kda, float dta, float r) : PIDTracer(traceModea, pwma, kpa, kia, kda, dta)
 {
     traceMode = traceModea;
@@ -34,16 +32,12 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
     brightness = robotAPI->getColorSensor()->getBrightness();
 
     // PID値の算出ここから
-    bool integralIsZero = integralForBrightnessPIDTracer == 0;
-    integralForBrightnessPIDTracer += (p + beforeP) / 2 * dt;
+    integral += (p + beforeP) / 2 * dt;
     p = brightness - targetBrightness;
-    if (!integralIsZero)
-    {
-        i = integralForBrightnessPIDTracer;
-    }
+    i = integral;
     d = (p - beforeP) / dt;
     pid = kp * p + ki * i + kd * d;
-    pidr = pid + r;
+    pidr = pid - r;
     beforeP = p;
     // PID値の算出ここまで
 
