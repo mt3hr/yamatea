@@ -32,8 +32,8 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
     brightness = robotAPI->getColorSensor()->getBrightness();
 
     // PID値の算出ここから
-    integral += (p + beforeP) / 2 * dt;
     p = brightness - targetBrightness;
+    integral += (p + beforeP) / 2 * dt;
     i = integral;
     d = (p - beforeP) / dt;
     pid = kp * p + ki * i + kd * d;
