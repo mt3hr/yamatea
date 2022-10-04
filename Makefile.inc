@@ -28,6 +28,7 @@ PIDTracer.o \
 PIDTracerV2.o \
 ColorPIDTracer.o \
 ColorPIDTracerV2.o \
+PIDStraightWalker.o \
 PIDTargetBrightnessCalibrator.o \
 PIDTargetColorBrightnessCalibrator.o \
 Walker.o \
@@ -54,9 +55,12 @@ StartCyc.o \
 ColorIDReader.o \
 FacingAngleAbs.o \
 FacingAngle.o \
+PIDFacingAngle.o \
+PIDFacingAngleAbs.o \
 ResetGyroSensor.o \
 ResetMeasAngle.o \
 Hedgehog.o \
+HedgehogUsePID.o \
 BatteryPredicate.o \
 RotateRobotCommandAndPredicateV2.o \
 FacingRobotUseWheelPredicate.o \
