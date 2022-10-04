@@ -116,6 +116,12 @@ void CommandExecutor::run()
             writeDebug(robotAPI->getMeasAngle()->getAngle());
             flushDebug(TRACE, robotAPI);
 #endif
+// ソナーセンサの値を出力する
+#ifdef EnablePrintSonarDistance
+            writeDebug("sonar distance: ");
+            writeDebug(robotAPI->getSonarSensor()->getDistance());
+            flushDebug(TRACE, robotAPI);
+#endif
 // 車輪回転数を出力する
 #ifdef EnablePrintMotorCount
             writeDebug("left wheel count: ");
