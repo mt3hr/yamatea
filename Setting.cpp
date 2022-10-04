@@ -171,8 +171,8 @@ RawColorPredicateCondition blackWhiteEdgeBCondition = BETWEEN5;
 int blueWhiteEdgeR = 36;
 int blueWhiteEdgeG = 56;
 int blueWhiteEdgeB = 92;
-RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN5;
-RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN5;
+RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN10;
+RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN10;
 RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN5;
 
 // 赤
