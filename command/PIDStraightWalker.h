@@ -7,19 +7,21 @@
 class PIDStraightWalker : public Command
 {
 private:
-    int pwm;
+    float pwm;
     float kp;
     float ki;
     float kd;
     float dt;
     int wheelDifference = 0;
     int targetDifference = 0;
+    int trueTargetDifference = 0;
+    bool inited = false;
 
     float p;
     float i;
     float d;
     float pid;
-    float beforeP;
+    float beforeP = 0;
     float rightPower;
     float leftPower;
     bool back = false;

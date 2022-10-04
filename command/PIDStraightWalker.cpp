@@ -20,15 +20,9 @@ void PIDStraightWalker::run(RobotAPI *robotAPI)
     // PID制御
     wheelDifference = robotAPI->getLeftWheel()->getCount() - robotAPI->getRightWheel()->getCount();
 
-    p = wheelDifference - targetDifference;
+    p = wheelDifference - trueTargetDifference;
     i = p * dt;
     d = (p - beforeP) / dt;
-    if (back)
-    {
-        p *= -1;
-        i *= -1;
-        d *= -1;
-    }
     pid = kp * p + ki * i + kd * d;
     beforeP = p;
     // PID値の算出ここまで
@@ -67,8 +61,11 @@ void PIDStraightWalker::run(RobotAPI *robotAPI)
 
 void PIDStraightWalker::preparation(RobotAPI *robotAPI)
 {
-    targetDifference = robotAPI->getLeftWheel()->getCount() - robotAPI->getRightWheel()->getCount() + targetDifference;
-    return;
+    if (!inited)
+    {
+        trueTargetDifference = robotAPI->getLeftWheel()->getCount() - robotAPI->getRightWheel()->getCount() - targetDifference;
+        inited = true;
+    }
 }
 
 PIDStraightWalker *PIDStraightWalker::generateReverseCommand()
