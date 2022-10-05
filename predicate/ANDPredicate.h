@@ -13,9 +13,9 @@ private:
 public:
     ANDPredicate(Predicate *predicate1, Predicate *predicate2);
     virtual ~ANDPredicate();
-    virtual bool test(RobotAPI *robotAPI);
-    virtual void preparation(RobotAPI *robotAPI);
-    virtual ANDPredicate *generateReversePredicate();
+    virtual bool test(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
+    virtual ANDPredicate *generateReversePredicate() override;
 };
 
 #endif

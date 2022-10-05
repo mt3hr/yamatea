@@ -19,7 +19,8 @@ bool ANDPredicate::test(RobotAPI *robotAPI)
 
 void ANDPredicate::preparation(RobotAPI *robotAPI)
 {
-    return;
+    predicate1->preparation(robotAPI);
+    predicate2->preparation(robotAPI);
 }
 
 ANDPredicate *ANDPredicate::generateReversePredicate()
