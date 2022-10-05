@@ -11,6 +11,8 @@ PrintMessage.o \
 Note.o \
 Command.o \
 Predicate.o \
+ORPredicate.o \
+ANDPredicate.o \
 FinishConfirmable.o \
 FinishedCommandPredicate.o \
 MusicalScore.o \
