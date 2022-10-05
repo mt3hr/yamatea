@@ -14,8 +14,8 @@ using namespace ev3api;
 class TimerPredicate : public Predicate
 {
 private:
-    uint64_t durationUsec;
-    uint64_t targetTime;
+    uint64_t durationUsec = 0;
+    uint64_t targetTime = 0;
 
 public:
     TimerPredicate(uint64_t durationUsec);
