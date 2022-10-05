@@ -2,7 +2,7 @@
 #include "Predicate.h"
 #include "RobotAPI.h"
 
-ORPredicate::ORPredicate(Predicate *pradicate1, Predicate *predicate2)
+ORPredicate::ORPredicate(Predicate *predicate1, Predicate *predicate2)
 {
     this->predicate1 = predicate1;
     this->predicate2 = predicate2;
@@ -10,6 +10,7 @@ ORPredicate::ORPredicate(Predicate *pradicate1, Predicate *predicate2)
 
 ORPredicate::~ORPredicate()
 {
+    return;
 }
 
 bool ORPredicate::test(RobotAPI *robotAPI)
@@ -19,7 +20,8 @@ bool ORPredicate::test(RobotAPI *robotAPI)
 
 void ORPredicate::preparation(RobotAPI *robotAPI)
 {
-    return;
+    predicate1->preparation(robotAPI);
+    predicate2->preparation(robotAPI);
 }
 
 ORPredicate *ORPredicate::generateReversePredicate()

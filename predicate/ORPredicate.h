@@ -13,9 +13,9 @@ private:
 public:
     ORPredicate(Predicate *pradicate1, Predicate *predicate2);
     virtual ~ORPredicate();
-    virtual bool test(RobotAPI *robotAPI);
-    virtual void preparation(RobotAPI *robotAPI);
-    virtual ORPredicate *generateReversePredicate();
+    virtual bool test(RobotAPI *robotAPI) override;
+    virtual void preparation(RobotAPI *robotAPI) override;
+    virtual ORPredicate *generateReversePredicate() override;
 };
 
 #endif
