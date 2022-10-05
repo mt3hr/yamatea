@@ -59,7 +59,6 @@ void PIDFacingAngleAbs::run(RobotAPI *robotAPI)
         delete stopper;
     }
 
-
     p = currentAnglef - targetAngle;
     integral += (p + beforeP) / 2 * dt;
     i = integral;
