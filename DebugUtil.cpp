@@ -148,10 +148,25 @@ void writeAndFlushDebug(string str, DEBUG_LEVEL level, RobotAPI *robotAPI)
     flushDebug(level, robotAPI);
 }
 
+int debugSongIndex = 0;
 void beepDebug()
 {
-    ev3_speaker_set_volume(beepNoteWhenCommandSwitching->getVolume());
-    ev3_speaker_play_tone(beepNoteWhenCommandSwitching->getFrequency(), beepNoteWhenCommandSwitching->getDuration());
+    if (enableBeepWhenCommandSwitchingSong)
+    {
+        if (debugSongIndex > ((int)song.size()) - 1)
+        {
+            debugSongIndex = 0;
+        }
+        Note *note = song[debugSongIndex];
+        ev3_speaker_set_volume(note->getVolume());
+        ev3_speaker_play_tone(note->getFrequency(), note->getDuration());
+        debugSongIndex++;
+    }
+    else
+    {
+        ev3_speaker_set_volume(beepNoteWhenCommandSwitching->getVolume());
+        ev3_speaker_play_tone(beepNoteWhenCommandSwitching->getFrequency(), beepNoteWhenCommandSwitching->getDuration());
+    }
 }
 
 int ledDebugIndex = 0;

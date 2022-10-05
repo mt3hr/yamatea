@@ -116,6 +116,7 @@ extern bool enablePrintMessageForLCD;
 extern bool enablePrintMessageForConsole;
 extern bool enablePrintMessageForBluetooth;
 extern bool enableBeepWhenCommandSwitching;
+extern bool enableBeepWhenCommandSwitchingSong;
 extern Note *beepNoteWhenCommandSwitching;
 extern bool enableSwitchLEDWhenCommandSwitching;
 extern vector<ledcolor_t> ledColorsWhenCommandSwitching;
