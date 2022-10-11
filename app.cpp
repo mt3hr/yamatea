@@ -3566,7 +3566,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // カーブ
   pwm = 10 * coefficientPWMForCurve;
-  radius = 15;
+  radius = 13;
   theta = -45;
   CurvatureWalkerCommandAndPredicate *curve3 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve3->getCommand(), curve3->getPredicate(), GET_VARIABLE_NAME(curve3));
@@ -3608,7 +3608,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   */
 
   // 直進
-  distance = 3.5;
+  distance = 5;
   pwm = 10;
   PIDStraightWalker *walker5 = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker5Predicate = new WheelDistancePredicate(distance, robotAPI);
@@ -3625,7 +3625,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // カーブ
   pwm = 8 * coefficientPWMForCurve;
-  radius = 15;
+  radius = 12;
   theta = 50;
   CurvatureWalkerCommandAndPredicate *curveA = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curveA->getCommand(), curveA->getPredicate(), GET_VARIABLE_NAME(curveA));
@@ -3633,7 +3633,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // カーブ
   pwm = 8 * coefficientPWMForCurve;
-  radius = 12.5;
+  radius = 12;
   theta = -50;
   CurvatureWalkerCommandAndPredicate *curve5 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve5->getCommand(), curve5->getPredicate(), GET_VARIABLE_NAME(curve5));
