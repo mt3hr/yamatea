@@ -3459,7 +3459,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // バック
   pwm = -6;
-  distance = -4;
+  distance = -4.5;
   PIDStraightWalker *walkerB = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   walkerB->setTargetDifferenceWheelCount(0);
   WheelDistancePredicate *walkerBPredicate = new WheelDistancePredicate(distance, robotAPI);
@@ -3516,14 +3516,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // 位置調節
   pwm = 8 * coefficientPWM;
-  distance = 11;
+  distance = 10;
   HedgehogUsePID *headgehogA = new HedgehogUsePID(distance, pwm, straightKp, straightKi, straightKd, straightDt);
   commandExecutor->addCommand(headgehogA, new FinishedCommandPredicate(headgehogA), GET_VARIABLE_NAME(headgehogA));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // カーブ
   pwm = 10 * coefficientPWMForCurve;
-  radius = 16;
+  radius = 14;
   theta = 50;
   CurvatureWalkerCommandAndPredicate *curve1 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve1->getCommand(), curve1->getPredicate(), GET_VARIABLE_NAME(curve1));
@@ -3531,7 +3531,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // カーブ
   pwm = 7 * coefficientPWMForCurve;
-  radius = 16;
+  radius = 14;
   theta = -50;
   CurvatureWalkerCommandAndPredicate *curve2 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve2->getCommand(), curve2->getPredicate(), GET_VARIABLE_NAME(curve2));
@@ -3545,16 +3545,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(facingAngle3, facingAngle3Predicate, GET_VARIABLE_NAME(facingAngle3));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
-  /*
   // 直進
   pwm = 7;
-  distance = 1.5;
+  distance = 2;
   PIDStraightWalker *walkerA = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   WheelDistancePredicate *walkerAPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walkerA, walkerAPredicate, GET_VARIABLE_NAME(walkerA));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
-  */
-
+ 
   /*
   // 位置調節
   pwm = 7 * coefficientPWM;
@@ -3566,7 +3564,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // カーブ
   pwm = 10 * coefficientPWMForCurve;
-  radius = 13;
+  radius = 15;
   theta = -45;
   CurvatureWalkerCommandAndPredicate *curve3 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve3->getCommand(), curve3->getPredicate(), GET_VARIABLE_NAME(curve3));
@@ -3574,7 +3572,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   /*
   // 直進
-  distance = 4;
+  distance = 3;
   pwm = 10;
   PIDStraightWalker *walkerD = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   WheelDistancePredicate *walkerDPredicate = new WheelDistancePredicate(distance, robotAPI);
@@ -3600,20 +3598,22 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   /*
   // 直進位置調節
-  pwm = 10 * coefficientPWM;
-  distance = 2;
+  pwm = -10 * coefficientPWM;
+  distance = -3;
   HedgehogUsePID *headgehogZ = new HedgehogUsePID(distance, pwm, straightKp, straightKi, straightKd, straightDt);
   commandExecutor->addCommand(headgehogZ, new FinishedCommandPredicate(headgehogZ), GET_VARIABLE_NAME(headgehogZ));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
   */
 
+  /*
   // 直進
-  distance = 5;
+  distance = 3;
   pwm = 10;
   PIDStraightWalker *walker5 = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker5Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker5, walker5Predicate, GET_VARIABLE_NAME(walker5));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+  */
 
   // 向き調節
   pwm = 7 * coefficientPWMForFacingAngle;
@@ -3625,7 +3625,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // カーブ
   pwm = 8 * coefficientPWMForCurve;
-  radius = 12;
+  radius = 14;
   theta = 50;
   CurvatureWalkerCommandAndPredicate *curveA = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curveA->getCommand(), curveA->getPredicate(), GET_VARIABLE_NAME(curveA));
@@ -3633,7 +3633,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // カーブ
   pwm = 8 * coefficientPWMForCurve;
-  radius = 12;
+  radius = 14;
   theta = -50;
   CurvatureWalkerCommandAndPredicate *curve5 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve5->getCommand(), curve5->getPredicate(), GET_VARIABLE_NAME(curve5));
