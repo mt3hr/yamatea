@@ -27,8 +27,10 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define TrueCourceOkiharaMode // 完走用プログラム。沖原トレース
-//#define TrueCourceKomichiMode // 完走用プログラム。小路シナリオ
+#define TrueCourceOkiharaModeCS // 完走用プログラム。沖原トレース
+//#define TrueCourceKomichiModeCS // 完走用プログラム。小路シナリオ
+//#define TrueCourceOkiharaModeRegional // 完走用プログラム。沖原トレース
+//#define TrueCourceKomichiModeRegional  // 完走用プログラム。小路シナリオ
 //#define GoalMode // ゴール用プログラム。試走会1時点。
 //#define GoalOkiharaMode // 左コース用プログラム。沖原作業用
 //#define GoalOkiharaMode1 // 左コース用プログラム。地区大会時点安定
