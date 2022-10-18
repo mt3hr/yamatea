@@ -1093,6 +1093,302 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
+#ifdef GoalOkiharaMode3
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
+  // そのシーンが終了する距離の定義。
+  // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
+  // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+  /*
+    float bananaDistance = 109;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+    float orangeDistance = 113;     // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
+    float starFruitsDistance = 9;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
+    float cherryDistance = 18;      // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
+    float waterMelonDistance = 300; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+    float bokChoyDistance = 35;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+    float dorianDistance = 25;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+    float melonDistance = 209;      // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+    float cucumberDistance = 140;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+    float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
+  */
+
+  int sceneCarrotMotorCountPredicateArg = 780;      // スタートから最初のカーブ終わるまで
+  int sceneBananaMotorCountPredicateArg = 1100;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+  int scenePeachMotorCountPredicateArg = 1700;      // バナナとオレンジの間の小さいカーブ
+  int sceneOrangeMotorCountPredicateArg = 2460;     // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
+  int sceneStarFruitsMotorCountPredicateArg = 2550; // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
+  // int sceneCherryMotorCountPredicateArg = 2700;     // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneWaterMelonMotorCountPredicateArg = 6150;  // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+  int sceneBokChoyMotorCountPredicateArg = 6330;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+  int sceneDorianMotorCountPredicateArg = 6480;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneAsparagusMotorCountPredicateArg = 7150;   // ドリアン終了後の１つ目の直線
+  int sceneRadishMotorCountPredicateArg = 7400;      // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
+  int sceneMelonMotorCountPredicateArg = 8790;       // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+  int sceneCucumberMotorCountPredicateArg = 10715;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+  int sceneStrawberryMotorCountPredicateArg = 11280; // ゴールまで。いちご好き。ライントレースする。
+  int sceneCabbageMotorCountpredicateArg = 12400;    // ゴールまで。
+
+  float distanceTemp = 0;
+  int carrotDistance = (sceneCarrotMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += carrotDistance;
+  int bananaDistance = (sceneBananaMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += bananaDistance;
+  int peachDistance = (scenePeachMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += peachDistance;
+  int orangeDistance = (sceneOrangeMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += orangeDistance;
+  int starFruitsDistance = (sceneStarFruitsMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += starFruitsDistance;
+  /*int cherryDistance = (sceneCherryMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += cherryDistance;*/
+  int waterMelonDistance = (sceneWaterMelonMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += waterMelonDistance;
+  int bokChoyDistance = (sceneBokChoyMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += bokChoyDistance;
+  int dorianDistance = (sceneDorianMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += dorianDistance;
+  int asparagusDistance = (sceneAsparagusMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += asparagusDistance;
+  int radishDistance = (sceneRadishMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += radishDistance;
+  int melonDistance = (sceneMelonMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += melonDistance;
+  int cucumberDistance = (sceneCucumberMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += cucumberDistance;
+  int strawberryDistance = (sceneStrawberryMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += strawberryDistance;
+  int cabbageDistance = (sceneCabbageMotorCountpredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += cabbageDistance;
+
+  /*
+    printf("以下出力された値をbananaDistanceとかに入れていって。");
+    printf("%sDistance: %10.f\n", "Banana", bananaDistance);
+    printf("%sDistance: %10.f\n", "Orange", orangeDistance);
+    printf("%sDistance: %10.f\n", "StarFruits", starFruitsDistance);
+    printf("%sDistance: %10.f\n", "Cherry", cherryDistance);
+    printf("%sDistance: %10.f\n", "WaterMelon", waterMelonDistance);
+    printf("%sDistance: %10.f\n", "BokChoy", bokChoyDistance);
+    printf("%sDistance: %10.f\n", "Dorian", dorianDistance);
+    printf("%sDistance: %10.f\n", "Melon", melonDistance);
+    printf("%sDistance: %10.f\n", "Cucumber", cucumberDistance);
+    printf("%sDistance: %10.f\n", "Strawberry", strawberryDistance);
+    printf("以上");
+    */
+
+  int pwm;
+  float kp;
+  float ki;
+  float kd;
+  int dt;
+  float r;
+
+  int leftPow;
+  int rightPow;
+
+  // PIDTargetCalibratorの初期化とCommandExecutorへの追加
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+  // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
+  vector<string> messageLines;
+  messageLines.push_back("Started!!");
+  messageLines.push_back("GOGOGO!!");
+  PrintMessage *printMessage = new PrintMessage(messageLines, true);
+  Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(printMessage, printMessagePredicate, GET_VARIABLE_NAME(printMessage));
+
+  // CarrotPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 25;
+  kp = 0.9;
+  ki = 0.06;
+  kd = 1.4;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *carrotPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateCarrot = new WheelDistancePredicate(carrotDistance, robotAPI);
+  commandExecutor->addCommand(carrotPIDTracer, predicateCarrot, GET_VARIABLE_NAME(carrotPIDTracer));
+  calibrator->addPIDTracer(carrotPIDTracer);
+
+  // BananaPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 30;
+  kp = 0.5;
+  ki = 0.01;
+  kd = 1.5;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *bananaPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateBanana = new WheelDistancePredicate(bananaDistance, robotAPI);
+  commandExecutor->addCommand(bananaPIDTracer, predicateBanana, GET_VARIABLE_NAME(bananaPIDTracer));
+  calibrator->addPIDTracer(bananaPIDTracer);
+
+  // PeachPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 25;
+  kp = 0.8;
+  ki = 0.05;
+  kd = 1.8;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *peachPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicatePeach = new WheelDistancePredicate(peachDistance, robotAPI);
+  calibrator->addPIDTracer(peachPIDTracer);
+  commandExecutor->addCommand(peachPIDTracer, predicatePeach, GET_VARIABLE_NAME(peachPIDTracer));
+
+  // OrangePIDTracerの初期化とCommandExecutorへの追加
+  pwm = 30;
+  kp = 0.7;
+  ki = 0.01;
+  kd = 1.8;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *orangePIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateOrange = new WheelDistancePredicate(orangeDistance, robotAPI);
+  calibrator->addPIDTracer(orangePIDTracer);
+  commandExecutor->addCommand(orangePIDTracer, predicateOrange, GET_VARIABLE_NAME(orangePIDTracer));
+
+  // StarFruitsWalkerの初期化とCommandExecutorへの追加
+  leftPow = 9;
+  rightPow = 15;
+  Walker *starFruitsWalker = new Walker(leftPow, rightPow);
+  Predicate *predicateStarFruits = new WheelDistancePredicate(starFruitsDistance, robotAPI);
+  commandExecutor->addCommand(starFruitsWalker, predicateStarFruits, GET_VARIABLE_NAME(starFruitsWalker));
+
+  /*
+  CherryPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 20;
+  kp = 0.7;
+  ki = 0;
+  kd = 0.7;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *cherryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+  Predicate *predicateCherry = new WheelDistancePredicate(cherryDistance, robotAPI);
+  calibrator->addPIDTracer(cherryPIDTracer);
+  commandExecutor->addCommand(cherryPIDTracer, predicateCherry, GET_VARIABLE_NAME(cherryPIDTracer));
+  */
+
+  // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 40;
+  kp = 0.6;
+  ki = 0.01;
+  kd = 1.5;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *waterMelonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateWaterMelon = new WheelDistancePredicate(waterMelonDistance, robotAPI);
+  calibrator->addPIDTracer(waterMelonPIDTracer);
+  commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon, GET_VARIABLE_NAME(waterMelonPIDTracer));
+
+  // BokChoyWalkerの初期化とCommandExecutorへの追加
+  leftPow = 30;
+  rightPow = 30;
+  Walker *bokChoyWalker = new Walker(leftPow, rightPow);
+  Predicate *predicateBokChoy = new WheelDistancePredicate(bokChoyDistance, robotAPI);
+  commandExecutor->addCommand(bokChoyWalker, predicateBokChoy, GET_VARIABLE_NAME(bokChoyWalker));
+
+  // DorianPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 25;
+  kp = 0.7;
+  ki = 0;
+  kd = 1.2;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *dorianPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateDorian = new WheelDistancePredicate(dorianDistance, robotAPI);
+  calibrator->addPIDTracer(dorianPIDTracer);
+  commandExecutor->addCommand(dorianPIDTracer, predicateDorian, GET_VARIABLE_NAME(dorianPIDTracer));
+
+  // AsparagusPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 25;
+  kp = 0.65;
+  ki = 0;
+  kd = 1.2;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *asparagusPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateAsparagus = new WheelDistancePredicate(asparagusDistance, robotAPI);
+  calibrator->addPIDTracer(asparagusPIDTracer);
+  commandExecutor->addCommand(asparagusPIDTracer, predicateAsparagus, GET_VARIABLE_NAME(asparagusPIDTracer));
+
+  // RadishPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 30;
+  kp = 0.5;
+  ki = 0.01;
+  kd = 1.5;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *radishPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateRadish = new WheelDistancePredicate(radishDistance, robotAPI);
+  calibrator->addPIDTracer(radishPIDTracer);
+  commandExecutor->addCommand(radishPIDTracer, predicateRadish, GET_VARIABLE_NAME(radishPIDTracer));
+
+  // MelonPIDTracerの初期化とCommandExecutorへの追加  ここから
+
+  pwm = 25;
+  kp = 0.8;
+  ki = 0.05;
+  kd = 1.8;
+  dt = 1;
+  pidR = 0;
+
+  PIDTracerV2 *melonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateMelon = new WheelDistancePredicate(melonDistance, robotAPI);
+  calibrator->addPIDTracer(melonPIDTracer);
+  commandExecutor->addCommand(melonPIDTracer, predicateMelon, GET_VARIABLE_NAME(melonPIDTracer));
+
+  // CucumberPIDTracerの初期化とCommandExecutorへの追加
+
+  pwm = 60;
+  kp = 0.8;
+  ki = 0.01;
+  kd = 1.5;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *cucumberPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateCucumber = new WheelDistancePredicate(cucumberDistance, robotAPI);
+  calibrator->addPIDTracer(cucumberPIDTracer);
+  commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber, GET_VARIABLE_NAME(cucumberPIDTracer));
+
+  // StrawberryPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 25;
+  kp = 0.8;
+  ki = 0.05;
+  kd = 1.5;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *strawberryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateStrawberry = new WheelDistancePredicate(strawberryDistance, robotAPI);
+  calibrator->addPIDTracer(strawberryPIDTracer);
+  commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry, GET_VARIABLE_NAME(strawberryPIDTracer));
+
+  // CabbagePIDTracerの初期化とCommandExecutorへの追加
+  pwm = 60;
+  kp = 0.8;
+  ki = 0.01;
+  kd = 1.3;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *cabbagePIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateCabbage = new WheelDistancePredicate(cabbageDistance, robotAPI);
+  calibrator->addPIDTracer(cabbagePIDTracer);
+  commandExecutor->addCommand(cabbagePIDTracer, predicateCabbage, GET_VARIABLE_NAME(cabbagePIDTracer));
+  // Commandの定義とCommandExecutorへの追加ここまで
+
+#if defined(SimulatorMode) | defined(DisableCalibration)
+  // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
+  bananaPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  orangePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  cherryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  waterMelonPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  dorianPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  melonPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  cucumberPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  strawberryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+#endif
+}
+#endif
+
 #ifdef SlalomUFOTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
@@ -5445,13 +5741,13 @@ void initSong(int loop)
   }
 };
 
-#if defined(TrueCourceOkiharaModeRegional ) | defined(TrueCourceKomichiModeRegional )
+#if defined(TrueCourceOkiharaModeRegional) | defined(TrueCourceKomichiModeRegional)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   ResetArmAngle *resetArmAngle = new ResetArmAngle();
   commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
 
-#ifdef TrueCourceKomichiModeRegional 
+#ifdef TrueCourceKomichiModeRegional
   // ↓ここから小路↓
   int Kpwm;
   float Kkp;
@@ -5622,7 +5918,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
 #endif
 
-#ifdef TrueCourceOkiharaModeRegional 
+#ifdef TrueCourceOkiharaModeRegional
   // ↓ここから沖原↓
 
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
@@ -6577,14 +6873,302 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   int leftPow;
   int rightPow;
+  float pidR;
 
 #ifdef TrueCourceKomichiModeCS
   // ↓ここから小路↓
+  // TODO
   // ↑ここまで小路↑
 #endif
 
 #ifdef TrueCourceOkiharaModeCS
   // ↓ここから沖原↓
+  // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
+  // そのシーンが終了する距離の定義。
+  // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
+  // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+  /*
+    float bananaDistance = 109;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+    float orangeDistance = 113;     // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
+    float starFruitsDistance = 9;   // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
+    float cherryDistance = 18;      // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
+    float waterMelonDistance = 300; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+    float bokChoyDistance = 35;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+    float dorianDistance = 25;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+    float melonDistance = 209;      // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+    float cucumberDistance = 140;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+    float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
+  */
+
+  int sceneCarrotMotorCountPredicateArg = 780;      // スタートから最初のカーブ終わるまで
+  int sceneBananaMotorCountPredicateArg = 1100;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+  int scenePeachMotorCountPredicateArg = 1700;      // バナナとオレンジの間の小さいカーブ
+  int sceneOrangeMotorCountPredicateArg = 2460;     // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
+  int sceneStarFruitsMotorCountPredicateArg = 2550; // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
+  // int sceneCherryMotorCountPredicateArg = 2700;     // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneWaterMelonMotorCountPredicateArg = 6150;  // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
+  int sceneBokChoyMotorCountPredicateArg = 6330;     // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+  int sceneDorianMotorCountPredicateArg = 6480;      // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+  int sceneAsparagusMotorCountPredicateArg = 7150;   // ドリアン終了後の１つ目の直線
+  int sceneRadishMotorCountPredicateArg = 7400;      // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
+  int sceneMelonMotorCountPredicateArg = 8790;       // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+  int sceneCucumberMotorCountPredicateArg = 10715;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+  int sceneStrawberryMotorCountPredicateArg = 11280; // ゴールまで。いちご好き。ライントレースする。
+  int sceneCabbageMotorCountpredicateArg = 12400;    // ゴールまで。
+
+  float distanceTemp = 0;
+  int carrotDistance = (sceneCarrotMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += carrotDistance;
+  int bananaDistance = (sceneBananaMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += bananaDistance;
+  int peachDistance = (scenePeachMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += peachDistance;
+  int orangeDistance = (sceneOrangeMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += orangeDistance;
+  int starFruitsDistance = (sceneStarFruitsMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += starFruitsDistance;
+  /*int cherryDistance = (sceneCherryMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += cherryDistance;*/
+  int waterMelonDistance = (sceneWaterMelonMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += waterMelonDistance;
+  int bokChoyDistance = (sceneBokChoyMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += bokChoyDistance;
+  int dorianDistance = (sceneDorianMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += dorianDistance;
+  int asparagusDistance = (sceneAsparagusMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += asparagusDistance;
+  int radishDistance = (sceneRadishMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += radishDistance;
+  int melonDistance = (sceneMelonMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += melonDistance;
+  int cucumberDistance = (sceneCucumberMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += cucumberDistance;
+  int strawberryDistance = (sceneStrawberryMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += strawberryDistance;
+  int cabbageDistance = (sceneCabbageMotorCountpredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+  distanceTemp += cabbageDistance;
+
+  /*
+    printf("以下出力された値をbananaDistanceとかに入れていって。");
+    printf("%sDistance: %10.f\n", "Banana", bananaDistance);
+    printf("%sDistance: %10.f\n", "Orange", orangeDistance);
+    printf("%sDistance: %10.f\n", "StarFruits", starFruitsDistance);
+    printf("%sDistance: %10.f\n", "Cherry", cherryDistance);
+    printf("%sDistance: %10.f\n", "WaterMelon", waterMelonDistance);
+    printf("%sDistance: %10.f\n", "BokChoy", bokChoyDistance);
+    printf("%sDistance: %10.f\n", "Dorian", dorianDistance);
+    printf("%sDistance: %10.f\n", "Melon", melonDistance);
+    printf("%sDistance: %10.f\n", "Cucumber", cucumberDistance);
+    printf("%sDistance: %10.f\n", "Strawberry", strawberryDistance);
+    printf("以上");
+    */
+
+  int pwm;
+  float kp;
+  float ki;
+  float kd;
+  int dt;
+
+  // PIDTargetCalibratorの初期化とCommandExecutorへの追加
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+  // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
+  vector<string> messageLines;
+  messageLines.push_back("Started!!");
+  messageLines.push_back("GOGOGO!!");
+  PrintMessage *printMessage = new PrintMessage(messageLines, true);
+  Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(printMessage, printMessagePredicate, GET_VARIABLE_NAME(printMessage));
+
+  // CarrotPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 25;
+  kp = 0.9;
+  ki = 0.06;
+  kd = 1.4;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *carrotPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateCarrot = new WheelDistancePredicate(carrotDistance, robotAPI);
+  commandExecutor->addCommand(carrotPIDTracer, predicateCarrot, GET_VARIABLE_NAME(carrotPIDTracer));
+  calibrator->addPIDTracer(carrotPIDTracer);
+
+  // BananaPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 30;
+  kp = 0.5;
+  ki = 0.01;
+  kd = 1.5;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *bananaPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateBanana = new WheelDistancePredicate(bananaDistance, robotAPI);
+  commandExecutor->addCommand(bananaPIDTracer, predicateBanana, GET_VARIABLE_NAME(bananaPIDTracer));
+  calibrator->addPIDTracer(bananaPIDTracer);
+
+  // PeachPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 25;
+  kp = 0.8;
+  ki = 0.05;
+  kd = 1.8;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *peachPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicatePeach = new WheelDistancePredicate(peachDistance, robotAPI);
+  calibrator->addPIDTracer(peachPIDTracer);
+  commandExecutor->addCommand(peachPIDTracer, predicatePeach, GET_VARIABLE_NAME(peachPIDTracer));
+
+  // OrangePIDTracerの初期化とCommandExecutorへの追加
+  pwm = 30;
+  kp = 0.7;
+  ki = 0.01;
+  kd = 1.8;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *orangePIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateOrange = new WheelDistancePredicate(orangeDistance, robotAPI);
+  calibrator->addPIDTracer(orangePIDTracer);
+  commandExecutor->addCommand(orangePIDTracer, predicateOrange, GET_VARIABLE_NAME(orangePIDTracer));
+
+  // StarFruitsWalkerの初期化とCommandExecutorへの追加
+  leftPow = 9;
+  rightPow = 15;
+  Walker *starFruitsWalker = new Walker(leftPow, rightPow);
+  Predicate *predicateStarFruits = new WheelDistancePredicate(starFruitsDistance, robotAPI);
+  commandExecutor->addCommand(starFruitsWalker, predicateStarFruits, GET_VARIABLE_NAME(starFruitsWalker));
+
+  /*
+  CherryPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 20;
+  kp = 0.7;
+  ki = 0;
+  kd = 0.7;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *cherryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateCherry = new WheelDistancePredicate(cherryDistance, robotAPI);
+  calibrator->addPIDTracer(cherryPIDTracer);
+  commandExecutor->addCommand(cherryPIDTracer, predicateCherry, GET_VARIABLE_NAME(cherryPIDTracer));
+  */
+
+  // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 40;
+  kp = 0.6;
+  ki = 0.01;
+  kd = 1.5;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *waterMelonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateWaterMelon = new WheelDistancePredicate(waterMelonDistance, robotAPI);
+  calibrator->addPIDTracer(waterMelonPIDTracer);
+  commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon, GET_VARIABLE_NAME(waterMelonPIDTracer));
+
+  // BokChoyWalkerの初期化とCommandExecutorへの追加
+  leftPow = 30;
+  rightPow = 30;
+  Walker *bokChoyWalker = new Walker(leftPow, rightPow);
+  Predicate *predicateBokChoy = new WheelDistancePredicate(bokChoyDistance, robotAPI);
+  commandExecutor->addCommand(bokChoyWalker, predicateBokChoy, GET_VARIABLE_NAME(bokChoyWalker));
+
+  // DorianPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 25;
+  kp = 0.7;
+  ki = 0;
+  kd = 1.2;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *dorianPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateDorian = new WheelDistancePredicate(dorianDistance, robotAPI);
+  calibrator->addPIDTracer(dorianPIDTracer);
+  commandExecutor->addCommand(dorianPIDTracer, predicateDorian, GET_VARIABLE_NAME(dorianPIDTracer));
+
+  // AsparagusPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 25;
+  kp = 0.65;
+  ki = 0;
+  kd = 1.2;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *asparagusPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateAsparagus = new WheelDistancePredicate(asparagusDistance, robotAPI);
+  calibrator->addPIDTracer(asparagusPIDTracer);
+  commandExecutor->addCommand(asparagusPIDTracer, predicateAsparagus, GET_VARIABLE_NAME(asparagusPIDTracer));
+
+  // RadishPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 30;
+  kp = 0.5;
+  ki = 0.01;
+  kd = 1.5;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *radishPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateRadish = new WheelDistancePredicate(radishDistance, robotAPI);
+  calibrator->addPIDTracer(radishPIDTracer);
+  commandExecutor->addCommand(radishPIDTracer, predicateRadish, GET_VARIABLE_NAME(radishPIDTracer));
+
+  // MelonPIDTracerの初期化とCommandExecutorへの追加  ここから
+
+  pwm = 25;
+  kp = 0.8;
+  ki = 0.05;
+  kd = 1.8;
+  dt = 1;
+  pidR = 0;
+
+  PIDTracerV2 *melonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateMelon = new WheelDistancePredicate(melonDistance, robotAPI);
+  calibrator->addPIDTracer(melonPIDTracer);
+  commandExecutor->addCommand(melonPIDTracer, predicateMelon, GET_VARIABLE_NAME(melonPIDTracer));
+
+  // CucumberPIDTracerの初期化とCommandExecutorへの追加
+
+  pwm = 60;
+  kp = 0.8;
+  ki = 0.01;
+  kd = 1.5;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *cucumberPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateCucumber = new WheelDistancePredicate(cucumberDistance, robotAPI);
+  calibrator->addPIDTracer(cucumberPIDTracer);
+  commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber, GET_VARIABLE_NAME(cucumberPIDTracer));
+
+  // StrawberryPIDTracerの初期化とCommandExecutorへの追加
+  pwm = 25;
+  kp = 0.8;
+  ki = 0.05;
+  kd = 1.5;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *strawberryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateStrawberry = new WheelDistancePredicate(strawberryDistance, robotAPI);
+  calibrator->addPIDTracer(strawberryPIDTracer);
+  commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry, GET_VARIABLE_NAME(strawberryPIDTracer));
+
+  // CabbagePIDTracerの初期化とCommandExecutorへの追加
+  pwm = 60;
+  kp = 0.8;
+  ki = 0.01;
+  kd = 1.3;
+  dt = 1;
+  pidR = 0;
+  PIDTracerV2 *cabbagePIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, pidR);
+  Predicate *predicateCabbage = new WheelDistancePredicate(cabbageDistance, robotAPI);
+  calibrator->addPIDTracer(cabbagePIDTracer);
+  commandExecutor->addCommand(cabbagePIDTracer, predicateCabbage, GET_VARIABLE_NAME(cabbagePIDTracer));
+  // Commandの定義とCommandExecutorへの追加ここまで
+
+#if defined(SimulatorMode) | defined(DisableCalibration)
+  // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
+  bananaPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  orangePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  cherryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  waterMelonPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  dorianPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  melonPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  cucumberPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+  strawberryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
+#endif
   // ↑ここまで沖原↑
 #endif
 
@@ -6592,16 +7176,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   ResetArmAngle *resetArmAngleAtSlalom = new ResetArmAngle();
   commandExecutor->addCommand(resetArmAngleAtSlalom, new FinishedCommandPredicate(resetArmAngleAtSlalom), GET_VARIABLE_NAME(resetArmAngleAtSlalom));
 
-  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
-  Predicate *startButtonPredicate = new StartButtonPredicate();
-  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
-
-  float pwm;
-  float kp;
-  float ki;
-  float kd;
-  float dt;
-  float pidR;
   float straightKp = 0.05;
   float straightKi = 0;
   float straightKd = 0.05;
