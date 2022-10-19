@@ -44,8 +44,8 @@ void HedgehogUsePID::run(RobotAPI *robotAPI)
 void HedgehogUsePID::preparation(RobotAPI *robotAPI)
 {
     distance = robotAPI->getSonarSensor()->getDistance();
-    walker->setTargetDifferenceWheelCount(robotAPI->getLeftWheel()->getCount() - robotAPI->getRightWheel()->getCount());
-    backer->setTargetDifferenceWheelCount(robotAPI->getLeftWheel()->getCount() - robotAPI->getRightWheel()->getCount());
+    walker->preparation(robotAPI);
+    backer->preparation(robotAPI);
 }
 
 HedgehogUsePID *HedgehogUsePID::generateReverseCommand()
