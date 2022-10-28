@@ -8264,6 +8264,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 {
   float coefficientDistance = 0.75;
   float coefficientAngle = 0.98;
+  float coefficientCurvePWM = 0.89;
 #ifndef SimulatorMode
   commandExecutor->addCommand(new ArmController(-50), new NumberOfTimesPredicate(10), "arm down");
 #endif
@@ -8278,14 +8279,15 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   CWCAPMode curveMode = CWCMP_WheelCount;
   FacingAngleMode facingAngleMode = FA_WheelCount;
-  AngleAbsPredicateMode angleAbsPredicateMode = AAPM_WheelCount;
+  // AngleAbsPredicateMode angleAbsPredicateMode = AAPM_WheelCount;
 #ifdef SimulatorMode
   int basePWM = 30;
   int straightPWM = 30;
-#else
-  int basePWM = 60;
-  int straightPWM = 80;
   int lowStraightPWM = 30;
+#else
+  int basePWM = 40;
+  int straightPWM = 50;
+  int lowStraightPWM = 25;
 #endif
   float radius;
   float theta;
@@ -8306,9 +8308,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float faKd = 0.7;
   float faDt = 1;
 #else
-  float kp = 0.19;
-  float ki = 0.15;
-  float kd = 0.19;
+  float kp = 0.45;
+  float ki = 0;
+  float kd = 1;
   float dt = 1;
   float pwm = 80;
   float straightKp = 0.05;
@@ -8320,7 +8322,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float faKd = 0.7;
   float faDt = 1;
 #endif
-  pwm = 15;
+  pwm = 10;
   ColorPIDTracer *colorPIDTracerRight = new ColorPIDTracer(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt);
   ColorPIDTracer *colorPIDTracerLeft = new ColorPIDTracer(LEFT_TRACE, Trace_R, pwm, kp, ki, kd, dt);
   calibrator->addColorPIDTracer(colorPIDTracerLeft);
@@ -8352,7 +8354,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *walker3ysPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker3ys, walker3ysPredicate, GET_VARIABLE_NAME(walker3ys));
 
-  pwm = basePWM;
+  pwm = basePWM * coefficientCurvePWM;
   radius = 28;
   theta = -170;
   CommandAndPredicate *curve3ys = new CurvatureWalkerCommandAndPredicate(curveMode, pwm, radius, theta, robotAPI);
@@ -8368,7 +8370,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *walker4ysPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker4ys, walker4ysPredicate, GET_VARIABLE_NAME(walker4ys));
 
-  pwm = basePWM;
+  pwm = basePWM * coefficientCurvePWM;
   radius = 45;
   theta = 320;
   CommandAndPredicate *curve4ys = new CurvatureWalkerCommandAndPredicate(curveMode, pwm, radius, theta, robotAPI);
