@@ -7433,9 +7433,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "Stopper");
 
     // ガレージカードの色取得用ColorReader
-    ColorReader *colorReader = new ColorReader();
-    colorid_t *garageCardColorPtr = colorReader->getColorPtr();
-
     float slalomAngleOffset = 0;
 
     float coefficientPWM;
