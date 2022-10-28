@@ -7864,7 +7864,7 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
 */
 
 // 直進
-#if SlalomPattern1
+#ifdef SlalomPattern1
     distance = 6;
 #elif SlalomPattern2
     distance = 3.4;
