@@ -8262,8 +8262,10 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
 #ifdef SanekataScenarioTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+  float coefficientDistance = 0.75;
+  float coefficientAngle = 0.98;
 #ifndef SimulatorMode
-  commandExecutor->addCommand(new ArmController(-100), new NumberOfTimesPredicate(10), "arm down");
+  commandExecutor->addCommand(new ArmController(-50), new NumberOfTimesPredicate(10), "arm down");
 #endif
 
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
@@ -8274,15 +8276,16 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(new ResetGyroSensor(), new NumberOfTimesPredicate(1), "reset gyro sensor");
   commandExecutor->addCommand(new ResetMeasAngle(), new NumberOfTimesPredicate(1), "reset wheel angle");
 
-  CWCAPMode curveMode = CWCMP_Gyro;
-  FacingAngleMode facingAngleMode = FA_Gyro;
-  AngleAbsPredicateMode angleAbsPredicateMode = AAPM_Gyro;
+  CWCAPMode curveMode = CWCMP_WheelCount;
+  FacingAngleMode facingAngleMode = FA_WheelCount;
+  AngleAbsPredicateMode angleAbsPredicateMode = AAPM_WheelCount;
 #ifdef SimulatorMode
   int basePWM = 30;
   int straightPWM = 30;
 #else
-  int basePWM = 30;
-  int straightPWM = 50;
+  int basePWM = 60;
+  int straightPWM = 80;
+  int lowStraightPWM = 30;
 #endif
   float radius;
   float theta;
@@ -8320,109 +8323,102 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 15;
   ColorPIDTracer *colorPIDTracerRight = new ColorPIDTracer(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt);
   ColorPIDTracer *colorPIDTracerLeft = new ColorPIDTracer(LEFT_TRACE, Trace_R, pwm, kp, ki, kd, dt);
+  calibrator->addColorPIDTracer(colorPIDTracerLeft);
+  calibrator->addColorPIDTracer(colorPIDTracerRight);
 
   pwm = straightPWM;
-  distance = 55;
+  distance = 55 * coefficientDistance;
   PIDStraightWalker *walker1ys = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker1ysPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker1ys, walker1ysPredicate, GET_VARIABLE_NAME(walker1ys));
 
-  angle = 90;
+  angle = 90 * coefficientAngle;
   PIDFacingAngleAbs *facingAngle1ys = new PIDFacingAngleAbs(facingAngleMode, angle, faKp, faKi, faKd, faDt);
   commandExecutor->addCommand(facingAngle1ys, new ORPredicate(new TimerPredicate(1000000), new FinishedCommandPredicate(facingAngle1ys)), GET_VARIABLE_NAME(facingAngle1ys));
-  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
 
   pwm = straightPWM;
-  distance = 85;
+  distance = 85 * coefficientDistance;
   PIDStraightWalker *walker2ys = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker2ysPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker2ys, walker2ysPredicate, GET_VARIABLE_NAME(walker2ys));
 
-  angle = 180;
+  angle = 180 * coefficientAngle;
   PIDFacingAngleAbs *facingAngle2ys = new PIDFacingAngleAbs(facingAngleMode, angle, faKp, faKi, faKd, faDt);
   commandExecutor->addCommand(facingAngle2ys, new ORPredicate(new TimerPredicate(1000000), new FinishedCommandPredicate(facingAngle2ys)), GET_VARIABLE_NAME(facingAngle2ys));
-  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
 
   pwm = straightPWM;
-  distance = 1;
+  distance = 15 * coefficientDistance;
   PIDStraightWalker *walker3ys = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker3ysPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker3ys, walker3ysPredicate, GET_VARIABLE_NAME(walker3ys));
 
   pwm = basePWM;
-  radius = 28.5;
-  theta = -180;
+  radius = 28;
+  theta = -170;
   CommandAndPredicate *curve3ys = new CurvatureWalkerCommandAndPredicate(curveMode, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve3ys->getCommand(), curve3ys->getPredicate(), GET_VARIABLE_NAME(curve3ys));
 
-  angle = 0;
+  angle = 0 * coefficientAngle;
   PIDFacingAngleAbs *facingAngle3ys = new PIDFacingAngleAbs(facingAngleMode, angle, faKp, faKi, faKd, faDt);
   commandExecutor->addCommand(facingAngle3ys, new ORPredicate(new TimerPredicate(1000000), new FinishedCommandPredicate(facingAngle3ys)), GET_VARIABLE_NAME(facingAngle3ys));
-  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
 
   pwm = straightPWM;
-  distance = 20;
+  distance = 10 * coefficientDistance;
   PIDStraightWalker *walker4ys = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker4ysPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker4ys, walker4ysPredicate, GET_VARIABLE_NAME(walker4ys));
 
   pwm = basePWM;
-  radius = 35;
-  theta = 310;
+  radius = 45;
+  theta = 320;
   CommandAndPredicate *curve4ys = new CurvatureWalkerCommandAndPredicate(curveMode, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve4ys->getCommand(), curve4ys->getPredicate(), GET_VARIABLE_NAME(curve4ys));
 
-  angle = 300;
+  angle = 320 * coefficientAngle;
   PIDFacingAngleAbs *facingAngle4ys = new PIDFacingAngleAbs(facingAngleMode, angle, faKp, faKi, faKd, faDt);
   commandExecutor->addCommand(facingAngle4ys, new ORPredicate(new TimerPredicate(1000000), new FinishedCommandPredicate(facingAngle4ys)), GET_VARIABLE_NAME(facingAngle4ys));
-  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
 
   pwm = straightPWM;
-  distance = 130;
+  distance = 130 * coefficientDistance;
   PIDStraightWalker *walker5ys = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker5ysPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker5ys, walker5ysPredicate, GET_VARIABLE_NAME(walker5ys));
 
-  angle = 270;
+  angle = 270 * coefficientAngle;
   PIDFacingAngleAbs *facingAngle5ys = new PIDFacingAngleAbs(facingAngleMode, angle, faKp, faKi, faKd, faDt);
   commandExecutor->addCommand(facingAngle5ys, new ORPredicate(new TimerPredicate(1000000), new FinishedCommandPredicate(facingAngle5ys)), GET_VARIABLE_NAME(facingAngle5ys));
-  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
 
   pwm = straightPWM;
-  distance = 70;
+  distance = 70 * coefficientDistance;
   PIDStraightWalker *walker6ys = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker6ysPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker6ys, walker6ysPredicate, GET_VARIABLE_NAME(walker6ys));
 
-  angle = 360;
+  angle = 360 * coefficientAngle;
   PIDFacingAngleAbs *facingAngle6ys = new PIDFacingAngleAbs(facingAngleMode, angle, faKp, faKi, faKd, faDt);
   commandExecutor->addCommand(facingAngle6ys, new ORPredicate(new TimerPredicate(1000000), new FinishedCommandPredicate(facingAngle6ys)), GET_VARIABLE_NAME(facingAngle6ys));
-  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
 
   pwm = straightPWM;
-  distance = 70;
+  distance = 50 * coefficientDistance;
   PIDStraightWalker *walker7ys = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker7ysPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker7ys, walker7ysPredicate, GET_VARIABLE_NAME(walker7ys));
 
-  angle = 450;
+  angle = 450 * coefficientAngle;
   PIDFacingAngleAbs *facingAngle7ys = new PIDFacingAngleAbs(facingAngleMode, angle, faKp, faKi, faKd, faDt);
   commandExecutor->addCommand(facingAngle7ys, new ORPredicate(new TimerPredicate(1000000), new FinishedCommandPredicate(facingAngle7ys)), GET_VARIABLE_NAME(facingAngle7ys));
-  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
 
   pwm = straightPWM;
-  distance = 220;
+  distance = 330 * coefficientDistance;
   PIDStraightWalker *walker8ys = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker8ysPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker8ys, walker8ysPredicate, GET_VARIABLE_NAME(walker8ys));
 
-  angle = 330;
+  angle = 330 * coefficientAngle;
   PIDFacingAngleAbs *facingAngle8ys = new PIDFacingAngleAbs(facingAngleMode, angle, faKp, faKi, faKd, faDt);
   commandExecutor->addCommand(facingAngle8ys, new ORPredicate(new TimerPredicate(1000000), new FinishedCommandPredicate(facingAngle8ys)), GET_VARIABLE_NAME(facingAngle8ys));
-  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
 
-  pwm = straightPWM;
-  distance = 300;
+  pwm = lowStraightPWM;
   PIDStraightWalker *walker9ys = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker9ysPredicate = new BlackPredicate();
   commandExecutor->addCommand(walker9ys, walker9ysPredicate, GET_VARIABLE_NAME(walker9ys));
