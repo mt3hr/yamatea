@@ -4000,9 +4000,9 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
 */
 
 // 直進
-#if SlalomPattern1
-  distance = 6;
-#elif SlalomPattern2
+#ifdef SlalomPattern1
+  distance = 11;
+#elif defined(SlalomPattern2)
   distance = 3.4;
 #endif
   pwm = 10;
@@ -7037,10 +7037,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
 
 #ifdef TrueCourceOkiharaModeCS
-  // ↓ここから沖原↓
-  #ifdef SanekataCanNotGoal
-  if (false) 
-  #endif
+// ↓ここから沖原↓
+#ifdef SanekataCanNotGoal
+  if (false)
+#endif
   {
     int pwm;
     float kp;
@@ -7862,8 +7862,8 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
 
 // 直進
 #ifdef SlalomPattern1
-    distance = 6;
-#elif SlalomPattern2
+    distance = 11;
+#elif defined(SlalomPattern2)
     distance = 3.4;
 #endif
     pwm = 10;
