@@ -14,6 +14,7 @@ using namespace std;
 
 // 実機シミュレータ設定。ジャイロセンサから取得できる角度の方向が実機とシミュレータでは異なるので。
 //#define SimulatorMode // 実機で動かすときにはコメントアウトして
+#define SanekataCanNotGoal // ゴール以外の結合がしたい実方用。コメントアウトして。
 
 // コース設定ここから。いずれか1つを有効化して
 #define Left
@@ -21,8 +22,8 @@ using namespace std;
 // コース設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
-//#define SlalomPattern1
-#define SlalomPattern2
+#define SlalomPattern1
+//#define SlalomPattern2
 // スラロームパターンの設定ここまで
 
 // モード設定ここから
