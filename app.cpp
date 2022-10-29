@@ -1113,8 +1113,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
   */
 
-  int sceneCarrotMotorCountPredicateArg = 780;      // スタートから最初のカーブ終わるまで
-  int sceneBananaMotorCountPredicateArg = 900;      // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+  int sceneCarrotMotorCountPredicateArg = 750;      // スタートから最初のカーブ終わるまで
+  int sceneBananaMotorCountPredicateArg = 1100;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
   int scenePeachMotorCountPredicateArg = 1640;      // バナナとオレンジの間の小さいカーブ
   int sceneOrangeMotorCountPredicateArg = 2400;     // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
   int sceneStarFruitsMotorCountPredicateArg = 2490; // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
@@ -1214,9 +1214,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   /*
   pwm = 30;
-  kp = 1.2;
+  kp = 1.0;
   ki = 0;
-  kd = 1.8;
+  kd = 3.0;
   dt = 1;
   r = 0;
   */
@@ -1242,6 +1242,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // PeachPIDTracerの初期化とCommandExecutorへの追加
   //アンパイ
+
   pwm = 25;
   kp = 0.8;
   ki = 0.05;
@@ -1253,10 +1254,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 30;
   kp = 1.2;
   ki = 0;
-  kd = 1.8;
+  kd = 3.6;
   dt = 1;
   r = 0;
-*/
+  */
 
   PIDTracerV2 *peachPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
   Predicate *predicatePeach = new WheelDistancePredicate(peachDistance, robotAPI);
@@ -1277,7 +1278,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 40;
   kp = 1.0;
   ki = 0;
-  kd = 1.8;
+  kd = 2.0;
   dt = 1;
   r = 0;
 
@@ -1310,20 +1311,22 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(cherryPIDTracer, predicateCherry, GET_VARIABLE_NAME(cherryPIDTracer));
 
   // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
-  /*
+
   pwm = 40;
-  kp = 0.8;
-  ki = 0;
-  kd = 1.8;
-  dt = 1;
-  r = 0;
-  */
-  pwm = 40;
-  kp = 0.9;
+  kp = 0.75;
   ki = 0;
   kd = 2.5;
   dt = 1;
   r = 0;
+
+  /* 下よりいい数値
+  pwm = 40;
+  kp = 0.8;
+  ki = 0;
+  kd = 2.5;
+  dt = 1;
+  r = 0;
+  */
 
   //下記はアンパイ
   /*
@@ -1341,8 +1344,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // BokChoyWalkerの初期化とCommandExecutorへの追加
 
-  leftPow = 30;
-  rightPow = 30;
+  leftPow = 50;
+  rightPow = 50;
 
   Walker *bokChoyWalker = new Walker(leftPow, rightPow);
   Predicate *predicateBokChoy = new WheelDistancePredicate(bokChoyDistance, robotAPI);
@@ -1365,9 +1368,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // AsparagusPIDTracerの初期化とCommandExecutorへの追加
 
   pwm = 30;
-  kp = 0.7;
+  kp = 0.6;
   ki = 0;
-  kd = 1.5;
+  kd = 2.0;
   dt = 1;
   r = 0;
 
@@ -1439,7 +1442,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   pwm = 60;
   kp = 0.75;
-  ki = 0.01;
+  ki = 0;
   kd = 2.0;
   dt = 1;
   r = 0;
@@ -1454,14 +1457,15 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   /*pwm = 25;
   kp = 0.7;
   ki = 0;
-  kd = 1.5;
+  kd = 2.0;
   dt = 1;
   r = 0;
   */
-  pwm = 25;
-  kp = 0.7;
+
+  pwm = 30;
+  kp = 0.75;
   ki = 0;
-  kd = 2.0;
+  kd = 2.5;
   dt = 1;
   r = 0;
 
@@ -1474,8 +1478,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   pwm = 60;
   kp = 0.75;
-  ki = 0.01;
-  kd = 1.3;
+  ki = 0;
+  kd = 2.4;
   dt = 1;
   r = 0;
 
@@ -7032,6 +7036,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #if defined(TrueCourceOkiharaModeCS) | defined(TrueCourceKomichiModeCS)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+  wheelDiameter = 10.375; // TODO これは実方機体
   bool anpai = true;
   ResetArmAngle *resetArmAngle = new ResetArmAngle();
   commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
@@ -7084,8 +7089,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
     */
 
-    int sceneCarrotMotorCountPredicateArg = 780;      // スタートから最初のカーブ終わるまで
-    int sceneBananaMotorCountPredicateArg = 900;      // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+    int sceneCarrotMotorCountPredicateArg = 750;      // スタートから最初のカーブ終わるまで
+    int sceneBananaMotorCountPredicateArg = 1100;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
     int scenePeachMotorCountPredicateArg = 1640;      // バナナとオレンジの間の小さいカーブ
     int sceneOrangeMotorCountPredicateArg = 2400;     // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
     int sceneStarFruitsMotorCountPredicateArg = 2490; // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
@@ -7172,9 +7177,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     /*
     pwm = 30;
-    kp = 1.2;
+    kp = 1.0;
     ki = 0;
-    kd = 1.8;
+    kd = 3.0;
     dt = 1;
     r = 0;
     */
@@ -7200,6 +7205,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // PeachPIDTracerの初期化とCommandExecutorへの追加
     //アンパイ
+
     pwm = 25;
     kp = 0.8;
     ki = 0.05;
@@ -7211,10 +7217,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     pwm = 30;
     kp = 1.2;
     ki = 0;
-    kd = 1.8;
+    kd = 3.6;
     dt = 1;
     r = 0;
-  */
+    */
 
     PIDTracerV2 *peachPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicatePeach = new WheelDistancePredicate(peachDistance, robotAPI);
@@ -7235,7 +7241,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     pwm = 40;
     kp = 1.0;
     ki = 0;
-    kd = 1.8;
+    kd = 2.0;
     dt = 1;
     r = 0;
 
@@ -7268,20 +7274,22 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     commandExecutor->addCommand(cherryPIDTracer, predicateCherry, GET_VARIABLE_NAME(cherryPIDTracer));
 
     // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
-    /*
+
     pwm = 40;
-    kp = 0.8;
-    ki = 0;
-    kd = 1.8;
-    dt = 1;
-    r = 0;
-    */
-    pwm = 40;
-    kp = 0.9;
+    kp = 0.75;
     ki = 0;
     kd = 2.5;
     dt = 1;
     r = 0;
+
+    /* 下よりいい数値
+    pwm = 40;
+    kp = 0.8;
+    ki = 0;
+    kd = 2.5;
+    dt = 1;
+    r = 0;
+    */
 
     //下記はアンパイ
     /*
@@ -7299,8 +7307,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // BokChoyWalkerの初期化とCommandExecutorへの追加
 
-    leftPow = 30;
-    rightPow = 30;
+    leftPow = 50;
+    rightPow = 50;
 
     Walker *bokChoyWalker = new Walker(leftPow, rightPow);
     Predicate *predicateBokChoy = new WheelDistancePredicate(bokChoyDistance, robotAPI);
@@ -7323,9 +7331,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     // AsparagusPIDTracerの初期化とCommandExecutorへの追加
 
     pwm = 30;
-    kp = 0.7;
+    kp = 0.6;
     ki = 0;
-    kd = 1.5;
+    kd = 2.0;
     dt = 1;
     r = 0;
 
@@ -7397,7 +7405,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     pwm = 60;
     kp = 0.75;
-    ki = 0.01;
+    ki = 0;
     kd = 2.0;
     dt = 1;
     r = 0;
@@ -7412,14 +7420,15 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     /*pwm = 25;
     kp = 0.7;
     ki = 0;
-    kd = 1.5;
+    kd = 2.0;
     dt = 1;
     r = 0;
     */
-    pwm = 25;
-    kp = 0.7;
+
+    pwm = 30;
+    kp = 0.75;
     ki = 0;
-    kd = 2.0;
+    kd = 2.5;
     dt = 1;
     r = 0;
 
@@ -7432,8 +7441,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     pwm = 60;
     kp = 0.75;
-    ki = 0.01;
-    kd = 1.3;
+    ki = 0;
+    kd = 2.4;
     dt = 1;
     r = 0;
 
