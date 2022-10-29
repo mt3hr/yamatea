@@ -1189,6 +1189,19 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int leftPow;
   int rightPow;
 
+  // PIDTargetCalibratorの初期化とCommandExecutorへの追加
+  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
+  Predicate *startButtonPredicate = new StartButtonPredicate();
+  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+  // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
+  vector<string> messageLines;
+  messageLines.push_back("Started!!");
+  messageLines.push_back("GOGOGO!!");
+  PrintMessage *printMessage = new PrintMessage(messageLines, true);
+  Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);
+  commandExecutor->addCommand(printMessage, printMessagePredicate, GET_VARIABLE_NAME(printMessage));
+
   // CarrotPIDTracerの初期化とCommandExecutorへの追加
   //下記コメントアウト箇所アンパイ
 
@@ -3554,6 +3567,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef SlalomAwaitingSignalPlan5TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "Stopper");
   ResetArmAngle *resetArmAngleAtSlalom = new ResetArmAngle();
   commandExecutor->addCommand(resetArmAngleAtSlalom, new FinishedCommandPredicate(resetArmAngleAtSlalom), GET_VARIABLE_NAME(resetArmAngleAtSlalom));
 
@@ -7146,19 +7160,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     int leftPow;
     int rightPow;
 
-    // PIDTargetCalibratorの初期化とCommandExecutorへの追加
-    PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
-    Predicate *startButtonPredicate = new StartButtonPredicate();
-    commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
-
-    // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
-    vector<string> messageLines;
-    messageLines.push_back("Started!!");
-    messageLines.push_back("GOGOGO!!");
-    PrintMessage *printMessage = new PrintMessage(messageLines, true);
-    Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);
-    commandExecutor->addCommand(printMessage, printMessagePredicate, GET_VARIABLE_NAME(printMessage));
-
     // CarrotPIDTracerの初期化とCommandExecutorへの追加
     //下記コメントアウト箇所アンパイ
 
@@ -7459,6 +7460,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // ↓ここから実方↓
   {
+    commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "Stopper");
     ResetArmAngle *resetArmAngleAtSlalom = new ResetArmAngle();
     commandExecutor->addCommand(resetArmAngleAtSlalom, new FinishedCommandPredicate(resetArmAngleAtSlalom), GET_VARIABLE_NAME(resetArmAngleAtSlalom));
 
