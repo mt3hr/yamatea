@@ -1096,29 +1096,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef GoalOkiharaMode3
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  int pwm;
-  float kp;
-  float ki;
-  float kd;
-  int dt;
-  float r;
-
-  int leftPow;
-  int rightPow;
-
-  // PIDTargetCalibratorの初期化とCommandExecutorへの追加
-  PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
-  Predicate *startButtonPredicate = new StartButtonPredicate();
-  commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
-
-  // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
-  vector<string> messageLines;
-  messageLines.push_back("Started!!");
-  messageLines.push_back("GOGOGO!!");
-  PrintMessage *printMessage = new PrintMessage(messageLines, true);
-  Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);
-  commandExecutor->addCommand(printMessage, printMessagePredicate, GET_VARIABLE_NAME(printMessage));
-
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
   // そのシーンが終了する距離の定義。
   // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
@@ -1201,6 +1178,17 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     printf("%sDistance: %10.f\n", "Strawberry", strawberryDistance);
     printf("以上");
     */
+
+  int pwm;
+  float kp;
+  float ki;
+  float kd;
+  int dt;
+  float r;
+
+  int leftPow;
+  int rightPow;
+
   // CarrotPIDTracerの初期化とCommandExecutorへの追加
   //下記コメントアウト箇所アンパイ
 
@@ -1309,11 +1297,18 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(cherryPIDTracer, predicateCherry, GET_VARIABLE_NAME(cherryPIDTracer));
 
   // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
-
+  /*
   pwm = 40;
   kp = 0.8;
   ki = 0;
   kd = 1.8;
+  dt = 1;
+  r = 0;
+  */
+  pwm = 40;
+  kp = 0.9;
+  ki = 0;
+  kd = 2.5;
   dt = 1;
   r = 0;
 
@@ -1421,10 +1416,18 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // CucumberPIDTracerの初期化とCommandExecutorへの追加
 
-  pwm = 60;
+  /*pwm = 60;
   kp = 0.75;
   ki = 0.01;
   kd = 1.5;
+  dt = 1;
+  r = 0;
+  */
+
+  pwm = 60;
+  kp = 0.75;
+  ki = 0.01;
+  kd = 2.0;
   dt = 1;
   r = 0;
 
@@ -1435,10 +1438,17 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   // StrawberryPIDTracerの初期化とCommandExecutorへの追加
 
-  pwm = 25;
+  /*pwm = 25;
   kp = 0.7;
   ki = 0;
   kd = 1.5;
+  dt = 1;
+  r = 0;
+  */
+  pwm = 25;
+  kp = 0.7;
+  ki = 0;
+  kd = 2.0;
   dt = 1;
   r = 0;
 
@@ -7008,6 +7018,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #if defined(TrueCourceOkiharaModeCS) | defined(TrueCourceKomichiModeCS)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
+  bool anpai = true;
   ResetArmAngle *resetArmAngle = new ResetArmAngle();
   commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
 
@@ -7042,16 +7053,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   if (false)
 #endif
   {
-    int pwm;
-    float kp;
-    float ki;
-    float kd;
-    int dt;
-    float r;
-
-    int leftPow;
-    int rightPow;
-
     // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
     // そのシーンが終了する距離の定義。
     // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
@@ -7134,6 +7135,30 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       printf("%sDistance: %10.f\n", "Strawberry", strawberryDistance);
       printf("以上");
       */
+
+    int pwm;
+    float kp;
+    float ki;
+    float kd;
+    int dt;
+    float r;
+
+    int leftPow;
+    int rightPow;
+
+    // PIDTargetCalibratorの初期化とCommandExecutorへの追加
+    PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
+    Predicate *startButtonPredicate = new StartButtonPredicate();
+    commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
+
+    // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
+    vector<string> messageLines;
+    messageLines.push_back("Started!!");
+    messageLines.push_back("GOGOGO!!");
+    PrintMessage *printMessage = new PrintMessage(messageLines, true);
+    Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);
+    commandExecutor->addCommand(printMessage, printMessagePredicate, GET_VARIABLE_NAME(printMessage));
+
     // CarrotPIDTracerの初期化とCommandExecutorへの追加
     //下記コメントアウト箇所アンパイ
 
@@ -7242,11 +7267,18 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     commandExecutor->addCommand(cherryPIDTracer, predicateCherry, GET_VARIABLE_NAME(cherryPIDTracer));
 
     // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
-
+    /*
     pwm = 40;
     kp = 0.8;
     ki = 0;
     kd = 1.8;
+    dt = 1;
+    r = 0;
+    */
+    pwm = 40;
+    kp = 0.9;
+    ki = 0;
+    kd = 2.5;
     dt = 1;
     r = 0;
 
@@ -7354,10 +7386,18 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // CucumberPIDTracerの初期化とCommandExecutorへの追加
 
-    pwm = 60;
+    /*pwm = 60;
     kp = 0.75;
     ki = 0.01;
     kd = 1.5;
+    dt = 1;
+    r = 0;
+    */
+
+    pwm = 60;
+    kp = 0.75;
+    ki = 0.01;
+    kd = 2.0;
     dt = 1;
     r = 0;
 
@@ -7368,10 +7408,17 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // StrawberryPIDTracerの初期化とCommandExecutorへの追加
 
-    pwm = 25;
+    /*pwm = 25;
     kp = 0.7;
     ki = 0;
     kd = 1.5;
+    dt = 1;
+    r = 0;
+    */
+    pwm = 25;
+    kp = 0.7;
+    ki = 0;
+    kd = 2.0;
     dt = 1;
     r = 0;
 
@@ -8262,9 +8309,9 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
 #ifdef SanekataScenarioTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  float coefficientDistance = 0.75;
-  float coefficientAngle = 0.98;
-  float coefficientCurvePWM = 0.89;
+  float coefficientDistance = 0.8;  // 0.75;
+  float coefficientAngle = 1;       // 0.98;
+  float coefficientCurvePWM = 0.85; // 0.89;
 #ifndef SimulatorMode
   commandExecutor->addCommand(new ArmController(-50), new NumberOfTimesPredicate(10), "arm down");
 #endif
@@ -8277,8 +8324,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(new ResetGyroSensor(), new NumberOfTimesPredicate(1), "reset gyro sensor");
   commandExecutor->addCommand(new ResetMeasAngle(), new NumberOfTimesPredicate(1), "reset wheel angle");
 
-  CWCAPMode curveMode = CWCMP_WheelCount;
-  FacingAngleMode facingAngleMode = FA_WheelCount;
+  CWCAPMode curveMode = CWCMP_Gyro;
+  FacingAngleMode facingAngleMode = FA_Gyro;
   // AngleAbsPredicateMode angleAbsPredicateMode = AAPM_WheelCount;
 #ifdef SimulatorMode
   int basePWM = 30;
@@ -8411,12 +8458,12 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(facingAngle7ys, new ORPredicate(new TimerPredicate(1000000), new FinishedCommandPredicate(facingAngle7ys)), GET_VARIABLE_NAME(facingAngle7ys));
 
   pwm = straightPWM;
-  distance = 330 * coefficientDistance;
+  distance = 290 * coefficientDistance;
   PIDStraightWalker *walker8ys = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker8ysPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker8ys, walker8ysPredicate, GET_VARIABLE_NAME(walker8ys));
 
-  angle = 330 * coefficientAngle;
+  angle = 345 * coefficientAngle;
   PIDFacingAngleAbs *facingAngle8ys = new PIDFacingAngleAbs(facingAngleMode, angle, faKp, faKi, faKd, faDt);
   commandExecutor->addCommand(facingAngle8ys, new ORPredicate(new TimerPredicate(1000000), new FinishedCommandPredicate(facingAngle8ys)), GET_VARIABLE_NAME(facingAngle8ys));
 
