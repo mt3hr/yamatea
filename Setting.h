@@ -73,6 +73,7 @@ using namespace std;
 //#define SlalomBlockJoinTestMode // スラロームとブロックの結合を試すモード。テスト用。
 //#define PIDStraightWalkerTestMode
 //#define PIDFacingAngleAbsTestMode
+//#define KomichiBlockTestMode
 
 // モード設定ここまで
 
