@@ -3996,7 +3996,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   ColorPIDTracerV2 *lowPWMTracer = new ColorPIDTracerV2(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt, pidR);
 
   pwm = 10 * coefficientPWM;
-  kp = 0.15;
+  kp = 0.13;
   ki = 0;
   kd = 1;
   dt = 1;
@@ -7884,7 +7884,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     ColorPIDTracerV2 *lowPWMTracer = new ColorPIDTracerV2(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt, pidR);
 
     pwm = 10 * coefficientPWM;
-    kp = 0.15;
+    kp = 0.13;
     ki = 0;
     kd = 1;
     dt = 1;
