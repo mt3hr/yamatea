@@ -37,6 +37,7 @@ using namespace std;
 //#define GoalOkiharaMode1 // 左コース用プログラム。地区大会時点安定
 //#define GoalOkiharaMode2 // 左コース用プログラム
 //#define GoalOkiharaMode3 // 左コース用プログラム。1のスピードアップ版2022-10-18
+//#define GoalOkiharaMode3Distance
 //#define KomichiScnenarioTestMode // 完全シナリオ小路コード
 //#define SanekataScenarioTestMode // 部分シナリオ実方コード
 //#define SlalomAwaitingSignalPlan1TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案1
