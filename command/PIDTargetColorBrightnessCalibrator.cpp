@@ -552,6 +552,10 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         readedGreenColor = true;
         readedBlueColor = true;
         readedYellowColor = true;
+        readedRedCardColor = true;
+        readedGreenCardColor = true;
+        readedBlueCardColor = true;
+        readedYellowCardColor = true;
 
         vector<string> messageLines;
         messageLines.push_back("loaded calibrated data from file");
@@ -577,6 +581,11 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         readedGreenColor = true;
         readedBlueColor = true;
         readedYellowColor = true;
+        readedYellowColor = true;
+        readedRedCardColor = true;
+        readedGreenCardColor = true;
+        readedBlueCardColor = true;
+        readedYellowCardColor = true;
 
         vector<string> messageLines;
         messageLines.push_back("use default value.");
@@ -586,7 +595,104 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         printMessage.run(robotAPI);
     }
 
-    if (!readedSlalomWhiteColor && calibrateWhiteAtSlalom)
+    if (!readedRedCardColor && calibrateRedCard)
+    {
+        if (!printedReadRedCardMessage)
+        {
+            printedReadRedCardMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read red card");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedRedCardColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            redCardR = rawColor.r;
+            redCardG = rawColor.g;
+            redCardB = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedGreenCardColor && calibrateGreenCard)
+    {
+        if (!printedReadGreenCardMessage)
+        {
+            printedReadGreenCardMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read green card");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedGreenCardColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            greenCardR = rawColor.r;
+            greenCardG = rawColor.g;
+            greenCardB = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedBlueCardColor && calibrateBlueCard)
+    {
+        if (!printedReadBlueCardMessage)
+        {
+            printedReadBlueCardMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read blue card");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedBlueColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            blueCardR = rawColor.r;
+            blueCardG = rawColor.g;
+            blueCardB = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedYellowCardColor && calibrateYellowCard)
+    {
+        if (!printedReadYellowCardMessage)
+        {
+            printedReadYellowCardMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read yellow card");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedYellowCardColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            yellowCardR = rawColor.r;
+            yellowCardG = rawColor.g;
+            yellowCardB = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+
+    else if (!readedSlalomWhiteColor && calibrateWhiteAtSlalom)
     {
         if (!printedReadSlalomWhiteColorMessage)
         {
@@ -844,6 +950,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
+
     else if (!isResetedAPI())
     {
         if (!printedResetAPIMessage)

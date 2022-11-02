@@ -102,6 +102,10 @@ bool calibrateRed = true;
 bool calibrateGreen = true;
 bool calibrateBlue = true;
 bool calibrateYellow = true;
+bool calibrateRedCard = true;
+bool calibrateGreenCard = true;
+bool calibrateBlueCard = true;
+bool calibrateYellowCard = true;
 
 // 各色をキャリブレーションするかどうかの設定ここまで
 

@@ -134,13 +134,17 @@ extern bool calibrateGreen;
 extern bool calibrateBlue;
 extern bool calibrateYellow;
 
+extern bool calibrateRedCard;
+extern bool calibrateGreenCard;
+extern bool calibrateBlueCard;
+extern bool calibrateYellowCard;
+
 extern bool calibrateBlueEdge;
 extern bool calibrateSlalomWhite;
 extern bool calibrateBlack;
 extern bool calibrateWhite;
 extern bool calibrateBlackWhiteEdge;
 extern bool calibrateGray;
-extern bool calibrateBlue;
 extern bool calibrateBlueWhiteEdge;
 extern bool calibrateWhiteAtSlalom;
 extern bool calibrateBlack;
@@ -235,7 +239,5 @@ extern int yellowCardB;
 extern RawColorPredicateCondition yellowCardRCondition;
 extern RawColorPredicateCondition yellowCardGCondition;
 extern RawColorPredicateCondition yellowCardBCondition;
-
-
 
 #endif
