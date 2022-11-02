@@ -211,4 +211,31 @@ extern RawColorPredicateCondition yellowRCondition;
 extern RawColorPredicateCondition yellowGCondition;
 extern RawColorPredicateCondition yellowBCondition;
 
+extern int redCardR;
+extern int redCardG;
+extern int redCardB;
+extern RawColorPredicateCondition redCardRCondition;
+extern RawColorPredicateCondition redCardGCondition;
+extern RawColorPredicateCondition redCardBCondition;
+extern int greenCardR;
+extern int greenCardG;
+extern int greenCardB;
+extern RawColorPredicateCondition greenCardRCondition;
+extern RawColorPredicateCondition greenCardGCondition;
+extern RawColorPredicateCondition greenCardBCondition;
+extern int blueCardR;
+extern int blueCardG;
+extern int blueCardB;
+extern RawColorPredicateCondition blueCardRCondition;
+extern RawColorPredicateCondition blueCardGCondition;
+extern RawColorPredicateCondition blueCardBCondition;
+extern int yellowCardR;
+extern int yellowCardG;
+extern int yellowCardB;
+extern RawColorPredicateCondition yellowCardRCondition;
+extern RawColorPredicateCondition yellowCardGCondition;
+extern RawColorPredicateCondition yellowCardBCondition;
+
+
+
 #endif

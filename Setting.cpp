@@ -208,6 +208,38 @@ RawColorPredicateCondition yellowRCondition = BETWEEN10;
 RawColorPredicateCondition yellowGCondition = BETWEEN10;
 RawColorPredicateCondition yellowBCondition = BETWEEN10;
 
+// 赤カード
+int redCardR = 70;
+int redCardG = 23;
+int redCardB = 20;
+RawColorPredicateCondition redCardRCondition = BETWEEN10;
+RawColorPredicateCondition redCardGCondition = BETWEEN10;
+RawColorPredicateCondition redCardBCondition = BETWEEN5;
+
+// 緑カード
+int greenCardR = 12;
+int greenCardG = 45;
+int greenCardB = 21;
+RawColorPredicateCondition greenCardRCondition = BETWEEN10;
+RawColorPredicateCondition greenCardGCondition = BETWEEN10;
+RawColorPredicateCondition greenCardBCondition = BETWEEN10;
+
+// 青カード
+int blueCardR = 4;
+int blueCardG = 21;
+int blueCardB = 54;
+RawColorPredicateCondition blueCardRCondition = BETWEEN10;
+RawColorPredicateCondition blueCardGCondition = BETWEEN10;
+RawColorPredicateCondition blueCardBCondition = BETWEEN10;
+
+// 黄カード
+int yellowCardR = 75;
+int yellowCardG = 66;
+int yellowCardB = 16;
+RawColorPredicateCondition yellowCardRCondition = BETWEEN10;
+RawColorPredicateCondition yellowCardGCondition = BETWEEN10;
+RawColorPredicateCondition yellowCardBCondition = BETWEEN10;
+
 // キャリブレーション設定ここまで
 
 // ********** 設定2/2ここまで **********
