@@ -47,6 +47,7 @@ ClockwiseObstacleDetector.o \
 UFORunner.o \
 SuperSocialDistanceRunner.o \
 ColorReader.o \
+CardColorReaderUseRaw.o \
 ColorReaderUseRaw.o \
 SpiderManRunner.o \
 RotateRobotDistanceAngleDetector.o \

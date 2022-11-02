@@ -49,6 +49,7 @@
 #include "GyroRotateAnglePredicate.h"
 #include "RotateRobotUseGyroCommandAndPredicate.h"
 #include "ColorReaderUseRaw.h"
+#include "CardColorReaderUseRaw.h"
 #include "DebugUtil.h"
 #include "Bluetooth.h"
 #include "ColorPIDTracer.h"
@@ -3928,7 +3929,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "Stopper");
 
   // ガレージカードの色取得用ColorReader
-  ColorReader *colorReader = new ColorReader();
+  CardColorReaderUseRaw *colorReader = new CardColorReaderUseRaw();
   colorid_t *garageCardColorPtr = colorReader->getColorPtr();
 
   float slalomAngleOffset = 0;
