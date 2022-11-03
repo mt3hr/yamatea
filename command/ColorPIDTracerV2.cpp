@@ -67,13 +67,13 @@ void ColorPIDTracerV2::run(RobotAPI *robotAPI)
     // 右ライントレースか左ライントレースか
     if (traceMode == RIGHT_TRACE)
     {
-        leftPower = round(pwm - pidr);
+        leftPower = round(pwm - pid);
         rightPower = round(pwm + pidr);
     }
     else if (traceMode == LEFT_TRACE)
     {
         leftPower = round(pwm + pidr);
-        rightPower = round(pwm - pidr);
+        rightPower = round(pwm - pid);
     }
 
     // モータを動かす
