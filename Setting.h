@@ -28,8 +28,7 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define TrueCourceOkiharaModeCS // 完走用プログラム。沖原トレース
-//#define TrueCourceKomichiModeCS // 完走用プログラム。小路シナリオ
+#define TrueCourceModeCS // 完走用プログラム。沖原トレース
 //#define TrueCourceOkiharaModeRegional // 完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeRegional  // 完走用プログラム。小路シナリオ
 //#define GoalMode // ゴール用プログラム。試走会1時点。
@@ -37,6 +36,7 @@ using namespace std;
 //#define GoalOkiharaMode1 // 左コース用プログラム。地区大会時点安定
 //#define GoalOkiharaMode2 // 左コース用プログラム
 //#define GoalOkiharaMode3 // 左コース用プログラム。1のスピードアップ版2022-10-18
+//#define GoalOkiharaWithSanekataMode
 //#define GoalOkiharaMode3Distance
 //#define KomichiScnenarioTestMode // 完全シナリオ小路コード
 //#define SanekataScenarioTestMode // 部分シナリオ実方コード
@@ -44,7 +44,7 @@ using namespace std;
 //#define SlalomAwaitingSignalPlan2TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案2
 //#define SlalomAwaitingSignalPlan3TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
 //#define SlalomAwaitingSignalPlan4TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
-#define SlalomAwaitingSignalPlan5TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
+// #define SlalomAwaitingSignalPlan5TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
 //#define BlockTestMode // ブロック搬入だけを走行するプログラム。小路作業用
 //#define FlatLineMode // すべて同じPIDで走行する左コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム。試走会用
