@@ -294,7 +294,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
   vector<string> messageLines;
   messageLines.push_back("Started!!");
@@ -1859,6 +1858,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   bool anpai = false;
+  bool rControl = true;
+  bool facingAngleAtStarFruits = true;
+  bool facingAngleAtBokChoy = true;
 
   ResetArmAngle *resetArmAngle = new ResetArmAngle();
   commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
@@ -1912,6 +1914,16 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     int leftPow;
     int rightPow;
+
+    uint64_t waitFaUsec = 500000;
+
+    float angle;
+
+    FacingAngleMode facingAngleMode = FA_WheelCount;
+    float faKp = 0.7;
+    float faKi = 0.01;
+    float faKd = 0.7;
+    float faDt = 1;
 
     // CarrotPIDTracerの初期化とCommandExecutorへの追加
     //下記コメントアウト箇所アンパイ
@@ -1984,10 +1996,24 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       dt = 1;
       r = 0;
     }
+    if (rControl)
+    {
+      // TODO
+    }
     PIDTracerV2 *orangePIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateOrange = new WheelDistancePredicate(orangeDistance, robotAPI);
     calibrator->addPIDTracer(orangePIDTracer);
     commandExecutor->addCommand(orangePIDTracer, predicateOrange, GET_VARIABLE_NAME(orangePIDTracer));
+
+    if (facingAngleAtStarFruits)
+    {
+      // TODO
+      pwm = 10;
+      angle = 10;
+      PIDFacingAngleAbs *facingAngleC = new PIDFacingAngleAbs(facingAngleMode, angle, faKp, faKi, faKd, faDt);
+      Predicate *facingAngleCPredicate = new ORPredicate(new FinishedCommandPredicate(facingAngleC), new TimerPredicate(waitFaUsec));
+      commandExecutor->addCommand(facingAngleC, facingAngleCPredicate, GET_VARIABLE_NAME(facingAngleC));
+    }
 
     // StarFruitsWalkerの初期化とCommandExecutorへの追加
     leftPow = 9;
@@ -2033,10 +2059,24 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       dt = 1;
       r = 0;
     }
+    if (rControl)
+    {
+      // TODO
+    }
     PIDTracerV2 *waterMelonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateWaterMelon = new WheelDistancePredicate(waterMelonDistance, robotAPI);
     calibrator->addPIDTracer(waterMelonPIDTracer);
     commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon, GET_VARIABLE_NAME(waterMelonPIDTracer));
+
+    if (facingAngleAtBokChoy)
+    {
+      // TODO
+      pwm = 10;
+      angle = -340;
+      PIDFacingAngleAbs *facingAngleC = new PIDFacingAngleAbs(facingAngleMode, angle, faKp, faKi, faKd, faDt);
+      Predicate *facingAngleCPredicate = new ORPredicate(new FinishedCommandPredicate(facingAngleC), new TimerPredicate(waitFaUsec));
+      commandExecutor->addCommand(facingAngleC, facingAngleCPredicate, GET_VARIABLE_NAME(facingAngleC));
+    }
 
     // BokChoyWalkerの初期化とCommandExecutorへの追加
     leftPow = 50;
@@ -2371,7 +2411,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
-
 
   // スラローム進入ここから
   // コース上2つ目の青線前から開始。
@@ -3182,7 +3221,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // 直進位置調節
-  int diff = 0; // TODO 0にして
+  int diff = 0;
   pwm = 10 * coefficientPWM;
   distance = 4 + diff;
   Hedgehog *headgehog2 = new Hedgehog(distance, pwm);
@@ -3421,7 +3460,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
-
 
   // スラローム進入ここから
   // コース上2つ目の青線前から開始。
@@ -4042,7 +4080,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // 直進位置調節
-  int diff = 0; // TODO 0にして
+  int diff = 0;
   pwm = 10 * coefficientPWM;
   distance = 4 + diff;
   Hedgehog *headgehog2 = new Hedgehog(distance, pwm);
@@ -5129,7 +5167,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, GET_VARIABLE_NAME(stopper)); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
-
   // 直進コマンドの初期化とCommandExecutorへの追加
   int pwm = 50;
   float distanceCm = 10000;
@@ -5357,7 +5394,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float dt;
   float r;
 
-  // TODO pwm60 円コース
+  // pwm60 円コース。未完成
   pwm = 60;
   kp = 0.881;
   ki = 0.025;
@@ -5790,7 +5827,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   FacingAngleAbs *facingAngleC = new FacingAngleAbs(facingAngleMode, pwm, slalomAngleOffset + angle);
   commandExecutor->addCommand(facingAngleC, new FinishedCommandPredicate(facingAngleC), GET_VARIABLE_NAME(facingAngleC));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
-  commandExecutor->addCommand(new ReleaseWheel(), new NumberOfTimesPredicate(5), "releaseWheel"); // TODO 良くない説
+  commandExecutor->addCommand(new ReleaseWheel(), new NumberOfTimesPredicate(5), "releaseWheel");
 
   // スラローム位置補正ここまで
 
@@ -5923,7 +5960,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // 直進位置調節
-  int diff = 0; // TODO 0にして
   pwm = 10 * coefficientPWM;
   distance = 4 + diff;
   Hedgehog *headgehog2 = new Hedgehog(distance, pwm);
@@ -7482,7 +7518,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // 直進位置調節
-  int diff = 7; // TODO 0にして
+  int diff = 7;
   pwm = 10 * coefficientPWM;
   distance = 4 + diff;
   Hedgehog *headgehog2 = new Hedgehog(distance, pwm);
@@ -7807,7 +7843,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #if defined(TrueCourceModeCS)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  // wheelDiameter = 10.5; // TODO これは実方機体
+  // wheelDiameter = 10.5; // これは実方機体
   ResetArmAngle *resetArmAngle = new ResetArmAngle();
   commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
 
@@ -8682,7 +8718,7 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
     commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
     // 直進位置調節
-    int diff = 0; // TODO 0にして
+    int diff = 0;
     pwm = 10 * coefficientPWM;
     distance = 3 + diff;
     HedgehogUsePID *headgehog2 = new HedgehogUsePID(distance, pwm, straightKp, straightKi, straightKd, straightDt);

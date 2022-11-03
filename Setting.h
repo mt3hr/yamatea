@@ -28,7 +28,7 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define TrueCourceModeCS // CS完走用プログラム
+//#define TrueCourceModeCS // CS完走用プログラム
 //#define TrueCourceOkiharaModeRegional // 地区大会完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeRegional  // 地区大会完走用プログラム。小路シナリオ
 //#define GoalSanekataMode // ゴール用プログラム。試走会1時点。
@@ -37,7 +37,7 @@ using namespace std;
 //#define GoalOkiharaMode2 // ゴール用プログラム
 //#define GoalOkiharaMode3 // ゴール用プログラム。1のスピードアップ版2022-10-18
 //#define GoalOkiharaMode3Distance // GoalOkiharaMode3の距離計算をDistanceに書き換えたもの。実方自宅調節用
-//#define GoalOkiharaWithSanekataMode1 // GoalOkiharaMode3DistanceのWaterMelonをR制御で爆速にしたもの
+#define GoalOkiharaWithSanekataMode1 // GoalOkiharaMode3DistanceのWaterMelonをR制御で爆速にしたもの
 //#define GoalKomichiScnenarioTestMode // 完全シナリオ小路コード
 //#define GoalSanekataScenarioTestMode // 部分シナリオ実方コード
 //#define SlalomAwaitingSignalPlan1SanekataMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案1
