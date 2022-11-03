@@ -4,6 +4,10 @@
 #include "Predicate.h"
 #include "RobotAPI.h"
 
+// ANDPredicate
+// 2つのPredicateがtrueを返したときにtrueを返すPredicate
+//
+// 実方
 class ANDPredicate : public Predicate
 {
 private:
