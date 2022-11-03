@@ -4340,7 +4340,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // 直進
   pwm = 7;
   pwm = 7;
-  distance = 6;
+  distance = 7;
   PIDStraightWalker *walkerA = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   WheelDistancePredicate *walkerAPredicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walkerA, walkerAPredicate, GET_VARIABLE_NAME(walkerA));
@@ -4358,7 +4358,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // カーブ
   pwm = 10 * coefficientPWMForCurve;
   pwm = 20 * coefficientPWMForCurve;
-  radius = 11.5;
+  radius = 10.5;
   theta = -45;
   CurvatureWalkerCommandAndPredicate *curve3 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve3->getCommand(), curve3->getPredicate(), GET_VARIABLE_NAME(curve3));
@@ -4389,7 +4389,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   pwm = 7 * coefficientPWMForCurve;
   pwm = 20 * coefficientPWMForFacingAngle;
   pwm = 10 * coefficientPWMForFacingAngle;
-  radius = 11.5;
+  radius = 10.5;
   theta = 45;
   CurvatureWalkerCommandAndPredicate *curve4 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
   commandExecutor->addCommand(curve4->getCommand(), curve4->getPredicate(), GET_VARIABLE_NAME(curve4));
@@ -4413,14 +4413,12 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
   commandExecutor->addCommand(walker5, walker5Predicate, GET_VARIABLE_NAME(walker5));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 #else
-  /*
-  distance = 2;
+  distance = 2.5;
   pwm = 10;
   PIDStraightWalker *walker5 = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
   Predicate *walker5Predicate = new WheelDistancePredicate(distance, robotAPI);
   commandExecutor->addCommand(walker5, walker5Predicate, GET_VARIABLE_NAME(walker5));
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
-  */
 #endif
 
   // 向き調節
@@ -4492,7 +4490,7 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
 
   // 直進位置調節
   pwm = 10 * coefficientPWM;
-  pwm = 20 * coefficientPWM;
+  // pwm = 20 * coefficientPWM;
   distance = 13.5 + diff;
   HedgehogUsePID *headgehogAA = new HedgehogUsePID(distance, pwm, straightKp, straightKi, straightKd, straightDt);
   commandExecutor->addCommand(headgehogAA, new FinishedCommandPredicate(headgehogAA), GET_VARIABLE_NAME(headgehogAA));
