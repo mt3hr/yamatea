@@ -95,7 +95,7 @@ void stp_cyc_all()
 }
 
 // LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
-#ifdef GoalMode
+#ifdef GoalSanekataMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
@@ -2348,7 +2348,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#ifdef SlalomAwaitingSignalPlan1TestMode
+#ifdef SlalomAwaitingSignalPlan1SanekataMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   int slalomAngle = 0; // 多分270
@@ -2820,7 +2820,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#ifdef SlalomAwaitingSignalPlan2TestMode
+#ifdef SlalomAwaitingSignalPlan2SanekataMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   int pwm;
@@ -3405,7 +3405,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#ifdef SlalomAwaitingSignalPlan3TestMode
+#ifdef SlalomAwaitingSignalPlan3SanekataMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // ガレージカードの色取得用ColorReader
@@ -3635,7 +3635,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#ifdef SlalomAwaitingSignalPlan4TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
+#ifdef SlalomAwaitingSignalPlan4SanekataMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   ResetArmAngle *resetArmAngleAtSlalom = new ResetArmAngle();
@@ -4272,7 +4272,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#ifdef SlalomAwaitingSignalPlan5TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
+#ifdef SlalomAwaitingSignalPlan5SanekataMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   ResetArmAngle *resetArmAngle = new ResetArmAngle();
