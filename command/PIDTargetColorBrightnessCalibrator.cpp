@@ -719,12 +719,15 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
     {
         if (!printedReadRedCardMessage)
         {
+            stringstream vs;
+            vs << "voltage: " << float(ev3_battery_voltage_mV());
             printedReadRedCardMessage = true;
             vector<string> messageLines;
             messageLines.push_back("calibrating");
             messageLines.push_back("press right key");
             messageLines.push_back(" read red card");
             messageLines.push_back(" from color sensor");
+            messageLines.push_back(vs.str());
             PrintMessage printMessage(messageLines, true);
             printMessage.run(robotAPI);
         }
@@ -816,9 +819,6 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
     {
         if (!printedReadSlalomWhiteColorMessage)
         {
-            stringstream vs;
-            vs << "voltage: " << float(ev3_battery_voltage_mV());
-
             printedReadSlalomWhiteColorMessage = true;
             vector<string> messageLines;
             messageLines.push_back("calibrating");
@@ -826,7 +826,6 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             messageLines.push_back(" read white at slalom");
             messageLines.push_back(" from color sensor");
             messageLines.push_back("if down key press then load pre calibrated data");
-            messageLines.push_back(vs.str());
             PrintMessage printMessage(messageLines, true);
             printMessage.run(robotAPI);
         }

@@ -17,8 +17,8 @@ using namespace std;
 //#define SanekataCanNotGoal // ゴール以外の結合がしたい実方用。コメントアウトして。
 
 // コース設定ここから。いずれか1つを有効化して
-//#define Left
-#define Right
+#define Left
+//#define Right
 // コース設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
@@ -28,7 +28,7 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define TrueCourceOkiharaModeCS // 完走用プログラム。沖原トレース
+//#define TrueCourceOkiharaModeCS // 完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeCS // 完走用プログラム。小路シナリオ
 //#define TrueCourceOkiharaModeRegional // 完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeRegional  // 完走用プログラム。小路シナリオ
@@ -44,7 +44,7 @@ using namespace std;
 //#define SlalomAwaitingSignalPlan2TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案2
 //#define SlalomAwaitingSignalPlan3TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
 //#define SlalomAwaitingSignalPlan4TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
-//#define SlalomAwaitingSignalPlan5TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
+#define SlalomAwaitingSignalPlan5TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
 //#define BlockTestMode // ブロック搬入だけを走行するプログラム。小路作業用
 //#define FlatLineMode // すべて同じPIDで走行する左コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム。試走会用
@@ -78,7 +78,7 @@ using namespace std;
 
 // モード設定ここまで
 
-#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue // コメントアウトを外すとジャイロの値を出力する
 //#define EnablePrintAngleUseWheel // コメントアウトを外すと車輪回転角から導き出された車体旋回角度を出力する
