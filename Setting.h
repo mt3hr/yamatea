@@ -29,22 +29,23 @@ using namespace std;
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 #define TrueCourceModeCS // CS完走用プログラム
-//#define TrueCourceOkiharaModeRegional // 完走用プログラム。沖原トレース
-//#define TrueCourceKomichiModeRegional  // 完走用プログラム。小路シナリオ
+//#define TrueCourceOkiharaModeRegional // 地区大会完走用プログラム。沖原トレース
+//#define TrueCourceKomichiModeRegional  // 地区大会完走用プログラム。小路シナリオ
 //#define GoalSanekataMode // ゴール用プログラム。試走会1時点。
-//#define GoalOkiharaMode // 左コース用プログラム。沖原作業用
-//#define GoalOkiharaMode1 // 左コース用プログラム。地区大会時点安定
-//#define GoalOkiharaMode2 // 左コース用プログラム
-//#define GoalOkiharaMode3 // 左コース用プログラム。1のスピードアップ版2022-10-18
-//#define GoalOkiharaMode3Distance
-//#define GoalOkiharaWithSanekataMode
-//#define KomichiScnenarioTestMode // 完全シナリオ小路コード
-//#define SanekataScenarioTestMode // 部分シナリオ実方コード
+//#define GoalOkiharaMode  // ゴール用プログラム。沖原作業用
+//#define GoalOkiharaMode1 // ゴール用プログラム。地区大会時点安定
+//#define GoalOkiharaMode2 // ゴール用プログラム
+//#define GoalOkiharaMode3 // ゴール用プログラム。1のスピードアップ版2022-10-18
+//#define GoalOkiharaMode3Distance // GoalOkiharaMode3の距離計算をDistanceに書き換えたもの。実方自宅調節用
+//#define GoalOkiharaWithSanekataMode // GoalOkiharaMode3DistanceのWaterMelonをR制御で爆速にしたもの
+//#define GoalKomichiScnenarioTestMode // 完全シナリオ小路コード
+//#define GoalSanekataScenarioTestMode // 部分シナリオ実方コード
 //#define SlalomAwaitingSignalPlan1SanekataMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案1
 //#define SlalomAwaitingSignalPlan2SanekataMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案2
 //#define SlalomAwaitingSignalPlan3SanekataMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
 //#define SlalomAwaitingSignalPlan4SanekataMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
 //#define SlalomAwaitingSignalPlan5SanekataMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
+//#define GarageKomichiMode1 // ガレージのブロック搬入をするプログラム
 //#define BlockTestMode // ブロック搬入だけを走行するプログラム。小路作業用
 //#define FlatLineMode // すべて同じPIDで走行する左コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム。試走会用
@@ -72,9 +73,8 @@ using namespace std;
 //#define WalkerTestMode // Walkerで走るモード。テスト用。
 //#define BatteryEaaterMode // その場旋回をして電池を消費するモード。テスト用
 //#define SlalomBlockJoinTestMode // スラロームとブロックの結合を試すモード。テスト用。
-//#define PIDStraightWalkerTestMode
-//#define PIDFacingAngleAbsTestMode
-//#define KomichiBlockTestMode
+//#define PIDStraightWalkerTestMode // PIDStraightWalkerをテストするモード
+//#define PIDFacingAngleAbsTestMode // PIDFacingAngleAbsをテストするモード
 
 // モード設定ここまで
 

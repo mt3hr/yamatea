@@ -933,7 +933,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#ifdef KomichiScnenarioTestMode
+#ifdef GoalKomichiScnenarioTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   int pwm;
@@ -9100,7 +9100,7 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
 }
 #endif
 
-#ifdef SanekataScenarioTestMode
+#ifdef GoalSanekataScenarioTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   float coefficientDistance = 0.8;  // 0.75;
@@ -9287,7 +9287,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#ifdef KomichiBlockTestMode
+#ifdef GarageKomichiMode1
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   ResetArmAngle *resetArmAngle = new ResetArmAngle();
