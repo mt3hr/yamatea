@@ -658,7 +658,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         }
         if (ev3_button_is_pressed(RIGHT_BUTTON))
         {
-            readedBlueColor = true;
+            readedBlueCardColor = true;
             rgb_raw_t rawColor;
             robotAPI->getColorSensor()->getRawColor(rawColor);
             blueCardR = rawColor.r;

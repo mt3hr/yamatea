@@ -205,11 +205,12 @@ BlackPredicate::~BlackPredicate(){};
 WhiteAtSlaromPredicate::~WhiteAtSlaromPredicate(){};
 GrayPredicate::~GrayPredicate(){};
 
-RedCardPredicate::RedCardPredicate() : RawColorPredicate(&redCardR, redCardRCondition, &redG, redCardGCondition, &redCardB, redCardBCondition){};
+RedCardPredicate::RedCardPredicate() : RawColorPredicate(&redCardR, redCardRCondition, &redCardG, redCardGCondition, &redCardB, redCardBCondition){};
 GreenCardPredicate::GreenCardPredicate() : RawColorPredicate(&greenCardR, greenCardRCondition, &greenCardG, greenCardGCondition, &greenCardB, greenCardBCondition){};
-BlueCardPredicate::BlueCardPredicate() : RawColorPredicate(&blueR, blueCardRCondition, &blueCardG, blueCardGCondition, &blueCardB, blueCardBCondition){};
+BlueCardPredicate::BlueCardPredicate() : RawColorPredicate(&blueCardR, blueCardRCondition, &blueCardG, blueCardGCondition, &blueCardB, blueCardBCondition){};
 YellowCardPredicate::YellowCardPredicate() : RawColorPredicate(&yellowCardR, yellowCardRCondition, &yellowCardG, yellowCardGCondition, &yellowCardB, yellowCardBCondition){};
 RedCardPredicate::~RedCardPredicate(){};
 GreenCardPredicate::~GreenCardPredicate(){};
 BlueCardPredicate::~BlueCardPredicate(){};
 YellowCardPredicate::~YellowCardPredicate(){};
+

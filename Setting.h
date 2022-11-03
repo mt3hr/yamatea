@@ -17,8 +17,8 @@ using namespace std;
 //#define SanekataCanNotGoal // ゴール以外の結合がしたい実方用。コメントアウトして。
 
 // コース設定ここから。いずれか1つを有効化して
-#define Left
-//#define Right
+//#define Left
+#define Right
 // コース設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
@@ -78,7 +78,7 @@ using namespace std;
 
 // モード設定ここまで
 
-//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue // コメントアウトを外すとジャイロの値を出力する
 //#define EnablePrintAngleUseWheel // コメントアウトを外すと車輪回転角から導き出された車体旋回角度を出力する

@@ -60,17 +60,17 @@ float tailMotorPWMCorrectedValue = 1;      // テールモータPWM補正値
 
 // 情報出力の有効無効設定ここから
 
-DEBUG_LEVEL debugMessageLevel = NONE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+DEBUG_LEVEL debugMessageLevel = TRACE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+bool enablePrintMessageMode = true;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
 bool enablePrintMessageForLCD = false;       // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
 bool enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
-bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
+bool enablePrintMessageForBluetooth = true; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
 
 // 情報出力の有効無効設定ここまで
 
 // コマンド切り替え時ビープ音LED設定ここから
 
-bool enableBeepWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
+bool enableBeepWhenCommandSwitching = false; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
 bool enableBeepWhenCommandSwitchingSong = true;
 Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 30); // debugBeep()で鳴らす音の定義
 vector<Note *> song = generateFroggySong();                     // 流す曲の定義

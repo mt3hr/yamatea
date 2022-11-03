@@ -203,7 +203,7 @@ void CommandExecutor::reverseCommandAndPredicate()
     for (int i = 0; i < (int)commands.size(); i++)
     {
         PIDTargetColorBrightnessCalibrator *calibrator = dynamic_cast<PIDTargetColorBrightnessCalibrator *>(commands[i]);
-        if (calibrator != NULL)
+        if (calibrator != nullptr) // NOTE シミュだとnullptrうごかんのでNULLに置換して
         {
             calibrators.push_back(calibrator);
         }
@@ -269,7 +269,7 @@ void CommandExecutor::reverseCommandAndPredicate()
     for (int i = 0; i < (int)commands.size(); i++)
     {
         PIDTargetColorBrightnessCalibrator *calibrator = dynamic_cast<PIDTargetColorBrightnessCalibrator *>(commands[i]);
-        if (calibrator != NULL)
+        if (calibrator != nullptr) // NOTE シミュだとnullptrうごかんのでNULLに置換して
         {
             newCalibrators.push_back(calibrator);
         }
@@ -293,7 +293,7 @@ void CommandExecutor::reverseCommandAndPredicate()
         {
             PIDTracer *pidTracer = dynamic_cast<PIDTracer *>(commands[(*(*targetBrightnessTracerIndexs)[j])[k]]);
             writeDebug("pidTracer is null: ");
-            writeDebug(pidTracer == NULL);
+            writeDebug(pidTracer == nullptr); // NOTE シミュだとnullptrうごかんのでNULLに置換して
             flushDebug(DEBUG, robotAPI);
             newCalibrators[j]->addPIDTracer(pidTracer);
             writeDebug("set pid tracer to calibrator");
@@ -311,7 +311,7 @@ void CommandExecutor::reverseCommandAndPredicate()
         {
             ColorPIDTracer *colorPIDTracer = dynamic_cast<ColorPIDTracer *>(commands[(*(*targetColorTracerIndexs)[j])[k]]);
             writeDebug("colorPIDTracer is null: ");
-            writeDebug(colorPIDTracer == NULL);
+            writeDebug(colorPIDTracer == nullptr); // NOTE シミュだとnullptrうごかんのでNULLに置換して
             flushDebug(DEBUG, robotAPI);
             newCalibrators[j]->addColorPIDTracer(colorPIDTracer);
             writeDebug("set color pid tracer to calibrator");
@@ -325,14 +325,17 @@ void CommandExecutor::reverseCommandAndPredicate()
     for (int i = 0; i < ((int)commands.size()); i++)
     {
         FinishConfirmable *newFinishConfirmable = dynamic_cast<FinishConfirmable *>(commands[i]);
-        if (newFinishConfirmable != NULL)
+
+        if (newFinishConfirmable != nullptr) // NOTE シミュだとnullptrうごかんのでNULLに置換して
         {
             Command *newCommand = dynamic_cast<Command *>(commands[i]);
             FinishedCommandPredicate *newPredicate = dynamic_cast<FinishedCommandPredicate *>(predicates[i]);
-            newPredicate->setTarget(newFinishConfirmable);
-
+            if (newPredicate != nullptr) // NOTE シミュだとnullptrうごかんのでNULLに置換して
+            {
+                newPredicate->setTarget(newFinishConfirmable);
+                predicates[i] = newPredicate;
+            }
             commands[i] = newCommand;
-            predicates[i] = newPredicate;
         }
     }
     writeDebug("resoluted finish confirmable commands");
