@@ -1857,11 +1857,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef GoalOkiharaWithSanekataMode1
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  bool anpai = false;
-  bool rControl = true;
-  bool facingAngleAtStarFruits = true;
-  bool facingAngleAtBokChoy = true;
-
   ResetArmAngle *resetArmAngle = new ResetArmAngle();
   commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
 
@@ -1883,6 +1878,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   colorid_t *garageCardColorPtr = colorReader->getColorPtr();
 
   {
+    bool anpai = false;
+    bool rControl = true;
+    bool facingAngleAtStarFruits = true;
+    bool facingAngleAtBokChoy = true;
+
     float carrotDistance = 68;
     float bananaDistance = 31;
     float peachDistance = 49;
@@ -1917,9 +1917,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     uint64_t waitFaUsec = 500000;
 
-    float angle;
-
     FacingAngleMode facingAngleMode = FA_WheelCount;
+    float angle;
     float faKp = 0.7;
     float faKi = 0.01;
     float faKd = 0.7;
@@ -1933,15 +1932,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 1.4;
     dt = 1;
     r = 0;
-    if (anpai)
-    {
-      pwm = 30;
-      kp = 1.0;
-      ki = 0;
-      kd = 3.0;
-      dt = 1;
-      r = 0;
-    }
+    /*
+    pwm = 30;
+    kp = 1.0;
+    ki = 0;
+    kd = 3.0;
+    dt = 1;
+    r = 0;
+    */
     PIDTracerV2 *carrotPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateCarrot = new WheelDistancePredicate(carrotDistance, robotAPI);
     commandExecutor->addCommand(carrotPIDTracer, predicateCarrot, GET_VARIABLE_NAME(carrotPIDTracer));
