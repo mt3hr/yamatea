@@ -3,7 +3,10 @@
 
 #include "Predicate.h"
 #include "RobotAPI.h"
-
+// ORPredicate
+// 2つのPredicateのうち1つがtrueを返したときにtrueを返すPredicate
+//
+// 実方
 class ORPredicate : public Predicate
 {
 private:

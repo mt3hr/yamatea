@@ -4,6 +4,10 @@
 #include "Command.h"
 #include "RobotAPI.h"
 
+// PIDStraightWalker
+// 車輪回転角の差が0になるようにしながら直進させるクラス
+// 
+// 実方
 class PIDStraightWalker : public Command
 {
 private:

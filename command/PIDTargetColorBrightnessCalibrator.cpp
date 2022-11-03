@@ -727,6 +727,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             messageLines.push_back("press right key");
             messageLines.push_back(" read red card");
             messageLines.push_back(" from color sensor");
+            messageLines.push_back("if down key press then load pre calibrated data");
             messageLines.push_back(vs.str());
             PrintMessage printMessage(messageLines, true);
             printMessage.run(robotAPI);
@@ -825,7 +826,6 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             messageLines.push_back("press right key");
             messageLines.push_back(" read white at slalom");
             messageLines.push_back(" from color sensor");
-            messageLines.push_back("if down key press then load pre calibrated data");
             PrintMessage printMessage(messageLines, true);
             printMessage.run(robotAPI);
         }
