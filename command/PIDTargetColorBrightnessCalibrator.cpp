@@ -64,6 +64,18 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
         string yellowRVariableName = GET_VARIABLE_NAME(yellowR);
         string yellowGVariableName = GET_VARIABLE_NAME(yellowG);
         string yellowBVariableName = GET_VARIABLE_NAME(yellowB);
+        string redCardRVariableName = GET_VARIABLE_NAME(redR);
+        string redCardGVariableName = GET_VARIABLE_NAME(redG);
+        string redCardBVariableName = GET_VARIABLE_NAME(redB);
+        string greenCardRVariableName = GET_VARIABLE_NAME(greenR);
+        string greenCardGVariableName = GET_VARIABLE_NAME(greenG);
+        string greenCardBVariableName = GET_VARIABLE_NAME(greenB);
+        string blueCardRVariableName = GET_VARIABLE_NAME(blueR);
+        string blueCardGVariableName = GET_VARIABLE_NAME(blueG);
+        string blueCardBVariableName = GET_VARIABLE_NAME(blueB);
+        string yellowCardRVariableName = GET_VARIABLE_NAME(yellowR);
+        string yellowCardGVariableName = GET_VARIABLE_NAME(yellowG);
+        string yellowCardBVariableName = GET_VARIABLE_NAME(yellowB);
 
         if (equal(blackWhiteEdgeTargetBrightnessVariableName.begin(), blackWhiteEdgeTargetBrightnessVariableName.end(), key.c_str()))
         {
@@ -329,6 +341,102 @@ void loadPreCalibratedValuesFromFile(RobotAPI *robotAPI)
             writeDebug(yellowB);
             flushDebug(DEBUG, robotAPI);
         }
+        else if (equal(redCardRVariableName.begin(), redCardRVariableName.begin(), key.c_str()))
+        {
+            redCardR = value;
+            writeDebug(GET_VARIABLE_NAME(redCardR));
+            writeDebug(": ");
+            writeDebug(redCardR);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(redCardGVariableName.begin(), redGVariableName.begin(), key.c_str()))
+        {
+            redCardG = value;
+            writeDebug(GET_VARIABLE_NAME(redCardG));
+            writeDebug(": ");
+            writeDebug(redCardG);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(redCardBVariableName.begin(), redCardBVariableName.begin(), key.c_str()))
+        {
+            redCardB = value;
+            writeDebug(GET_VARIABLE_NAME(redCardB));
+            writeDebug(": ");
+            writeDebug(redCardB);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(greenCardRVariableName.begin(), greenCardRVariableName.end(), key.c_str()))
+        {
+            greenCardR = value;
+            writeDebug(GET_VARIABLE_NAME(greenCardR));
+            writeDebug(": ");
+            writeDebug(greenCardR);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(greenCardGVariableName.begin(), greenCardGVariableName.end(), key.c_str()))
+        {
+            greenCardG = value;
+            writeDebug(GET_VARIABLE_NAME(greenCardG));
+            writeDebug(": ");
+            writeDebug(greenCardG);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(greenCardBVariableName.begin(), greenCardBVariableName.end(), key.c_str()))
+        {
+            greenCardB = value;
+            writeDebug(GET_VARIABLE_NAME(greenCardB));
+            writeDebug(": ");
+            writeDebug(greenCardB);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(blueCardRVariableName.begin(), blueCardRVariableName.end(), key.c_str()))
+        {
+            blueCardR = value;
+            writeDebug(GET_VARIABLE_NAME(blueCardR));
+            writeDebug(": ");
+            writeDebug(blueCardR);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(blueCardGVariableName.begin(), blueCardGVariableName.end(), key.c_str()))
+        {
+            blueCardG = value;
+            writeDebug(GET_VARIABLE_NAME(blueCardG));
+            writeDebug(": ");
+            writeDebug(blueCardG);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(blueCardBVariableName.begin(), blueCardBVariableName.end(), key.c_str()))
+        {
+            blueCardB = value;
+            writeDebug(GET_VARIABLE_NAME(blueCardB));
+            writeDebug(": ");
+            writeDebug(blueCardB);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(yellowCardRVariableName.begin(), yellowCardRVariableName.end(), key.c_str()))
+        {
+            yellowCardR = value;
+            writeDebug(GET_VARIABLE_NAME(yellowCardR));
+            writeDebug(": ");
+            writeDebug(yellowCardR);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(yellowCardGVariableName.begin(), yellowCardGVariableName.end(), key.c_str()))
+        {
+            yellowCardG = value;
+            writeDebug(GET_VARIABLE_NAME(yellowCardG));
+            writeDebug(": ");
+            writeDebug(yellowCardG);
+            flushDebug(DEBUG, robotAPI);
+        }
+        else if (equal(yellowCardBVariableName.begin(), yellowCardBVariableName.end(), key.c_str()))
+        {
+            yellowCardB = value;
+            writeDebug(GET_VARIABLE_NAME(yellowCardB));
+            writeDebug(": ");
+            writeDebug(yellowCardB);
+            flushDebug(DEBUG, robotAPI);
+        }
     }
 }
 
@@ -369,6 +477,18 @@ void writeCalibratedValuesToFile(RobotAPI *robotAPI)
     ss << GET_VARIABLE_NAME(yellowR) << "=" << float(yellowR) << endl;
     ss << GET_VARIABLE_NAME(yellowG) << "=" << float(yellowG) << endl;
     ss << GET_VARIABLE_NAME(yellowB) << "=" << float(yellowB) << endl;
+    ss << GET_VARIABLE_NAME(redCardR) << "=" << float(redCardR) << endl;
+    ss << GET_VARIABLE_NAME(redCardG) << "=" << float(redCardG) << endl;
+    ss << GET_VARIABLE_NAME(redCardB) << "=" << float(redCardB) << endl;
+    ss << GET_VARIABLE_NAME(greenCardR) << "=" << float(greenCardR) << endl;
+    ss << GET_VARIABLE_NAME(greenCardG) << "=" << float(greenCardG) << endl;
+    ss << GET_VARIABLE_NAME(greenCardB) << "=" << float(greenCardB) << endl;
+    ss << GET_VARIABLE_NAME(blueCardR) << "=" << float(blueCardR) << endl;
+    ss << GET_VARIABLE_NAME(blueCardG) << "=" << float(blueCardG) << endl;
+    ss << GET_VARIABLE_NAME(blueCardB) << "=" << float(blueCardB) << endl;
+    ss << GET_VARIABLE_NAME(yellowCardR) << "=" << float(yellowCardR) << endl;
+    ss << GET_VARIABLE_NAME(yellowCardG) << "=" << float(yellowCardG) << endl;
+    ss << GET_VARIABLE_NAME(yellowCardB) << "=" << float(yellowCardB) << endl;
 
     writeDebug(GET_VARIABLE_NAME(blackWhiteEdgeTargetBrightness));
     writeDebug(": ");
@@ -552,6 +672,10 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         readedGreenColor = true;
         readedBlueColor = true;
         readedYellowColor = true;
+        readedRedCardColor = true;
+        readedGreenCardColor = true;
+        readedBlueCardColor = true;
+        readedYellowCardColor = true;
 
         vector<string> messageLines;
         messageLines.push_back("loaded calibrated data from file");
@@ -577,6 +701,11 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         readedGreenColor = true;
         readedBlueColor = true;
         readedYellowColor = true;
+        readedYellowColor = true;
+        readedRedCardColor = true;
+        readedGreenCardColor = true;
+        readedBlueCardColor = true;
+        readedYellowCardColor = true;
 
         vector<string> messageLines;
         messageLines.push_back("use default value.");
@@ -586,13 +715,110 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
         printMessage.run(robotAPI);
     }
 
-    if (!readedSlalomWhiteColor && calibrateWhiteAtSlalom)
+    if (!readedRedCardColor && calibrateRedCard)
     {
-        if (!printedReadSlalomWhiteColorMessage)
+        if (!printedReadRedCardMessage)
         {
             stringstream vs;
             vs << "voltage: " << float(ev3_battery_voltage_mV());
+            printedReadRedCardMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read red card");
+            messageLines.push_back(" from color sensor");
+            messageLines.push_back(vs.str());
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedRedCardColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            redCardR = rawColor.r;
+            redCardG = rawColor.g;
+            redCardB = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedGreenCardColor && calibrateGreenCard)
+    {
+        if (!printedReadGreenCardMessage)
+        {
+            printedReadGreenCardMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read green card");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedGreenCardColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            greenCardR = rawColor.r;
+            greenCardG = rawColor.g;
+            greenCardB = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedBlueCardColor && calibrateBlueCard)
+    {
+        if (!printedReadBlueCardMessage)
+        {
+            printedReadBlueCardMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read blue card");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedBlueCardColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            blueCardR = rawColor.r;
+            blueCardG = rawColor.g;
+            blueCardB = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
+    else if (!readedYellowCardColor && calibrateYellowCard)
+    {
+        if (!printedReadYellowCardMessage)
+        {
+            printedReadYellowCardMessage = true;
+            vector<string> messageLines;
+            messageLines.push_back("calibrating");
+            messageLines.push_back("press right key");
+            messageLines.push_back(" read yellow card");
+            messageLines.push_back(" from color sensor");
+            PrintMessage printMessage(messageLines, true);
+            printMessage.run(robotAPI);
+        }
+        if (ev3_button_is_pressed(RIGHT_BUTTON))
+        {
+            readedYellowCardColor = true;
+            rgb_raw_t rawColor;
+            robotAPI->getColorSensor()->getRawColor(rawColor);
+            yellowCardR = rawColor.r;
+            yellowCardG = rawColor.g;
+            yellowCardB = rawColor.b;
+            robotAPI->getClock()->sleep(sleepDuration);
+        }
+    }
 
+    else if (!readedSlalomWhiteColor && calibrateWhiteAtSlalom)
+    {
+        if (!printedReadSlalomWhiteColorMessage)
+        {
             printedReadSlalomWhiteColorMessage = true;
             vector<string> messageLines;
             messageLines.push_back("calibrating");
@@ -600,7 +826,6 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             messageLines.push_back(" read white at slalom");
             messageLines.push_back(" from color sensor");
             messageLines.push_back("if down key press then load pre calibrated data");
-            messageLines.push_back(vs.str());
             PrintMessage printMessage(messageLines, true);
             printMessage.run(robotAPI);
         }
@@ -844,6 +1069,7 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
             robotAPI->getClock()->sleep(sleepDuration);
         }
     }
+
     else if (!isResetedAPI())
     {
         if (!printedResetAPIMessage)

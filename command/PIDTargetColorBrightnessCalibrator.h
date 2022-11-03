@@ -44,6 +44,10 @@ private:
     bool printedReadGreenMessage = false;            // NOTE モデルに反映しません。
     bool printedReadBlueMessage = false;             // NOTE モデルに反映しません。
     bool printedReadYellowMessage = false;           // NOTE モデルに反映しません。
+    bool printedReadRedCardMessage = false;              // NOTE モデルに反映しません。
+    bool printedReadGreenCardMessage = false;            // NOTE モデルに反映しません。
+    bool printedReadBlueCardMessage = false;             // NOTE モデルに反映しません。
+    bool printedReadYellowCardMessage = false;           // NOTE モデルに反映しません。
     bool printedReadBlackColorMessage = false;       // NOTE モデルに反映しません。
     bool printedReadWhiteColorMessage = false;       // NOTE モデルに反映しません。
     bool printedReadBlueEdgeMessage = false;         // NOTE モデルに反映しません。
@@ -64,8 +68,12 @@ private:
     bool readedRedColor = false;
     bool readedGreenColor = false;
     bool readedBlueColor = false;
-    bool readedBlueEdgeColor = false;
     bool readedYellowColor = false;
+    bool readedRedCardColor = false;
+    bool readedGreenCardColor = false;
+    bool readedBlueCardColor = false;
+    bool readedYellowCardColor = false;
+    bool readedBlueEdgeColor = false;
     bool resetedAPI = false;
 
     bool wrotedToFile = false;

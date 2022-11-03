@@ -116,4 +116,40 @@ public:
     virtual ~WhiteAtSlaromPredicate();
 };
 
+// 現在のカラーセンサから取得できる値がキャリブレーションした赤のカードの範囲内であればTrueを返すPredicate。
+class RedCardPredicate : public RawColorPredicate
+{
+private:
+public:
+    RedCardPredicate();
+    virtual ~RedCardPredicate();
+};
+
+// 現在のカラーセンサから取得できる値がキャリブレーションした緑のカードの範囲内であればTrueを返すPredicate。
+class GreenCardPredicate : public RawColorPredicate
+{
+private:
+public:
+    GreenCardPredicate();
+    virtual ~GreenCardPredicate();
+};
+
+// 現在のカラーセンサから取得できる値がキャリブレーションした青のカードの範囲内であればTrueを返すPredicate。
+class BlueCardPredicate : public RawColorPredicate
+{
+private:
+public:
+    BlueCardPredicate();
+    virtual ~BlueCardPredicate();
+};
+
+// 現在のカラーセンサから取得できる値がキャリブレーションした黄のカードの範囲内であればTrueを返すPredicate。
+class YellowCardPredicate : public RawColorPredicate
+{
+private:
+public:
+    YellowCardPredicate();
+    virtual ~YellowCardPredicate();
+};
+
 #endif

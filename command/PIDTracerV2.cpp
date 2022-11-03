@@ -37,20 +37,19 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
     i = integral;
     d = (p - beforeP) / dt;
     pid = kp * p + ki * i + kd * d;
-    pidr = pid - r;
     beforeP = p;
     // PID値の算出ここまで
 
     // 右ライントレースか左ライントレースか
     if (traceMode == RIGHT_TRACE)
     {
-        leftPower = round(pwm - pidr);
+        leftPower = round(pwm - pid);
         rightPower = round(pwm + pidr);
     }
     else if (traceMode == LEFT_TRACE)
     {
         leftPower = round(pwm + pidr);
-        rightPower = round(pwm - pidr);
+        rightPower = round(pwm - pid);
     }
 
     // モータを動かす

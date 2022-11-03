@@ -28,7 +28,7 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define TrueCourceOkiharaModeCS // 完走用プログラム。沖原トレース
+//#define TrueCourceOkiharaModeCS // 完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeCS // 完走用プログラム。小路シナリオ
 //#define TrueCourceOkiharaModeRegional // 完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeRegional  // 完走用プログラム。小路シナリオ
@@ -44,7 +44,7 @@ using namespace std;
 //#define SlalomAwaitingSignalPlan2TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案2
 //#define SlalomAwaitingSignalPlan3TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
 //#define SlalomAwaitingSignalPlan4TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
-//#define SlalomAwaitingSignalPlan5TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
+#define SlalomAwaitingSignalPlan5TestMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案3
 //#define BlockTestMode // ブロック搬入だけを走行するプログラム。小路作業用
 //#define FlatLineMode // すべて同じPIDで走行する左コース用プログラム
 //#define DistanceReaderMode // 距離をはかり続けるプログラム。試走会用
@@ -134,13 +134,17 @@ extern bool calibrateGreen;
 extern bool calibrateBlue;
 extern bool calibrateYellow;
 
+extern bool calibrateRedCard;
+extern bool calibrateGreenCard;
+extern bool calibrateBlueCard;
+extern bool calibrateYellowCard;
+
 extern bool calibrateBlueEdge;
 extern bool calibrateSlalomWhite;
 extern bool calibrateBlack;
 extern bool calibrateWhite;
 extern bool calibrateBlackWhiteEdge;
 extern bool calibrateGray;
-extern bool calibrateBlue;
 extern bool calibrateBlueWhiteEdge;
 extern bool calibrateWhiteAtSlalom;
 extern bool calibrateBlack;
@@ -210,5 +214,30 @@ extern int yellowB;
 extern RawColorPredicateCondition yellowRCondition;
 extern RawColorPredicateCondition yellowGCondition;
 extern RawColorPredicateCondition yellowBCondition;
+
+extern int redCardR;
+extern int redCardG;
+extern int redCardB;
+extern RawColorPredicateCondition redCardRCondition;
+extern RawColorPredicateCondition redCardGCondition;
+extern RawColorPredicateCondition redCardBCondition;
+extern int greenCardR;
+extern int greenCardG;
+extern int greenCardB;
+extern RawColorPredicateCondition greenCardRCondition;
+extern RawColorPredicateCondition greenCardGCondition;
+extern RawColorPredicateCondition greenCardBCondition;
+extern int blueCardR;
+extern int blueCardG;
+extern int blueCardB;
+extern RawColorPredicateCondition blueCardRCondition;
+extern RawColorPredicateCondition blueCardGCondition;
+extern RawColorPredicateCondition blueCardBCondition;
+extern int yellowCardR;
+extern int yellowCardG;
+extern int yellowCardB;
+extern RawColorPredicateCondition yellowCardRCondition;
+extern RawColorPredicateCondition yellowCardGCondition;
+extern RawColorPredicateCondition yellowCardBCondition;
 
 #endif

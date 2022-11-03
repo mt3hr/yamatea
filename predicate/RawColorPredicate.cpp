@@ -187,20 +187,30 @@ RawColorPredicate *RawColorPredicate::generateReversePredicate()
     return new RawColorPredicate(r, rCondition, g, gCondition, b, bCondition);
 }
 
-BluePredicate::BluePredicate() : RawColorPredicate(&blueR, blueRCondition, &blueG, blueGCondition, &blueB, blueBCondition){};
 RedPredicate::RedPredicate() : RawColorPredicate(&redR, redRCondition, &redG, redGCondition, &redB, redBCondition){};
 GreenPredicate::GreenPredicate() : RawColorPredicate(&greenR, greenRCondition, &greenG, greenGCondition, &greenB, greenBCondition){};
+BluePredicate::BluePredicate() : RawColorPredicate(&blueR, blueRCondition, &blueG, blueGCondition, &blueB, blueBCondition){};
 YellowPredicate::YellowPredicate() : RawColorPredicate(&yellowR, yellowRCondition, &yellowG, yellowGCondition, &yellowB, yellowBCondition){};
 BlueEdgePredicate::BlueEdgePredicate() : RawColorPredicate(&blueWhiteEdgeR, blueWhiteEdgeRCondition, &blueWhiteEdgeG, blueWhiteEdgeGCondition, &blueWhiteEdgeB, blueWhiteEdgeBCondition){};
 BlackPredicate::BlackPredicate() : RawColorPredicate(&blackR, blackRCondition, &blackG, blackGCondition, &blackB, blackBCondition){};
 WhiteAtSlaromPredicate::WhiteAtSlaromPredicate() : RawColorPredicate(&whiteAtSlalomR, whiteAtSlalomRCondition, &whiteAtSlalomG, whiteAtSlalomGCondition, &whiteAtSlalomB, whiteAtSlalomBCondition){};
 GrayPredicate::GrayPredicate() : RawColorPredicate(&grayR, grayRCondition, &grayG, grayGCondition, &grayB, grayBCondition){};
 
-BluePredicate::~BluePredicate(){};
 RedPredicate::~RedPredicate(){};
 GreenPredicate::~GreenPredicate(){};
+BluePredicate::~BluePredicate(){};
 YellowPredicate::~YellowPredicate(){};
 BlueEdgePredicate::~BlueEdgePredicate(){};
 BlackPredicate::~BlackPredicate(){};
 WhiteAtSlaromPredicate::~WhiteAtSlaromPredicate(){};
 GrayPredicate::~GrayPredicate(){};
+
+RedCardPredicate::RedCardPredicate() : RawColorPredicate(&redCardR, redCardRCondition, &redCardG, redCardGCondition, &redCardB, redCardBCondition){};
+GreenCardPredicate::GreenCardPredicate() : RawColorPredicate(&greenCardR, greenCardRCondition, &greenCardG, greenCardGCondition, &greenCardB, greenCardBCondition){};
+BlueCardPredicate::BlueCardPredicate() : RawColorPredicate(&blueCardR, blueCardRCondition, &blueCardG, blueCardGCondition, &blueCardB, blueCardBCondition){};
+YellowCardPredicate::YellowCardPredicate() : RawColorPredicate(&yellowCardR, yellowCardRCondition, &yellowCardG, yellowCardGCondition, &yellowCardB, yellowCardBCondition){};
+RedCardPredicate::~RedCardPredicate(){};
+GreenCardPredicate::~GreenCardPredicate(){};
+BlueCardPredicate::~BlueCardPredicate(){};
+YellowCardPredicate::~YellowCardPredicate(){};
+
