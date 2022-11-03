@@ -37,7 +37,7 @@ using namespace std;
 //#define GoalOkiharaMode2 // ゴール用プログラム
 //#define GoalOkiharaMode3 // ゴール用プログラム。1のスピードアップ版2022-10-18
 //#define GoalOkiharaMode3Distance // GoalOkiharaMode3の距離計算をDistanceに書き換えたもの。実方自宅調節用
-//#define GoalOkiharaWithSanekataMode // GoalOkiharaMode3DistanceのWaterMelonをR制御で爆速にしたもの
+//#define GoalOkiharaWithSanekataMode1 // GoalOkiharaMode3DistanceのWaterMelonをR制御で爆速にしたもの
 //#define GoalKomichiScnenarioTestMode // 完全シナリオ小路コード
 //#define GoalSanekataScenarioTestMode // 部分シナリオ実方コード
 //#define SlalomAwaitingSignalPlan1SanekataMode // 青ラインからスラローム終わりまで指示待ちで走行するプログラム。案1

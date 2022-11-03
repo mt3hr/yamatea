@@ -126,11 +126,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-// 歌い始める
-#ifdef SingASong
-  commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
-#endif
-
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
   vector<string> messageLines;
   messageLines.push_back("Started!!");
@@ -299,10 +294,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-// 歌い始める
-#ifdef SingASong
-  commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
-#endif
 
   // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
   vector<string> messageLines;
@@ -1864,7 +1855,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#ifdef GoalOkiharaWithSanekataMode
+#ifdef GoalOkiharaWithSanekataMode1
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   bool anpai = false;
@@ -2381,10 +2372,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-// 歌い始める
-#ifdef SingASong
-  commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
-#endif
 
   // スラローム進入ここから
   // コース上2つ目の青線前から開始。
@@ -3435,10 +3422,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-// 歌い始める
-#ifdef SingASong
-  commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
-#endif
 
   // スラローム進入ここから
   // コース上2つ目の青線前から開始。
@@ -5146,10 +5129,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, GET_VARIABLE_NAME(stopper)); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
-// 歌い始める
-#ifdef SingASong
-  commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
-#endif
 
   // 直進コマンドの初期化とCommandExecutorへの追加
   int pwm = 50;
@@ -5564,10 +5543,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
-
-#ifdef SingASong
-  commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
-#endif
 
   int leftPWM = 100;
   int rightPWM = -100;
@@ -9587,6 +9562,7 @@ void main_task(intptr_t unused)
 #ifdef Right
     commandExecutor->reverseCommandAndPredicate();
 #endif
+
     vector<string> readyMessageLines;
     readyMessageLines.push_back("ready");
     PrintMessage *printReadyMessage = new PrintMessage(resetedMessageLines, true);
@@ -9597,6 +9573,7 @@ void main_task(intptr_t unused)
 #ifdef SingASong
     singASongCommandExecutor = new CommandExecutor(robotAPI, false);
     initSong(loopSong);
+    commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
 #endif
 
     // デデドン！
