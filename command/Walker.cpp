@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Walker::Walker(int lp, int rp)
+Walker::Walker(float lp, float rp)
 {
     leftPower = lp;
     rightPower = rp;

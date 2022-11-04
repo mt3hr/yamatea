@@ -12,7 +12,7 @@ class RotateRobotCommandAndPredicate : public CommandAndPredicate
 {
 private:
 public:
-    RotateRobotCommandAndPredicate(int targetAngle, int pwm, RobotAPI *robotAPI);
+    RotateRobotCommandAndPredicate(int targetAngle, float pwm, RobotAPI *robotAPI);
     virtual ~RotateRobotCommandAndPredicate();
 };
 

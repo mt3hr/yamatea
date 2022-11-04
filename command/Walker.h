@@ -15,11 +15,11 @@ using namespace std;
 class Walker : public Command
 {
 private:
-    int leftPower;
-    int rightPower;
+    float leftPower;
+    float rightPower;
 
 public:
-    Walker(int leftPower, int rightPower);
+    Walker(float leftPower, float rightPower);
     virtual ~Walker();
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;

@@ -2,7 +2,7 @@
 #include "Walker.h"
 #include "GyroRotateAnglePredicate.h"
 
-RotateRobotUseGyroCommandAndPredicate::RotateRobotUseGyroCommandAndPredicate(int targetAngle, int pwm, RobotAPI *robotAPI)
+RotateRobotUseGyroCommandAndPredicate::RotateRobotUseGyroCommandAndPredicate(int targetAngle, float pwm, RobotAPI *robotAPI)
 {
     Command *command;
     if (targetAngle >= 0)

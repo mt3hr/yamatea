@@ -6,7 +6,7 @@
 #include "MotorRotateAnglePredicate.h"
 #include "Setting.h"
 
-RotateRobotCommandAndPredicate::RotateRobotCommandAndPredicate(int targetAngle, int pwm, RobotAPI *robotAPI)
+RotateRobotCommandAndPredicate::RotateRobotCommandAndPredicate(int targetAngle, float pwm, RobotAPI *robotAPI)
 {
     int angle;
     Command *command;

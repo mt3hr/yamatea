@@ -7,7 +7,7 @@
 #include "FacingRobotUseWheelPredicate.h"
 #include "Setting.h"
 
-RotateRobotCommandAndPredicateV2::RotateRobotCommandAndPredicateV2(int targetAngle, int pwm, RobotAPI *robotAPI)
+RotateRobotCommandAndPredicateV2::RotateRobotCommandAndPredicateV2(int targetAngle, float pwm, RobotAPI *robotAPI)
 {
     Command *command;
     Predicate *predicate;
