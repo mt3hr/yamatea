@@ -35,7 +35,6 @@ private:
     float i;
     float d;
     float pid;
-    float pidr;
     int leftPower;
     int rightPower;
 

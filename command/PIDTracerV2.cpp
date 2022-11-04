@@ -43,13 +43,13 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
     // 右ライントレースか左ライントレースか
     if (traceMode == RIGHT_TRACE)
     {
-        leftPower = round(pwm - pid);
-        rightPower = round(pwm + pidr);
+        leftPower = round(pwm - pid + r / 2);
+        rightPower = round(pwm + pid - r / 2);
     }
     else if (traceMode == LEFT_TRACE)
     {
-        leftPower = round(pwm + pidr);
-        rightPower = round(pwm - pid);
+        leftPower = round(pwm + pid - r / 2);
+        rightPower = round(pwm - pid + r / 2);
     }
 
     // モータを動かす
