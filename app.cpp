@@ -27,7 +27,7 @@
 #include "ORPredicate.h"
 #include "PIDTracer.h"
 #include "PIDTracerV2.h"
-#include "PIDTracerV3.h"
+#include "PIDTracerV2.h"
 #include "PIDStraightWalker.h"
 #include "Walker.h"
 #include "ArmController.h"
@@ -55,7 +55,7 @@
 #include "Bluetooth.h"
 #include "ColorPIDTracer.h"
 #include "ColorPIDTracerV2.h"
-#include "ColorPIDTracerV3.h"
+#include "ColorPIDTracerV2.h"
 #include "PIDTargetColorBrightnessCalibrator.h"
 #include "TailController.h"
 #include "MusicalScore.h"
@@ -5388,6 +5388,24 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   r = 0;
 
+  // TODO
+  // おれんじ爆速R制御i制御あり
+  pwm = 65;
+  kp = 0.8;
+  ki = 0.75;
+  kd = 2.0;
+  dt = 0.65;
+  r = -34;
+
+  // TODO
+  // すいか爆速R制御i制御あり
+  pwm = 65;
+  kp = 0.7;
+  ki = 0.8;
+  kd = 2.0;
+  dt = 0.65;
+  r = 20;
+
   PIDTracerV2 *pidTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
   commandExecutor->addCommand(pidTracer, new Predicate(), GET_VARIABLE_NAME(pidTracer));
   calibrator->addPIDTracer(pidTracer);
@@ -9527,19 +9545,19 @@ void main_task(intptr_t unused)
 
 // Bluetoothファイルを開く
 #ifdef EnableBluetooth
-    bt = ev3_serial_open_file(EV3_SERIAL_BT);
+    bt = ev3_serial_open_file(EV2_SERIAL_BT);
 #endif
 
     // 初期化中メッセージの出力
     int line = 1;
-    ev3_lcd_fill_rect(0, line * line_height, EV3_LCD_WIDTH, line_height, EV3_LCD_WHITE);
+    ev3_lcd_fill_rect(0, line * line_height, EV2_LCD_WIDTH, line_height, EV2_LCD_WHITE);
     ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
     ev3_lcd_draw_string("initializing...", 0, line * line_height);
 
     // すべての周期ハンドラを止める
     stp_cyc_all();
 
-    // EV3APIオブジェクトの初期化
+    // EV2APIオブジェクトの初期化
     TouchSensor *touchSensor = new TouchSensor(PORT_1);
     ColorSensor *colorSensor = new ColorSensor(PORT_2);
     SonarSensor *sonarSensor = new SonarSensor(PORT_3);
@@ -9554,7 +9572,7 @@ void main_task(intptr_t unused)
     robotAPI = new RobotAPI(touchSensor, colorSensor, sonarSensor, leftWheel, rightWheel, armMotor, tailMotor, gyroSensor, clock);
     commandExecutor = new CommandExecutor(robotAPI, true);
 
-    // ev3_lcd_set_font(EV3_FONT_MEDIUM);           // フォントの設定
+    // ev3_lcd_set_font(EV2_FONT_MEDIUM);           // フォントの設定
     ev3_lcd_draw_string("**** yamatea ****", 0, 0); // 0行目の表示
 
     // robotAPIの初期化。完全停止してapiを初期化する
