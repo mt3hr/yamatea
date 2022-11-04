@@ -1937,7 +1937,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 1.4;
     dt = 1;
     r = 0;
-    PIDTracerV3 *pmanPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *pmanPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicatePman = new WheelDistancePredicate(pmanDistance, robotAPI);
     commandExecutor->addCommand(pmanPIDTracer, predicatePman, GET_VARIABLE_NAME(pmanPIDTracer));
     calibrator->addPIDTracer(pmanPIDTracer);
@@ -1949,7 +1949,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 3.0;
     dt = 1;
     r = 41;
-    PIDTracerV3 *carrotPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *carrotPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateCarrot = new WheelDistancePredicate(carrotDistance, robotAPI);
     commandExecutor->addCommand(carrotPIDTracer, predicateCarrot, GET_VARIABLE_NAME(carrotPIDTracer));
     calibrator->addPIDTracer(carrotPIDTracer);
@@ -1961,7 +1961,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 2.5;
     dt = 1;
     r = 0;
-    PIDTracerV3 *bananaPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *bananaPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateBanana = new WheelDistancePredicate(bananaDistance, robotAPI);
     commandExecutor->addCommand(bananaPIDTracer, predicateBanana, GET_VARIABLE_NAME(bananaPIDTracer));
     calibrator->addPIDTracer(bananaPIDTracer);
@@ -1973,7 +1973,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 3.0;
     dt = 1;
     r = 41;
-    PIDTracerV3 *peachPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *peachPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicatePeach = new WheelDistancePredicate(peachDistance, robotAPI);
     calibrator->addPIDTracer(peachPIDTracer);
     commandExecutor->addCommand(peachPIDTracer, predicatePeach, GET_VARIABLE_NAME(peachPIDTracer));
@@ -1986,7 +1986,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 5.2;
     dt = 1;
     r = -37;
-    PIDTracerV3 *orangePIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *orangePIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateOrange = new WheelDistancePredicate(orangeDistance, robotAPI);
     calibrator->addPIDTracer(orangePIDTracer);
     commandExecutor->addCommand(orangePIDTracer, predicateOrange, GET_VARIABLE_NAME(orangePIDTracer));
@@ -2016,7 +2016,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       kd = 2.5;
       dt = 1;
       r = 0;
-      PIDTracerV3 *cherryPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+      PIDTracerV2 *cherryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
       Predicate *predicateCherry = new WheelDistancePredicate(cherryDistance, robotAPI);
       calibrator->addPIDTracer(cherryPIDTracer);
       commandExecutor->addCommand(cherryPIDTracer, predicateCherry, GET_VARIABLE_NAME(cherryPIDTracer));
@@ -2029,7 +2029,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 4.4;
     dt = 1;
     r = 20;
-    PIDTracerV3 *waterMelonPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *waterMelonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateWaterMelon = new WheelDistancePredicate(waterMelonDistance, robotAPI);
     calibrator->addPIDTracer(waterMelonPIDTracer);
     commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon, GET_VARIABLE_NAME(waterMelonPIDTracer));
@@ -2057,7 +2057,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 4.4;
     dt = 1;
     r = 0;
-    PIDTracerV3 *dorianPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *dorianPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateDorian = new WheelDistancePredicate(dorianDistance, robotAPI);
     calibrator->addPIDTracer(dorianPIDTracer);
     commandExecutor->addCommand(dorianPIDTracer, predicateDorian, GET_VARIABLE_NAME(dorianPIDTracer));
@@ -2069,7 +2069,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 2.0;
     dt = 1;
     r = 0;
-    PIDTracerV3 *asparagusPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *asparagusPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateAsparagus = new WheelDistancePredicate(asparagusDistance, robotAPI);
     calibrator->addPIDTracer(asparagusPIDTracer);
     commandExecutor->addCommand(asparagusPIDTracer, predicateAsparagus, GET_VARIABLE_NAME(asparagusPIDTracer));
@@ -2081,7 +2081,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 4;
     dt = 1;
     r = 38;
-    PIDTracerV3 *radishPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *radishPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateRadish = new WheelDistancePredicate(radishDistance, robotAPI);
     calibrator->addPIDTracer(radishPIDTracer);
     commandExecutor->addCommand(radishPIDTracer, predicateRadish, GET_VARIABLE_NAME(radishPIDTracer));
@@ -2093,7 +2093,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 5;
     dt = 1;
     r = 41;
-    PIDTracerV3 *melonPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *melonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateMelon = new WheelDistancePredicate(melonDistance, robotAPI);
     calibrator->addPIDTracer(melonPIDTracer);
     commandExecutor->addCommand(melonPIDTracer, predicateMelon, GET_VARIABLE_NAME(melonPIDTracer));
@@ -2105,7 +2105,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 4.5;
     dt = 1;
     r = 0;
-    PIDTracerV3 *nutsPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *nutsPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicatenuts = new WheelDistancePredicate(nutsDistance, robotAPI);
     calibrator->addPIDTracer(nutsPIDTracer);
     commandExecutor->addCommand(nutsPIDTracer, predicatenuts, GET_VARIABLE_NAME(nutsPIDTracer));
@@ -2117,7 +2117,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 5;
     dt = 1;
     r = 41;
-    PIDTracerV3 *lemonPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *lemonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateLemon = new WheelDistancePredicate(lemonDistance, robotAPI);
     calibrator->addPIDTracer(lemonPIDTracer);
     commandExecutor->addCommand(lemonPIDTracer, predicateLemon, GET_VARIABLE_NAME(lemonPIDTracer));
@@ -2129,7 +2129,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 4;
     dt = 1;
     r = 0;
-    PIDTracerV3 *cucumberPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *cucumberPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateCucumber = new WheelDistancePredicate(cucumberDistance, robotAPI);
     calibrator->addPIDTracer(cucumberPIDTracer);
     commandExecutor->addCommand(cucumberPIDTracer, predicateCucumber, GET_VARIABLE_NAME(cucumberPIDTracer));
@@ -2141,7 +2141,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 4.5;
     dt = 1;
     r = -38;
-    PIDTracerV3 *strawberryPIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *strawberryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateStrawberry = new WheelDistancePredicate(strawberryDistance, robotAPI);
     calibrator->addPIDTracer(strawberryPIDTracer);
     commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry, GET_VARIABLE_NAME(strawberryPIDTracer));
@@ -2153,7 +2153,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kd = 2.4;
     dt = 1;
     r = 0;
-    PIDTracerV3 *cabbagePIDTracer = new PIDTracerV3(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    PIDTracerV2 *cabbagePIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateCabbage = new WheelDistancePredicate(cabbageDistance, robotAPI);
     calibrator->addPIDTracer(cabbagePIDTracer);
     commandExecutor->addCommand(cabbagePIDTracer, predicateCabbage, GET_VARIABLE_NAME(cabbagePIDTracer));
