@@ -1,4 +1,4 @@
-#include "PIDTracerV2.h"
+#include "PIDTracerV3.h"
 #include "PIDTracer.h"
 #include "ColorSensor.h"
 #include "Setting.h"
@@ -11,7 +11,9 @@
 using namespace ev3api;
 using namespace std;
 
-PIDTracerV2::PIDTracerV2(PIDTracerMode traceModea, float pwma, float kpa, float kia, float kda, float dta, float r) : PIDTracer(traceModea, pwma, kpa, kia, kda, dta)
+double integralBrightness = 0;
+
+PIDTracerV3::PIDTracerV3(PIDTracerMode traceModea, float pwma, float kpa, float kia, float kda, float dta, float r) : PIDTracer(traceModea, pwma, kpa, kia, kda, dta)
 {
     traceMode = traceModea;
     pwm = pwma;
@@ -22,19 +24,19 @@ PIDTracerV2::PIDTracerV2(PIDTracerMode traceModea, float pwma, float kpa, float 
     this->r = r;
 }
 
-PIDTracerV2::~PIDTracerV2()
+PIDTracerV3::~PIDTracerV3()
 {
 }
 
-void PIDTracerV2::run(RobotAPI *robotAPI)
+void PIDTracerV3::run(RobotAPI *robotAPI)
 {
     // PID制御
     brightness = robotAPI->getColorSensor()->getBrightness();
 
     // PID値の算出ここから
     p = brightness - targetBrightness;
-    integral+= (p + beforeP) / 2 * dt;
-    i = integral;
+    integralBrightness += (p + beforeP) / 2 * dt;
+    i = integralBrightness;
     d = (p - beforeP) / dt;
     pid = kp * p + ki * i + kd * d;
     beforeP = p;
@@ -84,7 +86,7 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
 #endif
 }
 
-void PIDTracerV2::preparation(RobotAPI *robotAPI)
+void PIDTracerV3::preparation(RobotAPI *robotAPI)
 {
     writeDebug("PIDTracer");
     writeEndLineDebug();
@@ -106,7 +108,7 @@ void PIDTracerV2::preparation(RobotAPI *robotAPI)
     return;
 }
 
-PIDTracerV2 *PIDTracerV2::generateReverseCommand()
+PIDTracerV3 *PIDTracerV3::generateReverseCommand()
 {
     PIDTracerMode reversedMode = LEFT_TRACE; // とりあえずね
     if (traceMode == LEFT_TRACE)
@@ -117,10 +119,10 @@ PIDTracerV2 *PIDTracerV2::generateReverseCommand()
     {
         reversedMode = LEFT_TRACE;
     }
-    return new PIDTracerV2(reversedMode, pwm, kp, ki, kd, dt, -r);
+    return new PIDTracerV3(reversedMode, pwm, kp, ki, kd, dt, -r);
 }
 
-void PIDTracerV2::setTargetBrightness(int8_t t)
+void PIDTracerV3::setTargetBrightness(int8_t t)
 {
     targetBrightness = t;
 }

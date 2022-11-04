@@ -28,8 +28,10 @@ RotateRobotCommandAndPredicate.o \
 GyroRotateAnglePredicate.o \
 PIDTracer.o \
 PIDTracerV2.o \
+PIDTracerV3.o \
 ColorPIDTracer.o \
 ColorPIDTracerV2.o \
+ColorPIDTracerV3.o \
 PIDStraightWalker.o \
 PIDTargetBrightnessCalibrator.o \
 PIDTargetColorBrightnessCalibrator.o \

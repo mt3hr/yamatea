@@ -1,4 +1,4 @@
-#include "PIDTracerV2.h"
+#include "ColorPIDTracerV3.h"
 #include "PIDTracer.h"
 #include "ColorSensor.h"
 #include "Setting.h"
@@ -11,9 +11,12 @@
 using namespace ev3api;
 using namespace std;
 
-PIDTracerV2::PIDTracerV2(PIDTracerMode traceModea, float pwma, float kpa, float kia, float kda, float dta, float r) : PIDTracer(traceModea, pwma, kpa, kia, kda, dta)
+double integralColor = 0;
+
+ColorPIDTracerV3::ColorPIDTracerV3(PIDTracerMode traceModea, TraceColor traceColor, float pwma, float kpa, float kia, float kda, float dta, float r) : ColorPIDTracer(traceModea, traceColor, pwm, kp, ki, kd, dt)
 {
     traceMode = traceModea;
+    this->traceColor = traceColor;
     pwm = pwma;
     kp = kpa;
     ki = kia;
@@ -22,19 +25,41 @@ PIDTracerV2::PIDTracerV2(PIDTracerMode traceModea, float pwma, float kpa, float 
     this->r = r;
 }
 
-PIDTracerV2::~PIDTracerV2()
+ColorPIDTracerV3::~ColorPIDTracerV3()
 {
 }
 
-void PIDTracerV2::run(RobotAPI *robotAPI)
+void ColorPIDTracerV3::run(RobotAPI *robotAPI)
 {
     // PID制御
-    brightness = robotAPI->getColorSensor()->getBrightness();
+    rgb_raw_t rgbRaw;
+    robotAPI->getColorSensor()->getRawColor(rgbRaw);
+    rgb = rgbRaw;
 
     // PID値の算出ここから
-    p = brightness - targetBrightness;
-    integral+= (p + beforeP) / 2 * dt;
-    i = integral;
+    switch (traceColor)
+    {
+    case Trace_R:
+    {
+        p = rgb.r - targetRGB.r;
+        break;
+    }
+    case Trace_G:
+    {
+        p = rgb.g - targetRGB.g;
+        break;
+    }
+    case Trace_B:
+    {
+        p = rgb.b - targetRGB.b;
+        break;
+    }
+    default:
+        p = rgb.r - targetRGB.r;
+        break;
+    }
+    integralColor += (p + beforeP) / 2 * dt;
+    i = integralColor;
     d = (p - beforeP) / dt;
     pid = kp * p + ki * i + kd * d;
     beforeP = p;
@@ -57,7 +82,7 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
     robotAPI->getRightWheel()->setPWM(rightPower);
 
 #ifdef EnablePrintPIDValues
-    writeDebug("PIDTracer");
+    writeDebug("ColorPIDTracerV3");
     writeEndLineDebug();
     writeDebug("p: ");
     writeDebug(p);
@@ -71,22 +96,31 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
     writeDebug("r: ");
     writeDebug(r);
     writeEndLineDebug();
+    writeDebug("pid: ");
+    writeDebug(pid);
+    writeEndLineDebug();
     writeDebug("leftPow: ");
     writeDebug(leftPower);
     writeEndLineDebug();
     writeDebug("rightPow: ");
     writeDebug(rightPower);
     writeEndLineDebug();
-    writeDebug("brightness: ");
-    writeDebug(brightness);
+    writeDebug("r: ");
+    writeDebug(rgb.r);
+    writeEndLineDebug();
+    writeDebug("g: ");
+    writeDebug(rgb.g);
+    writeEndLineDebug();
+    writeDebug("b: ");
+    writeDebug(rgb.b);
     writeEndLineDebug();
     flushDebug(TRACE, robotAPI);
 #endif
 }
 
-void PIDTracerV2::preparation(RobotAPI *robotAPI)
+void ColorPIDTracerV3::preparation(RobotAPI *robotAPI)
 {
-    writeDebug("PIDTracer");
+    writeDebug("ColorPIDTracerV3");
     writeEndLineDebug();
     writeDebug("kp: ");
     writeDebug(kp);
@@ -100,13 +134,21 @@ void PIDTracerV2::preparation(RobotAPI *robotAPI)
     writeDebug("dt: ");
     writeDebug(dt);
     writeEndLineDebug();
-    writeDebug("target brightness: ");
-    writeDebug(targetBrightness);
+    writeDebug("target color");
+    writeEndLineDebug();
+    writeDebug("r: ");
+    writeDebug(targetRGB.r);
+    writeEndLineDebug();
+    writeDebug("g: ");
+    writeDebug(targetRGB.g);
+    writeEndLineDebug();
+    writeDebug("b: ");
+    writeDebug(targetRGB.b);
     flushDebug(DEBUG, robotAPI);
     return;
 }
 
-PIDTracerV2 *PIDTracerV2::generateReverseCommand()
+ColorPIDTracerV3 *ColorPIDTracerV3::generateReverseCommand()
 {
     PIDTracerMode reversedMode = LEFT_TRACE; // とりあえずね
     if (traceMode == LEFT_TRACE)
@@ -117,10 +159,10 @@ PIDTracerV2 *PIDTracerV2::generateReverseCommand()
     {
         reversedMode = LEFT_TRACE;
     }
-    return new PIDTracerV2(reversedMode, pwm, kp, ki, kd, dt, -r);
+    return new ColorPIDTracerV3(reversedMode, traceColor, pwm, kp, ki, kd, dt, -r);
 }
 
-void PIDTracerV2::setTargetBrightness(int8_t t)
+void ColorPIDTracerV3::setTargetColor(rgb_raw_t targetRGB)
 {
-    targetBrightness = t;
+    this->targetRGB = targetRGB;
 }
