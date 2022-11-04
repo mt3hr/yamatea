@@ -19,7 +19,7 @@ using namespace std;
 class PIDTracerV2 : public PIDTracer
 {
 private:
-    int pwm = 0;
+    float pwm = 0;
     float kp = 0;
     float ki = 0;
     float kd = 0;
@@ -35,11 +35,11 @@ private:
     float i;
     float d;
     float pid;
-    int leftPower;
-    int rightPower;
+    float leftPower;
+    float rightPower;
 
 public:
-    PIDTracerV2(PIDTracerMode traceMode, int pwm, float kp, float ki, float kd, float dt, float r);
+    PIDTracerV2(PIDTracerMode traceMode, float pwm, float kp, float ki, float kd, float dt, float r);
     virtual ~PIDTracerV2();
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;

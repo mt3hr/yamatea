@@ -95,7 +95,7 @@ void stp_cyc_all()
 }
 
 // LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
-#ifdef GoalSanekataMode1
+#ifdef GoalSanekataPIDMode1
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
@@ -112,14 +112,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float cucumberDistance = 140;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
   float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
 
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
-  int dt;
+  float dt;
 
-  int leftPow;
-  int rightPow;
+  float leftPow;
+  float rightPow;
 
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
@@ -280,14 +280,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float cucumberDistance = 140;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
   float strawberryDistance = 140; // ゴールまで。いちご好き。ライントレースする。
 
-  int pwm = 20;
+  float pwm = 20;
   float kp = 0.7;
   float ki = 0.2;
   float kd = 0.7;
-  int dt = 1;
+  float dt = 1;
 
-  int leftPow;
-  int rightPow;
+  float leftPow;
+  float rightPow;
 
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
@@ -380,14 +380,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#ifdef GoalOkiharaMode
+#ifdef GoalOkiharaPIDMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
 }
 #endif
 
 // LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
-#ifdef GoalOkiharaMode1
+#ifdef GoalOkiharaPIDMode1
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
@@ -495,14 +495,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     printf("以上");
     */
 
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
-  int dt;
+  float dt;
 
-  int leftPow;
-  int rightPow;
+  float leftPow;
+  float rightPow;
 
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
@@ -669,7 +669,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #endif
 
 // LeftCourceMode, RightCourceModeの場合のcommandExecutor初期化処理
-#ifdef GoalOkiharaMode2
+#ifdef GoalOkiharaPIDMode2
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
@@ -747,14 +747,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     */
 
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
-  int dt;
+  float dt;
 
-  int leftPow;
-  int rightPow;
+  float leftPow;
+  float rightPow;
 
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
@@ -926,14 +926,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef GoalKomichiScnenarioTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
-  int dt;
+  float dt;
 
-  int leftPow;
-  int rightPow;
+  float leftPow;
+  float rightPow;
   int distance;
 
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
@@ -1063,7 +1063,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   */
 
   pwm = 10;
-  int angle = -45;
+  float angle = -45;
   FacingAngleAbs *facingAngle45 = new FacingAngleAbs(FA_Gyro, pwm, angle);
   commandExecutor->addCommand(facingAngle45, new FinishedCommandPredicate(facingAngle45), GET_VARIABLE_NAME(facingAngle45));
 
@@ -1084,7 +1084,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#ifdef GoalOkiharaMode3
+#ifdef GoalOkiharaPIDMode3
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   int sceneCarrotMotorCountPredicateArg = 750;      // スタートから最初のカーブ終わるまで
@@ -1157,15 +1157,15 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   printf("%s: %10.f\n", GET_VARIABLE_NAME(cabbageDistance), float(cabbageDistance));
   printf("以上");
 
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
-  int dt;
+  float dt;
   float r;
 
-  int leftPow;
-  int rightPow;
+  float leftPow;
+  float rightPow;
 
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
@@ -1481,7 +1481,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 }
 #endif
 
-#ifdef GoalOkiharaMode3Distance
+#ifdef GoalOkiharaPIDMode3Distance
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   // カラーセンサの乗ったアームの角度を調節する
@@ -1527,15 +1527,15 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   waterMelonDistance += 5;
 #endif
 
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
-  int dt;
+  float dt;
   float r;
 
-  int leftPow;
-  int rightPow;
+  float leftPow;
+  float rightPow;
   // CarrotPIDTracerの初期化とCommandExecutorへの追加
   //下記コメントアウト箇所アンパイ
 
@@ -1913,13 +1913,13 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float kp;
     float ki;
     float kd;
-    int dt;
+    float dt;
     float r;
     float radius;
     float theta;
 
-    int leftPow;
-    int rightPow;
+    float leftPow;
+    float rightPow;
 
     uint64_t waitFaUsec = 500000;
 
@@ -2173,15 +2173,15 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 {
   Stopper *stopper = new Stopper();
 
-  int pwm;
-  int leftPWM;
-  int rightPWM;
+  float pwm;
+  float leftPWM;
+  float rightPWM;
 
   float distance;
 
   float n;
-  int walkerPWM;
-  int rotatePWM;
+  float walkerPWM;
+  float rotatePWM;
   float angle;
   int targetLeftDistance;
   int thresholdDistance;
@@ -2312,11 +2312,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef SlalomAwaitingSignalPlan1SanekataMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  int slalomAngle = 0; // 多分270
+  float slalomAngle = 0; // 多分270
   // ガレージカードの色取得用ColorReader
   ColorReader *colorReader = new ColorReader();
 
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
@@ -2327,8 +2327,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   float angle;
 
-  int leftPWM;
-  int rightPWM;
+  float leftPWM;
+  float rightPWM;
 
   int numberOfTime;
 
@@ -2376,7 +2376,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // アームを下げる
-  int armAngle = 15;
+  float armAngle = 15;
   pwm = -10;
   numberOfTime = 25;
   Command *armDown = new ArmController(pwm);
@@ -2779,14 +2779,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef SlalomAwaitingSignalPlan2SanekataMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
-  int dt;
+  float dt;
 
-  int leftPWM;
-  int rightPWM;
+  float leftPWM;
+  float rightPWM;
 
   int numberOfTime;
 
@@ -2884,7 +2884,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // アームを下げる
-  int armAngle = 15;
+  float armAngle = 15;
   pwm = -10 * coefficientPWM;
   numberOfTime = 25;
   Command *armDown = new ArmController(pwm);
@@ -3368,7 +3368,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // ガレージカードの色取得用ColorReader
   ColorReader *colorReader = new ColorReader();
 
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
@@ -3379,8 +3379,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
   float angle;
 
-  int leftPWM;
-  int rightPWM;
+  float leftPWM;
+  float rightPWM;
 
   int numberOfTime;
 
@@ -3428,7 +3428,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // アームを下げる
-  int armAngle = 15;
+  float armAngle = 15;
   pwm = -10;
   numberOfTime = 25;
   Command *armDown = new ArmController(pwm);
@@ -3624,8 +3624,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float angle;
   float distance;
 
-  int leftPWM;
-  int rightPWM;
+  float leftPWM;
+  float rightPWM;
 
   int numberOfTime;
 
@@ -3713,7 +3713,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // アームを下げる
-  int armAngle = 15;
+  float armAngle = 15;
   pwm = -10 * coefficientPWM;
   numberOfTime = 25;
   Command *armDown = new ArmController(pwm);
@@ -4280,8 +4280,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float angle;
     float distance;
 
-    int leftPWM;
-    int rightPWM;
+    float leftPWM;
+    float rightPWM;
 
     int numberOfTime;
     uint64_t waitFaUsec = 1000000;
@@ -4370,7 +4370,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
     // アームを下げる
-    int armAngle = 15;
+    float armAngle = 15;
     pwm = -10 * coefficientPWM;
     numberOfTime = 25;
     Command *armDown = new ArmController(pwm);
@@ -5032,14 +5032,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #if defined(Rotate360TestMode)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  int motorRotateAngle = 540; // ここの値をいじってはかって
+  float motorRotateAngle = 540; // ここの値をいじってはかって
 
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
-  int pwm = 10;
+  float pwm = 10;
   Walker *walker = new Walker(pwm, -pwm); // 右に向く
   Predicate *walkerPredicate = new MotorCountPredicate(robotAPI->getLeftWheel(), motorRotateAngle);
   commandExecutor->addCommand(walker, walkerPredicate, GET_VARIABLE_NAME(walker));
@@ -5060,8 +5060,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
-  int angle = 10;
-  int pwm = 15;
+  float angle = 10;
+  float pwm = 15;
   RotateRobotCommandAndPredicate *commandAndPredicate = new RotateRobotCommandAndPredicate(angle, pwm, robotAPI);
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate(), "rotateRobot");
 
@@ -5081,8 +5081,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
-  int pwm = 10;
-  int angle = -30;
+  float pwm = 10;
+  float angle = -30;
   RotateRobotUseGyroCommandAndPredicate *rotateRobotCommandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(angle, pwm, robotAPI);
   commandExecutor->addCommand(rotateRobotCommandAndPredicate->getCommand(), rotateRobotCommandAndPredicate->getPredicate(), "rotateRobot");
 
@@ -5101,7 +5101,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(new Command(), startButtonPredicate, GET_VARIABLE_NAME(stopper)); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // 直進コマンドの初期化とCommandExecutorへの追加
-  int pwm = 50;
+  float pwm = 50;
   float distanceCm = 10000;
   Walker *walker = new Walker(pwm, pwm);
   WheelDistancePredicate *walkerPredicate = new WheelDistancePredicate(distanceCm, robotAPI);
@@ -5122,7 +5122,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // 曲率進行コマンドの初期化とCommandExecutorへの追加
-  int pwm = 20; // NOTE pwm上げるとおかしくなる
+  float pwm = 20; // NOTE pwm上げるとおかしくなる
   float r = 30;
   float theta = 90;
   CurvatureWalkerCommandAndPredicate *commandAndPredicate = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, r, theta, robotAPI);
@@ -5143,7 +5143,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
 
   // 障害物検出コマンドの初期化とCommandExecutorへの追加
-  int pwm = 10;
+  float pwm = 10;
   float swingLeft = 90.0;
   float swingRight = -90.0;
   int targetLeft = 20;
@@ -5162,7 +5162,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef ShigekiTestMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  int pwm = 10;
+  float pwm = 10;
   float acn = -30.91474484;
   float nc = 23.72114075;
   // float bcn = 1.022709978;
@@ -5208,19 +5208,19 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 // UFO走行コマンドの初期化とCommandExecutorへの追加
 #ifdef SimulatorMode
   float n = 8;
-  int walkerPWM = 20;
-  int rotatePWM = 5;
+  float walkerPWM = 20;
+  float rotatePWM = 5;
 
   float swingLeftAngle = -90.0;
   float swingRightAngle = 90.0;
 
-  int targetLeftDistance = 30;
-  int targetRightDistance = 10;
+  float targetLeftDistance = 30;
+  float targetRightDistance = 10;
   bool reverseTest = false;
 #else
   float n = 5;
-  int walkerPWM = 10;
-  int rotatePWM = 4;
+  float walkerPWM = 10;
+  float rotatePWM = 4;
 
   float swingLeftAngle = -90.0;
   float swingRightAngle = 90.0;
@@ -5254,8 +5254,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // UFO走行コマンドの初期化とCommandExecutorへの追加
 #ifdef SimulatorMode
   float n = 5;
-  int walkerPWM = 15;
-  int rotatePWM = 3;
+  float walkerPWM = 15;
+  float rotatePWM = 3;
 
   float angle = 180;
   int targetLeftDistance = 20;  // これを検知した状態からはじめて
@@ -5266,8 +5266,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   bool reverseTest = true;
 #else
   float n = 4;
-  int walkerPWM = 15;
-  int rotatePWM = 5;
+  float walkerPWM = 15;
+  float rotatePWM = 5;
 
   float angle = 180;
   int targetLeftDistance = 40;  // これを検知した状態からはじめて
@@ -5299,7 +5299,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-  int pwm = 20;
+  float pwm = 20;
   float kp = 0.7;
   float ki = 0.2;
   float kd = 0.7;
@@ -5381,7 +5381,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-  int pwm = 20;
+  float pwm = 20;
   float kp = 0.2;
   float ki = 0.1;
   float kd = 0.2;
@@ -5411,7 +5411,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
@@ -5501,8 +5501,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-  int pwm = 10;
-  int angle = 180;
+  float pwm = 10;
+  float angle = 180;
   FacingAngleAbs *facingAngle = new FacingAngleAbs(FA_WheelCount, pwm, angle);
   Predicate *facingAnglePredicate = new ORPredicate(new FinishedCommandPredicate(facingAngle), new TimerPredicate(waitFaUsec));
   commandExecutor->addCommand(facingAngle, facingAnglePredicate, GET_VARIABLE_NAME(facingAngle));
@@ -5517,8 +5517,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-  int leftPWM = 10;
-  int rightPWM = -10;
+  float leftPWM = 10;
+  float rightPWM = -10;
   Walker *walker = new Walker(leftPWM, rightPWM);
   commandExecutor->addCommand(walker, new Predicate(), GET_VARIABLE_NAME(walker));
 }
@@ -5532,8 +5532,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
 
-  int leftPWM = 100;
-  int rightPWM = -100;
+  float leftPWM = 100;
+  float rightPWM = -100;
   Walker *walker = new Walker(leftPWM, rightPWM);
   Predicate *batteryPredicate = new BatteryPredicate(targetVoltage);
   commandExecutor->addCommand(walker, batteryPredicate, GET_VARIABLE_NAME(walker));
@@ -5551,11 +5551,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   colorid_t *garageCardColorPtr = colorReader->getColorPtr();
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
 
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
-  int dt;
+  float dt;
 
   float slalomAngleOffset = 0;
 
@@ -5569,8 +5569,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float angle;
   float distance;
 
-  int leftPWM;
-  int rightPWM;
+  float leftPWM;
+  float rightPWM;
 
   int numberOfTime;
 
@@ -6122,8 +6122,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   // ↑ここまで実方↑
   // ↓ここから小路↓
   // 1,少し後退
-  int leftPow;
-  int rightPow;
+  float leftPow;
+  float rightPow;
   leftPow = -15;
   rightPow = -15;
   Walker *walker1 = new Walker(leftPow, rightPow);
@@ -6613,24 +6613,24 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
 #ifdef TrueCourceKomichiModeRegional
   // ↓ここから小路↓
-  int Kpwm;
+  float Kpwm;
   float Kkp;
   float Kki;
   float Kkd;
-  int Kdt;
+  float Kdt;
 
   int KleftPow;
   int KrightPow;
   int Kdistance;
 
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
-  int dt;
+  float dt;
 
-  int leftPow;
-  int rightPow;
+  float leftPow;
+  float rightPow;
 
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
   Predicate *startButtonPredicate = new StartButtonPredicate();
@@ -6818,7 +6818,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     Predicate *startButtonPredicate = new StartButtonPredicate();
     commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
     // 走行体回転コマンドの初期化とCommandExecutorへの追加
-    int pwm = 10;
+    float pwm = 10;
     Walker *walker = new Walker(pwm, -pwm); // 右に向く
     Predicate *walkerPredicate = new MotorCountPredicate(robotAPI->getLeftWheel(), motorRotateAngle);
     commandExecutor->addCommand(walker, walkerPredicate, GET_VARIABLE_NAME(walker));
@@ -6836,8 +6836,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     Predicate *startButtonPredicate = new StartButtonPredicate();
     commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
     // 走行体回転コマンドの初期化とCommandExecutorへの追加
-    int angle = 10;
-    int pwm = 15;
+    float angle = 10;
+    float pwm = 15;
     RotateRobotCommandAndPredicate *commandAndPredicate = new RotateRobotCommandAndPredicate(angle, pwm, robotAPI);
     commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate(), "rotateRobot");
     // 停止コマンドの初期化とCommandExecutorへの追加
@@ -6939,14 +6939,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   printf("以上");
   */
 
-  int pwm;
+  float pwm;
   float kp;
   float ki;
   float kd;
-  int dt;
+  float dt;
 
-  int leftPow;
-  int rightPow;
+  float leftPow;
+  float rightPow;
 
   // PIDTargetCalibratorの初期化とCommandExecutorへの追加
   PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
@@ -7131,8 +7131,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   float angle;
   float distance;
 
-  int leftPWM;
-  int rightPWM;
+  float leftPWM;
+  float rightPWM;
 
   int numberOfTime;
 
@@ -7205,7 +7205,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
   // アームを下げる
-  int armAngle = 15;
+  float armAngle = 15;
   pwm = -10 * coefficientPWM;
   numberOfTime = 25;
   Command *armDown = new ArmController(pwm);
@@ -7847,15 +7847,15 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     waterMelonDistance += 5;
 #endif
 
-    int pwm;
+    float pwm;
     float kp;
     float ki;
     float kd;
-    int dt;
+    float dt;
     float r;
 
-    int leftPow;
-    int rightPow;
+    float leftPow;
+    float rightPow;
     // CarrotPIDTracerの初期化とCommandExecutorへの追加
     //下記コメントアウト箇所アンパイ
 
@@ -8212,8 +8212,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float angle;
     float distance;
 
-    int leftPWM;
-    int rightPWM;
+    float leftPWM;
+    float rightPWM;
 
     int numberOfTime;
     uint64_t waitFaUsec = 1000000;
@@ -8913,12 +8913,12 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
 
   // ↓ここから小路↓
   {
-    int pwm = 10;
+    float pwm = 10;
     float kp = 0.23;
     float ki = 0;
     float kd = 0.5;
     float dt = 1;
-    int pidR = 0;
+    float pidR = 0;
     ColorPIDTracerV2 *colorPWMTracer = new ColorPIDTracerV2(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt, pidR);
     calibrator->addColorPIDTracer(colorPWMTracer);
     /*
@@ -8932,8 +8932,8 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
     Predicate *stopperPredicate = new NumberOfTimesPredicate(numberOfTimes);
     commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
     commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
-    int leftPow;
-    int rightPow;
+    float leftPow;
+    float rightPow;
     leftPow = -15;
     rightPow = -15;
     Walker *walker1 = new Walker(leftPow, rightPow);
@@ -9090,13 +9090,13 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   FacingAngleMode facingAngleMode = FA_Gyro;
   // AngleAbsPredicateMode angleAbsPredicateMode = AAPM_WheelCount;
 #ifdef SimulatorMode
-  int basePWM = 30;
-  int straightPWM = 30;
-  int lowStraightPWM = 30;
+  float basePWM = 30;
+  float straightPWM = 30;
+  float lowStraightPWM = 30;
 #else
-  int basePWM = 40;
-  int straightPWM = 50;
-  int lowStraightPWM = 25;
+  float basePWM = 40;
+  float straightPWM = 50;
+  float lowStraightPWM = 25;
 #endif
   float radius;
   float theta;
@@ -9280,12 +9280,12 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   colorid_t *garageCardColorPtr = colorReader->getColorPtr();
 
   {
-    int pwm = 10;
+    float pwm = 10;
     float kp = 0.23;
     float ki = 0;
     float kd = 0.5;
     float dt = 1;
-    int pidR = 0;
+    float pidR = 0;
     ColorPIDTracerV2 *colorPWMTracer = new ColorPIDTracerV2(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt, pidR);
     calibrator->addColorPIDTracer(colorPWMTracer);
     RawColorPredicate *blueEdgePredicate = new BlueEdgePredicate();
@@ -9297,8 +9297,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     Predicate *stopperPredicate = new NumberOfTimesPredicate(numberOfTimes);
     commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
     commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
-    int leftPow;
-    int rightPow;
+    float leftPow;
+    float rightPow;
     leftPow = -15;
     rightPow = -15;
     Walker *walker1 = new Walker(leftPow, rightPow);
@@ -9462,12 +9462,12 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #if defined(Rotate360TestMode)
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  int motorRotateAngle = 540; // ここの値をいじってはかって
+  float motorRotateAngle = 540; // ここの値をいじってはかって
   // タッチセンサ待機コマンドの初期化とCommandExecutorへの追加
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
-  int pwm = 10;
+  float pwm = 10;
   Walker *walker = new Walker(pwm, -pwm); // 右に向く
   Predicate *walkerPredicate = new MotorCountPredicate(robotAPI->getLeftWheel(), motorRotateAngle);
   commandExecutor->addCommand(walker, walkerPredicate, GET_VARIABLE_NAME(walker));
@@ -9485,8 +9485,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(new Command(), startButtonPredicate, ""); // なにもしないコマンドでタッチセンサがプレスされるのを待つ
   // 走行体回転コマンドの初期化とCommandExecutorへの追加
-  int angle = 10;
-  int pwm = 15;
+  float angle = 10;
+  float pwm = 15;
   RotateRobotCommandAndPredicate *commandAndPredicate = new RotateRobotCommandAndPredicate(angle, pwm, robotAPI);
   commandExecutor->addCommand(commandAndPredicate->getCommand(), commandAndPredicate->getPredicate(), "rotateRobot");
   // 停止コマンドの初期化とCommandExecutorへの追加

@@ -20,7 +20,7 @@ using namespace std;
 class ColorPIDTracerV2 : public ColorPIDTracer
 {
 private:
-    int pwm = 0;
+    float pwm = 0;
     float kp = 0;
     float ki = 0;
     float kd = 0;
@@ -37,11 +37,11 @@ private:
     float i;
     float d;
     float pid;
-    int leftPower;
-    int rightPower;
+    float leftPower;
+    float rightPower;
 
 public:
-    ColorPIDTracerV2(PIDTracerMode traceMode, TraceColor traceColor, int pwm, float kp, float ki, float kd, float dt, float r);
+    ColorPIDTracerV2(PIDTracerMode traceMode, TraceColor traceColor, float pwm, float kp, float ki, float kd, float dt, float r);
     virtual ~ColorPIDTracerV2();
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;

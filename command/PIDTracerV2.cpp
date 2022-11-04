@@ -11,7 +11,7 @@
 using namespace ev3api;
 using namespace std;
 
-PIDTracerV2::PIDTracerV2(PIDTracerMode traceModea, int pwma, float kpa, float kia, float kda, float dta, float r) : PIDTracer(traceModea, pwma, kpa, kia, kda, dta)
+PIDTracerV2::PIDTracerV2(PIDTracerMode traceModea, float pwma, float kpa, float kia, float kda, float dta, float r) : PIDTracer(traceModea, pwma, kpa, kia, kda, dta)
 {
     traceMode = traceModea;
     pwm = pwma;

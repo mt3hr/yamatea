@@ -11,7 +11,7 @@
 using namespace ev3api;
 using namespace std;
 
-ColorPIDTracerV2::ColorPIDTracerV2(PIDTracerMode traceModea, TraceColor traceColor, int pwma, float kpa, float kia, float kda, float dta, float r) : ColorPIDTracer(traceModea, traceColor, pwm, kp, ki, kd, dt)
+ColorPIDTracerV2::ColorPIDTracerV2(PIDTracerMode traceModea, TraceColor traceColor, float pwma, float kpa, float kia, float kda, float dta, float r) : ColorPIDTracer(traceModea, traceColor, pwm, kp, ki, kd, dt)
 {
     traceMode = traceModea;
     this->traceColor = traceColor;
