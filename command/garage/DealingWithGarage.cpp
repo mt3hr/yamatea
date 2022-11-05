@@ -38,16 +38,16 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             commandExecutor->addCommand(stopper1, predicateS0, "stopper1");
             
             //r1,赤エリアまで直進
-            leftPow = 40;   
-            rightPow = 40;
+            leftPow = 20;   
+            rightPow = 20;
             Walker *walker1 = new Walker(leftPow, rightPow);
             Predicate *predicate1 = new ColorPredicate(COLOR_RED);
             commandExecutor->addCommand(walker1, predicate1, "walker1");
             Predicate *predicateS1 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS1, "stopper1");
             //r2,後ろに下がる
-            leftPow = -60;
-            rightPow = -60;
+            leftPow = -40;
+            rightPow = -40;
             Walker *walker2 = new Walker(leftPow, rightPow);
             Predicate *predicate2 = new WheelDistancePredicate(-5, robotAPI);
             commandExecutor->addCommand(walker2, predicate2, "walker2");
@@ -63,8 +63,8 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             commandExecutor->addCommand(stopper1, predicateS3, "stopper1");
             
             //r4,直進
-            leftPow = 60;
-            rightPow = 60;
+            leftPow = 40;
+            rightPow = 40;
             Walker *walker4 = new Walker(leftPow, rightPow);
             Predicate *predicate4 = new WheelDistancePredicate(12, robotAPI);
             commandExecutor->addCommand(walker4, predicate4, "walker4");
@@ -101,16 +101,16 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             
         }else if(*colorID==COLOR_GREEN){
             //ーーーーー14gガレージ緑ーーーーー
-            leftPow = 40;
-            rightPow = 40;
+            leftPow = 30;
+            rightPow = 30;
             Walker *walkerG = new Walker(leftPow, rightPow);
             Predicate *predicateG = new ColorPredicate(COLOR_GREEN);
             commandExecutor->addCommand(walkerG, predicateG, "walkerG");
         }else if(*colorID==COLOR_YELLOW){
             
             //ーーーーー14ｙガレージ黄色ーーーーー
-            leftPow = 40;   
-            rightPow = 40;
+            leftPow = 20;   
+            rightPow = 20;
             Walker *walkerY = new Walker(leftPow, rightPow);
             Predicate *predicateY = new ColorPredicate(COLOR_GREEN);
             commandExecutor->addCommand(walkerY, predicateY, "walkerY");
@@ -121,8 +121,8 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             commandExecutor->addCommand(walker4, predicate4, "walkerB");
         }else{
             //ーーーーー14gガレージ青ーーーーー
-            leftPow = 40;
-            rightPow = 40;
+            leftPow = 20;
+            rightPow = 20;
             Walker *walkerB = new Walker(leftPow, rightPow);
             Predicate *predicateB = new ColorPredicate(COLOR_GREEN);
             commandExecutor->addCommand(walkerB, predicateB, "walkerY");  
