@@ -22,17 +22,17 @@ using namespace std;
 // コース設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
-//#define SlalomPattern1
-#define SlalomPattern2
+#define SlalomPattern1
+//#define SlalomPattern2
 // スラロームパターンの設定ここまで
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define TrueCourceModeCS // CS完走用プログラム
+//#define TrueCourceModeCS // CS完走用プログラム
 //#define TrueCourceOkiharaModeRegional // 地区大会完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeRegional  // 地区大会完走用プログラム。小路シナリオ
 //#define GoalSanekataPIDMode1 // ゴール用プログラム。試走会1時点。
-//#define GoalSanekataPIDMode2 // GoalOkihara3Distanceをもとに補正値Rで爆速にしたもの
+#define GoalSanekataPIDMode2 // GoalOkihara3Distanceをもとに補正値Rで爆速にしたもの
 //#define GoalSanekataScenarioTestMode // 部分シナリオ実方コード
 //#define GoalOkiharaPIDMode  // ゴール用プログラム。沖原作業用
 //#define GoalOkiharaPIDMode1 // ゴール用プログラム。地区大会時点安定
