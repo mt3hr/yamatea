@@ -70,9 +70,9 @@ bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接�
 
 // コマンド切り替え時ビープ音LED設定ここから
 
-bool enableBeepWhenCommandSwitching = false; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
+bool enableBeepWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
 bool enableBeepWhenCommandSwitchingSong = false;
-Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 30); // debugBeep()で鳴らす音の定義
+Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 10); // debugBeep()で鳴らす音の定義
 vector<Note *> song = generateFroggySong();                     // 流す曲の定義
 int loopSong = 10;                                              // 曲のループ数
 
