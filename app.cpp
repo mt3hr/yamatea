@@ -9096,11 +9096,11 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
       Predicate *straightWalkerPredicate = new WheelDistancePredicate(distance, robotAPI);
       commandExecutor->addCommand(straightWalker, straightWalkerPredicate, GET_VARIABLE_NAME(straightWalker));
 
-      float faKp = 0.25;
-      float faKi = 0.005;
+      float faKp = 0.3;
+      float faKi = 0.0075;
       float faKd = 0.7;
       float faDt = 1;
-      float waitFaUsec = 1000000;
+      float waitFaUsec = 2000000;
       PIDFacingAngleAbs *facing0 = new PIDFacingAngleAbs(FA_WheelCount, 0, faKp, faKi, faKd, faDt);
       commandExecutor->addCommand(facing0, new ORPredicate(new TimerPredicate(waitFaUsec), new FinishedCommandPredicate(facing0)), GET_VARIABLE_NAME(facing0));
     }
