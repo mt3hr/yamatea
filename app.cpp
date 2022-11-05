@@ -1891,12 +1891,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float peachDistance = 31;
     float orangeDistance = 68;
     float starFruitsDistance = 10;
-    float cherryDistance = 10;
-    float waterMelonDistance = 331;
+    float waterMelonDistance = 341;
     float bokChoyDistance = 10;
     float dorianDistance = 20;
-    float asparagusDistance = 90;
-    float radishDistance = 25;
+    float radishDistance = 115;
     float melonDistance = 29;
     float nutsDistance = 15;
     float lemonDistance = 29;
@@ -1908,9 +1906,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     orangeDistance += 1.5;
     waterMelonDistance += 5;
 #endif
-
-    waterMelonDistance += cherryDistance;
-    cherryDistance = 0;
 
     float pwm;
     float kp;
@@ -2013,21 +2008,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     Predicate *predicateStarFruits = new WheelDistancePredicate(starFruitsDistance, robotAPI);
     commandExecutor->addCommand(starFuitsWalker->getCommand(), predicateStarFruits, GET_VARIABLE_NAME(starFuitsWalker));
 
-    if (false) // cherryつかわんわ
-    {
-      // CherryPIDTracerの初期化とCommandExecutorへの追加
-      pwm = 40;
-      kp = 1.15;
-      ki = 0.005;
-      kd = 2.5;
-      dt = 1;
-      r = 0;
-      PIDTracerV2 *cherryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
-      Predicate *predicateCherry = new WheelDistancePredicate(cherryDistance, robotAPI);
-      calibrator->addPIDTracer(cherryPIDTracer);
-      commandExecutor->addCommand(cherryPIDTracer, predicateCherry, GET_VARIABLE_NAME(cherryPIDTracer));
-    }
-
     // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
     pwm = 65;
     kp = 0.6;
@@ -2037,7 +2017,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     r = 28;
     PIDTracerV2 *waterMelonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateWaterMelon = new WheelDistancePredicate(waterMelonDistance, robotAPI);
-    //Predicate *predicateWaterMelon = new FacingRobotUseWheelPredicate(340);
+    // Predicate *predicateWaterMelon = new FacingRobotUseWheelPredicate(340);
     calibrator->addPIDTracer(waterMelonPIDTracer);
     commandExecutor->addCommand(waterMelonPIDTracer, predicateWaterMelon, GET_VARIABLE_NAME(waterMelonPIDTracer));
 
@@ -2069,18 +2049,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     Predicate *predicateDorian = new WheelDistancePredicate(dorianDistance, robotAPI);
     calibrator->addPIDTracer(dorianPIDTracer);
     commandExecutor->addCommand(dorianPIDTracer, predicateDorian, GET_VARIABLE_NAME(dorianPIDTracer));
-
-    // AsparagusPIDTracerの初期化とCommandExecutorへの追加
-    pwm = 30;
-    kp = 0.6;
-    ki = 0;
-    kd = 2.0;
-    dt = 1;
-    r = 0;
-    PIDTracerV2 *asparagusPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
-    Predicate *predicateAsparagus = new WheelDistancePredicate(asparagusDistance, robotAPI);
-    calibrator->addPIDTracer(asparagusPIDTracer);
-    commandExecutor->addCommand(asparagusPIDTracer, predicateAsparagus, GET_VARIABLE_NAME(asparagusPIDTracer));
 
     // RadishPIDTracerの初期化とCommandExecutorへの追加
     pwm = 40;
@@ -2174,10 +2142,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     bananaPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
     peachPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
     orangePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
-    cherryPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
     waterMelonPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
     dorianPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
-    asparagusPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
     radishPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
     melonPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
     lemonPIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);

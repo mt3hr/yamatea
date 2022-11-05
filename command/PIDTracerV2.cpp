@@ -33,7 +33,7 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
 
     // PID値の算出ここから
     p = brightness - targetBrightness;
-    integral+= (p + beforeP) / 2 * dt;
+    integral += (p + beforeP) / 2 * dt;
     i = integral;
     d = (p - beforeP) / dt;
     pid = kp * p + ki * i + kd * d;
