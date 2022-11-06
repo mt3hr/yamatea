@@ -71,9 +71,9 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             Predicate *predicateS4 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS4, "stopper1");
             //r5,90度左回転
-            CommandAndPredicate *predicate5 = new RotateRobotUseGyroCommandAndPredicate(-90,60,robotAPI);
+            CommandAndPredicate *predicate5 = new RotateRobotUseGyroCommandAndPredicate(-90,40,robotAPI);
             if (reverse) {
-                predicate5 = new RotateRobotUseGyroCommandAndPredicate(90,60,robotAPI);
+                predicate5 = new RotateRobotUseGyroCommandAndPredicate(90,40,robotAPI);
             }
             commandExecutor->addCommand(predicate5->getCommand(), predicate5->getPredicate(), "-90turn");
             Predicate *predicateS5 = new NumberOfTimesPredicate(1);
