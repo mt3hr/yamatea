@@ -8230,17 +8230,17 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     bool facingAngleAtBokChoy = false;
 
     float pmanDistance = 34;
-    float carrotDistance = 34;
+    float carrotDistance = 32;
     float bananaDistance = 30;
-    float peachDistance = 36.5;
+    float peachDistance = 38.5;
     float orangeDistance = 76;
     float starFruitsDistance = 15;
     float waterMelonDistance = 334; // チーン
     float bokChoyDistance = 9;
     float dorianDistance = 120;
     float radishDistance = 0;
-    float melonDistance = 29;
-    float nutsDistance = 21;
+    float melonDistance = 30;
+    float nutsDistance = 18;
     float lemonDistance = 33;
     float cucumberDistance = 201;
     float strawberryDistance = 28;
@@ -8424,11 +8424,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     commandExecutor->addCommand(melonPIDTracer, predicateMelon, GET_VARIABLE_NAME(melonPIDTracer));
 
     // nutsの初期化とCommandExecutorへの追加  ここから
-    pwm = 60;
-    kp = 0.4;
-    ki = 0.12;
-    kd = 1.2;
-    dt = 0.4;
+    pwm = 50;
+    kp = 0.44;
+    ki = 0;
+    kd = 1.5;
+    dt = 1;
     r = 0;
     PIDTracerV2 *nutsPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicatenuts = new WheelDistancePredicate(nutsDistance, robotAPI);
