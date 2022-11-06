@@ -8339,7 +8339,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     pwm = 60;
     kp = 0.4;
     ki = 0.12;
-    kd = 0.75;
+    kd = 1.2;
     dt = 0.4;
     r = -38;
     PIDTracerV2 *orangePIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
