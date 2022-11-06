@@ -1886,21 +1886,21 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     bool facingAngleAtBokChoy = false;
 
     float pmanDistance = 34;
-    float carrotDistance = 34;
-    float bananaDistance = 30;
-    float peachDistance = 36.5;
-    float orangeDistance = 76;
-    float starFruitsDistance = 15;
-    float waterMelonDistance = 333;
-    float bokChoyDistance = 9;
-    float dorianDistance = 120;
+    float carrotDistance = 32;
+    float bananaDistance = 34;
+    float peachDistance = 37;
+    float orangeDistance = 73;
+    float starFruitsDistance = 16;
+    float waterMelonDistance = 335;
+    float bokChoyDistance = 10;
+    float dorianDistance = 116;
     float radishDistance = 0;
-    float melonDistance = 29;
-    float nutsDistance = 15;
-    float lemonDistance = 29;
-    float cucumberDistance = 210;
-    float strawberryDistance = 32.5;
-    float cabbageDistance = 85;
+    float melonDistance = 36;
+    float nutsDistance = 8.5;
+    float lemonDistance = 37;
+    float cucumberDistance = 195;
+    float strawberryDistance = 32;
+    float cabbageDistance = 95;
 
 #ifdef Right // 学校のコース伸びた説
     orangeDistance += 1.5;
@@ -1930,7 +1930,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float carrotKi = 0; // 0.12;
     float carrotKd = 1.35;
     float carrotDt = 0.4;
-    float carrotR = 47.5;
+    float carrotR = 50;
 
     // PmanPIDTracerの初期化とCommandExecutorへの追加
     pwm = 25;
@@ -1945,21 +1945,30 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     calibrator->addPIDTracer(pmanPIDTracer);
 
     // CarrotPIDTracerの初期化とCommandExecutorへの追加
-    pwm = carrotPWM;
+    /*
+    pwm = 50;
     kp = carrotKp;
     ki = carrotKi;
     kd = carrotKd;
     dt = carrotDt;
-    r = carrotR;
-    angle = 90 - 10;
+    r = 30;
+    */
+    // 距離依存をへらすために速度を落としてAndPredicateを使います
+    pwm = 25;
+    kp = 0.5;
+    ki = 0;
+    kd = 1.4;
+    dt = 1;
+    r = 10;
+    angle = 90 - 20;
     PIDTracerV2 *carrotPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
-    Predicate *predicateCarrot = new WheelDistancePredicate(carrotDistance, robotAPI);
-    // Predicate *predicateCarrot = new ANDPredicate(new WheelDistancePredicate(carrotDistance, robotAPI), new FacingRobotUseWheelPredicate(angle));
+    // Predicate *predicateCarrot = new WheelDistancePredicate(carrotDistance, robotAPI);
+    Predicate *predicateCarrot = new ANDPredicate(new WheelDistancePredicate(carrotDistance, robotAPI), new FacingRobotUseWheelPredicate(angle));
     commandExecutor->addCommand(carrotPIDTracer, predicateCarrot, GET_VARIABLE_NAME(carrotPIDTracer));
     calibrator->addPIDTracer(carrotPIDTracer);
 
     // BananaPIDTracerの初期化とCommandExecutorへの追加
-    pwm = 50;
+    pwm = 45;
     kp = 0.44;
     ki = 0;
     kd = 1.5;
@@ -1984,11 +1993,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // OrangePIDTracerの初期化とCommandExecutorへの追加
     pwm = 60;
-    kp = 0.4;
-    ki = 0.12;
-    kd = 1.2;
-    dt = 0.4;
-    r = -39;
+    kp = 0.675;
+    ki = 0.01;
+    kd = 2.3;
+    dt = 1;
+    r = -26;
     PIDTracerV2 *orangePIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateOrange = new WheelDistancePredicate(orangeDistance, robotAPI);
     calibrator->addPIDTracer(orangePIDTracer);
@@ -2004,7 +2013,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // StarFruitsWalkerの初期化とCommandExecutorへの追加
     pwm = 60;
-    radius = 22;
+    radius = 18.5;
     theta = -360; // 多めにしないと動かんのか？
     CurvatureWalkerCommandAndPredicate *starFuitsWalker = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
     Predicate *predicateStarFruits = new WheelDistancePredicate(starFruitsDistance, robotAPI);
@@ -2013,11 +2022,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
     pwm = 65;
-    kp = 0.6;
-    ki = 0; // 0.1;
-    kd = 1.8;
-    dt = 0.45;
-    r = 28;
+    kp = 0.7;
+    ki = 0.01;
+    kd = 2;
+    dt = 1;
+    r = 35; // TODO
     PIDTracerV2 *waterMelonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateWaterMelon = new WheelDistancePredicate(waterMelonDistance, robotAPI);
     calibrator->addPIDTracer(waterMelonPIDTracer);
@@ -2042,9 +2051,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // DorianPIDTracerの初期化とCommandExecutorへの追加
     pwm = 35;
-    kp = 0.5;
-    ki = 0.01;
-    kd = 1.5;
+    kp = 0.45;
+    ki = 0; // 0.01;
+    kd = 1.55;
     dt = 1;
     r = 0;
     PIDTracerV2 *dorianPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
@@ -2080,11 +2089,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     commandExecutor->addCommand(melonPIDTracer, predicateMelon, GET_VARIABLE_NAME(melonPIDTracer));
 
     // nutsの初期化とCommandExecutorへの追加  ここから
-    pwm = 60;
-    kp = 0.4;
-    ki = 0.12;
-    kd = 1.2;
-    dt = 0.4;
+    pwm = 50;
+    kp = 0.44;
+    ki = 0;
+    kd = 1.5;
+    dt = 1;
     r = 0;
     PIDTracerV2 *nutsPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicatenuts = new WheelDistancePredicate(nutsDistance, robotAPI);
@@ -2105,11 +2114,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     commandExecutor->addCommand(lemonPIDTracer, predicateLemon, GET_VARIABLE_NAME(lemonPIDTracer));
 
     // CucumberPIDTracerの初期化とCommandExecutorへの追加
-    pwm = 75;
-    kp = 0.85;
+    pwm = 65;
+    kp = 0.8;
     ki = 0; // 0.3;
     kd = 2.4;
-    dt = 0.4;
+    dt = 1;
     r = 0;
     PIDTracerV2 *cucumberPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateCucumber = new WheelDistancePredicate(cucumberDistance, robotAPI);
@@ -2125,6 +2134,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     r = -carrotR;
     PIDTracerV2 *strawberryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateStrawberry = new WheelDistancePredicate(strawberryDistance, robotAPI);
+    predicateStrawberry = predicateStrawberry->generateReversePredicate();
     calibrator->addPIDTracer(strawberryPIDTracer);
     commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry, GET_VARIABLE_NAME(strawberryPIDTracer));
 
@@ -4257,7 +4267,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float faKd = 0.7;
     float faDt = 1;
 
-    commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "Stopper");
+    commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
+    resetArmAngle = new ResetArmAngle();
+    commandExecutor->addCommand(resetArmAngle, new FinishedCommandPredicate(resetArmAngle), GET_VARIABLE_NAME(resetArmAngle));
 
     // ガレージカードの色取得用ColorReader
     float slalomAngleOffset = 0;
@@ -4678,7 +4690,7 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
 
 // 直進
 #ifdef SlalomPattern1
-      distance = 11;
+      distance = 8.5;
       pwm = 10;
       PIDStraightWalker *walker5 = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
       Predicate *walker5Predicate = new WheelDistancePredicate(distance, robotAPI);
@@ -4799,8 +4811,7 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
       // カーブ
       pwm = 10 * coefficientPWMForCurve;
       pwm = 20 * coefficientPWMForCurve;
-      radius = 35;
-      radius = 18;
+      radius = 37;
       theta = 70;
       CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
       commandExecutor->addCommand(curve6->getCommand(), curve6->getPredicate(), GET_VARIABLE_NAME(curve6));
@@ -7892,7 +7903,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   if (false)
 #endif
 #ifdef TrueCourceOkiharaModeCS
-  // ここから沖原
+  // ↓ここから沖原↓
   {
     float carrotDistance = 68;
     float bananaDistance = 31;
@@ -8248,7 +8259,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   if (false)
 #endif
 #ifdef TrueCourceSanekataModeCS
-  // ここから実方
+  // ↓ここから実方↓
   {
     bool facingAngleAtStarFruits = false;
     bool facingAngleAtBokChoy = false;
@@ -8420,7 +8431,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     // DorianPIDTracerの初期化とCommandExecutorへの追加
     pwm = 35;
     kp = 0.45;
-    ki = 0;//0.01;
+    ki = 0; // 0.01;
     kd = 1.55;
     dt = 1;
     r = 0;
@@ -8535,7 +8546,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     cabbagePIDTracer->setTargetBrightness(blackWhiteEdgeTargetBrightness);
 #endif
   }
-// ここまで実方
+// ↑ここまで実方↑
 #endif
 
   // ↓ここから実方↓
@@ -9424,6 +9435,8 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
     commandExecutor->addCommand(dealingWithGarage14, predicate14, GET_VARIABLE_NAME(dealingWithGarage14));
   }
   // ↑ここまで小路↑
+
+  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
 }
 #endif
 
@@ -9647,13 +9660,13 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float pidR = 0;
     ColorPIDTracerV2 *colorPWMTracer = new ColorPIDTracerV2(RIGHT_TRACE, Trace_R, pwm, kp, ki, kd, dt, pidR);
     calibrator->addColorPIDTracer(colorPWMTracer);
+    /*
     RawColorPredicate *blueEdgePredicate = new BlueEdgePredicate();
     //青ラインまで進む
     commandExecutor->addCommand(colorPWMTracer, blueEdgePredicate, GET_VARIABLE_NAME(colorPWMTracer));
+    */
     // 停止コマンドの初期化とCommandExecutorへの追加
-    int numberOfTimes = 1;
     Stopper *stopper = new Stopper();
-    Predicate *stopperPredicate = new NumberOfTimesPredicate(numberOfTimes);
     commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
     commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
     float leftPow;
@@ -9766,25 +9779,49 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     Walker *walker12b = new Walker(leftPow, rightPow);
     commandExecutor->addCommand(walker12b, new ColorPredicate(COLOR_BLUE), GET_VARIABLE_NAME(walker12b));
     commandExecutor->addCommand(stopper11, predicateS11, GET_VARIABLE_NAME(stoppper11));
-    // 13,10ど右回転 ８回
-    CommandAndPredicate *predicate13 = new RotateRobotUseGyroCommandAndPredicate(40, 5, robotAPI);
-    Walker *walker13S = new Walker(leftPow, rightPow);
-    Predicate *predicate13S = new WheelDistancePredicate(1, robotAPI);
-    for (int i = 0; i < 2; i++)
+    bool useFacingAngle0 = true;
+    if (useFacingAngle0) // FacingAngleによるガレージイン
     {
-      commandExecutor->addCommand(predicate13->getCommand(), predicate13->getPredicate(), GET_VARIABLE_NAME(predicate13->getCommand()));
-      commandExecutor->addCommand(stopper11, predicateS11, GET_VARIABLE_NAME(stoppper11));
-      commandExecutor->addCommand(walker13S, predicate13S, GET_VARIABLE_NAME(walker13S));
+      float straightKp = 1;
+      float straightKi = 0;
+      float straightKd = 1;
+      float straightDt = 1;
+      float pwm = 20;
+      float distance = 8;
+      PIDStraightWalker *straightWalker = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
+      Predicate *straightWalkerPredicate = new WheelDistancePredicate(distance, robotAPI);
+      commandExecutor->addCommand(straightWalker, straightWalkerPredicate, GET_VARIABLE_NAME(straightWalker));
+
+      float faKp = 0.3;
+      float faKi = 0.015;
+      float faKd = 0.7;
+      float faDt = 1;
+      float waitFaUsec = 2000000;
+      float angle = 0;
+      PIDFacingAngleAbs *facing0 = new PIDFacingAngleAbs(FA_WheelCount, angle, faKp, faKi, faKd, faDt);
+      commandExecutor->addCommand(facing0, new ORPredicate(new TimerPredicate(waitFaUsec), new FinishedCommandPredicate(facing0)), GET_VARIABLE_NAME(facing0));
+    }
+    else // 青トレースによるガレージイン
+    {
+      // 13,10ど右回転 ８回
+      CommandAndPredicate *predicate13 = new RotateRobotUseGyroCommandAndPredicate(40, 5, robotAPI);
+      Walker *walker13S = new Walker(leftPow, rightPow);
+      Predicate *predicate13S = new WheelDistancePredicate(1, robotAPI);
+      for (int i = 0; i < 2; i++)
+      {
+        commandExecutor->addCommand(predicate13->getCommand(), predicate13->getPredicate(), GET_VARIABLE_NAME(predicate13->getCommand()));
+        commandExecutor->addCommand(stopper11, predicateS11, GET_VARIABLE_NAME(stoppper11));
+        commandExecutor->addCommand(walker13S, predicate13S, GET_VARIABLE_NAME(walker13S));
+        commandExecutor->addCommand(stopper11, predicateS11, GET_VARIABLE_NAME(stoppper11));
+      }
+      ColorPIDTracerV2 *bluePWMTracer = new ColorPIDTracerV2(RIGHT_TRACE, Trace_R, 5, kp, ki, kd, dt, pidR);
+      calibrator->addColorPIDTracer(bluePWMTracer);
+      Predicate *predicate13blue = new WheelDistancePredicate(15, robotAPI);
+      commandExecutor->addCommand(bluePWMTracer, predicate13blue, GET_VARIABLE_NAME(bluePWMTracer));
       commandExecutor->addCommand(stopper11, predicateS11, GET_VARIABLE_NAME(stoppper11));
     }
-    ColorPIDTracerV2 *bluePWMTracer = new ColorPIDTracerV2(RIGHT_TRACE, Trace_R, 5, kp, ki, kd, dt, pidR);
-    calibrator->addColorPIDTracer(bluePWMTracer);
-    Predicate *predicate13blue = new WheelDistancePredicate(15, robotAPI);
-    commandExecutor->addCommand(bluePWMTracer, predicate13blue, GET_VARIABLE_NAME(bluePWMTracer));
-    commandExecutor->addCommand(stopper11, predicateS11, GET_VARIABLE_NAME(stoppper11));
     // 14,ガレージに直進（取得した色ごとに分岐させる）colorReadergetColor()で色を取得できる
-    colorid_t *color = new colorid_t(COLOR_BLUE);
-    Command *dealingWithGarage14 = new DealingWithGarage(color, commandExecutor, false);
+    Command *dealingWithGarage14 = new DealingWithGarage(garageCardColorPtr, commandExecutor, false);
     Predicate *predicate14 = new NumberOfTimesPredicate(1);
     commandExecutor->addCommand(dealingWithGarage14, predicate14, GET_VARIABLE_NAME(dealingWithGarage14));
   }
