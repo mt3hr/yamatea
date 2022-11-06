@@ -8235,14 +8235,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float peachDistance = 36.5;
     float orangeDistance = 76;
     float starFruitsDistance = 15;
-    float waterMelonDistance = 333;
+    float waterMelonDistance = 334; // チーン
     float bokChoyDistance = 9;
     float dorianDistance = 120;
     float radishDistance = 0;
     float melonDistance = 29;
-    float nutsDistance = 17.5;
+    float nutsDistance = 21;
     float lemonDistance = 33;
-    float cucumberDistance = 207;
+    float cucumberDistance = 201;
     float strawberryDistance = 28;
     float cabbageDistance = 95;
 
@@ -8274,7 +8274,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float carrotKi = 0; // 0.12;
     float carrotKd = 1.35;
     float carrotDt = 0.4;
-    float carrotR = 47.5;
+    float carrotR = 50;
 
     // PmanPIDTracerの初期化とCommandExecutorへの追加
     pwm = 25;
