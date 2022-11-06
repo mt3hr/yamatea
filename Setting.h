@@ -14,7 +14,7 @@ using namespace std;
 
 // 実機シミュレータ設定。ジャイロセンサから取得できる角度の方向が実機とシミュレータでは異なるので。
 //#define SimulatorMode // 実機で動かすときにはコメントアウトして
-#define SanekataCanNotGoal // ゴール以外の結合がしたい実方用。コメントアウトして。
+//#define SanekataCanNotGoal // ゴール以外の結合がしたい実方用。コメントアウトして。
 
 // コース設定ここから。いずれか1つを有効化して
 #define Left
@@ -28,7 +28,8 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define TrueCourceModeCS // CS完走用プログラム
+#define TrueCourceSanekataModeCS // CS完走用プログラム
+//#define TrueCourceOkiharaModeCS // CS完走用プログラム
 //#define TrueCourceOkiharaModeRegional // 地区大会完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeRegional  // 地区大会完走用プログラム。小路シナリオ
 //#define GoalSanekataPIDMode1 // ゴール用プログラム。試走会1時点。
@@ -66,7 +67,7 @@ using namespace std;
 //#define ColorPIDTracerTestMode // ColorPIDTraceを試すモード。テスト用
 //#define ColorPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
 //#define BrightnessPIDTracerTestMode // TargetBrightnessPIDTraceを試すモード。テスト用
-#define BrightnessPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
+//#define BrightnessPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
 //#define FroggySongTestMode // かえるの歌を歌わせるモード。テスト用。
 //#define GrayPredicateTestMode // グレーでとまる直進モード。テスト用。
 //#define FacingAngleTestMode // 指定角度に向き直るモード。テスト用。
