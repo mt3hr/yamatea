@@ -5409,6 +5409,30 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   r = 0;
 
+  // おれんじ爆速R制御i制御あり
+  pwm = 60;
+  kp = 0.4;
+  ki = 0.12;
+  kd = 0.8;
+  dt = 0.4;
+  r = 0; // -28; // TODO 直進できる値を探してからRを探して
+
+  // おれんじ爆速R制御
+  pwm = 60;
+  kp = 0.675;
+  ki = 0;
+  kd = 2.3;
+  dt = 1;
+  r = -26;
+
+  // すいか爆速R制御
+  pwm = 65;
+  kp = 0.7;
+  ki = 0;
+  kd = 2;
+  dt = 1;
+  r = 32;
+
   PIDTracerV2 *pidTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
   commandExecutor->addCommand(pidTracer, new Predicate(), GET_VARIABLE_NAME(pidTracer));
   calibrator->addPIDTracer(pidTracer);
@@ -8231,19 +8255,19 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     float pmanDistance = 34;
     float carrotDistance = 32;
-    float bananaDistance = 26;
-    float peachDistance = 39;
-    float orangeDistance = 71;
-    float starFruitsDistance = 15;
-    float waterMelonDistance = 336;
-    float bokChoyDistance = 7;
-    float dorianDistance = 118;
+    float bananaDistance = 34;
+    float peachDistance = 37;
+    float orangeDistance = 73;
+    float starFruitsDistance = 16;
+    float waterMelonDistance = 335;
+    float bokChoyDistance = 10;
+    float dorianDistance = 116;
     float radishDistance = 0;
     float melonDistance = 36;
-    float nutsDistance = 14;
-    float lemonDistance = 36;
+    float nutsDistance = 8.5;
+    float lemonDistance = 37;
     float cucumberDistance = 195;
-    float strawberryDistance = 26;
+    float strawberryDistance = 32;
     float cabbageDistance = 95;
 
 #ifdef Right // 学校のコース伸びた説
@@ -8337,11 +8361,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // OrangePIDTracerの初期化とCommandExecutorへの追加
     pwm = 60;
-    kp = 0.4;
-    ki = 0.12;
-    kd = 1.2;
-    dt = 0.4;
-    r = -38;
+    kp = 0.675;
+    ki = 0.01;
+    kd = 2.3;
+    dt = 1;
+    r = -26;
     PIDTracerV2 *orangePIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateOrange = new WheelDistancePredicate(orangeDistance, robotAPI);
     calibrator->addPIDTracer(orangePIDTracer);
@@ -8357,7 +8381,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // StarFruitsWalkerの初期化とCommandExecutorへの追加
     pwm = 60;
-    radius = 22;
+    radius = 18.5;
     theta = -360; // 多めにしないと動かんのか？
     CurvatureWalkerCommandAndPredicate *starFuitsWalker = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
     Predicate *predicateStarFruits = new WheelDistancePredicate(starFruitsDistance, robotAPI);
@@ -8366,11 +8390,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
     pwm = 65;
-    kp = 0.6;
-    ki = 0; // 0.1;
-    kd = 1.8;
-    dt = 0.45;
-    r = 28;
+    kp = 0.7;
+    ki = 0.01;
+    kd = 2;
+    dt = 1;
+    r = 35; // TODO
     PIDTracerV2 *waterMelonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateWaterMelon = new WheelDistancePredicate(waterMelonDistance, robotAPI);
     calibrator->addPIDTracer(waterMelonPIDTracer);
@@ -8396,7 +8420,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     // DorianPIDTracerの初期化とCommandExecutorへの追加
     pwm = 35;
     kp = 0.45;
-    ki = 0.01;
+    ki = 0;//0.01;
     kd = 1.55;
     dt = 1;
     r = 0;
@@ -8955,7 +8979,7 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
 
 // 直進
 #ifdef SlalomPattern1
-      distance = 11;
+      distance = 8.5;
       pwm = 10;
       PIDStraightWalker *walker5 = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
       Predicate *walker5Predicate = new WheelDistancePredicate(distance, robotAPI);
