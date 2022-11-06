@@ -8231,19 +8231,19 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     float pmanDistance = 34;
     float carrotDistance = 32;
-    float bananaDistance = 30;
-    float peachDistance = 38.5;
-    float orangeDistance = 76;
+    float bananaDistance = 26;
+    float peachDistance = 39;
+    float orangeDistance = 71;
     float starFruitsDistance = 15;
-    float waterMelonDistance = 334; // チーン
-    float bokChoyDistance = 9;
-    float dorianDistance = 120;
+    float waterMelonDistance = 336;
+    float bokChoyDistance = 7;
+    float dorianDistance = 118;
     float radishDistance = 0;
-    float melonDistance = 30;
-    float nutsDistance = 18;
-    float lemonDistance = 33;
-    float cucumberDistance = 201;
-    float strawberryDistance = 28;
+    float melonDistance = 36;
+    float nutsDistance = 14;
+    float lemonDistance = 36;
+    float cucumberDistance = 195;
+    float strawberryDistance = 26;
     float cabbageDistance = 95;
 
 #ifdef Right // 学校のコース伸びた説
@@ -8289,21 +8289,30 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     calibrator->addPIDTracer(pmanPIDTracer);
 
     // CarrotPIDTracerの初期化とCommandExecutorへの追加
-    pwm = carrotPWM;
+    /*
+    pwm = 50;
     kp = carrotKp;
     ki = carrotKi;
     kd = carrotKd;
     dt = carrotDt;
-    r = carrotR;
-    angle = 90 - 10;
+    r = 30;
+    */
+    // 距離依存をへらすために速度を落としてAndPredicateを使います
+    pwm = 25;
+    kp = 0.5;
+    ki = 0;
+    kd = 1.4;
+    dt = 1;
+    r = 10;
+    angle = 90 - 20;
     PIDTracerV2 *carrotPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
-    Predicate *predicateCarrot = new WheelDistancePredicate(carrotDistance, robotAPI);
-    // Predicate *predicateCarrot = new ANDPredicate(new WheelDistancePredicate(carrotDistance, robotAPI), new FacingRobotUseWheelPredicate(angle));
+    // Predicate *predicateCarrot = new WheelDistancePredicate(carrotDistance, robotAPI);
+    Predicate *predicateCarrot = new ANDPredicate(new WheelDistancePredicate(carrotDistance, robotAPI), new FacingRobotUseWheelPredicate(angle));
     commandExecutor->addCommand(carrotPIDTracer, predicateCarrot, GET_VARIABLE_NAME(carrotPIDTracer));
     calibrator->addPIDTracer(carrotPIDTracer);
 
     // BananaPIDTracerの初期化とCommandExecutorへの追加
-    pwm = 50;
+    pwm = 45;
     kp = 0.44;
     ki = 0;
     kd = 1.5;
@@ -8330,9 +8339,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     pwm = 60;
     kp = 0.4;
     ki = 0.12;
-    kd = 1.2;
+    kd = 0.75;
     dt = 0.4;
-    r = -39;
+    r = -38;
     PIDTracerV2 *orangePIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateOrange = new WheelDistancePredicate(orangeDistance, robotAPI);
     calibrator->addPIDTracer(orangePIDTracer);
@@ -8386,11 +8395,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // DorianPIDTracerの初期化とCommandExecutorへの追加
     pwm = 35;
-    kp = 0.5;
+    kp = 0.45;
     ki = 0.01;
-    kd = 1.5;
+    kd = 1.55;
     dt = 1;
-    r = -10;
+    r = 0;
     PIDTracerV2 *dorianPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateDorian = new WheelDistancePredicate(dorianDistance, robotAPI);
     calibrator->addPIDTracer(dorianPIDTracer);
@@ -8449,7 +8458,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     commandExecutor->addCommand(lemonPIDTracer, predicateLemon, GET_VARIABLE_NAME(lemonPIDTracer));
 
     // CucumberPIDTracerの初期化とCommandExecutorへの追加
-    pwm = 75;
+    pwm = 65;
     kp = 0.8;
     ki = 0; // 0.3;
     kd = 2.4;
@@ -9362,7 +9371,7 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
       float faKd = 0.7;
       float faDt = 1;
       float waitFaUsec = 2000000;
-      float angle = -10;
+      float angle = 0;
       PIDFacingAngleAbs *facing0 = new PIDFacingAngleAbs(FA_WheelCount, angle, faKp, faKi, faKd, faDt);
       commandExecutor->addCommand(facing0, new ORPredicate(new TimerPredicate(waitFaUsec), new FinishedCommandPredicate(facing0)), GET_VARIABLE_NAME(facing0));
     }
