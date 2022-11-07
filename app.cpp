@@ -9953,17 +9953,6 @@ void main_task(intptr_t unused)
     // すべての周期ハンドラを止める
     stp_cyc_all();
 
-    // デデドン！
-    dededonCommandExecutor = new CommandExecutor(robotAPI, false);
-    initDededon();
-
-// FroggySongを歌うCommandExecutorを初期化する
-#ifdef SingASong
-    singASongCommandExecutor = new CommandExecutor(robotAPI, false);
-    initSong(loopSong);
-    commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
-#endif
-
     // EV3APIオブジェクトの初期化
     TouchSensor *touchSensor = new TouchSensor(PORT_1);
     ColorSensor *colorSensor = new ColorSensor(PORT_2);
@@ -9997,7 +9986,7 @@ void main_task(intptr_t unused)
     robotAPI->getClock()->sleep(sleepDuration);
 
     // バッテリーが少なかったら音で通知する
-    if (lowBatteryVoltageMv <= ev3_battery_voltage_mV())
+    if (lowBatteryVoltageMv >= ev3_battery_voltage_mV())
     {
       StartCyc *startDededon = new StartCyc(DEDEDON_CYC);
       startDededon->run(robotAPI);
@@ -10008,6 +9997,17 @@ void main_task(intptr_t unused)
     initializeCommandExecutor(commandExecutor, robotAPI);
 #ifdef Right
     commandExecutor->reverseCommandAndPredicate();
+#endif
+
+    // デデドン！
+    dededonCommandExecutor = new CommandExecutor(robotAPI, false);
+    initDededon();
+
+// FroggySongを歌うCommandExecutorを初期化する
+#ifdef SingASong
+    singASongCommandExecutor = new CommandExecutor(robotAPI, false);
+    initSong(loopSong);
+    commandExecutor->addCommand(new StartCyc(SING_A_SONG_CYC), new NumberOfTimesPredicate(1), "sing a song");
 #endif
 
     vector<string> readyMessageLines;
