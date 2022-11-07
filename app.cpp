@@ -9951,7 +9951,7 @@ void main_task(intptr_t unused)
     ev3_lcd_draw_string("initializing...", 0, line * line_height);
 
     // すべての周期ハンドラを止める
-    stp_cyc_all();
+    // stp_cyc_all();
 
     // EV3APIオブジェクトの初期化
     TouchSensor *touchSensor = new TouchSensor(PORT_1);
