@@ -129,6 +129,7 @@ extern bool enableSwitchLEDWhenCommandSwitching;
 extern vector<ledcolor_t> ledColorsWhenCommandSwitching;
 extern int loopSong;
 extern vector<Note *> song;
+extern int lowBatteryVoltageMv;
 
 extern bool calibrateRed;
 extern bool calibrateGreen;

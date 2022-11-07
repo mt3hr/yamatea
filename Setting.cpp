@@ -65,6 +65,7 @@ bool enablePrintMessageMode = false;         // trueにすると、コマンド�
 bool enablePrintMessageForLCD = false;       // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
 bool enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
 bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
+int lowBatteryVoltageMv = 7650;
 
 // 情報出力の有効無効設定ここまで
 
@@ -73,8 +74,8 @@ bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接�
 bool enableBeepWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
 bool enableBeepWhenCommandSwitchingSong = false;
 Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 5); // debugBeep()で鳴らす音の定義
-vector<Note *> song = generateFroggySong();                     // 流す曲の定義
-int loopSong = 10;                                              // 曲のループ数
+vector<Note *> song = generateFroggySong();                    // 流す曲の定義
+int loopSong = 10;                                             // 曲のループ数
 
 bool enableSwitchLEDWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にLEDの色を切り替える。
 ledcolor_t ledColorsWhenCommandSwitchingArray[] = {
