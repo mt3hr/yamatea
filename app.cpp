@@ -80,6 +80,8 @@
 #include "ReleaseWheel.h"
 #include "SonarDistancePredicate.h"
 #include "AngleAbsPredicate.h"
+#include "SetPWMCoefficient.h"
+#include "ResetPWMCoefficient.h"
 
 using namespace std;
 using namespace ev3api;
@@ -1882,6 +1884,12 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   colorid_t *garageCardColorPtr = colorReader->getColorPtr();
 
   {
+    SetPWMCoefficient *setPWMCoefficient = new SetPWMCoefficient();
+    commandExecutor->addCommand(setPWMCoefficient, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(setPWMCoefficient));
+
+    leftWheelPWMCorrectedValue = 1;
+    rightWheelPWMCorrectedValue = 1;
+
     bool facingAngleAtStarFruits = false;
     bool facingAngleAtBokChoy = false;
 
@@ -2150,6 +2158,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     calibrator->addPIDTracer(cabbagePIDTracer);
     commandExecutor->addCommand(cabbagePIDTracer, predicateCabbage, GET_VARIABLE_NAME(cabbagePIDTracer));
     // Commandの定義とCommandExecutorへの追加ここまで
+
+    ResetPWMCoefficient *resetPWMCoefficient = new ResetPWMCoefficient();
+    commandExecutor->addCommand(resetPWMCoefficient, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(resetPWMCoefficient));
 
 #if defined(SimulatorMode) | defined(DisableCalibration)
     // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある
@@ -8261,6 +8272,12 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef TrueCourceSanekataModeCS
   // ↓ここから実方↓
   {
+    SetPWMCoefficient *setPWMCoefficient = new SetPWMCoefficient();
+    commandExecutor->addCommand(setPWMCoefficient, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(setPWMCoefficient));
+
+    leftWheelPWMCorrectedValue = 1;
+    rightWheelPWMCorrectedValue = 1;
+
     bool facingAngleAtStarFruits = false;
     bool facingAngleAtBokChoy = false;
 
@@ -8529,6 +8546,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     calibrator->addPIDTracer(cabbagePIDTracer);
     commandExecutor->addCommand(cabbagePIDTracer, predicateCabbage, GET_VARIABLE_NAME(cabbagePIDTracer));
     // Commandの定義とCommandExecutorへの追加ここまで
+
+    ResetPWMCoefficient *resetPWMCoefficient = new ResetPWMCoefficient();
+    commandExecutor->addCommand(resetPWMCoefficient, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(resetPWMCoefficient));
 
 #if defined(SimulatorMode) | defined(DisableCalibration)
     // シミュレータはPIDTargetBrightnessをキャリブレーションしないので値を設定する必要がある

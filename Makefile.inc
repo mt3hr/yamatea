@@ -73,6 +73,8 @@ BrightnessReader.o \
 ResetArmAngle.o \
 ReleaseWheel.o \
 AngleAbsPredicate.o \
+SetPWMCoefficient.o \
+ResetPWMCoefficient.o \
 
 SRCLANG := c++
 
