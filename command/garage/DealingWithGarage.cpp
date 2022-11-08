@@ -46,34 +46,34 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             Predicate *predicateS1 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS1, "stopper1");
             //r2,後ろに下がる
-            leftPow = -40;
-            rightPow = -40;
+            leftPow = -20;
+            rightPow = -20;
             Walker *walker2 = new Walker(leftPow, rightPow);
             Predicate *predicate2 = new WheelDistancePredicate(-5, robotAPI);
             commandExecutor->addCommand(walker2, predicate2, "walker2");
             Predicate *predicateS2 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS2, "stopper1");
             // r3,90ど右回転
-            CommandAndPredicate *predicate3 = new RotateRobotUseGyroCommandAndPredicate(90,30,robotAPI);
+            CommandAndPredicate *predicate3 = new RotateRobotUseGyroCommandAndPredicate(90,10,robotAPI);
             if (reverse) {
-                predicate3 = new RotateRobotUseGyroCommandAndPredicate(-90,5,robotAPI);
+                predicate3 = new RotateRobotUseGyroCommandAndPredicate(-90,10,robotAPI);
             }
             commandExecutor->addCommand(predicate3->getCommand(), predicate3->getPredicate(), "90turn");
             Predicate *predicateS3 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS3, "stopper1");
             
             //r4,直進
-            leftPow = 40;
-            rightPow = 40;
+            leftPow = 20;
+            rightPow = 20;
             Walker *walker4 = new Walker(leftPow, rightPow);
-            Predicate *predicate4 = new WheelDistancePredicate(12, robotAPI);
+            Predicate *predicate4 = new WheelDistancePredicate(14, robotAPI);
             commandExecutor->addCommand(walker4, predicate4, "walker4");
             Predicate *predicateS4 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS4, "stopper1");
             //r5,90度左回転
-            CommandAndPredicate *predicate5 = new RotateRobotUseGyroCommandAndPredicate(-90,20,robotAPI);
+            CommandAndPredicate *predicate5 = new RotateRobotUseGyroCommandAndPredicate(-90,10,robotAPI);
             if (reverse) {
-                predicate5 = new RotateRobotUseGyroCommandAndPredicate(90,20,robotAPI);
+                predicate5 = new RotateRobotUseGyroCommandAndPredicate(90,10,robotAPI);
             }
             commandExecutor->addCommand(predicate5->getCommand(), predicate5->getPredicate(), "-90turn");
             Predicate *predicateS5 = new NumberOfTimesPredicate(1);
