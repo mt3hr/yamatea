@@ -1884,13 +1884,13 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   colorid_t *garageCardColorPtr = colorReader->getColorPtr();
 
   {
-    // int orangePlan = 1; // 強めのPDとI、なるべく弱めのRな走行
+    // int orangePlan = 1; // 強めのPDとI、なるべく弱めのRな走行 ブレがあるのでplan2を用意しました
     int orangePlan = 2; // 弱めのPDでRに頼った走行
     // int orangePlan = 3;
-    // int waterMelonPlan = 1; // 強めのPDとI、なるべく弱めのRな走行
+    // int waterMelonPlan = 1; // 強めのPDとI、なるべく弱めのRな走行 ブレがあるのでplan2を用意しました
     int waterMelonPlan = 2; // 弱めのPDでRに頼った走行
     // int waterMelonPlan = 3;
-    // int dorianPlan = 1; // まぁまぁなPID走行
+    // int dorianPlan = 1; // まぁまぁなPID走行 iを使うと安定性が下がるのでplan2, plan3を用意しました
     int dorianPlan = 2; // 弱めのPD走行
     // int dorianPlan = 3; // 強めのPD走行
     SetPWMCoefficient *setPWMCoefficient = new SetPWMCoefficient();
@@ -8443,13 +8443,13 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef TrueCourceSanekataModeCS
   // ↓ここから実方↓
   {
-    // int orangePlan = 1; // 強めのPDとI、なるべく弱めのRな走行
+    // int orangePlan = 1; // 強めのPDとI、なるべく弱めのRな走行 ブレがあるのでplan2を用意しました
     int orangePlan = 2; // 弱めのPDでRに頼った走行
     // int orangePlan = 3;
-    // int waterMelonPlan = 1; // 強めのPDとI、なるべく弱めのRな走行
+    // int waterMelonPlan = 1; // 強めのPDとI、なるべく弱めのRな走行 ブレがあるのでplan2を用意しました
     int waterMelonPlan = 2; // 弱めのPDでRに頼った走行
     // int waterMelonPlan = 3;
-    // int dorianPlan = 1; // まぁまぁなPID走行
+    // int dorianPlan = 1; // まぁまぁなPID走行 iを使うと安定性が下がるのでplan2, plan3を用意しました
     int dorianPlan = 2; // 弱めのPD走行
     // int dorianPlan = 3; // 強めのPD走行
     SetPWMCoefficient *setPWMCoefficient = new SetPWMCoefficient();
