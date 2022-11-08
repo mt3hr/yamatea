@@ -8440,9 +8440,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 // ↑ここまで沖原↑
 #endif
 #endif
-#ifdef SanekataCanNotGoal
-  if (false)
-#endif
 #ifdef TrueCourceSanekataModeCS
   // ↓ここから実方↓
   {
