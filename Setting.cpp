@@ -71,7 +71,7 @@ int lowBatteryVoltageMv = 7650;
 
 // コマンド切り替え時ビープ音LED設定ここから
 
-bool enableBeepWhenCommandSwitching = false; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
+bool enableBeepWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
 bool enableBeepWhenCommandSwitchingSong = false;
 Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 5); // debugBeep()で鳴らす音の定義
 vector<Note *> song = generateFroggySong();                    // 流す曲の定義
