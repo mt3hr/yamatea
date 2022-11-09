@@ -28,8 +28,8 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define TrueCourceSanekataModeCS // CS完走用プログラム
-#define TrueCourceOkiharaModeCS // CS完走用プログラム
+#define TrueCourceSanekataModeCS // CS完走用プログラム
+//#define TrueCourceOkiharaModeCS // CS完走用プログラム
 //#define TrueCourceOkiharaModeRegional // 地区大会完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeRegional  // 地区大会完走用プログラム。小路シナリオ
 //#define GoalSanekataPIDMode1 // ゴール用プログラム。試走会1時点。
