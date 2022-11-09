@@ -2816,7 +2816,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     pwm = carrotPWM;
     kp = carrotKp;
     ki = carrotKi;
-    kd = carrotKd;
+    kd = kp;//TODO 試して
     dt = carrotDt;
     r = -44;
     PIDTracerV2 *strawberryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
@@ -6143,6 +6143,20 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 1;
   r = 32;
 
+  float carrotPWM = 60;
+  float carrotKp = 0.35;
+  float carrotKi = 0.015; // 0.12;
+  float carrotKd = carrotKp * 3;
+  float carrotDt = 0.4;
+  float carrotR = 55;
+
+  // いちご
+  pwm = 60;
+  kp = 0.615;
+  ki = 0; // 0.15;
+  kd = kp;//TODO オーバーシュートしているのならばKdが高すぎた説がありえます
+  dt = 1;
+  r = -40;
   PIDTracerV2 *pidTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
   commandExecutor->addCommand(pidTracer, new Predicate(), GET_VARIABLE_NAME(pidTracer));
   calibrator->addPIDTracer(pidTracer);
@@ -9194,7 +9208,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // StarFruitsWalkerの初期化とCommandExecutorへの追加
     pwm = 60;
-    radius = 24;
+    radius = 23;
     theta = -360; // 多めにしないと動かんのか？
     angle = 24;
     CurvatureWalkerCommandAndPredicate *starFuitsWalker = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
@@ -9501,7 +9515,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     ki = carrotKi;
     kd = carrotKd;
     dt = carrotDt;
-    r = -44;
+    r = -35;
     PIDTracerV2 *strawberryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateStrawberry = new WheelDistancePredicate(strawberryDistance, robotAPI);
     predicateStrawberry = predicateStrawberry->generateReversePredicate();
