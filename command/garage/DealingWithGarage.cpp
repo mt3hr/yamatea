@@ -10,8 +10,10 @@
 #include "CommandAndPredicate.h"
 #include "RotateRobotUseGyroCommandAndPredicate.h"
 #include "RawColorPredicate.h"
-​ DealingWithGarage::~DealingWithGarage(){
-​ } DealingWithGarage::DealingWithGarage(colorid_t *colorID, CommandExecutor *commandExecutor, bool reverse)
+DealingWithGarage::~DealingWithGarage()
+{
+}
+DealingWithGarage::DealingWithGarage(colorid_t *colorID, CommandExecutor *commandExecutor, bool reverse)
 {
     //コマンドエグゼキューターポインタを渡し処理を追加させます。
     // reverseでコース反転させるか否かを決めます
@@ -19,11 +21,8 @@
     this->commandExecutor = commandExecutor;
     this->reverse = reverse;
 }
-​
-​
-    // オーバーライドして使って
-    void
-    DealingWithGarage::run(RobotAPI *robotAPI)
+// オーバーライドして使って
+void DealingWithGarage::run(RobotAPI *robotAPI)
 {
     if (executeState == false)
     {
@@ -148,15 +147,13 @@
     }
     return;
 }
-​ void DealingWithGarage::preparation(RobotAPI *robotAPI)
+void DealingWithGarage::preparation(RobotAPI *robotAPI)
 {
     return;
 }
-​
-    // 左右反転したコマンドを生成する。
-    // オーバーライドして使って。
-    Command *
-    DealingWithGarage::generateReverseCommand()
+// 左右反転したコマンドを生成する。
+// オーバーライドして使って。
+Command * DealingWithGarage::generateReverseCommand()
 {
     DealingWithGarage *reversedDealingWithGarage = new DealingWithGarage(colorID, commandExecutor, true);
     return reversedDealingWithGarage;
