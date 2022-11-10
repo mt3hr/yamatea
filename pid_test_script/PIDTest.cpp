@@ -19,10 +19,10 @@ int main()
 	double dt;
 
 	// 環境値設定ここから
-	value = 5000;                      // 初期値
-	target = 0;                        // 目標値
-	incrementValue = 500;			   // targetの増減値
-	errorValue = 0; // targetの増減値のランダム要素（実機を想定したブレ）（値探しのときは0にしたほうがいい）
+	value = 5000;		  // 初期値
+	target = 0;			  // 目標値
+	incrementValue = 500; // targetの増減値
+	errorValue = 0;		  // targetの増減値のランダム要素（実機を想定したブレ）（値探しのときは0にしたほうがいい）
 	// 環境値設定ここまで
 
 	// pidの値設定ここから
