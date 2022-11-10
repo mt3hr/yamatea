@@ -2922,8 +2922,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     SetPWMCoefficient *setPWMCoefficient = new SetPWMCoefficient();
     // commandExecutor->addCommand(setPWMCoefficient, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(setPWMCoefficient));
 
-    float defaultKi = 0.1;
-    float magnificationKd = 8.0;
+    float defaultKi = 0.3;
+    float magnificationKd = 0.01;
 
     bool facingAngleAtStarFruits = false;
     bool facingAngleAtBokChoy = false;
@@ -2973,7 +2973,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float faKp = 0.7;
     float faKi = 0;
     float faKd = 0.7;
-    float faDt = 1;
+    float faDt = 0.1;
 
     float carrotPWM = 60;
     float carrotKp = 0.35;
@@ -2989,7 +2989,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kp = 0.5;
     ki = 0;
     kd = 1.4;
-    dt = 1;
+    dt = 0.1;
     r = 0;
     carrotKi = defaultKi;
     carrotKd = carrotKp * magnificationKd;
@@ -3012,7 +3012,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kp = 0.5;
     ki = 0;
     kd = 1.4;
-    dt = 1;
+    dt = 0.1;
     r = 15;
     carrotKi = defaultKi;
     carrotKd = carrotKp * magnificationKd;
@@ -3028,7 +3028,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kp = 0.44;
     ki = 0;
     kd = 1.5;
-    dt = 1;
+    dt = 0.1;
     r = 0;
     carrotKi = defaultKi;
     carrotKd = carrotKp * magnificationKd;
@@ -3060,7 +3060,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       kp = 0.675;
       ki = 0.01;
       kd = kp * 3;
-      dt = 1;
+      dt = 0.1;
       r = -34;
       break;
     }
@@ -3073,7 +3073,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       kp = 0.4; // TODO
       ki = 0;
       kd = kp * 3;
-      dt = 1;
+      dt = 0.1;
       r = -34;
       break;
     }
@@ -3086,7 +3086,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       kp = 0.4; // TODO
       ki = 0;
       kd = kp * 3;
-      dt = 1;
+      dt = 0.1;
       r = -34;
       ki = defaultKi;
       kd = carrotKp * magnificationKd;
@@ -3098,7 +3098,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     Predicate *predicateOrange;
     if (useAnglePredicateAtOrange)
     {
-      preicateOrange = new FacingRobotUseWheelPredicate(angle);
+      predicateOrange = new FacingRobotUseWheelPredicate(angle);
     }
     else
     {
@@ -3149,7 +3149,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       cherryKp = 0.7;
       cherryKi = 0; // 0.025;
       cherryKd = 2.1;
-      cherryDt = 1;
+      cherryDt = 0.1;
       cherryR = 38; // TODO
       break;
     }
@@ -3161,7 +3161,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       cherryKp = 0.38; // TODO
       cherryKi = 0;
       cherryKd = cherryKp * 3; // TODO
-      cherryDt = 1;
+      cherryDt = 0.1;
       cherryR = 31; // TODO
       break;
     }
@@ -3173,7 +3173,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       cherryKp = 0.5;
       cherryKi = 0;
       cherryKd = cherryKp * 3;
-      cherryDt = 1;
+      cherryDt = 0.1;
       cherryR = 28; // TODO
       cherryKi = defaultKi;
       cherryKd = carrotKp * magnificationKd;
@@ -3191,7 +3191,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       waterMelonKp = 0.4; // TODO
       waterMelonKi = 0;
       waterMelonKd = waterMelonKp * 3; // TODO
-      waterMelonDt = 1;
+      waterMelonDt = 0.1;
       waterMelonR = 45; // TODO
       break;
     }
@@ -3203,7 +3203,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       waterMelonKp = 0.4; // TODO
       waterMelonKi = 0;
       waterMelonKd = waterMelonKp * 3; // TODO
-      waterMelonDt = 1;
+      waterMelonDt = 0.1;
       waterMelonR = 33; // TODO
       break;
     }
@@ -3215,7 +3215,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       waterMelonKp = 0.5; // TODO
       waterMelonKi = 0;
       waterMelonKd = waterMelonKp * 3; // TODO
-      waterMelonDt = 1;
+      waterMelonDt = 0.1;
       waterMelonR = 33; // TODO
       break;
     }
@@ -3227,7 +3227,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       waterMelonKp = 0.4;
       waterMelonKi = 0.01;
       waterMelonKd = waterMelonKp * 3;
-      waterMelonDt = 1;
+      waterMelonDt = 0.1;
       waterMelonR = 29; // TODO
       waterMelonKi = defaultKi;
       waterMelonKd = carrotKp * magnificationKd;
@@ -3280,6 +3280,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     radius = 23.5;
     theta = -360; // 多めにしないと動かんのか？
     CurvatureWalkerCommandAndPredicate *bokChoyWalker = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
+    Predicate *predicateBokChoy = new WheelDistancePredicate(bokChoyDistance, robotAPI);
     predicateBokChoy = predicateBokChoy->generateReversePredicate(); // 右車輪のほうが回転数多くなるのでそちらではかったほうが精度高くなりそう
     commandExecutor->addCommand(bokChoyWalker->getCommand(), predicateBokChoy, GET_VARIABLE_NAME(bokChoyWalker));
 
@@ -3300,7 +3301,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       dorianKp = 0.58;
       dorianKi = 0.006;
       dorianKd = kp * 3;
-      dorianDt = 1;
+      dorianDt = 0.1;
       dorianR = 0;
       break;
     }
@@ -3311,7 +3312,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       dorianKp = 0.48;
       dorianKi = 0;
       dorianKd = kp * 3;
-      dorianDt = 1;
+      dorianDt = 0.1;
       dorianR = 0;
       dorianKi = defaultKi;
       dorianKd = carrotKp * magnificationKd;
@@ -3324,7 +3325,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       dorianKp = 0.5;
       dorianKi = 0;
       dorianKd = kp * 3;
-      dorianDt = 1;
+      dorianDt = 0.1;
       dorianR = 0;
       break;
     }
@@ -3335,7 +3336,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       dorianKp = 0.44;
       dorianKi = 0;
       dorianKd = 1.5;
-      dorianDt = 1;
+      dorianDt = 0.1;
       dorianR = 0;
       break;
     }
@@ -3356,7 +3357,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kp = 0.64;
     ki = 0;
     kd = kp * 3;
-    dt = 1;
+    dt = 0.1;
     r = 0;
     ki = defaultKi;
     kd = carrotKp * magnificationKd;
@@ -3398,7 +3399,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kp = 0.44;
     ki = 0.001;
     kd = 1.5;
-    dt = 1;
+    dt = 0.1;
     r = 0;
     // はっさくを流用する
     pwm = 25;
@@ -3406,7 +3407,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kp = 0.35;
     ki = 0;
     kd = kp * 3;
-    dt = 1;
+    dt = 0.1;
     r = 0;
     ki = defaultKi;
     kd = carrotKp * magnificationKd;
@@ -3434,7 +3435,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kp = 0.5;
     ki = 0.001;
     kd = kp * 3;
-    dt = 1;
+    dt = 0.1;
     r = 0;
     ki = defaultKi;
     kd = carrotKp * magnificationKd;
@@ -3463,7 +3464,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     kp = 0.5;
     ki = 0.001;
     kd = kp * 3;
-    dt = 1;
+    dt = 0.1;
     r = 0;
     ki = defaultKi;
     kd = carrotKp * magnificationKd;
@@ -6792,6 +6793,24 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   kd = kp; // TODO オーバーシュートしているのならばKdが高すぎた説がありえます
   dt = 1;
   r = -40;
+
+  // きゅうり
+  float defaultKi = 0.05;
+  float magnificationKd = 0.05;
+  pwm = 65;
+  kp = 0.8;
+  ki = defaultKi;
+  kd = carrotKp * magnificationKd;
+  dt = 0.01;
+  r = 0;
+
+  // 1252で求めた値
+  pwm = 65;
+  kp = 0.6;
+  ki = 2;
+  kd = 0.18;
+  dt = 0.5;
+
   PIDTracerV2 *pidTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
   commandExecutor->addCommand(pidTracer, new Predicate(), GET_VARIABLE_NAME(pidTracer));
   calibrator->addPIDTracer(pidTracer);
