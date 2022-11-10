@@ -6811,6 +6811,21 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   kd = 0.18;
   dt = 0.5;
 
+  // i下げる
+  pwm = 65;
+  kp = 0.6;  // pもまぁまぁいい感じ
+  ki = 2.65; // iはとてもいい感じ
+  kd = 0.25; // dtが少なすぎてkdの調節がやりづらくなっている
+  dt = 0.05; // dtが少なすぎてkdの調節がやりづらくなっている
+
+  // 明日試して。
+  pwm = 65;
+  kp = 0.6;
+  ki = 0.265; // TODO
+  ki = 1.65;  // TODO
+  kd = 0.25;
+  dt = 0.5;
+
   PIDTracerV2 *pidTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
   commandExecutor->addCommand(pidTracer, new Predicate(), GET_VARIABLE_NAME(pidTracer));
   calibrator->addPIDTracer(pidTracer);

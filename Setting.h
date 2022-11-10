@@ -81,13 +81,13 @@ using namespace std;
 
 // モード設定ここまで
 
-//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue // コメントアウトを外すとジャイロの値を出力する
 //#define EnablePrintAngleUseWheel // コメントアウトを外すと車輪回転角から導き出された車体旋回角度を出力する
 //#define EnablePrintMotorCount // コメントアウトを外すとモータの回転数を出力する
 //#define EnablePrintSonarDistance
-//#define EnablePrintPIDValues // コメントアウトを外すと各PIDTracerのPID値などを出力する
+#define EnablePrintPIDValues // コメントアウトを外すと各PIDTracerのPID値などを出力する
 //#define EnableRunnerTaskTimeCheck // コメントアウトを外すと、RunnerTask開始と終了のタイミングを出力する
 //#define EnablePrintCommandName // コマンド切り替え時にコマンド名を出力する。キャリブレータの表示より優先されるっぽいのでデバッグ目的以外ではオフっといたほうがいいかも
 #define StopWhenThrowException // コメントアウトを外すと、例外が飛んだときにデデドンして止まる
