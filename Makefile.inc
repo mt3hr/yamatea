@@ -75,6 +75,7 @@ ReleaseWheel.o \
 AngleAbsPredicate.o \
 SetPWMCoefficient.o \
 ResetPWMCoefficient.o \
+WalkerR.o \
 
 SRCLANG := c++
 

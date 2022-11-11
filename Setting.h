@@ -33,7 +33,7 @@ using namespace std;
 //#define TrueCourceOkiharaModeRegional // 地区大会完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeRegional  // 地区大会完走用プログラム。小路シナリオ
 //#define GoalSanekataPIDMode1 // ゴール用プログラム。試走会1時点。
-#define GoalSanekataPIDMode2 // GoalOkihara3Distanceをもとに補正値Rで爆速にしたもの
+//#define GoalSanekataPIDMode2 // GoalOkihara3Distanceをもとに補正値Rで爆速にしたもの
 //#define GoalSanekataScenarioTestMode // 部分シナリオ実方コード
 //#define GoalOkiharaPIDMode  // ゴール用プログラム。沖原作業用
 //#define GoalOkiharaPIDMode1 // ゴール用プログラム。地区大会時点安定
@@ -77,6 +77,7 @@ using namespace std;
 //#define SlalomBlockJoinTestMode // スラロームとブロックの結合を試すモード。テスト用。
 //#define PIDStraightWalkerTestMode // PIDStraightWalkerをテストするモード
 //#define PIDFacingAngleAbsTestMode // PIDFacingAngleAbsをテストするモード
+#define WalkerRTestMode
 
 // モード設定ここまで
 
