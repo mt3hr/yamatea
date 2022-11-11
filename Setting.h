@@ -33,8 +33,7 @@ using namespace std;
 //#define TrueCourceOkiharaModeRegional // 地区大会完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeRegional  // 地区大会完走用プログラム。小路シナリオ
 //#define GoalSanekataPIDMode1 // ゴール用プログラム。試走会1時点。
-//#define GoalSanekataPIDMode2 // GoalOkihara3Distanceをもとに補正値Rで爆速にしたもの
-//#define GoalSanekataPIDMode3 // GoalSanekataPID2にi制御を盛り込んだもの
+#define GoalSanekataPIDMode2 // GoalOkihara3Distanceをもとに補正値Rで爆速にしたもの
 //#define GoalSanekataScenarioTestMode // 部分シナリオ実方コード
 //#define GoalOkiharaPIDMode  // ゴール用プログラム。沖原作業用
 //#define GoalOkiharaPIDMode1 // ゴール用プログラム。地区大会時点安定
@@ -69,7 +68,7 @@ using namespace std;
 //#define ColorPIDTracerTestMode // ColorPIDTraceを試すモード。テスト用
 //#define ColorPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
 //#define BrightnessPIDTracerTestMode // TargetBrightnessPIDTraceを試すモード。テスト用
-#define BrightnessPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
+//#define BrightnessPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
 //#define FroggySongTestMode // かえるの歌を歌わせるモード。テスト用。
 //#define GrayPredicateTestMode // グレーでとまる直進モード。テスト用。
 //#define FacingAngleTestMode // 指定角度に向き直るモード。テスト用。
@@ -81,13 +80,13 @@ using namespace std;
 
 // モード設定ここまで
 
-#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue // コメントアウトを外すとジャイロの値を出力する
 //#define EnablePrintAngleUseWheel // コメントアウトを外すと車輪回転角から導き出された車体旋回角度を出力する
 //#define EnablePrintMotorCount // コメントアウトを外すとモータの回転数を出力する
 //#define EnablePrintSonarDistance
-#define EnablePrintPIDValues // コメントアウトを外すと各PIDTracerのPID値などを出力する
+//#define EnablePrintPIDValues // コメントアウトを外すと各PIDTracerのPID値などを出力する
 //#define EnableRunnerTaskTimeCheck // コメントアウトを外すと、RunnerTask開始と終了のタイミングを出力する
 //#define EnablePrintCommandName // コマンド切り替え時にコマンド名を出力する。キャリブレータの表示より優先されるっぽいのでデバッグ目的以外ではオフっといたほうがいいかも
 #define StopWhenThrowException // コメントアウトを外すと、例外が飛んだときにデデドンして止まる
