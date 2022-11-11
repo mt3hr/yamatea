@@ -3,7 +3,7 @@
 #include "unistd.h"
 #include <random>
 
-#define PRINT_PID_INFO // コメントアウトを外してpidの各値を出力する
+//#define PRINT_PID_INFO // コメントアウトを外してpidの各値を出力する
 
 using namespace std;
 
@@ -13,6 +13,8 @@ int main()
 	double target;
 	double incrementValue;
 	int errorValue;
+	double ku;
+	double tu;
 	double kp;
 	double ki;
 	double kd;
@@ -78,6 +80,22 @@ int main()
 	kd = 0.009;//0.05;//0.1;
 
 	// 限界感度法を試す
+	value = 500;		  // 初期値
+	target = 0;			  // 目標値
+	incrementValue = 0; // targetの増減値
+	errorValue = 0;		  // targetの増減値のランダム要素（実機を想定したブレ）（値探しのときは0にしたほうがいい）
+	dt = 0.05;
+	ku = 2;
+	tu = dt;
+	kp = ku * 0.6;
+	ki = tu * 0.5;
+	kd = tu * 0.125;
+	// kp = ku;
+	// ki = 0;
+	// kd = 0;
+
+
+
 
 	// 実機調節でdtをいじってもいいかもしれない。KiKdをいじるのはしんどい
 

@@ -83,6 +83,7 @@
 #include "SetPWMCoefficient.h"
 #include "ResetPWMCoefficient.h"
 #include "WalkerR.h"
+#include "PIDLimTracer.h"
 
 using namespace std;
 using namespace ev3api;
@@ -6332,6 +6333,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   ki = 0;
   kd = 2.2;
   dt = 1;
+  r = 0;
+
+  // pwm0の限界感度調査
+  pwm = 0;
+  kp = 1.35;
+  ki = 0;
+  kd = 0;
+  dt = 0.05;
   r = 0;
 
   PIDTracerV2 *pidTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);

@@ -76,6 +76,7 @@ AngleAbsPredicate.o \
 SetPWMCoefficient.o \
 ResetPWMCoefficient.o \
 WalkerR.o \
+PIDLimTracer.o \
 
 SRCLANG := c++
 
