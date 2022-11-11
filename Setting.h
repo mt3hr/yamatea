@@ -28,13 +28,12 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define TrueCourceSanekataModeCS // CS完走用プログラム
+#define TrueCourceSanekataModeCS // CS完走用プログラム
 //#define TrueCourceOkiharaModeCS // CS完走用プログラム
 //#define TrueCourceOkiharaModeRegional // 地区大会完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeRegional  // 地区大会完走用プログラム。小路シナリオ
 //#define GoalSanekataPIDMode1 // ゴール用プログラム。試走会1時点。
 //#define GoalSanekataPIDMode2 // GoalOkihara3Distanceをもとに補正値Rで爆速にしたもの
-//#define GoalSanekataPIDMode3 // GoalSanekataPID2にi制御を盛り込んだもの
 //#define GoalSanekataScenarioTestMode // 部分シナリオ実方コード
 //#define GoalOkiharaPIDMode  // ゴール用プログラム。沖原作業用
 //#define GoalOkiharaPIDMode1 // ゴール用プログラム。地区大会時点安定
@@ -69,7 +68,7 @@ using namespace std;
 //#define ColorPIDTracerTestMode // ColorPIDTraceを試すモード。テスト用
 //#define ColorPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
 //#define BrightnessPIDTracerTestMode // TargetBrightnessPIDTraceを試すモード。テスト用
-#define BrightnessPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
+//#define BrightnessPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
 //#define FroggySongTestMode // かえるの歌を歌わせるモード。テスト用。
 //#define GrayPredicateTestMode // グレーでとまる直進モード。テスト用。
 //#define FacingAngleTestMode // 指定角度に向き直るモード。テスト用。
@@ -78,6 +77,7 @@ using namespace std;
 //#define SlalomBlockJoinTestMode // スラロームとブロックの結合を試すモード。テスト用。
 //#define PIDStraightWalkerTestMode // PIDStraightWalkerをテストするモード
 //#define PIDFacingAngleAbsTestMode // PIDFacingAngleAbsをテストするモード
+//#define WalkerRTestMode
 
 // モード設定ここまで
 

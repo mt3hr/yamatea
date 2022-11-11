@@ -3,7 +3,7 @@
 #include "unistd.h"
 #include <random>
 
-// #define PRINT_PID_INFO // コメントアウトを外してpidの各値を出力する
+#define PRINT_PID_INFO // コメントアウトを外してpidの各値を出力する
 
 using namespace std;
 
@@ -19,9 +19,9 @@ int main()
 	double dt;
 
 	// 環境値設定ここから
-	value = 5000;		  // 初期値
+	value = 0;		  // 初期値
 	target = 0;			  // 目標値
-	incrementValue = 500; // targetの増減値
+	incrementValue = 200; // targetの増減値
 	errorValue = 0;		  // targetの増減値のランダム要素（実機を想定したブレ）（値探しのときは0にしたほうがいい）
 	// 環境値設定ここまで
 
@@ -71,6 +71,11 @@ int main()
 	ki = 2.2;
 	kd = 0.29;
 
+    // よくわからん。i=14って何事？
+	dt = 0.05;
+	kp = 1.4;
+	ki = 14.0;
+	kd = 0.009;//0.05;//0.1;
 
 	// 限界感度法を試す
 
@@ -105,11 +110,11 @@ int main()
 		// 情報の出力
 #ifdef PRINT_PID_INFO
 		plus = p < 0 ? "" : "+";
-		printf("%05d p     : %s%01.5f\n", cnt, plus, p);
+		printf("%05d p     : %s%01.5f\n", cnt, plus, p*kp);
 		plus = i < 0 ? "" : "+";
-		printf("      i     : %s%01.5f\n", plus, i);
+		printf("      i     : %s%01.5f\n", plus, i*ki);
 		plus = d < 0 ? "" : "+";
-		printf("      d     : %s%01.5f\n", plus, d);
+		printf("      d     : %s%01.5f\n", plus, d*kd);
 		plus = pid < 0 ? "" : "+";
 		printf("      pid   : %s%01.5f\n", plus, pid);
 		plus = value < 0 ? "" : "+";

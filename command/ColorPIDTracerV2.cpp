@@ -83,13 +83,13 @@ void ColorPIDTracerV2::run(RobotAPI *robotAPI)
     writeDebug("ColorPIDTracerV2");
     writeEndLineDebug();
     writeDebug("p: ");
-    writeDebug(p);
+    writeDebug(p*kp);
     writeEndLineDebug();
     writeDebug("i: ");
-    writeDebug(i);
+    writeDebug(i*ki);
     writeEndLineDebug();
     writeDebug("d: ");
-    writeDebug(d);
+    writeDebug(d*kd);
     writeEndLineDebug();
     writeDebug("r: ");
     writeDebug(r);
