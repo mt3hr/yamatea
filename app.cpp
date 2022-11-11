@@ -1529,20 +1529,21 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     */
 
     int sceneCarrotMotorCountPredicateArg = 750;      // スタートから最初のカーブ終わるまで
-    int sceneBananaMotorCountPredicateArg = 1100;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+    int sceneBananaMotorCountPredicateArg = 1200;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
     int scenePeachMotorCountPredicateArg = 1540;      // バナナとオレンジの間の小さいカーブ
     int sceneOrangeMotorCountPredicateArg = 2450;     // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
     int sceneStarFruitsMotorCountPredicateArg = 2540; // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
     int sceneCherryMotorCountPredicateArg = 2750;     // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
     int sceneWaterMelonMotorCountPredicateArg = 6170; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
-    int sceneBokChoyMotorCountPredicateArg = 6325;    // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
-    int sceneDorianMotorCountPredicateArg = 6650;     // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+    int sceneBokChoyMotorCountPredicateArg = 6300;    // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+    int sceneDorianMotorCountPredicateArg = 6600;     // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
     int sceneAsparagusMotorCountPredicateArg = 7100;  // ドリアン終了後の１つ目の直線
-    int sceneRadishMotorCountPredicateArg = 7390;     // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
-    int sceneMelonMotorCountPredicateArg = 7840;      // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+    int sceneRadishMotorCountPredicateArg = 7440;     // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
+    // int sceneRadishMotorCountPredicateArg = 7490;     // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
+    int sceneMelonMotorCountPredicateArg = 8040; // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
     int sceneLemonMotorCountPredicateArg = 8690;
-    int sceneCucumberMotorCountPredicateArg = 10505;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
-    int sceneStrawberryMotorCountPredicateArg = 11300; // ゴールまで。いちご好き。ライントレースする。
+    int sceneCucumberMotorCountPredicateArg = 10605;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+    int sceneStrawberryMotorCountPredicateArg = 11125; // ゴールまで。いちご好き。ライントレースする。
     int sceneCabbageMotorCountpredicateArg = 12000;    // ゴールまで。
 
     float distanceTemp = 0;
@@ -1603,37 +1604,24 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float leftPow;
     float rightPow;
 
-    // PIDTargetCalibratorの初期化とCommandExecutorへの追加
-    PIDTargetColorBrightnessCalibrator *calibrator = new PIDTargetColorBrightnessCalibrator(robotAPI, BCM_BlackWhiteAverage);
-    Predicate *startButtonPredicate = new StartButtonPredicate();
-    commandExecutor->addCommand(calibrator, startButtonPredicate, GET_VARIABLE_NAME(calibrator));
-
-    // スタート後メッセージ出力コマンドの初期化とCommandExecutorへの追加
-    vector<string> messageLines;
-    messageLines.push_back("Started!!");
-    messageLines.push_back("GOGOGO!!");
-    PrintMessage *printMessage = new PrintMessage(messageLines, true);
-    Predicate *printMessagePredicate = new NumberOfTimesPredicate(1);
-    commandExecutor->addCommand(printMessage, printMessagePredicate, GET_VARIABLE_NAME(printMessage));
-
     // CarrotPIDTracerの初期化とCommandExecutorへの追加
     //下記コメントアウト箇所アンパイ
 
+    /*
     pwm = 25;
     kp = 0.9;
     ki = 0.06;
     kd = 1.4;
     dt = 1;
     r = 0;
+    */
 
-    /*
     pwm = 30;
     kp = 1.0;
     ki = 0;
-    kd = 3.0;
+    kd = 1.5;
     dt = 1;
     r = 0;
-    */
 
     PIDTracerV2 *carrotPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateCarrot = new WheelDistancePredicate(carrotDistance, robotAPI);
@@ -1655,23 +1643,22 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     calibrator->addPIDTracer(bananaPIDTracer);
 
     // PeachPIDTracerの初期化とCommandExecutorへの追加
-    //アンパイ
 
+    /*
     pwm = 25;
     kp = 0.8;
     ki = 0.05;
     kd = 1.8;
     dt = 1;
     r = 0;
+    */
 
-    /*
     pwm = 30;
     kp = 1.2;
     ki = 0;
-    kd = 3.6;
+    kd = 2.0;
     dt = 1;
     r = 0;
-    */
 
     PIDTracerV2 *peachPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicatePeach = new WheelDistancePredicate(peachDistance, robotAPI);
@@ -1727,9 +1714,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
 
     pwm = 40;
-    kp = 0.75;
+    kp = 0.7;
     ki = 0;
-    kd = 2.5;
+    kd = 2.2;
     dt = 1;
     r = 0;
 
@@ -1818,12 +1805,21 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // MelonPIDTracerの初期化とCommandExecutorへの追加  ここから
 
-    pwm = 25;
-    kp = 0.8;
-    ki = 0.05;
-    kd = 1.8;
+    pwm = 30;
+    kp = 1.0;
+    ki = 0;
+    kd = 2.1;
     dt = 1;
     r = 0;
+
+    /*
+    pwm = 25;
+    kp = 0.9;
+    ki = 0;
+    kd = 2.0;
+    dt = 1;
+    r = 0;
+    */
 
     PIDTracerV2 *melonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateMelon = new WheelDistancePredicate(melonDistance, robotAPI);
@@ -1835,7 +1831,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     pwm = 30;
     kp = 1.0;
     ki = 0;
-    kd = 3.0;
+    kd = 2.1;
     dt = 1;
     r = 0;
 
@@ -1876,10 +1872,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     r = 0;
     */
 
-    pwm = 40;
+    pwm = 30;
     kp = 1.0;
     ki = 0;
-    kd = 4.0;
+    kd = 2.5;
     dt = 1;
     r = 0;
 
@@ -1902,7 +1898,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     pwm = 60;
     kp = 1.0;
     ki = 0;
-    kd = 2.0;
+    kd = 2.5;
     dt = 1;
     r = 0;
 
@@ -2329,9 +2325,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     int orangePlan = 1; // 強めのPDとI、なるべく弱めのRな走行 ブレがあるのでplan2を用意しました
     // int orangePlan = 2; // 弱めのPDでRに頼った走行
     // int orangePlan = 3; // Iに頼った走行
-    // int cherryPlan = 1; // 強めのPD、なるべく弱めのRな走行
+    int cherryPlan = 1; // 強めのPD、なるべく弱めのRな走行
     // int cherryPlan = 2; // 弱めのPDでRに頼った走行
-    int cherryPlan = 3; // まあまあのPDでRに頼った走行
+    // int cherryPlan = 3; // まあまあのPDでRに頼った走行
     // int cherryPlan = 4; // Iに頼った走行
     // int waterMelonPlan = 1; // 強めのPDとI、なるべく弱めのRな走行 ブレがあるのでplan2を用意しました
     // int waterMelonPlan = 2; // 弱めのPDでRに頼った走行
@@ -2395,7 +2391,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float faDt = 1;
 
     float carrotPWM = 60;
-    float carrotKp = 0.7;   // 0.6;//TODO kp高めれば行けそう
+    float carrotKp = 0.7;   // 0.6; // TODO kp0.7に高めれば行けそう
     float carrotKi = 0.015; // 0.12;
     float carrotKd = carrotKp * 3;
     float carrotDt = 0.4;
@@ -2410,12 +2406,11 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     // carrotR = 0;//21;
 
     // TODO これやりたい
-    carrotPWM = 60;
-    carrotKp = 0.7;
-    carrotKi = 0; // 2.65;
-    carrotKd = 0.23;
-    carrotDt = 0.05;
-    carrotR = 21;
+    // carrotPWM = 60;
+    // carrotKp = 0.7;
+    // carrotKi = 0; // 2.65;
+    // carrotKd = 0.23;
+    // carrotDt = 0.05;
 
     // PmanPIDTracerの初期化とCommandExecutorへの追加
     pwm = 25;
@@ -8795,20 +8790,21 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     */
 
     int sceneCarrotMotorCountPredicateArg = 750;      // スタートから最初のカーブ終わるまで
-    int sceneBananaMotorCountPredicateArg = 1100;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
+    int sceneBananaMotorCountPredicateArg = 1200;     // 8の字急カーブ突入前。バナナっぽい形しているので。ライントレースする。
     int scenePeachMotorCountPredicateArg = 1540;      // バナナとオレンジの間の小さいカーブ
     int sceneOrangeMotorCountPredicateArg = 2450;     // 8の字クロス1回目突入前。オレンジぐらいの大きさの円形なので（え？）。安定しないのでpwm弱めでライントレースする。
     int sceneStarFruitsMotorCountPredicateArg = 2540; // 8の字クロス1回目通過後。十字っぽい果物や野菜といったらスターフルーツなので。シナリオトレースで左弱めの直進をする。
     int sceneCherryMotorCountPredicateArg = 2750;     // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
     int sceneWaterMelonMotorCountPredicateArg = 6170; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
-    int sceneBokChoyMotorCountPredicateArg = 6325;    // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
-    int sceneDorianMotorCountPredicateArg = 6650;     // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
+    int sceneBokChoyMotorCountPredicateArg = 6300;    // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+    int sceneDorianMotorCountPredicateArg = 6600;     // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
     int sceneAsparagusMotorCountPredicateArg = 7100;  // ドリアン終了後の１つ目の直線
-    int sceneRadishMotorCountPredicateArg = 7390;     // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
-    int sceneMelonMotorCountPredicateArg = 7840;      // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+    int sceneRadishMotorCountPredicateArg = 7440;     // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
+    // int sceneRadishMotorCountPredicateArg = 7490;     // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
+    int sceneMelonMotorCountPredicateArg = 8040; // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
     int sceneLemonMotorCountPredicateArg = 8690;
-    int sceneCucumberMotorCountPredicateArg = 10505;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
-    int sceneStrawberryMotorCountPredicateArg = 11300; // ゴールまで。いちご好き。ライントレースする。
+    int sceneCucumberMotorCountPredicateArg = 10605;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+    int sceneStrawberryMotorCountPredicateArg = 11125; // ゴールまで。いちご好き。ライントレースする。
     int sceneCabbageMotorCountpredicateArg = 12000;    // ゴールまで。
 
     float distanceTemp = 0;
@@ -8872,21 +8868,21 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     // CarrotPIDTracerの初期化とCommandExecutorへの追加
     //下記コメントアウト箇所アンパイ
 
+    /*
     pwm = 25;
     kp = 0.9;
     ki = 0.06;
     kd = 1.4;
     dt = 1;
     r = 0;
+    */
 
-    /*
     pwm = 30;
     kp = 1.0;
     ki = 0;
-    kd = 3.0;
+    kd = 1.5;
     dt = 1;
     r = 0;
-    */
 
     PIDTracerV2 *carrotPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateCarrot = new WheelDistancePredicate(carrotDistance, robotAPI);
@@ -8908,23 +8904,22 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     calibrator->addPIDTracer(bananaPIDTracer);
 
     // PeachPIDTracerの初期化とCommandExecutorへの追加
-    //アンパイ
 
+    /*
     pwm = 25;
     kp = 0.8;
     ki = 0.05;
     kd = 1.8;
     dt = 1;
     r = 0;
+    */
 
-    /*
     pwm = 30;
     kp = 1.2;
     ki = 0;
-    kd = 3.6;
+    kd = 2.0;
     dt = 1;
     r = 0;
-    */
 
     PIDTracerV2 *peachPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicatePeach = new WheelDistancePredicate(peachDistance, robotAPI);
@@ -8980,9 +8975,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
 
     pwm = 40;
-    kp = 0.75;
+    kp = 0.7;
     ki = 0;
-    kd = 2.5;
+    kd = 2.2;
     dt = 1;
     r = 0;
 
@@ -9071,12 +9066,21 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // MelonPIDTracerの初期化とCommandExecutorへの追加  ここから
 
-    pwm = 25;
-    kp = 0.8;
-    ki = 0.05;
-    kd = 1.8;
+    pwm = 30;
+    kp = 1.0;
+    ki = 0;
+    kd = 2.1;
     dt = 1;
     r = 0;
+
+    /*
+    pwm = 25;
+    kp = 0.9;
+    ki = 0;
+    kd = 2.0;
+    dt = 1;
+    r = 0;
+    */
 
     PIDTracerV2 *melonPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateMelon = new WheelDistancePredicate(melonDistance, robotAPI);
@@ -9088,7 +9092,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     pwm = 30;
     kp = 1.0;
     ki = 0;
-    kd = 3.0;
+    kd = 2.1;
     dt = 1;
     r = 0;
 
@@ -9129,10 +9133,10 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     r = 0;
     */
 
-    pwm = 40;
+    pwm = 30;
     kp = 1.0;
     ki = 0;
-    kd = 4.0;
+    kd = 2.5;
     dt = 1;
     r = 0;
 
@@ -9155,7 +9159,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     pwm = 60;
     kp = 1.0;
     ki = 0;
-    kd = 2.0;
+    kd = 2.5;
     dt = 1;
     r = 0;
 
