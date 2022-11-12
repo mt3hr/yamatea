@@ -25,6 +25,6 @@ void ANDPredicate::preparation(RobotAPI *robotAPI)
 
 ANDPredicate *ANDPredicate::generateReversePredicate()
 {
-    return new ANDPredicate(predicate1, predicate2);
+    return new ANDPredicate(predicate1->generateReversePredicate(), predicate2->generateReversePredicate());
 }
 

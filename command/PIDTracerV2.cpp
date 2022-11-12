@@ -126,7 +126,7 @@ PIDTracerV2 *PIDTracerV2::generateReverseCommand()
     {
         reversedMode = LEFT_TRACE;
     }
-    return new PIDTracerV2(reversedMode, pwm, kp, ki, kd, dt, r);
+    return new PIDTracerV2(reversedMode, pwm, kp, ki, kd, dt, r);//TODO rって反転しなくていいの？反転すると動かないんだよね
 }
 
 void PIDTracerV2::setTargetBrightness(int8_t t)

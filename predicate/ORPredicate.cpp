@@ -26,5 +26,5 @@ void ORPredicate::preparation(RobotAPI *robotAPI)
 
 ORPredicate *ORPredicate::generateReversePredicate()
 {
-    return new ORPredicate(predicate1, predicate2);
+    return new ORPredicate(predicate1->generateReversePredicate(), predicate2->generateReversePredicate());
 }

@@ -151,7 +151,7 @@ PIDLimTracer *PIDLimTracer::generateReverseCommand()
     {
         reversedMode = LEFT_TRACE;
     }
-    return new PIDLimTracer(reversedMode, mode, pwm, ku, tu, dt, -r);
+    return new PIDLimTracer(reversedMode, mode, pwm, ku, tu, dt, r); // TODO rって反転しなくていいの？反転すると動かないんだよね
 }
 
 void PIDLimTracer::setTargetBrightness(int8_t t)

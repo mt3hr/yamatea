@@ -23,7 +23,7 @@ private:
     float targetDistanceCm;
     float targetAngle = FLOAT32_MAX;
     CorrectedMotor *wheel;
-    bool hasLeftWheel;
+    bool hasLeftWheel = true;
     RobotAPI *robotAPI;
     bool up = false;
 
