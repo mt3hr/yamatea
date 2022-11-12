@@ -1609,21 +1609,21 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     // CarrotPIDTracerの初期化とCommandExecutorへの追加
     //下記コメントアウト箇所アンパイ
 
-    /*
     pwm = 25;
     kp = 0.9;
     ki = 0.06;
     kd = 1.4;
     dt = 1;
     r = 0;
-    */
 
+    /*
     pwm = 30;
     kp = 1.0;
     ki = 0;
     kd = 1.5;
     dt = 1;
     r = 0;
+    */
 
     PIDTracerV2 *carrotPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateCarrot = new WheelDistancePredicate(carrotDistance, robotAPI);
@@ -1678,10 +1678,20 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     r = 0;
     */
 
+    /*沖原ロボ用の値
     pwm = 40;
     kp = 1.1;
     ki = 0;
     kd = 2.0;
+    dt = 1;
+    r = 0;
+    */
+
+    //こみちロボ用の値
+    pwm = 40;
+    kp = 1.0;
+    ki = 0;
+    kd = 1.8;
     dt = 1;
     r = 0;
 
@@ -1715,21 +1725,22 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
 
+    /*沖原ロボ用の値
     pwm = 40;
     kp = 0.7;
     ki = 0;
     kd = 2.2;
     dt = 1;
     r = 0;
+    */
 
-    /* 下よりいい数値
+    //こみちロボ用の値
     pwm = 40;
-    kp = 0.8;
+    kp = 0.6;
     ki = 0;
-    kd = 2.5;
+    kd = 2.1;
     dt = 1;
     r = 0;
-    */
 
     //下記はアンパイ
     /*
@@ -1807,10 +1818,20 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // MelonPIDTracerの初期化とCommandExecutorへの追加  ここから
 
+    /* 沖原ロボ用の値
     pwm = 30;
     kp = 1.0;
     ki = 0;
     kd = 2.1;
+    dt = 1;
+    r = 0;
+    */
+
+    //こみちロボ用の値
+    pwm = 30;
+    kp = 1.1;
+    ki = 0;
+    kd = 2.0;
     dt = 1;
     r = 0;
 
@@ -1830,10 +1851,21 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // LemonPIDTracerの初期化とCommandExecutorへの追加
 
+    /*
+    沖原ロボ用の値
     pwm = 30;
     kp = 1.0;
     ki = 0;
     kd = 2.1;
+    dt = 1;
+    r = 0;
+    */
+
+    //こみちロボ用の値
+    pwm = 30;
+    kp = 1.0;
+    ki = 0;
+    kd = 2.2;
     dt = 1;
     r = 0;
 
@@ -1852,10 +1884,19 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     r = 0;
     */
 
+    /*沖原ロボ用の値
     pwm = 60;
     kp = 1.0;
     ki = 0;
     kd = 2.0;
+    dt = 1;
+    r = 0;
+    */
+
+    pwm = 60;
+    kp = 0.8;
+    ki = 0;
+    kd = 1.5;
     dt = 1;
     r = 0;
 
@@ -1874,6 +1915,16 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     r = 0;
     */
 
+    /*沖原ロボ用の値
+    pwm = 30;
+    kp = 1.0;
+    ki = 0;
+    kd = 2.5;
+    dt = 1;
+    r = 0;
+    */
+
+    //こみちロボ用の値
     pwm = 30;
     kp = 1.0;
     ki = 0;
@@ -1898,9 +1949,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     // CabbagePIDTracerの初期化とCommandExecutorへの追加
 
     pwm = 60;
-    kp = 1.0;
+    kp = 0.8;
     ki = 0;
-    kd = 2.5;
+    kd = 1.5;
     dt = 1;
     r = 0;
 
@@ -9404,21 +9455,21 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     // CarrotPIDTracerの初期化とCommandExecutorへの追加
     //下記コメントアウト箇所アンパイ
 
-    /*
     pwm = 25;
     kp = 0.9;
     ki = 0.06;
     kd = 1.4;
     dt = 1;
     r = 0;
-    */
 
+    /*
     pwm = 30;
     kp = 1.0;
     ki = 0;
     kd = 1.5;
     dt = 1;
     r = 0;
+    */
 
     PIDTracerV2 *carrotPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateCarrot = new WheelDistancePredicate(carrotDistance, robotAPI);
@@ -9473,10 +9524,20 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     r = 0;
     */
 
+    /*沖原ロボ用の値
     pwm = 40;
     kp = 1.1;
     ki = 0;
     kd = 2.0;
+    dt = 1;
+    r = 0;
+    */
+
+    //こみちロボ用の値
+    pwm = 40;
+    kp = 1.0;
+    ki = 0;
+    kd = 1.8;
     dt = 1;
     r = 0;
 
@@ -9510,21 +9571,22 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // WaterMelonPIDTracerの初期化とCommandExecutorへの追加
 
+    /*沖原ロボ用の値
     pwm = 40;
     kp = 0.7;
     ki = 0;
     kd = 2.2;
     dt = 1;
     r = 0;
+    */
 
-    /* 下よりいい数値
+    //こみちロボ用の値
     pwm = 40;
-    kp = 0.8;
+    kp = 0.6;
     ki = 0;
-    kd = 2.5;
+    kd = 2.1;
     dt = 1;
     r = 0;
-    */
 
     //下記はアンパイ
     /*
@@ -9602,10 +9664,20 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // MelonPIDTracerの初期化とCommandExecutorへの追加  ここから
 
+    /* 沖原ロボ用の値
     pwm = 30;
     kp = 1.0;
     ki = 0;
     kd = 2.1;
+    dt = 1;
+    r = 0;
+    */
+
+    //こみちロボ用の値
+    pwm = 30;
+    kp = 1.1;
+    ki = 0;
+    kd = 2.0;
     dt = 1;
     r = 0;
 
@@ -9625,10 +9697,21 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     // LemonPIDTracerの初期化とCommandExecutorへの追加
 
+    /*
+    沖原ロボ用の値
     pwm = 30;
     kp = 1.0;
     ki = 0;
     kd = 2.1;
+    dt = 1;
+    r = 0;
+    */
+
+    //こみちロボ用の値
+    pwm = 30;
+    kp = 1.0;
+    ki = 0;
+    kd = 2.2;
     dt = 1;
     r = 0;
 
@@ -9647,10 +9730,19 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     r = 0;
     */
 
+    /*沖原ロボ用の値
     pwm = 60;
     kp = 1.0;
     ki = 0;
     kd = 2.0;
+    dt = 1;
+    r = 0;
+    */
+
+    pwm = 60;
+    kp = 0.8;
+    ki = 0;
+    kd = 1.5;
     dt = 1;
     r = 0;
 
@@ -9669,6 +9761,16 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     r = 0;
     */
 
+    /*沖原ロボ用の値
+    pwm = 30;
+    kp = 1.0;
+    ki = 0;
+    kd = 2.5;
+    dt = 1;
+    r = 0;
+    */
+
+    //こみちロボ用の値
     pwm = 30;
     kp = 1.0;
     ki = 0;
@@ -9693,9 +9795,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     // CabbagePIDTracerの初期化とCommandExecutorへの追加
 
     pwm = 60;
-    kp = 1.0;
+    kp = 0.8;
     ki = 0;
-    kd = 2.5;
+    kd = 1.5;
     dt = 1;
     r = 0;
 
