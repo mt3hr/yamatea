@@ -60,13 +60,13 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
     writeDebug("PIDTracer");
     writeEndLineDebug();
     writeDebug("p: ");
-    writeDebug(p*kp);
+    writeDebug(p * kp);
     writeEndLineDebug();
     writeDebug("i: ");
-    writeDebug(i*ki);
+    writeDebug(i * ki);
     writeEndLineDebug();
     writeDebug("d: ");
-    writeDebug(d*kd);
+    writeDebug(d * kd);
     writeEndLineDebug();
     writeDebug("r: ");
     writeDebug(r);
@@ -83,6 +83,12 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
     writeDebug("brightness: ");
     writeDebug(brightness);
     writeEndLineDebug();
+    flushDebug(TRACE, robotAPI);
+#endif
+// 時間を出力する
+#ifdef EnablePrintTimePIDTracerV2
+    writeDebug("time: ");
+    writeDebug(robotAPI->getClock()->now());
     flushDebug(TRACE, robotAPI);
 #endif
 }
@@ -120,7 +126,7 @@ PIDTracerV2 *PIDTracerV2::generateReverseCommand()
     {
         reversedMode = LEFT_TRACE;
     }
-    return new PIDTracerV2(reversedMode, pwm, kp, ki, kd, dt, -r);
+    return new PIDTracerV2(reversedMode, pwm, kp, ki, kd, dt, r);
 }
 
 void PIDTracerV2::setTargetBrightness(int8_t t)

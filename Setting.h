@@ -17,8 +17,8 @@ using namespace std;
 //#define SanekataCanNotGoal // ゴール以外の結合がしたい実方用。コメントアウトして。
 
 // コース設定ここから。いずれか1つを有効化して
-#define Left
-//#define Right
+//#define Left
+#define Right
 // コース設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
@@ -34,6 +34,7 @@ using namespace std;
 //#define TrueCourceKomichiModeRegional  // 地区大会完走用プログラム。小路シナリオ
 //#define GoalSanekataPIDMode1 // ゴール用プログラム。試走会1時点。
 //#define GoalSanekataPIDMode2 // GoalOkihara3Distanceをもとに補正値Rで爆速にしたもの
+#define GoalSanekataPIDMode3
 //#define GoalSanekataScenarioTestMode // 部分シナリオ実方コード
 //#define GoalOkiharaPIDMode  // ゴール用プログラム。沖原作業用
 //#define GoalOkiharaPIDMode1 // ゴール用プログラム。地区大会時点安定
@@ -68,16 +69,17 @@ using namespace std;
 //#define ColorPIDTracerTestMode // ColorPIDTraceを試すモード。テスト用
 //#define ColorPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
 //#define BrightnessPIDTracerTestMode // TargetBrightnessPIDTraceを試すモード。テスト用
-#define BrightnessPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
+//#define BrightnessPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
 //#define FroggySongTestMode // かえるの歌を歌わせるモード。テスト用。
 //#define GrayPredicateTestMode // グレーでとまる直進モード。テスト用。
-//#define FacingAngleTestMode // 指定角度に向き直るモード。テスト用。
+//#define FacingAngletestMode // 指定角度に向き直るモード。テスト用。
 //#define WalkerTestMode // Walkerで走るモード。テスト用。
 //#define BatteryEaaterMode // その場旋回をして電池を消費するモード。テスト用
 //#define SlalomBlockJoinTestMode // スラロームとブロックの結合を試すモード。テスト用。
 //#define PIDStraightWalkerTestMode // PIDStraightWalkerをテストするモード
 //#define PIDFacingAngleAbsTestMode // PIDFacingAngleAbsをテストするモード
 //#define WalkerRTestMode
+//#define PIDLimTracerTestMode
 
 // モード設定ここまで
 
@@ -89,6 +91,7 @@ using namespace std;
 //#define EnablePrintSonarDistance
 #define EnablePrintPIDValues // コメントアウトを外すと各PIDTracerのPID値などを出力する
 //#define EnableRunnerTaskTimeCheck // コメントアウトを外すと、RunnerTask開始と終了のタイミングを出力する
+//#define EnablePrintTimePIDTracerV2
 //#define EnablePrintCommandName // コマンド切り替え時にコマンド名を出力する。キャリブレータの表示より優先されるっぽいのでデバッグ目的以外ではオフっといたほうがいいかも
 #define StopWhenThrowException // コメントアウトを外すと、例外が飛んだときにデデドンして止まる
 

@@ -15,6 +15,7 @@ enum PIDLimTracerMode
     PLTM_P,
     PLTM_PI,
     PLTM_PID,
+    PLTM_PID_MOD,
 };
 
 // PIDLimTracer
@@ -29,6 +30,7 @@ private:
     float pwm = 0;
     float ku = 0;
     float kp = 0;
+    float tu = 0;
     float ti = 0;
     float td = 0;
     float dt = 0;
@@ -47,7 +49,7 @@ private:
     float rightPower;
 
 public:
-    PIDLimTracer(PIDTracerMode traceMode, PIDLimTracerMode mode, float pwm, float ku, float dt, float r);
+    PIDLimTracer(PIDTracerMode traceMode, PIDLimTracerMode mode, float pwm, float ku, float tu, float dt, float r);
     virtual ~PIDLimTracer();
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;

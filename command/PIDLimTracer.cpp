@@ -11,12 +11,13 @@
 using namespace ev3api;
 using namespace std;
 
-PIDLimTracer::PIDLimTracer(PIDTracerMode traceModea, PIDLimTracerMode mode, float pwma, float ku, float dta, float r) : PIDTracer(traceModea, pwma, 0, 0, 0, dta) // スーパーコンストラクタはとりあえず0でいいや
+PIDLimTracer::PIDLimTracer(PIDTracerMode traceModea, PIDLimTracerMode mode, float pwma, float ku, float tu, float dta, float r) : PIDTracer(traceModea, pwma, 0, 0, 0, dta) // スーパーコンストラクタはとりあえず0でいいや
 {
     traceMode = traceModea;
     this->mode = mode;
     pwm = pwma;
     this->ku = ku;
+    this->tu = tu;
     this->dt = dta;
     this->r = r;
     switch (mode)
@@ -31,17 +32,24 @@ PIDLimTracer::PIDLimTracer(PIDTracerMode traceModea, PIDLimTracerMode mode, floa
     case PLTM_PI:
     {
         kp = ku * 0.45;
-        ti = ku * 0.83;
+        ti = tu * 0.83;
         td = 0;
         break;
     };
     case PLTM_PID:
     {
         kp = ku * 0.6;
-        ti = ku * 0.5;
-        td = ku * 0.125;
+        ti = tu * 0.5;
+        td = tu * 0.125;
         break;
     };
+    case PLTM_PID_MOD:
+    {
+        kp = ku * 0.39;
+        ti = tu * 0.5;
+        td = tu * 0.12;
+        break;
+    }
     }
 }
 
@@ -59,7 +67,7 @@ void PIDLimTracer::run(RobotAPI *robotAPI)
     integral += (p + beforeP) / 2 * dt;
     i = integral;
     d = (p - beforeP) / dt;
-    pid = kp * (p + ti * i + 1 / td * d);
+    pid = kp * (p + 1 / ti * i + td * d);
     beforeP = p;
     // PID値の算出ここまで
 
@@ -86,7 +94,7 @@ void PIDLimTracer::run(RobotAPI *robotAPI)
     writeDebug(p * kp);
     writeEndLineDebug();
     writeDebug("i: ");
-    writeDebug(i * ti);
+    writeDebug(i * 1 / ti);
     writeEndLineDebug();
     writeDebug("d: ");
     writeDebug(d * td);
@@ -115,7 +123,7 @@ void PIDLimTracer::preparation(RobotAPI *robotAPI)
     writeDebug("PIDTracer");
     writeEndLineDebug();
     writeDebug("kp: ");
-    writeDebug(ku);
+    writeDebug(kp);
     writeEndLineDebug();
     writeDebug("ti: ");
     writeDebug(ti);
@@ -143,7 +151,7 @@ PIDLimTracer *PIDLimTracer::generateReverseCommand()
     {
         reversedMode = LEFT_TRACE;
     }
-    return new PIDLimTracer(reversedMode, mode, pwm, ku, dt, -r);
+    return new PIDLimTracer(reversedMode, mode, pwm, ku, tu, dt, -r);
 }
 
 void PIDLimTracer::setTargetBrightness(int8_t t)
