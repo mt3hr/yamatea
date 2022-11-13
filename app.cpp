@@ -11407,7 +11407,7 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
       commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
       // 直進位置調節
-      int diff = 1;
+      int diff = 3;
       // pwm = 10 * coefficientPWM;
       pwm = 7 * coefficientPWM;
       distance = 3 + diff;
