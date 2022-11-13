@@ -22,8 +22,8 @@ using namespace std;
 // コース設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
-//#define SlalomPattern1
-#define SlalomPattern2
+#define SlalomPattern1
+//#define SlalomPattern2
 // スラロームパターンの設定ここまで
 
 // モード設定ここから
