@@ -34,7 +34,8 @@ using namespace std;
 //#define TrueCourceKomichiModeRegional  // 地区大会完走用プログラム。小路シナリオ
 //#define GoalSanekataPIDMode1 // ゴール用プログラム。試走会1時点。
 //#define GoalSanekataPIDMode2 // GoalOkihara3Distanceをもとに補正値Rで爆速にしたもの
-//#define GoalSanekataPIDMode2_Stable
+//#define GoalSanekataPIDMode2_Stable1
+//#define GoalSanekataPIDMode2_Stable2
 //#define GoalSanekataPIDMode3
 //#define GoalSanekataScenarioTestMode // 部分シナリオ実方コード
 //#define GoalOkiharaPIDMode  // ゴール用プログラム。沖原作業用
