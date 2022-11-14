@@ -4141,7 +4141,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #else
   pwm = 100;
 #endif
-  numberOfTime = 10;
+  numberOfTime = 11;
   tailMotorDrive = new TailController(-pwm);
   tailMotorDrivePreicate = new NumberOfTimesPredicate(numberOfTime);
   commandExecutor->addCommand(tailMotorDrive, tailMotorDrivePreicate, GET_VARIABLE_NAME(tailMotorDrive));
@@ -10417,8 +10417,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float melonDistance = 34;
     float nutsDistance = 16.2;
     float lemonDistance = 38;
-    float cucumberDistance = 192; // 194+-2
-    float strawberryDistance = 21.5;
+    float cucumberDistance = 191; // 194+-3
+    float strawberryDistance = 42.5; // 19;左車輪
     float kiwiDistance = 40;
     float cabbageDistance = 50;
 
@@ -10879,6 +10879,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     r = -25; // 44
     PIDTracerV2 *strawberryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateStrawberry = new WheelDistancePredicate(strawberryDistance, robotAPI);
+    predicateStrawberry = predicateStrawberry->generateReversePredicate();
     calibrator->addPIDTracer(strawberryPIDTracer);
     commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry, GET_VARIABLE_NAME(strawberryPIDTracer));
 
