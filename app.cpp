@@ -10407,7 +10407,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float bananaDistance = 38;
     float peachDistance = 34;
     float orangeDistance = 72;
-    float starFruitsDistance = 6;
+    float starFruitsDistance = 12;
     float cherryDistance = 60;
     float waterMelonDistance = 273.5;
     float bokChoyDistance = 15;
@@ -10415,17 +10415,12 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float hassakuDistance = 35;
     float radishDistance = 31.5;
     float melonDistance = 34;
-    float nutsDistance = 10;
+    float nutsDistance = 16.2;
     float lemonDistance = 38;
     float cucumberDistance = 192; // 194+-2
     float strawberryDistance = 21.5;
     float kiwiDistance = 40;
     float cabbageDistance = 50;
-
-#ifdef Left // 学校のコース伸びた説
-    starFruitsDistance += 6;
-    nutsDistance += 5.8;
-#endif
 
     float pwm;
     float kp;
@@ -10665,7 +10660,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     case 4:
     {
       // 弱めのPIDでRに頼った走行
-      waterMelonDistance = 260; // 260前後
+      waterMelonDistance = 261; // 260前後
       waterMelonPWM = 65;
       waterMelonKp = 0.4;
       waterMelonKi = 0.01;
