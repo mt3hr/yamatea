@@ -9901,6 +9901,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef TrueCourceOkiharaModeCS
   // ↓ここから沖原↓
   {
+    SetPWMCoefficient *setPWMCoefficient = new SetPWMCoefficient();
+    commandExecutor->addCommand(setPWMCoefficient, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(setPWMCoefficient));
+
     // 距離によるシーン切り替え用変数。MotorCountPredicateにわたす引数
     // そのシーンが終了する距離の定義。
     // シーン命名は野菜果物。（数字で管理するとシーン挿入時の修正が面倒くさいので）
@@ -9930,11 +9933,12 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     int sceneAsparagusMotorCountPredicateArg = 7100;  // ドリアン終了後の１つ目の直線
     int sceneRadishMotorCountPredicateArg = 7440;     // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
     // int sceneRadishMotorCountPredicateArg = 7490;     // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
-    int sceneMelonMotorCountPredicateArg = 8040; // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
-    int sceneLemonMotorCountPredicateArg = 8690;
-    int sceneCucumberMotorCountPredicateArg = 10605;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
-    int sceneStrawberryMotorCountPredicateArg = 11125; // ゴールまで。いちご好き。ライントレースする。
-    int sceneCabbageMotorCountpredicateArg = 12000;    // ゴールまで。
+    int sceneMelonMotorCountPredicateArg = 8040;            // 中央直進突入後。カットされたメロンみたいな形して　いねーよな。ライントレースする。
+    int sceneNutsMotorCountPredicateArg = 8300;
+    int sceneLemonMotorCountPredicateArg = 8690 + 50;       // 8690;
+    int sceneCucumberMotorCountPredicateArg = 10605 + 60;   // 10605;   // 中央直進脱出前。きゅうりぐらいまっすぐな心を持ちたい。直視なのでpwm強めでライントレースする。
+    int sceneStrawberryMotorCountPredicateArg = 11125 - 60; // 11125; // ゴールまで。いちご好き。ライントレースする。
+    int sceneCabbageMotorCountpredicateArg = 12000;         // ゴールまで。
 
     float distanceTemp = 0;
     int carrotDistance = (sceneCarrotMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
@@ -9961,6 +9965,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     distanceTemp += radishDistance;
     int melonDistance = (sceneMelonMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
     distanceTemp += melonDistance;
+    int nutsDistance = (sceneNutsMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
+    distanceTemp += nutsDistance;
     int lemonDistance = (sceneLemonMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
     distanceTemp += lemonDistance;
     int cucumberDistance = (sceneCucumberMotorCountPredicateArg) / (360 / (wheelDiameter * M_PI)) - distanceTemp;
@@ -10237,6 +10243,17 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     calibrator->addPIDTracer(melonPIDTracer);
     commandExecutor->addCommand(melonPIDTracer, predicateMelon, GET_VARIABLE_NAME(melonPIDTracer));
 
+    pwm = 30;
+    kp = 0.45;
+    ki = 0.01;
+    kd = 1.5;
+    dt = 1;
+    r = 0;
+    PIDTracerV2 *nutsPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
+    Predicate *predicateNuts = new WheelDistancePredicate(nutsDistance, robotAPI);
+    calibrator->addPIDTracer(nutsPIDTracer);
+    commandExecutor->addCommand(nutsPIDTracer, predicateNuts, GET_VARIABLE_NAME(nutsPIDTracer));
+
     // LemonPIDTracerの初期化とCommandExecutorへの追加
 
     /*
@@ -10251,9 +10268,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     //こみちロボ用の値
     pwm = 30;
-    kp = 1.0;
+    kp = 0.93; // 1;
     ki = 0;
-    kd = 2.2;
+    kd = 2.3; // okihara 2.2;
     dt = 1;
     r = 0;
 
@@ -10284,7 +10301,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     pwm = 60;
     kp = 0.8;
     ki = 0.01; // okihara 0;
-    kd = 1.8;  // okihara 1.5;
+    kd = 2.4;  // okihara 1.5;
     dt = 1;
     r = 0;
 
@@ -10316,7 +10333,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     pwm = 30;
     kp = 1.0;
     ki = 0;
-    kd = 2.5;
+    kd = 3;// okihara 2.5;
     dt = 1;
     r = 0;
 
@@ -10328,20 +10345,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     dt = 1;
     r = 0;
     */
-    // PIDTracerV2 *strawberryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
-
-    // 限界感度法R
-    float carrotDt = 0.05;
-    float carrotPWM = 45;
-    float carrotKu = 1.8;
-    float carrotTu = 1.3293;
-    float carrotR = 28 * 1.8 / 5;
-    dt = carrotDt;
-    pwm = carrotPWM;
-    float ku = carrotKu;
-    float tu = carrotTu;
-    r = 0;
-    PIDLimTracer *strawberryPIDTracer = new PIDLimTracer(RIGHT_TRACE, PLTM_PID_MOD, pwm, ku, tu, dt, r);
+    PIDTracerV2 *strawberryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
 
     Predicate *predicateStrawberry = new WheelDistancePredicate(strawberryDistance, robotAPI);
     calibrator->addPIDTracer(strawberryPIDTracer);
@@ -10352,7 +10356,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     pwm = 60;
     kp = 0.8;
     ki = 0;
-    kd = 1.5;
+    kd = 2.0; // 1.5;
     dt = 1;
     r = 0;
 
@@ -10783,10 +10787,17 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     commandExecutor->addCommand(dorianPIDTracer, predicateDorian, GET_VARIABLE_NAME(dorianPIDTracer));
 
     // HassakuPIDTracerの初期化とCommandExecutorへの追加
-    pwm = 25;
-    kp = 0.64;
+    // pwm = 25;
+    // kp = 0.64;
+    // ki = 0;
+    // kd = kp * 3;
+    // dt = 1;
+    // r = 0;
+    // 沖原あすぱらがすを流用
+    pwm = 30;
+    kp = 0.6;
     ki = 0;
-    kd = kp * 3;
+    kd = 2.0;
     dt = 1;
     r = 0;
     PIDTracerV2 *hassakuPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
