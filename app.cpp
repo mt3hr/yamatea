@@ -10418,7 +10418,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float nutsDistance = 16.2;
     float lemonDistance = 38;
     float cucumberDistance = 191; // 194+-3
-    float strawberryDistance = 42.5; // 19;左車輪
+    float strawberryDistance = 38; // 19;左車輪
     float kiwiDistance = 40;
     float cabbageDistance = 50;
 
