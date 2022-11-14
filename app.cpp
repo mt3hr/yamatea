@@ -10665,7 +10665,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     case 4:
     {
       // 弱めのPIDでRに頼った走行
-      waterMelonDistance = 259.5; // 260前後
+      waterMelonDistance = 260; // 260前後
       waterMelonPWM = 65;
       waterMelonKp = 0.4;
       waterMelonKi = 0.01;
@@ -10787,19 +10787,19 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     commandExecutor->addCommand(dorianPIDTracer, predicateDorian, GET_VARIABLE_NAME(dorianPIDTracer));
 
     // HassakuPIDTracerの初期化とCommandExecutorへの追加
-    // pwm = 25;
-    // kp = 0.64;
-    // ki = 0;
-    // kd = kp * 3;
-    // dt = 1;
-    // r = 0;
-    // 沖原あすぱらがすを流用
-    pwm = 30;
-    kp = 0.6;
+    pwm = 25;
+    kp = 0.64;
     ki = 0;
-    kd = 2.0;
+    kd = kp * 3;
     dt = 1;
     r = 0;
+    // 沖原あすぱらがすを流用
+    // pwm = 30;
+    // kp = 0.6;
+    // ki = 0;
+    // kd = 2.0;
+    // dt = 1;
+    // r = 0;
     PIDTracerV2 *hassakuPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateHassaku = new WheelDistancePredicate(hassakuDistance, robotAPI);
     calibrator->addPIDTracer(hassakuPIDTracer);
