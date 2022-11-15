@@ -10480,6 +10480,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     int sceneCherryMotorCountPredicateArg = 2750;     // 8の字クロス1回目通過後ライントレース復帰時。さくらんぼくらい小さいので。ラインに戻るためにpwm弱めでライントレースする。
     int sceneWaterMelonMotorCountPredicateArg = 6170; // 8の字クロス2回目突入前。メロンぐらいでかいので。ライントレースする。
     int sceneBokChoyMotorCountPredicateArg = 6300;    // 8の時クロス2回目通過後直進中。青梗菜も上から見たら十字っぽいので（？）。シナリオトレースで直進する。
+sceneBokChoyMotorCountPredicateArg  = 6350;
     int sceneDorianMotorCountPredicateArg = 6600;     // 8の字クロス2回目通過後ライントレース復帰時。ドリアンぐらい臭い（処理的に怪しい）ので。ラインに戻るためにpwm弱めでライントレースする。
     int sceneAsparagusMotorCountPredicateArg = 7100;  // ドリアン終了後の１つ目の直線
     int sceneRadishMotorCountPredicateArg = 7440;     // アスパラガス終了後メロンのカーブ手前までの２つ目の直線
@@ -10705,6 +10706,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
     leftPow = 50;
     rightPow = 50;
+    leftPow = 40;
+    rightPow = 44;
 
     Walker *bokChoyWalker = new Walker(leftPow, rightPow);
     Predicate *predicateBokChoy = new WheelDistancePredicate(bokChoyDistance, robotAPI);
@@ -10956,6 +10959,8 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     bool facingAngleAtStarFruits = false;
     bool facingAngleAtBokChoy = false;
 
+    //TODO 学校ではスターフルーツがだめっぽい
+
     float pmanDistance = 34;
     float carrotDistance = 32;
     float bananaDistance = 38;
@@ -10964,6 +10969,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float starFruitsDistance = 12;
     float cherryDistance = 60;
     float waterMelonDistance = 261; // 260前後。かなりブレあり
+    waterMelonDistance = 263.5; // 学校
     float bokChoyDistance = 15;
     float dorianDistance = 40;
     float hassakuDistance = 35;
@@ -11077,6 +11083,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       kd = kp * 3;
       dt = 1;
       r = -34;
+      r = -34.7; // 学校
       break;
     }
     case 3:
@@ -11109,6 +11116,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     // StarFruitsWalkerの初期化とCommandExecutorへの追加
     pwm = 60;
     radius = 34;
+    radius = 28; // 学校
     theta = -360; // 多めにしないと動かんのか？
     angle = 28;
     CurvatureWalkerCommandAndPredicate *starFuitsWalker = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
