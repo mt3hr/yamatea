@@ -30,6 +30,7 @@ using namespace std;
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 //#define TrueCourceSanekataModeCS // CS完走用プログラム
 //#define TrueCourceOkiharaModeCSForKomichiRobot
+#define TrueCourceOkiharaModeCSForOkiharaRobot
 //#define TrueCourceOkiharaModeCSUseRegionalValueForKomichiRobot // CS完走用プログラム。地区大会の値を流用。保険として用意した安定版（不安定）
 //#define TrueCourceOkiharaModeCSStableValueForOkiharaRobot
 //#define TrueCourceOkiharaModeRegional // 地区大会完走用プログラム。沖原トレース
@@ -84,7 +85,7 @@ using namespace std;
 //#define PIDFacingAngleAbsTestMode // PIDFacingAngleAbsをテストするモード
 //#define WalkerRTestMode
 //#define PIDLimTracerTestMode
-#define BatteryEeaterSilentMode
+//#define BatteryEeaterSilentMode
 
 // モード設定ここまで
 
