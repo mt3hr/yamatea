@@ -22,14 +22,15 @@ using namespace std;
 // コース設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
-//#define SlalomPattern1
-#define SlalomPattern2
+#define SlalomPattern1
+//#define SlalomPattern2
 // スラロームパターンの設定ここまで
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define TrueCourceSanekataModeCS // CS完走用プログラム
+//#define TrueCourceSanekataModeCS // CS完走用プログラム
 //#define TrueCourceOkiharaModeCS // CS完走用プログラム
+#define TrueCourceOkiharaModeStableCS // CS完走用プログラム。地区大会の値を流用
 //#define TrueCourceOkiharaModeRegional // 地区大会完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeRegional  // 地区大会完走用プログラム。小路シナリオ
 //#define GoalSanekataPIDMode1 // ゴール用プログラム。試走会1時点。
@@ -85,13 +86,13 @@ using namespace std;
 
 // モード設定ここまで
 
-#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
+//#define EnableBluetooth // enablePrintMessageForBluetoothをtrueにする場合はこれのコメントアウトも外して。// いらないかもなこれ
 //#define SingASong       // 走行時に歌う
 //#define EnablePrintGyroValue // コメントアウトを外すとジャイロの値を出力する
 //#define EnablePrintAngleUseWheel // コメントアウトを外すと車輪回転角から導き出された車体旋回角度を出力する
 //#define EnablePrintMotorCount // コメントアウトを外すとモータの回転数を出力する
 //#define EnablePrintSonarDistance
-#define EnablePrintPIDValues // コメントアウトを外すと各PIDTracerのPID値などを出力する
+//#define EnablePrintPIDValues // コメントアウトを外すと各PIDTracerのPID値などを出力する
 //#define EnableRunnerTaskTimeCheck // コメントアウトを外すと、RunnerTask開始と終了のタイミングを出力する
 //#define EnablePrintTimePIDTracerV2
 //#define EnablePrintCommandName // コマンド切り替え時にコマンド名を出力する。キャリブレータの表示より優先されるっぽいのでデバッグ目的以外ではオフっといたほうがいいかも
