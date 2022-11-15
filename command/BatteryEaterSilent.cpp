@@ -28,7 +28,7 @@ void BatteryEaterSilent::run(RobotAPI *robotAPI)
     ss << batteryMV << "mv";
 
     msg.push_back(ss.str());
-    PrintMessage(msg, true);
+    PrintMessage(msg, true).run(robotAPI);
     return;
 }
 
