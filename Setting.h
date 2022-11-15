@@ -28,9 +28,10 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define TrueCourceSanekataModeCS // CS完走用プログラム
-#define TrueCourceOkiharaModeCS // CS完走用プログラム
-//#define TrueCourceOkiharaModeStableCS // CS完走用プログラム。地区大会の値を流用。保険として用意した安定版（不安定）
+#define TrueCourceSanekataModeCS // CS完走用プログラム
+//#define TrueCourceOkiharaModeCSForKomichiRobot
+//#define TrueCourceOkiharaModeCSUseRegionalValueForKomichiRobot // CS完走用プログラム。地区大会の値を流用。保険として用意した安定版（不安定）
+//#define TrueCourceOkiharaModeCSStableValueForOkiharaRobot
 //#define TrueCourceOkiharaModeRegional // 地区大会完走用プログラム。沖原トレース
 //#define TrueCourceKomichiModeRegional  // 地区大会完走用プログラム。小路シナリオ
 //#define GoalSanekataPIDMode1 // ゴール用プログラム。試走会1時点。

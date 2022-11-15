@@ -73,9 +73,9 @@ int lowBatteryVoltageMv = 7650;
 
 bool enableBeepWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にビープ音を鳴らす。
 bool enableBeepWhenCommandSwitchingSong = false;
-Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 5); // debugBeep()で鳴らす音の定義
-vector<Note *> song = generateFroggySong();                    // 流す曲の定義
-int loopSong = 10;                                             // 曲のループ数
+Note *beepNoteWhenCommandSwitching = new Note(NOTE_C4, 50, 100); // debugBeep()で鳴らす音の定義
+vector<Note *> song = generateFroggySong();                      // 流す曲の定義
+int loopSong = 10;                                               // 曲のループ数
 
 bool enableSwitchLEDWhenCommandSwitching = true; // trueにすると、コマンド切り替え時にLEDの色を切り替える。
 ledcolor_t ledColorsWhenCommandSwitchingArray[] = {
