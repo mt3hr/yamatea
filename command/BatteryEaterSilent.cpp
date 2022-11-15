@@ -16,19 +16,20 @@ void BatteryEaterSilent::run(RobotAPI *robotAPI)
 {
     int batteryMV = ev3_battery_voltage_mV();
 
-    int ambient = robotAPI->getColorSensor()->getAmbient();
-    int brightness = robotAPI->getColorSensor()->getBrightness();
-    int colorNumber = robotAPI->getColorSensor()->getColorNumber();
-    rgb_raw_t rawcolor;
-    robotAPI->getColorSensor()->getRawColor(rawcolor);
-    int distance = robotAPI->getSonarSensor()->getDistance();
-
-    stringstream ss;
+    stringstream bs;
+    stringstream ts;
     vector<string> msg;
-    ss << batteryMV << "mv";
+    bs << batteryMV << "mv";
+    ts << long(robotAPI->getClock()->now());
 
-    msg.push_back(ss.str());
+    msg.push_back(bs.str());
+    msg.push_back(ts.str());
     PrintMessage(msg, true).run(robotAPI);
+
+    rgb_raw_t rawcolor;
+    robotAPI->getColorSensor()->getColorNumber();
+    robotAPI->getColorSensor()->getRawColor(rawcolor);
+    robotAPI->getSonarSensor()->getDistance();
     return;
 }
 

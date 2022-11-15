@@ -8170,6 +8170,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   int targetVoltage = 7950;
   Command *batteryEater = new BatteryEaterSilent();
   Predicate *batteryPredicate = new BatteryPredicate(targetVoltage);
+  commandExecutor->addCommand(batteryEater, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(walker));
   commandExecutor->addCommand(batteryEater, batteryPredicate, GET_VARIABLE_NAME(walker));
 }
 #endif
