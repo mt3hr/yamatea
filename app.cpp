@@ -84,6 +84,7 @@
 #include "ResetPWMCoefficient.h"
 #include "WalkerR.h"
 #include "PIDLimTracer.h"
+#include "BatteryEaterSilent.h"
 
 using namespace std;
 using namespace ev3api;
@@ -8160,6 +8161,16 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   Walker *walker = new Walker(leftPWM, rightPWM);
   Predicate *batteryPredicate = new BatteryPredicate(targetVoltage);
   commandExecutor->addCommand(walker, batteryPredicate, GET_VARIABLE_NAME(walker));
+}
+#endif
+
+#ifdef BatteryEeaterSilentMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  int targetVoltage = 7950;
+  Command *batteryEater = new BatteryEaterSilent();
+  Predicate *batteryPredicate = new BatteryPredicate(targetVoltage);
+  commandExecutor->addCommand(batteryEater, batteryPredicate, GET_VARIABLE_NAME(walker));
 }
 #endif
 

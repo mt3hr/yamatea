@@ -77,6 +77,7 @@ SetPWMCoefficient.o \
 ResetPWMCoefficient.o \
 WalkerR.o \
 PIDLimTracer.o \
+BatteryEaterSilent.o \
 
 SRCLANG := c++
 
