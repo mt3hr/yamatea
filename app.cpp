@@ -7242,18 +7242,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 }
 #endif
-
-// RGBRawReaderModeの場合のcommandExecutor初期化処理
-#ifdef RGBRawReaderMode
-void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
-{
-  // rgbRawReaderの初期化とCommandExecutorへの追加
-  RGBRawReader *rgbRawReader = new RGBRawReader();
-  Predicate *startButtonPredicate = new StartButtonPredicate();
-  commandExecutor->addCommand(rgbRawReader, startButtonPredicate, GET_VARIABLE_NAME(rgbRawReader));
-}
-#endif
-
 // ColorIDReaderModeの場合のcommandExecutor初期化処理
 #ifdef ColorIDReaderMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
@@ -7262,14 +7250,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   ColorIDReader *reader = new ColorIDReader();
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(reader, startButtonPredicate, GET_VARIABLE_NAME(reader));
-}
-#endif
-
-#ifdef BrightnessReaderMode
-void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
-{
-  BrightnessReader *reader = new BrightnessReader();
-  commandExecutor->addCommand(reader, new Predicate(), GET_VARIABLE_NAME(reader));
 }
 #endif
 
@@ -8167,7 +8147,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef BatteryEeaterSilentMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  int targetVoltage = 7950;
+  int targetVoltage = 7830;
   Command *batteryEater = new BatteryEaterSilent();
   Predicate *batteryPredicate = new BatteryPredicate(targetVoltage);
   commandExecutor->addCommand(batteryEater, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(walker));
@@ -9417,16 +9397,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 
 #endif
 
-// RGBRawReaderModeの場合のcommandExecutor初期化処理
-#ifdef RGBRawReaderMode
-  void initializeCommandExecutor(CommandExecutor * commandExecutor, RobotAPI * robotAPI)
-  {
-    // rgbRawReaderの初期化とCommandExecutorへの追加
-    RGBRawReader *rgbRawReader = new RGBRawReader();
-    Predicate *startButtonPredicate = new StartButtonPredicate();
-    commandExecutor->addCommand(rgbRawReader, startButtonPredicate, GET_VARIABLE_NAME(rgbRawReader));
-  }
-#endif
 // ColorIDReaderModeの場合のcommandExecutor初期化処理
 #ifdef ColorIDReaderMode
   void initializeCommandExecutor(CommandExecutor * commandExecutor, RobotAPI * robotAPI)
@@ -10491,21 +10461,29 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float pmanDistance = 34;
     float carrotDistance = 32;
     float bananaDistance = 38;
+    bananaDistance = 37; // CS
     float peachDistance = 34;
-    float orangeDistance = 74; // 73.5+-1
-    float starFruitsDistance = 12;
+    float orangeDistance = 74;    // 73.5+-1
+    orangeDistance = 73;          // CS
+    float starFruitsDistance = 5; // CS 5 // 12;
     float cherryDistance = 60;
-    float waterMelonDistance = 261; // 260前後。かなりブレあり
-    waterMelonDistance = 263.5;     // 学校
+    float waterMelonDistance = 262.5; // 260前後。かなりブレあり
+    waterMelonDistance = 263.5;       // 学校
+    waterMelonDistance = 255.5;       // CS
+    waterMelonDistance = 260.5;       // CS
     float bokChoyDistance = 15;
+    bokChoyDistance = 20;
     float dorianDistance = 40;
     float hassakuDistance = 35;
     float radishDistance = 31.5;
     float melonDistance = 34;
     float nutsDistance = 16.2;
+    nutsDistance = 13.5; // CS
+    nutsDistance = 11.5; // CS
     float lemonDistance = 38;
-    float cucumberDistance = 191;  // 194+-3
-    float strawberryDistance = 38; // 19;左車輪
+    lemonDistance = 41;             // CS
+    float cucumberDistance = 189.5; // 194+-3
+    float strawberryDistance = 38;  // 19;左車輪
     float kiwiDistance = 40;
     float cabbageDistance = 50;
 
@@ -10713,6 +10691,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       waterMelonKd = waterMelonKp * 3; // TODO
       waterMelonDt = 1;
       waterMelonR = 45; // TODO
+      waterMelonR = 46; // CS
       break;
     }
     case 2:
@@ -13921,16 +13900,6 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   RGBRawReader *rgbRawReader = new RGBRawReader();
   Predicate *startButtonPredicate = new StartButtonPredicate();
   commandExecutor->addCommand(rgbRawReader, startButtonPredicate, GET_VARIABLE_NAME(rgbRawReader));
-}
-#endif
-// ColorIDReaderModeの場合のcommandExecutor初期化処理
-#ifdef ColorIDReaderMode
-void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
-{
-  // rgbRawReaderの初期化とCommandExecutorへの追加
-  ColorIDReader *reader = new ColorIDReader();
-  Predicate *startButtonPredicate = new StartButtonPredicate();
-  commandExecutor->addCommand(reader, startButtonPredicate, GET_VARIABLE_NAME(reader));
 }
 #endif
 #ifdef BrightnessReaderMode
