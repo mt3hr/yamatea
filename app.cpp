@@ -10486,6 +10486,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     cucumberDistance = 185.5;       // CS
     cucumberDistance = 183;         // CS
     cucumberDistance = 180.5;       // CS
+    cucumberDistance = 184;         // CS
     float strawberryDistance = 38;  // 19;左車輪
     strawberryDistance = 30;        // 19;左車輪
     strawberryDistance = 19;        // 19;左車輪

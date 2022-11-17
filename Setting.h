@@ -17,18 +17,18 @@ using namespace std;
 //#define SanekataCanNotGoal // ゴール以外の結合がしたい実方用。コメントアウトして。
 
 // コース設定ここから。いずれか1つを有効化して
-//#define Left
-#define Right
+#define Left
+//#define Right
 // コース設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
-//#define SlalomPattern1
-#define SlalomPattern2
+#define SlalomPattern1
+//#define SlalomPattern2
 // スラロームパターンの設定ここまで
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-//#define TrueCourceSanekataModeCS // CS完走用プログラム
+#define TrueCourceSanekataModeCS // CS完走用プログラム
 //#define TrueCourceOkiharaModeCSForKomichiRobot
 //#define TrueCourceOkiharaModeCSForOkiharaRobot
 //#define TrueCourceOkiharaModeCSUseRegionalValueForKomichiRobot // CS完走用プログラム。地区大会の値を流用。保険として用意した安定版（不安定）
@@ -85,7 +85,7 @@ using namespace std;
 //#define PIDFacingAngleAbsTestMode // PIDFacingAngleAbsをテストするモード
 //#define WalkerRTestMode
 //#define PIDLimTracerTestMode
-#define BatteryEeaterSilentMode
+//#define BatteryEeaterSilentMode
 
 // モード設定ここまで
 
