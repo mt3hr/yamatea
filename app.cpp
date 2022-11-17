@@ -8147,7 +8147,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 #ifdef BatteryEeaterSilentMode
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
-  int targetVoltage = 7830;
+  int targetVoltage = 7850;
   Command *batteryEater = new BatteryEaterSilent();
   Predicate *batteryPredicate = new BatteryPredicate(targetVoltage);
   commandExecutor->addCommand(batteryEater, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(walker));
@@ -10483,7 +10483,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     float lemonDistance = 38;
     lemonDistance = 41;             // CS
     float cucumberDistance = 189.5; // 194+-3
+    cucumberDistance = 185.5;       // CS
+    cucumberDistance = 183;         // CS
+    cucumberDistance = 180.5;       // CS
     float strawberryDistance = 38;  // 19;左車輪
+    strawberryDistance = 30;        // 19;左車輪
+    strawberryDistance = 19;        // 19;左車輪
+    strawberryDistance = 15;        // 19;左車輪
+    strawberryDistance = 19;        // 左車輪にかけるか？
     float kiwiDistance = 40;
     float cabbageDistance = 50;
 
@@ -10937,7 +10944,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     r = -25; // 44
     PIDTracerV2 *strawberryPIDTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
     Predicate *predicateStrawberry = new WheelDistancePredicate(strawberryDistance, robotAPI);
-    predicateStrawberry = predicateStrawberry->generateReversePredicate();
+    // predicateStrawberry = predicateStrawberry->generateReversePredicate();
     calibrator->addPIDTracer(strawberryPIDTracer);
     commandExecutor->addCommand(strawberryPIDTracer, predicateStrawberry, GET_VARIABLE_NAME(strawberryPIDTracer));
 
