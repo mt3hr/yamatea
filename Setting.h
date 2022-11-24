@@ -29,6 +29,7 @@ using namespace std;
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 #define TrueCourceSanekataModeCS // CS完走用プログラム
+//#define TrueCourceSanekataMode1261b // CS後1261b教室用に調節した完走用プログラム。7823mv、Lコースパターン1
 //#define TrueCourceOkiharaModeCSForKomichiRobot
 //#define TrueCourceOkiharaModeCSForOkiharaRobot
 //#define TrueCourceOkiharaModeCSUseRegionalValueForKomichiRobot // CS完走用プログラム。地区大会の値を流用。保険として用意した安定版（不安定）
