@@ -1,7 +1,7 @@
 #include "ResetPWMCoefficient.h"
 #include "RobotAPI.h"
 
-ResetPWMCoefficient::ResetPWMCoefficient(/* args */)
+ResetPWMCoefficient::ResetPWMCoefficient()
 {
 }
 

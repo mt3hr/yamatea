@@ -48,7 +48,7 @@ void SwingSonarObstacleDetector::detectLeftObstacle(RobotAPI *robotAPI, SwingSon
 {
     if (!initedRotateRobotDistanceAngleDetectorLeft)
     {
-        rotateRobotDistanceAngleDetectorLeft = new RotateRobotDistanceAngleDetector(swingLeft, targetLeft, pwm, robotAPI);
+        rotateRobotDistanceAngleDetectorLeft = new RotateRobotDistanceAngleDetector(swingLeft, targetLeft, pwm);
         rotateRobotDistanceAngleDetectorLeftPredicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetectorLeft);
         rotateRobotDistanceAngleDetectorLeft->preparation(robotAPI);
         rotateRobotDistanceAngleDetectorLeftPredicate->preparation(robotAPI);
@@ -92,7 +92,7 @@ void SwingSonarObstacleDetector::detectRightObstacle(RobotAPI *robotAPI, SwingSo
 {
     if (!initedRotateRobotDistanceAngleDetectorRight)
     {
-        rotateRobotDistanceAngleDetectorRight = new RotateRobotDistanceAngleDetector(swingRight, targetRight, pwm, robotAPI);
+        rotateRobotDistanceAngleDetectorRight = new RotateRobotDistanceAngleDetector(swingRight, targetRight, pwm);
         rotateRobotDistanceAngleDetectorRightPredicate = new FinishedCommandPredicate(rotateRobotDistanceAngleDetectorRight);
         rotateRobotDistanceAngleDetectorRight->preparation(robotAPI);
         rotateRobotDistanceAngleDetectorRightPredicate->preparation(robotAPI);

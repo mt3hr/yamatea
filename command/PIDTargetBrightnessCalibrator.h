@@ -34,7 +34,7 @@ private:
     RobotAPI *robotAPI;
 
 public:
-    PIDTargetBrightnessCalibrator(RobotAPI *robotAPI);
+    PIDTargetBrightnessCalibrator();
     virtual ~PIDTargetBrightnessCalibrator();
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;

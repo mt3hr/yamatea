@@ -680,9 +680,8 @@ void writeCalibratedValuesToFile(RobotAPI *robotAPI)
     fclose(preCalibratedValuesFile);
 }
 
-PIDTargetColorBrightnessCalibrator::PIDTargetColorBrightnessCalibrator(RobotAPI *robotAPI, BrightnessCalibrateMode brightnessCalibrateMode)
+PIDTargetColorBrightnessCalibrator::PIDTargetColorBrightnessCalibrator(BrightnessCalibrateMode brightnessCalibrateMode)
 {
-    this->robotAPI = robotAPI;
     this->brightnessCalibrateMode = brightnessCalibrateMode;
 };
 
@@ -1242,12 +1241,13 @@ void PIDTargetColorBrightnessCalibrator::run(RobotAPI *robotAPI)
 
 void PIDTargetColorBrightnessCalibrator::preparation(RobotAPI *robotAPI)
 {
+    this->robotAPI = robotAPI;
     return;
 }
 
 PIDTargetColorBrightnessCalibrator *PIDTargetColorBrightnessCalibrator::generateReverseCommand()
 {
-    return new PIDTargetColorBrightnessCalibrator(robotAPI, brightnessCalibrateMode);
+    return new PIDTargetColorBrightnessCalibrator(brightnessCalibrateMode);
 }
 
 bool PIDTargetColorBrightnessCalibrator::isReadedBlackBrightness()
