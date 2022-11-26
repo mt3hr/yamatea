@@ -17,8 +17,8 @@ using namespace std;
 //#define SanekataCanNotGoal // ゴール以外の結合がしたい実方用。コメントアウトして。
 
 // コース設定ここから。いずれか1つを有効化して
-//#define Left
-#define Right
+#define Left
+//#define Right
 // コース設定ここまで
 
 // スラロームパターンの設定ここから。いずれか1つを有効化して
