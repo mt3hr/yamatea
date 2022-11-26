@@ -13,7 +13,7 @@ using namespace std;
 // ********** 設定1/2ここから **********
 
 // 実機シミュレータ設定。ジャイロセンサから取得できる角度の方向が実機とシミュレータでは異なるので。
-//#define SimulatorMode // 実機で動かすときにはコメントアウトして
+#define SimulatorMode // 実機で動かすときにはコメントアウトして
 //#define SanekataCanNotGoal // ゴール以外の結合がしたい実方用。コメントアウトして。
 
 // コース設定ここから。いずれか1つを有効化して
@@ -28,7 +28,8 @@ using namespace std;
 
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
-#define TrueCourceSanekataModeCS // CS完走用プログラム
+//#define TrueCourceSanekataModeCS // CS完走用プログラム
+#define TrueCourceSanekataModeSimurator // TrueCourceSanekataCSを調整したシミュレータ完走用プログラム
 //#define TrueCourceOkiharaModeCSForKomichiRobot
 //#define TrueCourceOkiharaModeCSForOkiharaRobot
 //#define TrueCourceOkiharaModeCSUseRegionalValueForKomichiRobot // CS完走用プログラム。地区大会の値を流用。保険として用意した安定版（不安定）
