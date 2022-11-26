@@ -64,16 +64,15 @@ void ColorPIDTracerV2::run(RobotAPI *robotAPI)
     // PID値の算出ここまで
 
     // 右ライントレースか左ライントレースか
-    float r2 = r / 2;
     if (traceMode == RIGHT_TRACE)
     {
-        leftPower = round(pwm - pid + r2);
-        rightPower = round(pwm + pid - r2);
+        leftPower = round(pwm - pid + r / 2);
+        rightPower = round(pwm + pid - r / 2);
     }
     else if (traceMode == LEFT_TRACE)
     {
-        leftPower = round(pwm + pid - r2);
-        rightPower = round(pwm - pid + r2);
+        leftPower = round(pwm + pid - r / 2);
+        rightPower = round(pwm - pid + r / 2);
     }
 
     // モータを動かす
@@ -84,13 +83,13 @@ void ColorPIDTracerV2::run(RobotAPI *robotAPI)
     writeDebug("ColorPIDTracerV2");
     writeEndLineDebug();
     writeDebug("p: ");
-    writeDebug(p * kp);
+    writeDebug(p*kp);
     writeEndLineDebug();
     writeDebug("i: ");
-    writeDebug(i * ki);
+    writeDebug(i*ki);
     writeEndLineDebug();
     writeDebug("d: ");
-    writeDebug(d * kd);
+    writeDebug(d*kd);
     writeEndLineDebug();
     writeDebug("r: ");
     writeDebug(r);

@@ -7,21 +7,11 @@
 #include "DebugUtil.h"
 #include "FinishConfirmable.h"
 
-RotateRobotDistanceAngleDetector::RotateRobotDistanceAngleDetector(float targetAngle, int distanceThreshold, int pwm, RobotAPI *robotAPI)
+RotateRobotDistanceAngleDetector::RotateRobotDistanceAngleDetector(float targetAngle, int distanceThreshold, int pwm)
 {
-    this->robotAPI = robotAPI;
     this->pwm = pwm;
     this->targetAngle = targetAngle;
     this->distanceThreshold = distanceThreshold;
-
-    writeDebug("RotateRobotDistanceAngleDetector.targetAngle: ");
-    writeDebug(targetAngle);
-    flushDebug(DEBUG, robotAPI);
-
-    CommandAndPredicate *commandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(targetAngle, pwm, robotAPI);
-    this->rotateRobotCommand = commandAndPredicate->getCommand();
-    this->rotateRobotPredicate = commandAndPredicate->getPredicate();
-    delete commandAndPredicate;
 };
 
 RotateRobotDistanceAngleDetector::~RotateRobotDistanceAngleDetector()
@@ -73,6 +63,11 @@ void RotateRobotDistanceAngleDetector::run(RobotAPI *robotAPI)
 
 void RotateRobotDistanceAngleDetector::preparation(RobotAPI *robotAPI)
 {
+    this->robotAPI = robotAPI;
+    writeDebug("RotateRobotDistanceAngleDetector.targetAngle: ");
+    writeDebug(targetAngle);
+    flushDebug(DEBUG, robotAPI);
+
     Stopper *stopper = new Stopper();
     stopper->run(robotAPI);
     delete stopper;
@@ -86,11 +81,16 @@ void RotateRobotDistanceAngleDetector::preparation(RobotAPI *robotAPI)
     writeDebug("RotateRobotDistanceAngleDetector.angleWhenInited: ");
     writeDebug(angleWhenInited);
     flushDebug(DEBUG, robotAPI);
+
+    CommandAndPredicate *commandAndPredicate = new RotateRobotUseGyroCommandAndPredicate(targetAngle, pwm, robotAPI);
+    this->rotateRobotCommand = commandAndPredicate->getCommand();
+    this->rotateRobotPredicate = commandAndPredicate->getPredicate();
+    delete commandAndPredicate;
 }
 
 RotateRobotDistanceAngleDetector *RotateRobotDistanceAngleDetector::generateReverseCommand()
 {
-    return new RotateRobotDistanceAngleDetector(-targetAngle, distanceThreshold, pwm, robotAPI);
+    return new RotateRobotDistanceAngleDetector(-targetAngle, distanceThreshold, pwm);
 }
 
 bool RotateRobotDistanceAngleDetector::isFinished()

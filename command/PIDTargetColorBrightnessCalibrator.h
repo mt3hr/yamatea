@@ -84,7 +84,7 @@ private:
     RobotAPI *robotAPI;
 
 public:
-    PIDTargetColorBrightnessCalibrator(RobotAPI *robotAPI, BrightnessCalibrateMode mode);
+    PIDTargetColorBrightnessCalibrator(BrightnessCalibrateMode mode);
     virtual ~PIDTargetColorBrightnessCalibrator();
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;
