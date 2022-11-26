@@ -98,7 +98,6 @@ private:
     int rotatePow;
 
     Stopper *stopper;
-    RobotAPI *robotAPI;
 
     // generateReverseCommandやコンストラクタで使われる
     UFORunner(float n, int walkerPow, int rotatePow);

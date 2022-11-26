@@ -28,7 +28,7 @@ private:
     bool up = false;
 
 public:
-    WheelDistancePredicate(float targetDistanceCm);
+    WheelDistancePredicate(float targetDistanceCm, RobotAPI *robotAPI);
     virtual ~WheelDistancePredicate();
     virtual bool test(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;

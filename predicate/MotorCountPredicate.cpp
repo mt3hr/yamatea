@@ -1,8 +1,7 @@
 #include "MotorCountPredicate.h"
-#include "CorrectedMotor.h"
 #include "RobotAPI.h"
 
-MotorCountPredicate::MotorCountPredicate(CorrectedMotor *m, int c)
+MotorCountPredicate::MotorCountPredicate(Motor *m, int c)
 {
     motor = m;
     count = c;

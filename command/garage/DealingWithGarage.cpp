@@ -47,7 +47,7 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             leftPow = -20;
             rightPow = -20;
             Walker *walker2 = new Walker(leftPow, rightPow);
-            Predicate *predicate2 = new WheelDistancePredicate(-5);
+            Predicate *predicate2 = new WheelDistancePredicate(-5, robotAPI);
             commandExecutor->addCommand(walker2, predicate2, "walker2");
             Predicate *predicateS2 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS2, "stopper1");
@@ -65,7 +65,7 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             leftPow = 20;
             rightPow = 20;
             Walker *walker4 = new Walker(leftPow, rightPow);
-            Predicate *predicate4 = new WheelDistancePredicate(14);
+            Predicate *predicate4 = new WheelDistancePredicate(14, robotAPI);
             commandExecutor->addCommand(walker4, predicate4, "walker4");
             Predicate *predicateS4 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS4, "stopper1");
@@ -92,7 +92,7 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             Predicate *predicate8 = new ColorPredicate(COLOR_GREEN);
             commandExecutor->addCommand(walker4, predicate8, "walker8");
 
-            Predicate *predicate8s = new WheelDistancePredicate(12);
+            Predicate *predicate8s = new WheelDistancePredicate(12, robotAPI);
             commandExecutor->addCommand(walker4, predicate8s, "walker48strate");
             Predicate *predicateS8 = new NumberOfTimesPredicate(1);
             commandExecutor->addCommand(stopper1, predicateS8, "stopper1");
@@ -121,7 +121,7 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             leftPow = 20;
             rightPow = 20;
             Walker *walker4 = new Walker(leftPow, rightPow);
-            Predicate *predicate4 = new WheelDistancePredicate(20);
+            Predicate *predicate4 = new WheelDistancePredicate(20, robotAPI);
             commandExecutor->addCommand(walker4, predicate4, "walkerB");
         }
         else
@@ -135,7 +135,7 @@ void DealingWithGarage::run(RobotAPI *robotAPI)
             leftPow = 20;
             rightPow = 20;
             Walker *walker4 = new Walker(leftPow, rightPow);
-            Predicate *predicate4 = new WheelDistancePredicate(40);
+            Predicate *predicate4 = new WheelDistancePredicate(40, robotAPI);
             commandExecutor->addCommand(walker4, predicate4, "walkerB");
         }
         // 停止コマンドの初期化とCommandExecutorへの追加

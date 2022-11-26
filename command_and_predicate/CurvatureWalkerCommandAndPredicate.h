@@ -18,7 +18,7 @@ class CurvatureWalkerCommandAndPredicate : public CommandAndPredicate
 {
 private:
 public:
-    CurvatureWalkerCommandAndPredicate(CWCAPMode mode, float pwm, float r, float theta);
+    CurvatureWalkerCommandAndPredicate(CWCAPMode mode, float pwm, float r, float theta, RobotAPI *robotAPI);
     virtual ~CurvatureWalkerCommandAndPredicate();
 };
 

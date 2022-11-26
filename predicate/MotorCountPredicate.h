@@ -2,7 +2,7 @@
 #define MotorCountPredicate_H
 
 #include "Predicate.h"
-#include "CorrectedMotor.h"
+#include "Motor.h"
 #include "RobotAPI.h"
 
 using namespace ev3api;
@@ -16,12 +16,12 @@ using namespace ev3api;
 class MotorCountPredicate : public Predicate
 {
 private:
-    CorrectedMotor *motor;
+    Motor *motor;
     int count;
     bool decrease;
 
 public:
-    MotorCountPredicate(CorrectedMotor *motor, int count);
+    MotorCountPredicate(Motor *motor, int count);
     virtual ~MotorCountPredicate();
     virtual bool test(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;

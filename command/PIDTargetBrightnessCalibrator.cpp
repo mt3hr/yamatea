@@ -10,8 +10,9 @@
 using namespace ev3api;
 using namespace std;
 
-PIDTargetBrightnessCalibrator::PIDTargetBrightnessCalibrator()
+PIDTargetBrightnessCalibrator::PIDTargetBrightnessCalibrator(RobotAPI *robotAPI)
 {
+    this->robotAPI = robotAPI;
 };
 
 PIDTargetBrightnessCalibrator::~PIDTargetBrightnessCalibrator()
@@ -108,13 +109,12 @@ void PIDTargetBrightnessCalibrator::run(RobotAPI *robotAPI)
 
 void PIDTargetBrightnessCalibrator::preparation(RobotAPI *robotAPI)
 {
-    this->robotAPI = robotAPI;
     return;
 }
 
 PIDTargetBrightnessCalibrator *PIDTargetBrightnessCalibrator::generateReverseCommand()
 {
-    return new PIDTargetBrightnessCalibrator();
+    return new PIDTargetBrightnessCalibrator(robotAPI);
 }
 
 int PIDTargetBrightnessCalibrator::getBlack()

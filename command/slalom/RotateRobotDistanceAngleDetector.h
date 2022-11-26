@@ -32,7 +32,7 @@ private:
     int angleWhenInited;
 
 public:
-    RotateRobotDistanceAngleDetector(float angle, int distanceThreshold, int pwm);
+    RotateRobotDistanceAngleDetector(float angle, int distanceThreshold, int pwm, RobotAPI *robotAPI);
     virtual ~RotateRobotDistanceAngleDetector();
     virtual void run(RobotAPI *robotAPI) override;
     virtual void preparation(RobotAPI *robotAPI) override;

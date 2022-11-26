@@ -14,10 +14,12 @@ float distanceToMotorRotateAngle(float distanceCm)
     return cm1Angle * distanceCm;
 };
 
-WheelDistancePredicate::WheelDistancePredicate(float tdc)
+WheelDistancePredicate::WheelDistancePredicate(float tdc, RobotAPI *robotAPI)
 {
     targetDistanceCm = tdc;
+    wheel = robotAPI->getLeftWheel();
     hasLeftWheel = true;
+    this->robotAPI = robotAPI;
     up = tdc > 0;
 };
 
@@ -37,21 +39,12 @@ bool WheelDistancePredicate::test(RobotAPI *robotAPI)
 
 void WheelDistancePredicate::preparation(RobotAPI *robotAPI)
 {
-    this->robotAPI = robotAPI;
-    if (hasLeftWheel)
-    {
-        wheel = robotAPI->getLeftWheel();
-    }
-    else
-    {
-        wheel = robotAPI->getRightWheel();
-    }
     targetAngle = distanceToMotorRotateAngle(targetDistanceCm) + float(wheel->getCount());
 }
 
 WheelDistancePredicate *WheelDistancePredicate::generateReversePredicate()
 {
-    WheelDistancePredicate *reversed = new WheelDistancePredicate(targetDistanceCm);
+    WheelDistancePredicate *reversed = new WheelDistancePredicate(targetDistanceCm, robotAPI);
     if (reversed->hasLeftWheel)
     {
         reversed->wheel = robotAPI->getRightWheel();

@@ -41,15 +41,16 @@ void PIDTracerV2::run(RobotAPI *robotAPI)
     // PID値の算出ここまで
 
     // 右ライントレースか左ライントレースか
+    float r2 = r / 2;
     if (traceMode == RIGHT_TRACE)
     {
-        leftPower = round(pwm - pid + r / 2);
-        rightPower = round(pwm + pid - r / 2);
+        leftPower = (pwm - pid + r2);
+        rightPower = (pwm + pid - r2);
     }
     else if (traceMode == LEFT_TRACE)
     {
-        leftPower = round(pwm + pid - r / 2);
-        rightPower = round(pwm - pid + r / 2);
+        leftPower = (pwm + pid - r2);
+        rightPower = (pwm - pid + r2);
     }
 
     // モータを動かす
@@ -126,7 +127,7 @@ PIDTracerV2 *PIDTracerV2::generateReverseCommand()
     {
         reversedMode = LEFT_TRACE;
     }
-    return new PIDTracerV2(reversedMode, pwm, kp, ki, kd, dt, r);//TODO rって反転しなくていいの？反転すると動かないんだよね
+    return new PIDTracerV2(reversedMode, pwm, kp, ki, kd, dt, r); // TODO rって反転しなくていいの？反転すると動かないんだよね
 }
 
 void PIDTracerV2::setTargetBrightness(int8_t t)
