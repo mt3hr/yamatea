@@ -95,12 +95,12 @@ using namespace std;
 //#define EnablePrintGyroValue // コメントアウトを外すとジャイロの値を出力する
 //#define EnablePrintAngleUseWheel // コメントアウトを外すと車輪回転角から導き出された車体旋回角度を出力する
 //#define EnablePrintMotorCount // コメントアウトを外すとモータの回転数を出力する
-//#define EnablePrintSonarDistance
+#define EnablePrintSonarDistance
 //#define EnablePrintPIDValues // コメントアウトを外すと各PIDTracerのPID値などを出力する
 //#define EnableRunnerTaskTimeCheck // コメントアウトを外すと、RunnerTask開始と終了のタイミングを出力する
 //#define EnablePrintTimePIDTracerV2
-//#define EnablePrintCommandName // コマンド切り替え時にコマンド名を出力する。キャリブレータの表示より優先されるっぽいのでデバッグ目的以外ではオフっといたほうがいいかも
-#define StopWhenThrowException // コメントアウトを外すと、例外が飛んだときにデデドンして止まる
+#define EnablePrintCommandName // コマンド切り替え時にコマンド名を出力する。キャリブレータの表示より優先されるっぽいのでデバッグ目的以外ではオフっといたほうがいいかも
+//#define StopWhenThrowException // コメントアウトを外すと、例外が飛んだときにデデドンして止まる
 
 // ********** 設定1/2ここまで **********
 
