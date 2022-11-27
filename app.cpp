@@ -14125,7 +14125,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
     waterMelonDistance = 263.5 * coefficientDistance;       // 学校
     waterMelonDistance = 255.5 * coefficientDistance;       // CS
     waterMelonDistance = 260.5 * coefficientDistance;       // CS
-    waterMelonDistance = 254 * coefficientDistance;         // Simulator
+    waterMelonDistance = 253 * coefficientDistance;         // Simulator
     float bokChoyDistance = 15 * coefficientDistance;
     bokChoyDistance = 20 * coefficientDistance;
     float dorianDistance = 40 * coefficientDistance;
@@ -14906,6 +14906,7 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       commandExecutor->addCommand(facingAngle3, facingAngle3Predicate, GET_VARIABLE_NAME(facingAngle3));
       commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
+#ifdef SlalomPattern1
       // 直進
       pwm = 7;
       pwm = 7;
@@ -14916,6 +14917,19 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       WheelDistancePredicate *walkerAPredicate = new WheelDistancePredicate(distance, robotAPI);
       commandExecutor->addCommand(walkerA, walkerAPredicate, GET_VARIABLE_NAME(walkerA));
       commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+#endif
+#ifdef SlalomPattern1
+      // 直進
+      pwm = 7;
+      pwm = 7;
+      distance = 3.2;
+      distance = 0.2; // simulator
+      // PIDStraightWalker *walkerA = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
+      Walker *walkerA = new Walker(pwm, pwm);
+      WheelDistancePredicate *walkerAPredicate = new WheelDistancePredicate(distance, robotAPI);
+      commandExecutor->addCommand(walkerA, walkerAPredicate, GET_VARIABLE_NAME(walkerA));
+      commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+#endif
 
       /*
       // 位置調節
@@ -14987,8 +15001,18 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
       commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 #endif
 #ifdef SlalomPattern2
+      /*
       distance = 1.5; // 4;
       pwm = 7;
+      // PIDStraightWalker *walker5 = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
+      Walker *walker5 = new Walker(pwm, pwm);
+      Predicate *walker5Predicate = new WheelDistancePredicate(distance, robotAPI);
+      commandExecutor->addCommand(walker5, walker5Predicate, GET_VARIABLE_NAME(walker5));
+      commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
+      */
+      // Simulator
+      distance = -1.5; // 4;
+      pwm = -7;
       // PIDStraightWalker *walker5 = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
       Walker *walker5 = new Walker(pwm, pwm);
       Predicate *walker5Predicate = new WheelDistancePredicate(distance, robotAPI);
@@ -15144,6 +15168,7 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
       // 直進位置調節
       pwm = 10 * coefficientPWM;
       pwm = 7;
+      pwm = 6; // slalom
       // pwm = 20 * coefficientPWM;
       distance = 16 + diff;
       HedgehogUsePID *headgehogAA = new HedgehogUsePID(distance, pwm, straightKp, straightKi, straightKd, straightDt);
@@ -15181,6 +15206,7 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
       pwm = 10 * coefficientPWMForCurve;
       pwm = 20 * coefficientPWMForCurve;
       radius = 35.5;
+      radius = 33;
       theta = 30;
       CurvatureWalkerCommandAndPredicate *curve6 = new CurvatureWalkerCommandAndPredicate(CWCMP_WheelCount, pwm, radius, theta, robotAPI);
       commandExecutor->addCommand(curve6->getCommand(), curve6->getPredicate(), GET_VARIABLE_NAME(curve6));
@@ -15193,16 +15219,15 @@ commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE
       commandExecutor->addCommand(facingAngle8, facingAngle8Predicate, GET_VARIABLE_NAME(facingAngle8));
       commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 
-      /*
+      // Simulator
       // 直進
       leftPWM = 10 * coefficientPWM;
       rightPWM = 10 * coefficientPWM;
-      distance = 1;
+      distance = 8;
       Walker *walker8y = new Walker(leftPWM, rightPWM);
       WheelDistancePredicate *walker8yPredicate = new WheelDistancePredicate(distance, robotAPI);
       commandExecutor->addCommand(walker8y, walker8yPredicate, GET_VARIABLE_NAME(walker8y));
       commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
-      */
 
       // カーブ
       pwm = 10 * coefficientPWMForCurve;
