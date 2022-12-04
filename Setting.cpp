@@ -60,10 +60,10 @@ float tailMotorPWMCorrectedValue = 1;      // テールモータPWM補正値
 
 // 情報出力の有効無効設定ここから
 
-DEBUG_LEVEL debugMessageLevel = NONE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
-bool enablePrintMessageMode = false;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
+DEBUG_LEVEL debugMessageLevel = TRACE;        // 出力するデバッグ情報のレベル。None, Info, Debug, Trace。
+bool enablePrintMessageMode = true;         // trueにすると、コマンドの情報をディスプレイなどに表示する。ただし、ディスプレイ表示処理は重いので走行が変わる。enablePrintMessageForConsole, enablePrintMessageForConsole, enablePrintMessageForBluetoothを有効化するならばこの値も有効化して。
 bool enablePrintMessageForLCD = false;       // trueにすると、本体画面に情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
-bool enablePrintMessageForConsole = false;   // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
+bool enablePrintMessageForConsole = true;   // trueにすると、コンソールにも情報がprintされる。（enablePrintMessageMode をtrueにする必要がある）
 bool enablePrintMessageForBluetooth = false; // trueにすると、Bluetooth接続端末にも情報がprintされる。（enablePrintMessageModeをtrueにし、ヘッダファイルの#define EnableBluetoothのコメントアウトを外す必要がある）
 int lowBatteryVoltageMv = 7650;
 
@@ -126,9 +126,9 @@ int blackBrightness = 2;
 
 // スラローム上からみた白（試走会では値取れていないので学校の値）
 #ifdef SimulatorMode
-int whiteAtSlalomR = 0;
-int whiteAtSlalomG = 0;
-int whiteAtSlalomB = 0;
+int whiteAtSlalomR = 114;
+int whiteAtSlalomG = 109;
+int whiteAtSlalomB = 154;
 RawColorPredicateCondition whiteAtSlalomRCondition = BETWEEN15;
 RawColorPredicateCondition whiteAtSlalomGCondition = BETWEEN10;
 RawColorPredicateCondition whiteAtSlalomBCondition = BETWEEN10;
@@ -173,10 +173,10 @@ RawColorPredicateCondition blackWhiteEdgeRCondition = BETWEEN5;
 RawColorPredicateCondition blackWhiteEdgeGCondition = BETWEEN5;
 RawColorPredicateCondition blackWhiteEdgeBCondition = BETWEEN5;
 
-// 青白境界（試走会では値取れていないので学校の値）
-int blueWhiteEdgeR = 36;
-int blueWhiteEdgeG = 56;
-int blueWhiteEdgeB = 92;
+// 青白境界（シミュレータの値）
+int blueWhiteEdgeR = 38;
+int blueWhiteEdgeG = 64;
+int blueWhiteEdgeB = 118;
 RawColorPredicateCondition blueWhiteEdgeRCondition = BETWEEN10;
 RawColorPredicateCondition blueWhiteEdgeGCondition = BETWEEN10;
 RawColorPredicateCondition blueWhiteEdgeBCondition = BETWEEN5;
