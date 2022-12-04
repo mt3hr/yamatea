@@ -13,7 +13,7 @@ using namespace std;
 // ********** 設定1/2ここから **********
 
 // 実機シミュレータ設定。ジャイロセンサから取得できる角度の方向が実機とシミュレータでは異なるので。
-#define SimulatorMode // 実機で動かすときにはコメントアウトして
+//#define SimulatorMode // 実機で動かすときにはコメントアウトして
 //#define SanekataCanNotGoal // ゴール以外の結合がしたい実方用。コメントアウトして。
 
 // コース設定ここから。いずれか1つを有効化して
@@ -29,7 +29,7 @@ using namespace std;
 // モード設定ここから
 // どれか一つを有効化して、それ以外をコメントアウトしてください
 //#define TrueCourceSanekataModeCS // CS完走用プログラム
-#define TrueCourceSanekataModeSimulator //TrueCourceSanekataCSをもとに調節したシミュレータ完走用プログラム。
+//#define TrueCourceSanekataModeSimulator //TrueCourceSanekataCSをもとに調節したシミュレータ完走用プログラム。
 //#define TrueCourceSanekataMode1261b // CS後1261b教室用に調節した完走用プログラム。7823mv、Lコースパターン1
 //#define TrueCourceOkiharaModeCSForKomichiRobot
 //#define TrueCourceOkiharaModeCSForOkiharaRobot
@@ -76,7 +76,7 @@ using namespace std;
 //#define ColorPIDTracerTestMode // ColorPIDTraceを試すモード。テスト用
 //#define ColorPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
 //#define BrightnessPIDTracerTestMode // TargetBrightnessPIDTraceを試すモード。テスト用
-//#define BrightnessPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
+#define BrightnessPIDTracerV2TestMode // ColorPIDTraceV2を試すモード。テスト用
 //#define FroggySongTestMode // かえるの歌を歌わせるモード。テスト用。
 //#define GrayPredicateTestMode // グレーでとまる直進モード。テスト用。
 //#define FacingAngleTestMode // 指定角度に向き直るモード。テスト用。
@@ -87,6 +87,7 @@ using namespace std;
 //#define WalkerRTestMode
 //#define PIDLimTracerTestMode
 //#define BatteryEeaterSilentMode
+//#define FreedomDiveTestMode
 
 // モード設定ここまで
 

@@ -17,4 +17,7 @@ vector<Note *> generateFroggySong();
 // デデドン！（絶望）。実方
 vector<Note *> generateDededon();
 
+// FreedomDive↓
+vector<Note *> generateFreedomDive();
+
 #endif

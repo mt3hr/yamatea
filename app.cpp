@@ -7873,6 +7873,14 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
   dt = 0.05;
   r = 0;
 
+  // pwm40 円コース
+  pwm = 40;
+  kp = 0.6265;
+  ki = 0.0812;
+  kd = 1.9221;
+  dt = 1;
+  r = 0;
+
   PIDTracerV2 *pidTracer = new PIDTracerV2(RIGHT_TRACE, pwm, kp, ki, kd, dt, r);
   commandExecutor->addCommand(pidTracer, new Predicate(), GET_VARIABLE_NAME(pidTracer));
   calibrator->addPIDTracer(pidTracer);
@@ -8089,6 +8097,18 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
 void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
 {
   vector<Note *> froggySong = generateFroggySong();
+  for (int i = 0; i < ((int)froggySong.size()); i++)
+  {
+    commandExecutor->addCommand(froggySong[i], new FinishedCommandPredicate(froggySong[i]), "");
+  }
+  commandExecutor->addCommand(new Stopper(), new NumberOfTimesPredicate(1), "stopper");
+}
+#endif
+
+#ifdef FreedomDiveTestMode
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI)
+{
+  vector<Note *> froggySong = generateFreedomDive();
   for (int i = 0; i < ((int)froggySong.size()); i++)
   {
     commandExecutor->addCommand(froggySong[i], new FinishedCommandPredicate(froggySong[i]), "");

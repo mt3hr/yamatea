@@ -75,3 +75,192 @@ vector<Note *> generateDededon()
     }
     return result;
 };
+
+vector<Note *> generateFreedomDive()
+{
+    int duration = 50;
+    int volume = 100;
+
+    Note *froggySongNotes[] = {
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_G4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_FS4, duration, volume),
+
+        new Note(NOTE_G4, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_FS5, duration, volume),
+        new Note(NOTE_G5, duration, volume),
+        new Note(NOTE_D5, duration, volume),
+        new Note(NOTE_B4, duration, volume),
+        new Note(NOTE_G4, duration, volume),
+
+        new Note(NOTE_D6, duration * 3 / 4, volume),
+        new Note(NOTE_D6, duration * 3 / 4, volume),
+        new Note(NOTE_D6, duration * 3 / 4, volume),
+        new Note(NOTE_C6, duration * 3 / 4, volume),
+        new Note(NOTE_C6, duration * 2 / 4, volume),
+        new Note(NOTE_C6, duration * 2 / 4, volume),
+
+        new Note(NOTE_B5, duration * 3 / 4, volume),
+        new Note(NOTE_B5, duration * 3 / 4, volume),
+        new Note(NOTE_B5, duration * 3 / 4, volume),
+        new Note(NOTE_FS5, duration * 3 / 4, volume),
+        new Note(NOTE_FS5, duration * 2 / 4, volume),
+        new Note(NOTE_FS5, duration * 2 / 4, volume),
+
+        new Note(NOTE_A5, duration * 3 / 4, volume),
+        new Note(NOTE_A5, duration * 3 / 4, volume),
+        new Note(NOTE_A5, duration * 3 / 4, volume),
+        new Note(NOTE_G5, duration * 3 / 4, volume),
+        new Note(NOTE_G5, duration * 2 / 4, volume),
+        new Note(NOTE_G5, duration * 2 / 4, volume),
+
+        new Note(NOTE_FS5, duration * 3 / 4, volume),
+        new Note(NOTE_FS5, duration * 3 / 4, volume),
+        new Note(NOTE_G5, duration * 2 / 4, volume),
+        new Note(NOTE_A5, duration * 2 / 4, volume),
+        new Note(NOTE_B5, duration * 2 / 4, volume),
+        new Note(NOTE_C6, duration * 2 / 4, volume),
+        new Note(NOTE_D6, duration * 2 / 4, volume),
+    };
+
+    vector<Note *> result;
+    for (int i = 0; i < ((int)(sizeof(froggySongNotes) / sizeof(froggySongNotes[0]))); i++)
+    {
+        result.push_back(froggySongNotes[i]);
+    }
+    return result;
+};
