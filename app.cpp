@@ -14945,9 +14945,9 @@ void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robot
       distance = 3.2;
       distance = 0.2; // simulator
       // PIDStraightWalker *walkerA = new PIDStraightWalker(pwm, straightKp, straightKi, straightKd, straightDt);
-      Walker *walkerA = new Walker(pwm, pwm);
-      WheelDistancePredicate *walkerAPredicate = new WheelDistancePredicate(distance, robotAPI);
-      commandExecutor->addCommand(walkerA, walkerAPredicate, GET_VARIABLE_NAME(walkerA));
+      Walker *walkerA1 = new Walker(pwm, pwm);
+      WheelDistancePredicate *walkerA1Predicate = new WheelDistancePredicate(distance, robotAPI);
+      commandExecutor->addCommand(walkerA1, walkerA1Predicate, GET_VARIABLE_NAME(walkerA1));
       commandExecutor->addCommand(stopper, new NumberOfTimesPredicate(1), GET_VARIABLE_NAME(stopper));
 #endif
 
