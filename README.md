@@ -1,5 +1,8 @@
 # README
 
+## まともな方のドキュメント
+まともなのは[こちら](https://github.com/mt3hr/yamatea/blob/master/doc/yamatea_doc.xlsx)から  
+
 ## 地区大会
 
 地区大会通過！
@@ -250,7 +253,7 @@ Command は Walker の他に PIDTracer や、
 
 ## リンク
 
-- [yamatea_manual](https://github.com/mt3hr/yamatea/blob/master/yamatea_manual.md)
+- [yamatea_manual](https://github.com/mt3hr/yamatea/blob/master/doc/yamatea_manual.md)
 
 ## 終わり
 
