@@ -1,0 +1,7 @@
+#include "Setting.h"
+#ifdef TrueCourceOkiharaModeCSStableValueForOkiharaRobot
+#ifndef TrueCourceOkiharaModeCSStableValueForOkiharaRobot_
+#define TrueCourceOkiharaModeCSStableValueForOkiharaRobot_
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI);
+#endif
+#endif

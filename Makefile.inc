@@ -78,6 +78,68 @@ ResetPWMCoefficient.o \
 WalkerR.o \
 PIDLimTracer.o \
 BatteryEaterSilent.o \
+BatteryEaaterMode.o \
+BatteryEeaterSilentMode.o \
+BlockTestMode.o \
+BrightnessPIDTracerTestMode.o \
+BrightnessPIDTracerV2TestMode.o \
+BrightnessReaderMode.o \
+ColorIDReaderMode.o \
+ColorPIDTracerTestMode.o \
+ColorPIDTracerV2TestMode.o \
+ColorReaderUseRawTestMode.o \
+CurvatureWalkerTestMode.o \
+DistanceReaderMode.o \
+FacingAngleTestMode.o \
+FlatLineMode.o \
+FreedomDiveTestMode.o \
+FroggySongTestMode.o \
+GarageKomichiMode1.o \
+GoalKomichiScnenarioTestMode.o \
+GoalOkiharaPIDMode.o \
+GoalOkiharaPIDMode1.o \
+GoalOkiharaPIDMode2.o \
+GoalOkiharaPIDMode3.o \
+GoalOkiharaPIDMode3Distance.o \
+GoalOkiharaPIDMode4.o \
+GoalSanekataPIDMode1.o \
+GoalSanekataPIDMode2.o \
+GoalSanekataPIDMode2_Stable1.o \
+GoalSanekataPIDMode2_Stable2.o \
+GoalSanekataPIDMode3.o \
+GoalSanekataScenarioTestMode.o \
+GrayPredicateTestMode.o \
+OCCircleCourceMode.o \
+PIDFacingAngleAbsTestMode.o \
+PIDLimTracerTestMode.o \
+PIDStraightWalkerTestMode.o \
+RGBRawReaderMode.o \
+Rotate360TestMode.o \
+RotateGyroTestMode.o \
+RotateTestMode.o \
+ShigekiTestMode.o \
+SlalomAwaitingSignalPlan1SanekataMode.o \
+SlalomAwaitingSignalPlan2SanekataMode.o \
+SlalomAwaitingSignalPlan3SanekataMode.o \
+SlalomAwaitingSignalPlan4SanekataMode.o \
+SlalomAwaitingSignalPlan5SanekataMode.o \
+SlalomBlockJoinTestMode.o \
+SlalomUFOTestMode.o \
+StraightTestMode.o \
+SwingSonarDetectorTestMode.o \
+TrueCourceKomichiModeRegional.o \
+TrueCourceOkiharaModeCSForKomichiRobot.o \
+TrueCourceOkiharaModeCSForOkiharaRobot.o \
+TrueCourceOkiharaModeCSStableValueForOkiharaRobot.o \
+TrueCourceOkiharaModeCSUseRegionalValueForKomichiRobot.o \
+TrueCourceOkiharaModeRegional.o \
+TrueCourceSanekataMode1261b.o \
+TrueCourceSanekataModeCS.o \
+TrueCourceSanekataModeSimulator.o \
+UFORunnerClockwiseTestMode.o \
+UFORunnerSwingTestMode.o \
+WalkerRTestMode.o \
+WalkerTestMode.o \
 
 SRCLANG := c++
 
@@ -96,6 +158,8 @@ APPL_DIRS += \
 	$(mkfile_path)predicate \
 	$(mkfile_path)robot \
 	$(mkfile_path)music \
+	$(mkfile_path)etc \
+	$(mkfile_path)initialize_command_executor \
 
 INCLUDES += \
 	-I$(mkfile_path)command \
@@ -106,6 +170,8 @@ INCLUDES += \
 	-I$(mkfile_path)predicate \
 	-I$(mkfile_path)robot \
 	-I$(mkfile_path)music \
+	-I$(mkfile_path)etc \
+	-I$(mkfile_path)initialize_command_executor \
 
 #COPTS += -fno-use-cxa-atexit
 

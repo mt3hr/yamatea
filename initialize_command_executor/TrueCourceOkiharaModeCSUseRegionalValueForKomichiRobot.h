@@ -1,0 +1,7 @@
+#include "Setting.h"
+#ifdef TrueCourceOkiharaModeCSUseRegionalValueForKomichiRobot
+#ifndef TrueCourceOkiharaModeCSUseRegionalValueForKomichiRobot_
+#define TrueCourceOkiharaModeCSUseRegionalValueForKomichiRobot_
+void initializeCommandExecutor(CommandExecutor *commandExecutor, RobotAPI *robotAPI);
+#endif
+#endif

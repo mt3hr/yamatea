@@ -1,0 +1,1 @@
+cd $HOME/etrobo/workspace/yamatea/pid_test_script/; gcc -o PIDTest.o PIDTest.cpp; ./PIDTest.o;
